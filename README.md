@@ -1,6 +1,10 @@
 # uec dos
 
-The Directory of Services (DOS) provides a searchable catalog of healthcare services appropriate to a person's urgent and emergency care (UEC) needs. It consists of a UI for data administrators and a number of APIs to interrogate the data and return appropriate services
+The Capacity Management System (CMS) is a single, trustworthy, accurate, official source of the data relating to service/unit capacity across the whole of the NHS in England.
+
+Which then provides this positive change:
+
+Improving the way that the data can be viewed and analysed/disseminated, so that decisions can be made with the knowledge of the current and future status of the capacity of the business
 
 There is an expectation that each file of this repository template is concise and self-documented.
 
