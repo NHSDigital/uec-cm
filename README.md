@@ -1,4 +1,4 @@
-# uec dos
+# uec cm
 
 The Capacity Management System (CMS) is a single, trustworthy, accurate, official source of the data relating to service/unit capacity across the whole of the NHS in England.
 
@@ -10,7 +10,7 @@ There is an expectation that each file of this repository template is concise an
 
 ## Table of Contents
 
-- [uec dos](#uec-dos)
+- [uec cm](#uec-cm)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
     - [Prerequisites](#prerequisites)
