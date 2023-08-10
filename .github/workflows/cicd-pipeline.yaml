@@ -29,6 +29,7 @@ jobs:
     uses: ./.github/workflows/check-markdown-format.yaml
   check-terraform-format:
       uses: ./.github/workflows/check-terraform-format.yaml
+  # TODO restore when we have stacks to check post merge
    validate-terraform:
      name: Validate terraform code
      uses: ./.github/workflows/validate-terraform.yaml
@@ -66,3 +67,4 @@ jobs:
       # - name: Run Tests ...
       #   run: |
       #     ?
+      
