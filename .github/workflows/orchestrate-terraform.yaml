@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - 'main'
-      - 'task/DR-330_dynamodb_infra_deploy'
+      - 'task/DR-330_Dynamo_deploy_in'
 
 jobs:
     apply-terraform-dos-dev:
