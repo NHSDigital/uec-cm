@@ -39,7 +39,7 @@ jobs:
           - ${{ needs.versionExtract.outputs.minVersion }}
           - ${{ needs.versionExtract.outputs.maxVersion }}
         stack:
-          - github-runner
+          - capacity_management
     steps:
       - name: Checkout
         uses: actions/checkout@v3

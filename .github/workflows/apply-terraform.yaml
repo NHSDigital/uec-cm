@@ -34,11 +34,10 @@ jobs:
 
       - name: Initialise and Run Terraform Apply
         run: |
-           export ACTION=plan
-           export STACK=capacity_management
-           export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
-           /bin/bash ./scripts/infra-deploy.sh
-
+          export ACTION=plan
+          export STACK=capacity_management
+          export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
+          /bin/bash ./scripts/infra-deploy.sh
 
 
 
