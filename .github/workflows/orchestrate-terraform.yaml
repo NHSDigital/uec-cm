@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'main'
-
 jobs:
     apply-terraform-dos-dev:
       name: Build read-write iam policies for dos dev account
