@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - 'main'
-
+      - 'task/DR-330_Dynamo_deploy_in'
 jobs:
     apply-terraform-dos-dev:
       name: Build read-write iam policies for dos dev account
