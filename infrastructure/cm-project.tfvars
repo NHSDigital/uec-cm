@@ -1,1 +1,9 @@
-project = "nhse-uec-cm"
+project                  = "nhse-uec-cm"
+throttle_burst_limit     = 100
+throttle_rate_limit      = 100
+detailed_metrics_enabled = true
+logs_retention_days      = 7
+truststore_bucket_name   = "tls-truststore"
+cognito_pool_name        = "cm-user-pool"
+authorizer_name          = "cm-authorizer"
+domain_name              = "capacity-management.nhs.uk"
