@@ -18,7 +18,7 @@ jobs:
           python-version: 3.9
 
       - name: Run Database Populator
-      - run: |
+        run: |
           cd ../../infrastructure/stacks/capacity_management/scripts/database_populator
           pip install -r requirements.txt
           python database_populator.py
