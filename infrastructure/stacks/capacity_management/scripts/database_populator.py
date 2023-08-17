@@ -28,20 +28,29 @@ FHIR_entities = [
 
 
 def populate_database():
+    print("****************************************************************")
+    print("**********Running the database populator script*****************")
+    print("****************************************************************")
+
     for FHIR_entity in FHIR_entities:
         # Perform a check to determine if the dynamoDB table is empty or not
         print(FHIR_entity)
         if check_data_exists_in_db(FHIR_entity["db_table_name"]):
             print(
-                "DynamoDB Table: "
+                ":::::DynamoDB Table: "
                 + FHIR_entity["db_table_name"]
                 + " has existing data within it."
             )
-            print("Taking no further action.")
+            print(":::::Taking no further action.")
 
         else:
-            print("DynamoDB Table: " + FHIR_entity["db_table_name"] + " is empty...")
-            print("Running populator script for table: " + FHIR_entity["db_table_name"])
+            print(
+                ":::::DynamoDB Table: " + FHIR_entity["db_table_name"] + " is empty..."
+            )
+            print(
+                ":::::Running populator script for table: "
+                + FHIR_entity["db_table_name"]
+            )
 
             # Extract the data from the excel file at the relevant tab
             # name into a pandas dataframe
@@ -72,7 +81,7 @@ def check_data_exists_in_db(table):
 
 
 def copy_data_from_spreadsheet(table, df):
-    print("Populating data into DynamoDB Table: " + table)
+    print("::::Populating data into DynamoDB Table: " + table)
 
     # Loop through each row in the dataframe
 
@@ -85,8 +94,6 @@ def copy_data_from_spreadsheet(table, df):
 
 
 def transpose_into_schema(table, row):
-    print(row)
-
     if table == "organisation_affiliation":
         schema = {
             "resourceType": "OrganizationAffiliation",
