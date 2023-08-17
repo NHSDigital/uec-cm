@@ -15,10 +15,9 @@ resource "aws_api_gateway_resource" "organisations_resource" {
 #######
 resource "aws_api_gateway_method" "organisations_POST" {
   authorization = "NONE"
-  # authorizer_id = aws_api_gateway_authorizer.cm_users_authorizer.id
-  http_method = "POST"
-  resource_id = aws_api_gateway_resource.organisations_resource.id
-  rest_api_id = aws_api_gateway_rest_api.cm_rest_api.id
+  http_method   = "POST"
+  resource_id   = aws_api_gateway_resource.organisations_resource.id
+  rest_api_id   = aws_api_gateway_rest_api.cm_rest_api.id
 
   depends_on = [
     aws_api_gateway_resource.organisations_resource
@@ -27,10 +26,9 @@ resource "aws_api_gateway_method" "organisations_POST" {
 
 resource "aws_api_gateway_method" "organisations_PUT" {
   authorization = "NONE"
-  # authorizer_id = aws_api_gateway_authorizer.cm_users_authorizer.id
-  http_method = "PUT"
-  resource_id = aws_api_gateway_resource.organisations_resource.id
-  rest_api_id = aws_api_gateway_rest_api.cm_rest_api.id
+  http_method   = "PUT"
+  resource_id   = aws_api_gateway_resource.organisations_resource.id
+  rest_api_id   = aws_api_gateway_rest_api.cm_rest_api.id
 
   depends_on = [
     aws_api_gateway_resource.organisations_resource
@@ -39,10 +37,9 @@ resource "aws_api_gateway_method" "organisations_PUT" {
 
 resource "aws_api_gateway_method" "organisations_GET" {
   authorization = "NONE"
-  # authorizer_id = aws_api_gateway_authorizer.cm_users_authorizer.id
-  http_method = "GET"
-  resource_id = aws_api_gateway_resource.organisations_resource.id
-  rest_api_id = aws_api_gateway_rest_api.cm_rest_api.id
+  http_method   = "GET"
+  resource_id   = aws_api_gateway_resource.organisations_resource.id
+  rest_api_id   = aws_api_gateway_rest_api.cm_rest_api.id
 
   depends_on = [
     aws_api_gateway_resource.organisations_resource
@@ -51,10 +48,9 @@ resource "aws_api_gateway_method" "organisations_GET" {
 
 resource "aws_api_gateway_method" "organisations_DELETE" {
   authorization = "NONE"
-  # authorizer_id = aws_api_gateway_authorizer.cm_users_authorizer.id
-  http_method = "DELETE"
-  resource_id = aws_api_gateway_resource.organisations_resource.id
-  rest_api_id = aws_api_gateway_rest_api.cm_rest_api.id
+  http_method   = "DELETE"
+  resource_id   = aws_api_gateway_resource.organisations_resource.id
+  rest_api_id   = aws_api_gateway_rest_api.cm_rest_api.id
 
   depends_on = [
     aws_api_gateway_resource.organisations_resource
