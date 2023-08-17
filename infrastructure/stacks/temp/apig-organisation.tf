@@ -1,6 +1,8 @@
 #######
 # Organisations endpoint
 #######
+# TODO
+# Uncomment authorizer and switch authorization to COGNITO_USER_POOLS
 resource "aws_api_gateway_resource" "organisations_resource" {
   parent_id   = aws_api_gateway_rest_api.cm_rest_api.root_resource_id
   path_part   = "organisations"
@@ -12,11 +14,11 @@ resource "aws_api_gateway_resource" "organisations_resource" {
 # links method to apig, resource/endpoint and authorizer
 #######
 resource "aws_api_gateway_method" "organisations_POST" {
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.cm_users_authorizer.id
-  http_method   = "POST"
-  resource_id   = aws_api_gateway_resource.organisations_resource.id
-  rest_api_id   = aws_api_gateway_rest_api.cm_rest_api.id
+  authorization = "NONE"
+  # authorizer_id = aws_api_gateway_authorizer.cm_users_authorizer.id
+  http_method = "POST"
+  resource_id = aws_api_gateway_resource.organisations_resource.id
+  rest_api_id = aws_api_gateway_rest_api.cm_rest_api.id
 
   depends_on = [
     aws_api_gateway_resource.organisations_resource
@@ -24,11 +26,11 @@ resource "aws_api_gateway_method" "organisations_POST" {
 }
 
 resource "aws_api_gateway_method" "organisations_PUT" {
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.cm_users_authorizer.id
-  http_method   = "PUT"
-  resource_id   = aws_api_gateway_resource.organisations_resource.id
-  rest_api_id   = aws_api_gateway_rest_api.cm_rest_api.id
+  authorization = "NONE"
+  # authorizer_id = aws_api_gateway_authorizer.cm_users_authorizer.id
+  http_method = "PUT"
+  resource_id = aws_api_gateway_resource.organisations_resource.id
+  rest_api_id = aws_api_gateway_rest_api.cm_rest_api.id
 
   depends_on = [
     aws_api_gateway_resource.organisations_resource
@@ -36,11 +38,11 @@ resource "aws_api_gateway_method" "organisations_PUT" {
 }
 
 resource "aws_api_gateway_method" "organisations_GET" {
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.cm_users_authorizer.id
-  http_method   = "GET"
-  resource_id   = aws_api_gateway_resource.organisations_resource.id
-  rest_api_id   = aws_api_gateway_rest_api.cm_rest_api.id
+  authorization = "NONE"
+  # authorizer_id = aws_api_gateway_authorizer.cm_users_authorizer.id
+  http_method = "GET"
+  resource_id = aws_api_gateway_resource.organisations_resource.id
+  rest_api_id = aws_api_gateway_rest_api.cm_rest_api.id
 
   depends_on = [
     aws_api_gateway_resource.organisations_resource
@@ -48,11 +50,11 @@ resource "aws_api_gateway_method" "organisations_GET" {
 }
 
 resource "aws_api_gateway_method" "organisations_DELETE" {
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.cm_users_authorizer.id
-  http_method   = "DELETE"
-  resource_id   = aws_api_gateway_resource.organisations_resource.id
-  rest_api_id   = aws_api_gateway_rest_api.cm_rest_api.id
+  authorization = "NONE"
+  # authorizer_id = aws_api_gateway_authorizer.cm_users_authorizer.id
+  http_method = "DELETE"
+  resource_id = aws_api_gateway_resource.organisations_resource.id
+  rest_api_id = aws_api_gateway_rest_api.cm_rest_api.id
 
   depends_on = [
     aws_api_gateway_resource.organisations_resource

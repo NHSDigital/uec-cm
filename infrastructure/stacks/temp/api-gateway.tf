@@ -12,13 +12,13 @@ resource "aws_api_gateway_rest_api" "cm_rest_api" {
 #######
 # Authorizer - links cognito user pool to apig
 #######
-
-resource "aws_api_gateway_authorizer" "cm_users_authorizer" {
-  name          = var.gateway_authorizer
-  rest_api_id   = aws_api_gateway_rest_api.cm_rest_api.id
-  type          = "COGNITO_USER_POOLS"
-  provider_arns = ["${aws_cognito_user_pool.cm-user-pool.arn}"]
-}
+# TODO Restore later
+# resource "aws_api_gateway_authorizer" "cm_users_authorizer" {
+#   name          = var.gateway_authorizer
+#   rest_api_id   = aws_api_gateway_rest_api.cm_rest_api.id
+#   type          = "COGNITO_USER_POOLS"
+#   provider_arns = ["${aws_cognito_user_pool.cm-user-pool.arn}"]
+# }
 
 #####
 # Deployment
