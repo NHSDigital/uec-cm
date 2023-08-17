@@ -1,8 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import pandas as pd
-import xlrd
-import json
 from decimal import Decimal
 import boto3
 
@@ -15,21 +13,21 @@ path_to_excel = './CapacityManagementFullDataset.xlsx'
 # in the spreadsheet. These must be manually confirmed to be correct or the script won't work
 
 FHIR_entities = [{'db_table_name': 'organisations',
-                 'spreadsheet_tab_name': 'FHIR organisation'},
-                 {'db_table_name': 'locations',
-                 'spreadsheet_tab_name': 'FHIR location'},
-                 {'db_table_name': 'healthcare_services',
-                 'spreadsheet_tab_name': 'FHIR health service'},
-                 {'db_table_name': 'organisation_affiliation',
-                 'spreadsheet_tab_name': 'FHIR Organisation affiliation'
-                 }]
+                'spreadsheet_tab_name': 'FHIR organisation'},
+                {'db_table_name': 'locations',
+                'spreadsheet_tab_name': 'FHIR location'},
+                {'db_table_name': 'healthcare_services',
+                'spreadsheet_tab_name': 'FHIR health service'},
+                {'db_table_name': 'organisation_affiliation',
+                'spreadsheet_tab_name': 'FHIR Organisation affiliation'
+                }]
 
 
 def populate_database():
 
     for FHIR_entity in FHIR_entities:
 
-      # Perform a check to determine if the dynamoDB table is empty or not
+        # Perform a check to determine if the dynamoDB table is empty or not
         print(FHIR_entity)
         if check_data_exists_in_db(FHIR_entity['db_table_name']) != True:
 
@@ -39,7 +37,7 @@ def populate_database():
         # Extract the data from the excel file at the relevant tab name into a pandas dataframe
 
             df = pd.read_excel(path_to_excel,
-                               sheet_name=FHIR_entity['spreadsheet_tab_name'])
+                            sheet_name=FHIR_entity['spreadsheet_tab_name'])
 
         # Copy the data from the spreadsheet into the relevant table
 
@@ -171,8 +169,7 @@ def transpose_into_schema(table, row):
             'virtualService': 'empty',
             'endpoint': 'empty'
             }
- 
-       
+
     return schema 
     
     
@@ -181,10 +178,10 @@ def insert_into_table(table, data_item):
     table = dynamodb.Table(table)    
     
     table.put_item(
-                 Item=data_item)
+                Item=data_item)
     
     return
 
 
 if __name__== "__main__":
-   populate_database()
+    populate_database()
