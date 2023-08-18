@@ -70,10 +70,6 @@ def check_data_exists_in_db(table):
     # If the table has an ItemCount of zero, we can safely assume that
     # the table is empty and can be populated
 
-    print(table)
-    print(ddbclient.describe_table(TableName=table))
-    print(ddbclient.describe_table(TableName="locations"))
-
     if ddbclient.describe_table(TableName=table)["Table"]["ItemCount"] == 0:
         return False
     else:
