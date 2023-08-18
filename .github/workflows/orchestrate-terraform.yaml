@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'task/DR-332_Lambda_deploy_infra'
 jobs:
     apply-terraform-dos-dev:
       name: Build read-write iam policies for dos dev account

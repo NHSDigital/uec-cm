@@ -33,4 +33,3 @@ module "dynamodb_questionnaire_response_table" {
 
   table_name = "questionnaire_response"
 }
-
