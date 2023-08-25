@@ -10,3 +10,6 @@ variable "logs_retention_days" {
 variable "cognito_pool_name" {
   description = "Name of cognito user pool"
 }
+variable "healthcare_service_function_name" {
+  description = "Name of lambda function for healthcare service data manager"
+}
