@@ -1,6 +1,8 @@
 from chalice import Chalice
+
 #   import json   //Packages to be imported once Chalice is deployed
 import boto3
+
 #   import uuid   //Packages to be imported once Chalice is deployed
 #   from boto3.dynamodb.conditions import Key //Packages to be imported once Chalice is deployed
 
