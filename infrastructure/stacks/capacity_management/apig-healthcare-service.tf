@@ -120,7 +120,7 @@ resource "aws_api_gateway_integration" "healthcare_service_DELETE_integration" {
 resource "aws_lambda_permission" "lambda_permission" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = "healthcare-services-data-manager"
+  function_name = var.healthcare_service_function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.aws_region}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.cm_rest_api.id}/*/*"
 }
