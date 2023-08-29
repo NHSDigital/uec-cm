@@ -57,11 +57,9 @@ resource "aws_api_gateway_method" "healthcare_service_DELETE" {
   ]
 }
 
-# TODO add integration and deployment later
 #####
 # Link lambda to HTTP method previously attached to api resource
 # Note integration_http_method - Lambda functions can only be invoked via POST.
-# To follow when lambdas are written
 #####
 
 resource "aws_api_gateway_integration" "healthcare_service_GET_integration" {
@@ -126,7 +124,6 @@ resource "aws_lambda_permission" "lambda_permission" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.aws_region}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.cm_rest_api.id}/*/*"
 }
-#################
 #####
 # CORS
 #####
