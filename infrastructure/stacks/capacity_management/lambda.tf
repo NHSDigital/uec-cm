@@ -167,7 +167,7 @@ module "locations-data-manager-lambda" {
 module "healthcare-services-data-manager-lambda" {
   source = "../../modules/lambda"
 
-  function_name = "healthcare-services-data-manager"
+  function_name = var.healthcare_service_function_name
   description   = "Microservice for interacting with healthcare services dynamodb table"
 
   policy_jsons = [
