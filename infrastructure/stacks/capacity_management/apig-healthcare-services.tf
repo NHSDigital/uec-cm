@@ -117,7 +117,7 @@ resource "aws_api_gateway_integration" "healthcare_services_DELETE_integration" 
 #####
 # Permission for apig to call lambda
 #####
-resource "aws_lambda_permission" "lambda_permission" {
+resource "aws_lambda_permission" "healthcare_services_lambda_permission" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = var.healthcare_services_function_name
