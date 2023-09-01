@@ -6,19 +6,19 @@ import boto3
 #   import uuid   //Packages to be imported once Chalice is deployed
 #   from boto3.dynamodb.conditions import Key //Packages to be imported once Chalice is deployed
 
-app = Chalice(app_name="healthcare-services-data-manager")
+app = Chalice(app_name="questionnaire-responses-data-manager")
 dynamodb = boto3.resource("dynamodb")
 
 
-@app.route("/healthcareservices", methods=["GET"], cors=True)
-def get_healthcareservice():
+@app.route("/questionnaireresponses", methods=["GET"], cors=True)
+def get_questionnaireresponses():
     #   request = app.current_request.json_body  //Required to get request from the API Gateway once it's set up
 
-    print("Get healthcareservices")
+    print("Get questionnaireresponses")
 
-    healthcareservices_table = dynamodb.Table("healthcare_services")
+    questionnaireresponses_table = dynamodb.Table("questionnaire_response")
 
-    response = healthcareservices_table.get_item(
+    response = questionnaireresponses_table.get_item(
         Key={
             "id": "001",
         }
@@ -29,15 +29,15 @@ def get_healthcareservice():
     print("\n\n\n-------\n\n\n")
 
 
-@app.route("/healthcareservices", methods=["POST"])
-def create_healtcareservice():
+@app.route("/questionnaireresponses", methods=["POST"])
+def create_questionnaireresponses():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
 
-    print("Creating healthcareservices")
+    print("Creating questionnaireresponses")
 
-    healthcareservices_table = dynamodb.Table("healthcare_services")
+    questionnaireresponses_table = dynamodb.Table("questionnaire_response")
 
-    healthcareservices_table.put_item(
+    questionnaireresponses_table.put_item(
         Item={
             "id": "002",
             "HospitalName": "Middlesex Hospital",
@@ -48,15 +48,15 @@ def create_healtcareservice():
     return {"statusCode": 200, "body": "Item Added Successfully"}
 
 
-@app.route("/healthcareservices", methods=["PUT"])
-def update_healthcareservices():
+@app.route("/questionnaireresponses", methods=["PUT"])
+def update_questionnaireresponses():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
 
-    print("Update healthcareservices")
+    print("Update questionnaireresponses")
 
-    healthcareservices_table = dynamodb.Table("healthcare_services")
+    questionnaireresponses_table = dynamodb.Table("questionnaire_response")
 
-    healthcareservices_table.update_item(
+    questionnaireresponses_table.update_item(
         Key={"id": "002"},
         UpdateExpression="set HospitalLocation= :h",
         ExpressionAttributeValues={":h": "York"},
@@ -66,15 +66,15 @@ def update_healthcareservices():
     return {"statusCode": 200, "body": "Item Updated Successfully"}
 
 
-@app.route("/healthcareservices", methods=["DELETE"])
-def delete_healthcareservices():
+@app.route("/questionnaireresponses", methods=["DELETE"])
+def delete_questionnaireresponses():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
 
-    print("Delete healthcareservices")
+    print("Delete questionnaireresponses")
 
-    healthcareservices_table = dynamodb.Table("healthcare_services")
+    questionnaireresponses_table = dynamodb.Table("questionnaire_response")
 
-    healthcareservices_table.delete_item(
+    questionnaireresponses_table.delete_item(
         Key={
             "id": "002",
         }
