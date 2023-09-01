@@ -6,19 +6,19 @@ import boto3
 #   import uuid   //Packages to be imported once Chalice is deployed
 #   from boto3.dynamodb.conditions import Key //Packages to be imported once Chalice is deployed
 
-app = Chalice(app_name="questionnaire-response-data-manager")
+app = Chalice(app_name="questionnaire-responses-data-manager")
 dynamodb = boto3.resource("dynamodb")
 
 
-@app.route("/questionnaireresponse", methods=["GET"], cors=True)
-def get_questionnaireresponse():
+@app.route("/questionnaireresponses", methods=["GET"], cors=True)
+def get_questionnaireresponses():
     #   request = app.current_request.json_body  //Required to get request from the API Gateway once it's set up
 
-    print("Get questionnaireresponse")
+    print("Get questionnaireresponses")
 
-    questionnaireresponse_table = dynamodb.Table("questionnaire_response")
+    questionnaireresponses_table = dynamodb.Table("questionnaire_response")
 
-    response = questionnaireresponse_table.get_item(
+    response = questionnaireresponses_table.get_item(
         Key={
             "id": "001",
         }
@@ -29,15 +29,15 @@ def get_questionnaireresponse():
     print("\n\n\n-------\n\n\n")
 
 
-@app.route("/questionnaireresponse", methods=["POST"])
-def create_questionnaireresponse():
+@app.route("/questionnaireresponses", methods=["POST"])
+def create_questionnaireresponses():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
 
-    print("Creating questionnaireresponse")
+    print("Creating questionnaireresponses")
 
-    questionnaireresponse_table = dynamodb.Table("questionnaire_response")
+    questionnaireresponses_table = dynamodb.Table("questionnaire_response")
 
-    questionnaireresponse_table.put_item(
+    questionnaireresponses_table.put_item(
         Item={
             "id": "002",
             "HospitalName": "Middlesex Hospital",
@@ -48,15 +48,15 @@ def create_questionnaireresponse():
     return {"statusCode": 200, "body": "Item Added Successfully"}
 
 
-@app.route("/questionnaireresponse", methods=["PUT"])
-def update_questionnaireresponse():
+@app.route("/questionnaireresponses", methods=["PUT"])
+def update_questionnaireresponses():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
 
-    print("Update questionnaireresponse")
+    print("Update questionnaireresponses")
 
-    questionnaireresponse_table = dynamodb.Table("questionnaire_response")
+    questionnaireresponses_table = dynamodb.Table("questionnaire_response")
 
-    questionnaireresponse_table.update_item(
+    questionnaireresponses_table.update_item(
         Key={"id": "002"},
         UpdateExpression="set HospitalLocation= :h",
         ExpressionAttributeValues={":h": "York"},
@@ -66,15 +66,15 @@ def update_questionnaireresponse():
     return {"statusCode": 200, "body": "Item Updated Successfully"}
 
 
-@app.route("/questionnaireresponse", methods=["DELETE"])
-def delete_questionnaireresponse():
+@app.route("/questionnaireresponses", methods=["DELETE"])
+def delete_questionnaireresponses():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
 
-    print("Delete questionnaireresponse")
+    print("Delete questionnaireresponses")
 
-    questionnaireresponse_table = dynamodb.Table("questionnaire_response")
+    questionnaireresponses_table = dynamodb.Table("questionnaire_response")
 
-    questionnaireresponse_table.delete_item(
+    questionnaireresponses_table.delete_item(
         Key={
             "id": "002",
         }
