@@ -29,18 +29,3 @@ variable "questionnaires_function_name" {
 variable "questionnaire_responses_function_name" {
   description = "Name of lambda function for questionnaire-responses data manager"
 }
-variable "organisations_function_name" {
-  description = "Name of lambda function for organisations data manager"
-}
-variable "organisation_affiliation_function_name" {
-  description = "Name of lambda function for organisation affiliation data manager"
-}
-variable "locations_function_name" {
-  description = "Name of lambda function for locations data manager"
-}
-variable "questionnaire_function_name" {
-  description = "Name of lambda function for questionnaire data manager"
-}
-variable "questionnaire_response_function_name" {
-  description = "Name of lambda function for questionnaire response data manager"
-}
