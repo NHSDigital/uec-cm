@@ -61,7 +61,7 @@ module "organisations-data-manager-lambda" {
 module "organisation-affiliation-data-manager-lambda" {
   source = "../../modules/lambda"
 
-  function_name = var.organisation_affiliation_function_name
+  function_name = var.organisation_affiliations_function_name
   description   = "Microservice for interacting with organisation affiliation dynamodb table"
 
   policy_jsons = [
@@ -167,7 +167,7 @@ module "locations-data-manager-lambda" {
 module "healthcare-services-data-manager-lambda" {
   source = "../../modules/lambda"
 
-  function_name = var.healthcare_service_function_name
+  function_name = var.healthcare_services_function_name
   description   = "Microservice for interacting with healthcare services dynamodb table"
 
   policy_jsons = [
@@ -220,7 +220,7 @@ module "healthcare-services-data-manager-lambda" {
 module "questionnaire-data-manager-lambda" {
   source = "../../modules/lambda"
 
-  function_name = var.questionnaire_function_name
+  function_name = var.questionnaires_function_name
   description   = "Microservice for interacting with questionnaire dynamodb table"
 
   policy_jsons = [
@@ -273,7 +273,7 @@ module "questionnaire-data-manager-lambda" {
 module "questionnaire-response-data-manager-lambda" {
   source = "../../modules/lambda"
 
-  function_name = var.questionnaire_response_function_name
+  function_name = var.questionnaire_responses_function_name
   description   = "Microservice for interacting with questionnaire response dynamodb table"
 
   policy_jsons = [
