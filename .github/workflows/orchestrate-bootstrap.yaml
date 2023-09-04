@@ -10,12 +10,12 @@ jobs:
       name: Re-run bootstrap for cm dev account
       uses: ./.github/workflows/rerun-bootstrap.yaml
       with:
-        ENV: cm-dev
+        ENV: dev
       secrets: inherit
     re-run-bootstrap-cm-test:
       name: Re-run bootstrap for cm test account
       uses: ./.github/workflows/rerun-bootstrap.yaml
       with:
-        ENV: cm-test
+        ENV: test
       secrets: inherit
     # TODO add other cm related accounts as required
