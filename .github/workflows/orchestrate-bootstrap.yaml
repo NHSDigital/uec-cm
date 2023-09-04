@@ -1,0 +1,21 @@
+name: Orchestrate bootstrapper workflow
+
+on:
+  push:
+    branches:
+      - 'task/DR-370_Boot_strap_action'
+
+jobs:
+    re-run-bootstrap-cm-dev:
+      name: Re-run bootstrap for cm dev account
+      uses: ./.github/workflows/rerun-bootstrap.yaml
+      with:
+        ENV: cm-dev
+      secrets: inherit
+    re-run-bootstrap-cm-test:
+      name: Re-run bootstrap for cm test account
+      uses: ./.github/workflows/rerun-bootstrap.yaml
+      with:
+        ENV: cm-test
+      secrets: inherit
+    # TODO add other cm related accounts as required
