@@ -16,7 +16,7 @@ def get_questionnaires():
 
     print("Get questionnaires")
 
-    questionnaires_table = dynamodb.Table("questionnaire")
+    questionnaires_table = dynamodb.Table("questionnaires")
 
     response = questionnaires_table.get_item(
         Key={
@@ -35,7 +35,7 @@ def create_questionnaires():
 
     print("Creating questionnaires")
 
-    questionnaires_table = dynamodb.Table("questionnaire")
+    questionnaires_table = dynamodb.Table("questionnaires")
 
     questionnaires_table.put_item(
         Item={
@@ -54,7 +54,7 @@ def update_questionnaires():
 
     print("Update questionnaires")
 
-    questionnaires_table = dynamodb.Table("questionnaire")
+    questionnaires_table = dynamodb.Table("questionnaires")
 
     questionnaires_table.update_item(
         Key={"id": "002"},
@@ -72,7 +72,7 @@ def delete_questionnaires():
 
     print("Delete questionnaires")
 
-    questionnaires_table = dynamodb.Table("questionnaire")
+    questionnaires_table = dynamodb.Table("questionnaires")
 
     questionnaires_table.delete_item(
         Key={
