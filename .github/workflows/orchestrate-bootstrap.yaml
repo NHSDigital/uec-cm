@@ -6,14 +6,14 @@ on:
       - 'main'
 
 jobs:
-    re-run-bootstrap-cm-dev:
-      name: Re-run bootstrap for cm dev account
+    run-bootstrap-cm-dev:
+      name: Run bootstrap for cm dev account
       uses: ./.github/workflows/rerun-bootstrap.yaml
       with:
         ENV: dev
       secrets: inherit
-    re-run-bootstrap-cm-test:
-      name: Re-run bootstrap for cm test account
+    run-bootstrap-cm-test:
+      name: Run bootstrap for cm test account
       uses: ./.github/workflows/rerun-bootstrap.yaml
       with:
         ENV: test
