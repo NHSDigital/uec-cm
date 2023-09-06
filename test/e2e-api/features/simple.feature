@@ -8,4 +8,5 @@ Feature: Open weather api
 
   Scenario: Basic temperature request
     Given I send a temperature request
-    Then I will receive a 200 status response
+    Then I receive a 200 status response
+    And I will receive a status 200 response
