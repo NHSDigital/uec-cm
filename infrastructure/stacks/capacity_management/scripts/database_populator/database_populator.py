@@ -14,16 +14,16 @@ path_to_excel = "./CapacityManagementFullDataset.xlsx"
 # or the script won't work
 
 FHIR_entities = [
-    {"db_table_name": "organisations", "spreadsheet_tab_name": "FHIR organisation"},
-    {"db_table_name": "locations", "spreadsheet_tab_name": "FHIR location"},
+    {"db_table_name": "organisations", "spreadsheet_tab_name": "FHIR Organization"},
     {
         "db_table_name": "healthcare_services",
-        "spreadsheet_tab_name": "FHIR health service",
+        "spreadsheet_tab_name": "FHIR Healthcare Service",
     },
     {
-        "db_table_name": "organisation_affiliation",
-        "spreadsheet_tab_name": "FHIR Organisation affiliation",
+        "db_table_name": "organisation_affiliations",
+        "spreadsheet_tab_name": "FHIR Organization affiliation",
     },
+    {"db_table_name": "locations", "spreadsheet_tab_name": "FHIR Location"},
 ]
 
 
@@ -35,7 +35,8 @@ def populate_database():
     for FHIR_entity in FHIR_entities:
         # Perform a check to determine if the dynamoDB table is empty or not
         print(FHIR_entity)
-        if check_data_exists_in_db(FHIR_entity["db_table_name"]):
+        print(":::::Running populator script for table: " + FHIR_entity["db_table_name"])
+        """if check_data_exists_in_db(FHIR_entity["db_table_name"]):
             print(
                 ":::::DynamoDB Table: "
                 + FHIR_entity["db_table_name"]
@@ -50,18 +51,18 @@ def populate_database():
             print(
                 ":::::Running populator script for table: "
                 + FHIR_entity["db_table_name"]
-            )
+            )"""
 
             # Extract the data from the excel file at the relevant tab
             # name into a pandas dataframe
 
-            df = pd.read_excel(
-                path_to_excel, sheet_name=FHIR_entity["spreadsheet_tab_name"]
-            )
+        df = pd.read_excel(
+            path_to_excel, sheet_name=FHIR_entity["spreadsheet_tab_name"]
+        )
 
             # Copy the data from the spreadsheet into the relevant table
 
-            copy_data_from_spreadsheet(FHIR_entity["db_table_name"], df)
+        copy_data_from_spreadsheet(FHIR_entity["db_table_name"], df)
 
     return
 
@@ -90,102 +91,75 @@ def copy_data_from_spreadsheet(table, df):
 
 
 def transpose_into_schema(table, row):
-    if table == "organisation_affiliation":
+    print("Row Data:", row)
+    if table == "organisation_affiliations":
         schema = {
             "resourceType": "OrganizationAffiliation",
-            "identifier": "",
-            "active": "",
-            "period": "",
-            "organization": "",
-            "participatingOrganization": "",
-            "network": "",
-            "code": "",
-            "specialty": "",
-            "location": "",
-            "healthcareService": "",
-            "telecom": "",
-            "endpoint": "",
+            "id": str(row['Identifier']),
+            "participatingOrganization": row['ParticipatingOrganization'],
+            "organizationIdentifier": row['FHIROrganizationIdentifier'],
+            "organization": row['Organization'],
+            "healthcareService": {str(row['HealthcareService']) if pd.notna(row['HealthcareService']) else "N/A"},
+            "healthcareServiceIdentifier": row['FHIRHealthcareServiceIdentifier'],
+            "locationName": {str(row['LocationName']) if pd.notna(row['LocationName']) else "N/A"},
+            "locationIdentifier": row['FHIRLocationIdentifier'],
+            "createdBy": row['CreatedBy'],
+            "createdDateTime": row['CreatedDateTime'],
+            "modifiedBy": row['ModifiedBy'],
+            "modifiedDateTime": row['ModifiedDateTime']
         }
 
     elif table == "healthcare_services":
         schema = {
             "resourceType": "HealthcareService",
-            "identifier": "",
-            "active": "",
-            "providedBy": "",
-            "offeredIn": "",
-            "category": "",
-            "type": "",
-            "specialty": "",
-            "location": "",
-            "name": "",
-            "comment": "",
-            "extraDetails": "",
-            "photo": "",
-            "contact": "",
-            "coverageArea": "",
-            "serviceProvisionCode": "",
-            "eligibility": [{"code": "", "comment": ""}],
-            "program": "",
-            "characteristic": "",
-            "communication": "",
-            "referralMethod": "",
-            "appointmentRequired": "",
-            "availability": "",
-            "endpoint": "",
+            "id": str(row['Identifier']),
+            "Status": "Active",
+            "name": row['Name'],
+            "description": row['Description'],
+            "phoneNumber": {str(row['PhoneNumber']) if pd.notna(row['PhoneNumber']) else "N/A"},
+            "address": "N/A",
+            "location": row['Location'],
+            "createdBy": row['CreatedBy'],
+            "createdDateTime": row['CreatedDateTime'],
+            "modifiedBy": row['ModifiedBy'],
+            "modifiedDateTime": row['ModifiedDateTime'],
+            "providedBy": row['ProvidedBy']
         }
     elif table == "organisations":
         schema = {
             "resourceType": "Organization",
-            "identifier": "",
-            "active": "",
-            "type": "",
-            "name": "",
-            "alias": "",
-            "description": "",
-            "contact": "",
-            "partOf": "",
-            "endpoint": "",
-            "qualification": [
-                {
-                    "identifier": "",
-                    "code": "",
-                    "period": "",
-                    "issuer": "",
-                }
-            ],
+            "id": str(row['Identifier']),
+            "type": row['OrgType'],
+            "name": str(row['Name']),
+            "description": str(row['Name']),
+            "phoneNumber": {str(row['PhoneNumber']) if pd.notna(row['PhoneNumber']) else "N/A"},
+            "Address": {str(row['Address']) if pd.notna(row['Address']) else "N/A"},
+            "createdDateTime": row['CreatedDateTime'],
+            "partOf": {str(row['PartOf']) if pd.notna(row['PartOf']) else "N/A"},
+            "createdBy": row['CreatedBy'],
+            "modifiedBy": row['ModifiedBy'],
+            "modifiedDateTime": row['ModifiedDateTime']
         }
     elif table == "locations":
         schema = {
             "resourceType": "Location",
-            "identifier": row["Identifier"],
-            "status": "empty",
-            "operationalStatus": "empty",
-            "name": "empty",
-            "alias": "empty",
-            "description": "empty",
-            "mode": "empty",
-            "type": "empty",
-            "contact": "empty",
-            "address": row["Address"],
-            "form": "empty",
-            "position": {
-                "longitude": Decimal(str(row["Positon (Longitude)"])),
-                "latitude": Decimal(str(row["Positon (Latitude)"])),
-                "altitude": 0,
-            },
-            "managingOrganization": "empty",
-            "partOf": "empty",
-            "characteristic": "empty",
-            "hoursOfOperation": "empty",
-            "virtualService": "empty",
-            "endpoint": "empty",
+            "id": str(row['Identifier']),
+            "status": "Active",
+            "name": row['Name'],
+            "address": row['Address'],
+            "latitude": str(Decimal(row['Latitude'])),
+            "longitude": str(Decimal(row['Longitude'])),
+            "createdBy": row['CreatedBy'],
+            "createdDateTime": row['CreatedDateTime'],
+            "modifiedBy": row['ModifiedBy'],
+            "modifiedDateTime": row['ModifiedDateTime']
         }
 
     return schema
 
 
 def insert_into_table(table, data_item):
+    print("dyno Data:", data_item)
     table = dynamodb.Table(table)
     table.put_item(Item=data_item)
 
