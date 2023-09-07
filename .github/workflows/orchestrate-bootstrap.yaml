@@ -1,0 +1,21 @@
+name: Orchestrate bootstrapper workflow
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+    run-bootstrap-cm-dev:
+      name: Run bootstrap for cm dev account
+      uses: ./.github/workflows/run-bootstrap.yaml
+      with:
+        ENV: dev
+      secrets: inherit
+    run-bootstrap-cm-test:
+      name: Run bootstrap for cm test account
+      uses: ./.github/workflows/run-bootstrap.yaml
+      with:
+        ENV: test
+      secrets: inherit
+    # TODO add other cm related accounts as required
