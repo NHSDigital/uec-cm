@@ -18,12 +18,14 @@ def get_bk(context):
 def get_back(context, status_code):
     assert_that(context.response.status_code).is_equal_to(int(status_code))
 
+
 @step("I get a response for the timezone GMT")
 def check_timezone(context):
     response_content = context.response.json()
-    assert_that(response_content['timezone']).is_equal_to('GMT')
+    assert_that(response_content["timezone"]).is_equal_to("GMT")
+
 
 @step("I get a response of {value} for item {item}")
-def check_timezone(context, value, item):
+def check_items(context, value, item):
     response_content = context.response.json()
     assert_that(str(response_content[item])).is_equal_to(str(value))
