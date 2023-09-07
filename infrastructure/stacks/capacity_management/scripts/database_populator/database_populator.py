@@ -53,14 +53,14 @@ def populate_database():
                 + FHIR_entity["db_table_name"]
             )"""
 
-            # Extract the data from the excel file at the relevant tab
-            # name into a pandas dataframe
+        # Extract the data from the excel file at the relevant tab
+        # name into a pandas dataframe
 
         df = pd.read_excel(
             path_to_excel, sheet_name=FHIR_entity["spreadsheet_tab_name"]
         )
 
-            # Copy the data from the spreadsheet into the relevant table
+        # Copy the data from the spreadsheet into the relevant table
 
         copy_data_from_spreadsheet(FHIR_entity["db_table_name"], df)
 
