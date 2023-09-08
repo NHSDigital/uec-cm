@@ -23,7 +23,6 @@ for path in "$APPLICATION_DIR"/*/ ; do
 done
 #  use requirements defined for test/unit
 pip install -r $APPLICATION_TEST_DIR/requirements.txt
-python3 -m pytest $APPLICATION_DIR/*
 coverage run --omit=$APPLICATION_DIR/*/test/* -m pytest $APPLICATION_DIR/*
 coverage report
 coverage html
