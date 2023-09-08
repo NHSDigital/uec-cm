@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# fail on first error
+set -e
 # This script runs python unit tests
 #
 APPLICATION_DIR=application
