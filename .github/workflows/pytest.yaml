@@ -1,0 +1,12 @@
+name: Run unit tests of python code
+
+on:
+  workflow_call:
+
+jobs:
+  cloc-repository:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          ./scripts/unit-tests.sh
