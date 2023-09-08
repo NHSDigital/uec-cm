@@ -19,5 +19,5 @@ jobs:
 
       - name: Run unit test script
         run: |
-          export AWS_DEFAULT_REGION=eu-west-2
+          export AWS_DEFAULT_REGION=us-west-2
           ./scripts/unit-tests.sh
