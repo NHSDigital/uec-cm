@@ -16,7 +16,7 @@ def get_organisationaffiliations():
 
     print("Get organisationaffiliations")
 
-    organisationaffiliations_table = dynamodb.Table("organisation_affiliation")
+    organisationaffiliations_table = dynamodb.Table("organisation_affiliations")
 
     response = organisationaffiliations_table.get_item(
         Key={
@@ -35,7 +35,7 @@ def create_organisationaffiliations():
 
     print("Creating organisationaffiliations")
 
-    organisationaffiliations_table = dynamodb.Table("organisation_affiliation")
+    organisationaffiliations_table = dynamodb.Table("organisation_affiliations")
 
     organisationaffiliations_table.put_item(
         Item={
@@ -54,7 +54,7 @@ def update_organisationaffiliations():
 
     print("Update organisationaffiliations")
 
-    organisationaffiliations_table = dynamodb.Table("organisation_affiliation")
+    organisationaffiliations_table = dynamodb.Table("organisation_affiliations")
 
     organisationaffiliations_table.update_item(
         Key={"id": "002"},
@@ -72,7 +72,7 @@ def delete_organisationaffiliations():
 
     print("Delete organisationaffiliations")
 
-    organisationaffiliations_table = dynamodb.Table("organisation_affiliation")
+    organisationaffiliations_table = dynamodb.Table("organisation_affiliations")
 
     organisationaffiliations_table.delete_item(
         Key={

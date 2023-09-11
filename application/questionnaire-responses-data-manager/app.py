@@ -16,7 +16,7 @@ def get_questionnaireresponses():
 
     print("Get questionnaireresponses")
 
-    questionnaireresponses_table = dynamodb.Table("questionnaire_response")
+    questionnaireresponses_table = dynamodb.Table("questionnaire_responses")
 
     response = questionnaireresponses_table.get_item(
         Key={
@@ -35,7 +35,7 @@ def create_questionnaireresponses():
 
     print("Creating questionnaireresponses")
 
-    questionnaireresponses_table = dynamodb.Table("questionnaire_response")
+    questionnaireresponses_table = dynamodb.Table("questionnaire_responses")
 
     questionnaireresponses_table.put_item(
         Item={
@@ -54,7 +54,7 @@ def update_questionnaireresponses():
 
     print("Update questionnaireresponses")
 
-    questionnaireresponses_table = dynamodb.Table("questionnaire_response")
+    questionnaireresponses_table = dynamodb.Table("questionnaire_responses")
 
     questionnaireresponses_table.update_item(
         Key={"id": "002"},
@@ -72,7 +72,7 @@ def delete_questionnaireresponses():
 
     print("Delete questionnaireresponses")
 
-    questionnaireresponses_table = dynamodb.Table("questionnaire_response")
+    questionnaireresponses_table = dynamodb.Table("questionnaire_responses")
 
     questionnaireresponses_table.delete_item(
         Key={

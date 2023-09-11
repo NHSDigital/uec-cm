@@ -22,10 +22,27 @@ variable "organisation_affiliations_function_name" {
 variable "locations_function_name" {
   description = "Name of lambda function for locations data manager"
 }
-
 variable "questionnaires_function_name" {
   description = "Name of lambda function for questionnaires data manager"
 }
 variable "questionnaire_responses_function_name" {
   description = "Name of lambda function for questionnaire-responses data manager"
+}
+variable "healthcare_services_dynamodb_table_name" {
+  description = "Name of dynamodb table for healthcare services"
+}
+variable "organisations_dynamodb_table_name" {
+  description = "Name of dynamodb table for organisations"
+}
+variable "organisation_affiliations_dynamodb_table_name" {
+  description = "Name of dynamodb table for organisation affiliations"
+}
+variable "locations_dynamodb_table_name" {
+  description = "Name of dynamodb table for locations"
+}
+variable "questionnaires_dynamodb_table_name" {
+  description = "Name of dynamodb table for questionnaires"
+}
+variable "questionnaire_responses_dynamodb_table_name" {
+  description = "Name of dynamodb table for questionnaire responses"
 }

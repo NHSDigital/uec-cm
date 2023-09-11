@@ -81,7 +81,7 @@ module "organisation-affiliation-data-manager-lambda" {
                         "dynamodb:UpdateItem"
                     ],
                     "Resource": [
-                        "${module.dynamodb_organisation_affiliation_table.dynamodb_table_arn}"
+                        "${module.dynamodb_organisation_affiliations_table.dynamodb_table_arn}"
                     ]
                 }
             ]
@@ -240,7 +240,7 @@ module "questionnaire-data-manager-lambda" {
                         "dynamodb:UpdateItem"
                     ],
                     "Resource": [
-                        "${module.dynamodb_questionnaire_table.dynamodb_table_arn}"
+                        "${module.dynamodb_questionnaires_table.dynamodb_table_arn}"
                     ]
                 }
             ]
@@ -293,7 +293,7 @@ module "questionnaire-response-data-manager-lambda" {
                         "dynamodb:UpdateItem"
                     ],
                     "Resource": [
-                        "${module.dynamodb_questionnaire_response_table.dynamodb_table_arn}"
+                        "${module.dynamodb_questionnaire_responses_table.dynamodb_table_arn}"
                     ]
                 }
             ]
