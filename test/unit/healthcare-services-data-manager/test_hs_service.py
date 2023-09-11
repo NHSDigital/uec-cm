@@ -57,7 +57,7 @@ def test_get_record_by_id():
     response = hs_service.get_record_by_id(mock_id)
     assert response["Item"]["id"] == mock_id
     assert response["Item"]["HospitalName"] == mock_hospital_name
-    assert response["Item"]["HospitalLocation"] == "mock_hospital_location"
+    assert response["Item"]["HospitalLocation"] == mock_hospital_location
 
 
 @mock_dynamodb
