@@ -14,16 +14,19 @@ for path in "$APPLICATION_DIR"/*/ ; do
     dirs=$(echo "$path" | tr "\/" '\n')
     for dir in $dirs
         do
-            if ! [ "$dir" == $APPLICATION_DIR ] && [ -d $APPLICATION_TEST_DIR/"$dir" ]; then
+            if ! [ "$dir" == $APPLICATION_DIR ] ; then
                 echo "Preparing tests for $dir"
                 mkdir $APPLICATION_DIR/"$dir"/test
-                cp $APPLICATION_TEST_DIR/"$dir"/* $APPLICATION_DIR/"$dir"/test/
+                if [ -d $APPLICATION_TEST_DIR/"$dir" ]; then
+                    echo "Copying tests for $dir"
+                    cp $APPLICATION_TEST_DIR/"$dir"/* $APPLICATION_DIR/"$dir"/test/
+                fi
             fi
         done
 done
 #  use requirements defined for test/unit
 pip install -r $APPLICATION_TEST_DIR/requirements.txt
-coverage run --omit=$APPLICATION_DIR/*/test/* -m pytest $APPLICATION_DIR/*
+coverage run --source=$APPLICATION_DIR  -m pytest $APPLICATION_DIR/*
 coverage report
 coverage html
 
