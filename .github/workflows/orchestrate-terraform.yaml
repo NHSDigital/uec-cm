@@ -5,7 +5,7 @@ on:
     inputs:
       env:
         default: 'dev'
-        required: true
+        required: false
         type: string
       jp_branch_name:
         description: 'Name of branch'
