@@ -27,7 +27,7 @@ jobs:
     #     cicd-pipeline-test
     # timeout-minutes: 10
     outputs:
-      branch_name: ${{ steps.extract_branch.outputs.branch_name }}
+      branch_name: "test"
     steps:
       - id: extract_branch
         name: Extract branch name
