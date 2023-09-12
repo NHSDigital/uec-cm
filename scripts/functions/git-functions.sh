@@ -69,4 +69,23 @@ function check_commit_message_length {
     fi
 }
 
+# returns empty string for main branch or lc jira ticket ref for task branches
+function derive_jira_ref_from_branch_name {
+    JIRA_REF=""
+    BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+    if [ "$BRANCH_NAME" != 'main' ] && [[ $BRANCH_NAME =~ $GIT_BRANCH_PATTERN ]]  ; then
+      IFS='/' read -r -a name_array <<< "$BRANCH_NAME"
+      IFS='_' read -r -a ref <<< "${name_array[1]}"
+      JIRA_REF=$(echo "${ref[0]}" | tr "[:upper:]" "[:lower:]")
+    fi
+    # echo $JIRA_REF
+    # if [ -n "$JIRA_REF" ]; then
+    #   JIRA_REF="-$JIRA_REF"
+    # fi
+    echo "$JIRA_REF"
+    # export JIRA_REF
+}
+
+#
+
 

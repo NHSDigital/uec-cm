@@ -18,7 +18,7 @@ provider "aws" {
     tags = {
       owner               = var.project_owner
       project             = var.project
-      environment         = var.environment
+      environment         = "${var.environment}${var.resource_group_name}"
       terraform-base-path = replace(path.cwd, "/^.*?(${var.repo_name}\\/)/", "$1")
     }
   }

@@ -68,7 +68,7 @@ resource "aws_api_gateway_integration" "organisations_GET_integration" {
   http_method             = aws_api_gateway_method.organisations_GET.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisations_function_name}/invocations"
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${local.organisations_function_name}/invocations"
   depends_on = [
     aws_api_gateway_resource.organisations_resource,
     aws_api_gateway_method.organisations_GET
@@ -81,7 +81,7 @@ resource "aws_api_gateway_integration" "organisations_POST_integration" {
   http_method             = aws_api_gateway_method.organisations_POST.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisations_function_name}/invocations"
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${local.organisations_function_name}/invocations"
   depends_on = [
     aws_api_gateway_resource.organisations_resource,
     aws_api_gateway_method.organisations_POST
@@ -94,7 +94,7 @@ resource "aws_api_gateway_integration" "organisations_PUT_integration" {
   http_method             = aws_api_gateway_method.organisations_PUT.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisations_function_name}/invocations"
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${local.organisations_function_name}/invocations"
   depends_on = [
     aws_api_gateway_resource.organisations_resource,
     aws_api_gateway_method.organisations_PUT
@@ -107,7 +107,7 @@ resource "aws_api_gateway_integration" "organisations_DELETE_integration" {
   http_method             = aws_api_gateway_method.organisations_DELETE.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisations_function_name}/invocations"
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${local.organisations_function_name}/invocations"
   depends_on = [
     aws_api_gateway_resource.organisations_resource,
     aws_api_gateway_method.organisations_DELETE
