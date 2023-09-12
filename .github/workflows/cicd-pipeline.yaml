@@ -37,8 +37,8 @@ jobs:
         id: extract_branch
   orchestrate-terraform:
       # runs-on: ubuntu-latest
-      # needs:
-      #     cicd-pipeline-test
+      needs:
+        extract_branch
       # timeout-minutes: 10
       # steps:
 
@@ -57,7 +57,7 @@ jobs:
     # name: Orchestrate terraform
       uses: ./.github/workflows/orchestrate-terraform.yaml
       with:
-        jp_branch_name: ${{ steps.extract_branch.outputs.branch_name }}
+        jp_branch_name: ${{ needs.extract_branch.outputs.branch_name }}
   scan-secrets:
     uses: ./.github/workflows/scan-secrets.yaml
   check-file-format:
