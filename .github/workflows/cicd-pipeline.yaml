@@ -89,4 +89,4 @@ jobs:
       - name: Orchestrate terraform
         uses: ./.github/workflows/orchestrate-terraform.yaml
         with:
-          branch_name: ${{ steps.extract_branch.outputs.branch_name }}
+          jp_branch_name: ${{ steps.extract_branch.outputs.branch_name }}
