@@ -57,7 +57,7 @@ jobs:
     # name: Orchestrate terraform
       uses: ./.github/workflows/orchestrate-terraform.yaml
       with:
-        jp_branch_name: ${{ needs.extract-branch-name.outputs.branch_name }}
+        jp_branch_name: ${{ needs.extract-branch-name.extract_branch.outputs.branch_name }}
   scan-secrets:
     uses: ./.github/workflows/scan-secrets.yaml
   check-file-format:
