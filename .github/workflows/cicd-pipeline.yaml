@@ -34,12 +34,6 @@ jobs:
           echo "branch name:$GITHUB_REF"
           echo "head ref: $GITHUB_HEAD_REF"
           echo "branch_name=${GITHUB_REF}" >> $GITHUB_OUTPUT
-  orchestrate-terraform:
-      needs:
-        extract-branch-name
-      uses: ./.github/workflows/orchestrate-terraform.yaml
-      with:
-        branch_name: ${{needs.extract-branch-name.outputs.branch_name}}
   scan-secrets:
     uses: ./.github/workflows/scan-secrets.yaml
   check-file-format:
@@ -85,4 +79,12 @@ jobs:
       # - name: Run Tests ...
       #   run: |
       #     ?
-
+  orchestrate-terraform:
+      needs:
+        [
+          extract-branch-name,
+          cicd-pipeline-test,
+        ]
+      uses: ./.github/workflows/orchestrate-terraform.yaml
+      with:
+        branch_name: ${{needs.extract-branch-name.outputs.branch_name}}
