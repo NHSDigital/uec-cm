@@ -40,8 +40,7 @@ jobs:
 
         - name: Initialise and Run Terraform Apply
           run: |
-            export ACTION=plan
+            export ACTION=apply
             export STACK=capacity_management
             export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
-            export BRANCH_NAME = $${{ inputs.branch_name }}
             /bin/bash ./scripts/infra-deploy.sh

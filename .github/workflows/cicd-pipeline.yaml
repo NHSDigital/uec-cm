@@ -75,10 +75,11 @@ jobs:
 
       - name: Extract branch name
         shell: bash
-        run: echo "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        # run: echo "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        run: echo "branch name:$GITHUB_REF"
         id: extract_branch
 
-      - name: Orchestrate terraform
-        uses: ./.github/workflows/orchestrate-terraform.yaml
-        with:
-          branch_name: ${{ steps.extract_branch.outputs.branch_name }}
+      # - name: Orchestrate terraform
+      #   uses: ./.github/workflows/orchestrate-terraform.yaml
+      #   with:
+      #     branch_name: ${{ steps.extract_branch.outputs.branch_name }}
