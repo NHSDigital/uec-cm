@@ -7,7 +7,7 @@ on:
         default: 'dev'
         required: false
         type: string
-      jp_branch_name:
+      branch_name:
         description: 'Name of branch'
         default: 'not-set'
         required: true
@@ -19,7 +19,7 @@ jobs:
     steps:
 
       - name: test
-        run: echo "branch ${inputs.jp_branch_name}"
+        run: echo "branch ${{ inputs.branch_name }}"
 
     # deploy-application-infrastructure:
     #   runs-on: ubuntu-latest
