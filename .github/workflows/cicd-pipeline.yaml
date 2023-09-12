@@ -25,17 +25,16 @@ jobs:
     runs-on: ubuntu-latest
     # needs:
     #     cicd-pipeline-test
-    timeout-minutes: 10
+    # timeout-minutes: 10
     steps:
-
-        - name: Extract branch name
-          shell: bash
+      - name: Extract branch name
+        shell: bash
           # run: echo "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-          run: |
-            echo "branch name:$GITHUB_REF"
-            echo "head ref: $GITHUB_HEAD_REF"
-            echo "branch_name=${GITHUB_REF}" >> $GITHUB_OUTPUT
-          id: extract_branch
+        run: |
+          echo "branch name:$GITHUB_REF"
+          echo "head ref: $GITHUB_HEAD_REF"
+          echo "branch_name=${GITHUB_REF}" >> $GITHUB_OUTPUT
+        id: extract_branch
   orchestrate-terraform:
       # runs-on: ubuntu-latest
       # needs:
