@@ -38,7 +38,7 @@ jobs:
   orchestrate-terraform:
       # runs-on: ubuntu-latest
       needs:
-        extract_branch
+        extract-branch-name
       # timeout-minutes: 10
       # steps:
 
@@ -57,7 +57,7 @@ jobs:
     # name: Orchestrate terraform
       uses: ./.github/workflows/orchestrate-terraform.yaml
       with:
-        jp_branch_name: ${{ needs.extract_branch.outputs.branch_name }}
+        jp_branch_name: ${{ needs.extract-branch-name.outputs.branch_name }}
   scan-secrets:
     uses: ./.github/workflows/scan-secrets.yaml
   check-file-format:
