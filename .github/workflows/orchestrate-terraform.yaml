@@ -11,14 +11,31 @@ on:
         description: 'Name of branch'
         required: true
         type: string
+      workspace:
+        description: 'Namespace'
+        required: false
+        default: 'DR-355'
+        type: string
 
 jobs:
   deploy-application-infrastructure:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.env }}
+
     steps:
 
       - name: echo branch
-        run: echo "branch ${{ inputs.branch_name }}"
+        run: |
+          echo "branch ${{ inputs.branch_name }}"
+          echo "account type ${{ vars.ACCOUNT_TYPE }}"
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ vars.TF_VERSION }}
 
     # deploy-application-infrastructure:
     #   runs-on: ubuntu-latest
