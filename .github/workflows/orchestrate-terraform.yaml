@@ -48,6 +48,13 @@ jobs:
           role-session-name: github-pipeline-session
           aws-region: eu-west-2
 
+      - name: Initialise and Run Terraform Apply
+        run: |
+          export ACTION=plan
+          export STACK=capacity_management
+          export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
+          /bin/bash ./scripts/infra-deploy.sh
+
     # deploy-application-infrastructure:
     #   runs-on: ubuntu-latest
     #   environment: ${{ inputs.env }}
