@@ -21,6 +21,9 @@ jobs:
   deploy-application-infrastructure:
     runs-on: ubuntu-latest
     environment: ${{ inputs.env }}
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
 
@@ -48,9 +51,7 @@ jobs:
     # deploy-application-infrastructure:
     #   runs-on: ubuntu-latest
     #   environment: ${{ inputs.env }}
-    #   permissions:
-    #     id-token: write
-    #     contents: read
+
 
     #   steps:
 
