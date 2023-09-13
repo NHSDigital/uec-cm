@@ -28,6 +28,7 @@ jobs:
         run: |
           echo "branch ${{ inputs.branch_name }}"
           echo "account type ${{ vars.ACCOUNT_TYPE }}"
+          echo "secrets ${{ secrets.ACCOUNT_ID }}"
 
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -36,6 +37,13 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ vars.TF_VERSION }}
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2.2.0
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/uec-cm-github-runner
+          role-session-name: github-pipeline-session
+          aws-region: eu-west-2
 
     # deploy-application-infrastructure:
     #   runs-on: ubuntu-latest
