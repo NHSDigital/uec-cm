@@ -30,7 +30,7 @@ jobs:
           echo "triggering action: ${{ github.event_name }}"
           echo "triggering reference: ${{ github.ref_name }}"
           echo "deployment_workspace=not-set"
-          if ( ${{ github.event_name }} == 'tags' )
+          if [ ${{ github.event_name }} == 'tags' ] then
             echo "deployment_workspace=${{github.ref_name}}"
           fi
   extract-branch-name:
