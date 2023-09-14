@@ -2,6 +2,10 @@ name: CI/CD Pipeline
 
 on:
   push:
+    branches:
+      - '*'
+    tags:
+      - '*-test'
   pull_request:
     branches:
       - main
@@ -21,6 +25,7 @@ jobs:
           echo "build_datetime=$datetime" >> $GITHUB_OUTPUT
           echo "build_timestamp=$(date --date=$datetime -u +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
           echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
+          echo "triggering tag: ${{ github.ref_name }}"
   extract-branch-name:
     runs-on: ubuntu-latest
     outputs:
