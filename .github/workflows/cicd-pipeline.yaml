@@ -92,5 +92,5 @@ jobs:
         ]
       uses: ./.github/workflows/orchestrate-terraform.yaml
       with:
-        branch_name: ${{needs.extract-branch-name.outputs.branch_name}}
+        service_environment: dev
       secrets: inherit
