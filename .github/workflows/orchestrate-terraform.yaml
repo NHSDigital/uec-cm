@@ -49,7 +49,7 @@ jobs:
           export ACTION=plan
           export STACK=capacity_management
           export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
-          if ( ${{ inputs.deployment_workspace }} != "not-set" )
+          if [ ${{ inputs.deployment_workspace }} != 'not-set' ]
           then
             export DEPLOYMENT_WORKSPACE=${{ inputs.deployment_workspace }}
           fi
