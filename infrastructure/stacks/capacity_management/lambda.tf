@@ -8,7 +8,7 @@
 module "organisations-data-manager-lambda" {
   source = "../../modules/lambda"
 
-  function_name = local.organisations_function_name
+  function_name = var.organisations_function_name
   description   = "Microservice for interacting with organisations dynamodb table"
 
   policy_jsons = [
@@ -167,7 +167,7 @@ module "locations-data-manager-lambda" {
 module "healthcare-services-data-manager-lambda" {
   source = "../../modules/lambda"
 
-  function_name = local.healthcare_services_function_name
+  function_name = var.healthcare_services_function_name
   description   = "Microservice for interacting with healthcare services dynamodb table"
 
   policy_jsons = [

@@ -68,7 +68,7 @@ resource "aws_api_gateway_integration" "organisation_affiliations_GET_integratio
   http_method             = aws_api_gateway_method.organisation_affiliations_GET.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisation_affiliations_function_name}/invocations"
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisation_affiliations_function_name}-${terraform.workspace}/invocations"
   depends_on = [
     aws_api_gateway_resource.organisation_affiliations_resource,
     aws_api_gateway_method.organisation_affiliations_GET
@@ -81,7 +81,7 @@ resource "aws_api_gateway_integration" "organisation_affiliations_POST_integrati
   http_method             = aws_api_gateway_method.organisation_affiliations_POST.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisation_affiliations_function_name}/invocations"
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisation_affiliations_function_name}-${terraform.workspace}/invocations"
   depends_on = [
     aws_api_gateway_resource.organisation_affiliations_resource,
     aws_api_gateway_method.organisation_affiliations_POST
@@ -94,7 +94,7 @@ resource "aws_api_gateway_integration" "organisation_affiliations_PUT_integratio
   http_method             = aws_api_gateway_method.organisation_affiliations_PUT.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisation_affiliations_function_name}/invocations"
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisation_affiliations_function_name}-${terraform.workspace}/invocations"
   depends_on = [
     aws_api_gateway_resource.organisation_affiliations_resource,
     aws_api_gateway_method.organisation_affiliations_PUT
@@ -107,7 +107,7 @@ resource "aws_api_gateway_integration" "organisation_affiliations_DELETE_integra
   http_method             = aws_api_gateway_method.organisation_affiliations_DELETE.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisation_affiliations_function_name}/invocations"
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisation_affiliations_function_name}-${terraform.workspace}/invocations"
   depends_on = [
     aws_api_gateway_resource.organisation_affiliations_resource,
     aws_api_gateway_method.organisation_affiliations_DELETE
@@ -120,7 +120,7 @@ resource "aws_api_gateway_integration" "organisation_affiliations_DELETE_integra
 resource "aws_lambda_permission" "org_affiliations_lambda_permission" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = var.organisation_affiliations_function_name
+  function_name = "${var.organisation_affiliations_function_name}-${terraform.workspace}"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.aws_region}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.cm_rest_api.id}/*/*"
 }

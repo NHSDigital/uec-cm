@@ -15,7 +15,7 @@ function terraform-initialise {
     TERRAFORM_USE_STATE_STORE=$3
     TERRAFORM_STATE_STORE=$TERRAFORM_BUCKET_NAME
     TERRAFORM_STATE_LOCK=$TERRAFORM_LOCK_TABLE
-    TERRAFORM_STATE_KEY=$STACK/$RESOURCE_GROUP_NAME/terraform.state
+    TERRAFORM_STATE_KEY=$STACK/terraform.state
 
     if [[ "$TERRAFORM_USE_STATE_STORE" =~ ^(false|no|n|off|0|FALSE|NO|N|OFF) ]]; then
       terraform init
@@ -35,7 +35,7 @@ function terraform-init-migrate {
     TERRAFORM_USE_STATE_STORE=$3
     TERRAFORM_STATE_STORE=$TERRAFORM_BUCKET_NAME
     TERRAFORM_STATE_LOCK=$TERRAFORM_LOCK_TABLE
-    TERRAFORM_STATE_KEY=$STACK/$RESOURCE_GROUP_NAME/terraform.state
+    TERRAFORM_STATE_KEY=$STACK/terraform.state
 
     terraform init -migrate-state -force-copy \
         -backend-config="bucket=$TERRAFORM_STATE_STORE" \

@@ -2,7 +2,7 @@ module "lambda" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 6.0"
 
-  function_name           = var.function_name
+  function_name           = "${var.function_name}-${terraform.workspace}"
   handler                 = var.handler
   runtime                 = var.runtime
   publish                 = var.publish

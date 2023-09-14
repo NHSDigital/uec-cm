@@ -11,6 +11,4 @@ variable "environment" {
 variable "repo_name" {
   description = "The name of git hub repository"
 }
-variable "resource_group_name" {
-  description = "Identifier for group of resources eg linked to feature branch in dev/test"
-}
+

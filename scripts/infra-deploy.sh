@@ -17,11 +17,12 @@ export ACCOUNT_TYPE="${ACCOUNT_TYPE:-""}"     # The type of account being used -
 export USE_REMOTE_STATE_STORE="${USE_REMOTE_STATE_STORE:-true}"
 
 # JIRA ref extracted from branch name = DR-999
-JIRA_REF=$(derive_jira_ref_from_branch_name)
+TF_VAR_terraform_workspace=$(derive_jira_ref_from_branch_name)
+export TF_VAR_terraform_workspace
 # Terraform stack by resource group name passed or by jira ref of branch if not
-export RESOURCE_GROUP_NAME="${RESOURCE_GROUP_NAME:-"$JIRA_REF"}"
+# export RESOURCE_GROUP_NAME="${RESOURCE_GROUP_NAME:-"$JIRA_REF"}"
 # Resources names to include the RGN
-export TF_VAR_resource_group_name="-$RESOURCE_GROUP_NAME"
+# export TF_VAR_resource_group_name="-$RESOURCE_GROUP_NAME"
 # check exports have been done
 EXPORTS_SET=0
 # Check key variables have been exported - see above
@@ -67,7 +68,7 @@ STACK_TF_VARS_FILE="$STACK.tfvars"
 PROJECT_TF_VARS_FILE="$ACCOUNT_PROJECT-project.tfvars"
 ENV_TF_VARS_FILE="$ACCOUNT_TYPE.tfvars"
 
-echo "Preparing to run terraform $ACTION for stack $STACK for account type $ACCOUNT_TYPE resource group $RESOURCE_GROUP_NAME and project $ACCOUNT_PROJECT"
+echo "Preparing to run terraform $ACTION for stack $STACK for account type $ACCOUNT_TYPE WORKSPACE $TF_VAR_terraform_workspace and project $ACCOUNT_PROJECT"
 ROOT_DIR=$PWD
 # the directory that holds the stack to terraform
 STACK_DIR=$PWD/$INFRASTRUCTURE_DIR/stacks/$STACK
@@ -91,9 +92,12 @@ if [ ! -f "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE" ] ; then
   touch "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE"
   TEMP_STACK_TF_VARS_FILE=1
 fi
-#
+
 # init terraform
 terraform-initialise "$STACK" "$ACCOUNT_TYPE" "$USE_REMOTE_STATE_STORE"
+#
+terraform workspace select $TF_VAR_terraform_workspace || terraform workspace new $TF_VAR_terraform_workspace
+#
 # plan
 if [ -n "$ACTION" ] && [ "$ACTION" = 'plan' ] ; then
   terraform plan \
@@ -131,5 +135,5 @@ if [ $TEMP_STACK_TF_VARS_FILE = 1 ] ; then
   rm -f "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE"
 fi
 
-echo "Completed terraform $ACTION for stack $STACK for account type $ACCOUNT_TYPE resource group $RESOURCE_GROUP_NAME and project $ACCOUNT_PROJECT"
+echo "Completed terraform $ACTION for stack $STACK for account type $ACCOUNT_TYPE WORKSPACE $TF_VAR_terraform_workspace and project $ACCOUNT_PROJECT"
 
