@@ -29,7 +29,7 @@ jobs:
           echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
           echo "triggering action: ${{ github.event_name }}"
           echo "triggering reference: ${{ github.ref_name }}"
-          echo "deployment_workspace=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          echo "deployment_workspace='not-set' >> $GITHUB_OUTPUT
           if [ ${{ github.event_name == 'tags' }} ]
           then
             echo "deployment_workspace=${{ github.ref_name }}" >> $GITHUB_OUTPUT
@@ -99,5 +99,5 @@ jobs:
       uses: ./.github/workflows/orchestrate-terraform.yaml
       with:
         service_environment: dev
-        deployment_workspace: ${{ needs.get-metadata-outputs.deployment_workspace }}
+        deployment_workspace: ${{ needs.get-metadata.outputs.deployment_workspace }}
       secrets: inherit
