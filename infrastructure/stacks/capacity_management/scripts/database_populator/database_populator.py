@@ -35,7 +35,9 @@ def populate_database():
     for FHIR_entity in FHIR_entities:
         # Perform a check to determine if the dynamoDB table is empty or not
         print(FHIR_entity)
-        print(":::::Running populator script for table: " + FHIR_entity["db_table_name"])
+        print(
+            ":::::Running populator script for table: " + FHIR_entity["db_table_name"]
+        )
         """if check_data_exists_in_db(FHIR_entity["db_table_name"]):
             print(
                 ":::::DynamoDB Table: "
@@ -95,64 +97,74 @@ def transpose_into_schema(table, row):
     if table == "organisation_affiliations":
         schema = {
             "resourceType": "OrganizationAffiliation",
-            "id": str(row['Identifier']),
-            "participatingOrganization": row['ParticipatingOrganization'],
-            "organizationIdentifier": row['FHIROrganizationIdentifier'],
-            "organization": row['Organization'],
-            "healthcareService": {str(row['HealthcareService']) if pd.notna(row['HealthcareService']) else "N/A"},
-            "healthcareServiceIdentifier": row['FHIRHealthcareServiceIdentifier'],
-            "locationName": {str(row['LocationName']) if pd.notna(row['LocationName']) else "N/A"},
-            "locationIdentifier": row['FHIRLocationIdentifier'],
-            "createdBy": row['CreatedBy'],
-            "createdDateTime": row['CreatedDateTime'],
-            "modifiedBy": row['ModifiedBy'],
-            "modifiedDateTime": row['ModifiedDateTime']
+            "id": str(row["Identifier"]),
+            "participatingOrganization": row["ParticipatingOrganization"],
+            "organizationIdentifier": row["FHIROrganizationIdentifier"],
+            "organization": row["Organization"],
+            "healthcareService": {
+                str(row["HealthcareService"])
+                if pd.notna(row["HealthcareService"])
+                else "N/A"
+            },
+            "healthcareServiceIdentifier": row["FHIRHealthcareServiceIdentifier"],
+            "locationName": {
+                str(row["LocationName"]) if pd.notna(row["LocationName"]) else "N/A"
+            },
+            "locationIdentifier": row["FHIRLocationIdentifier"],
+            "createdBy": row["CreatedBy"],
+            "createdDateTime": row["CreatedDateTime"],
+            "modifiedBy": row["ModifiedBy"],
+            "modifiedDateTime": row["ModifiedDateTime"],
         }
 
     elif table == "healthcare_services":
         schema = {
             "resourceType": "HealthcareService",
-            "id": str(row['Identifier']),
+            "id": str(row["Identifier"]),
             "Status": "Active",
-            "name": row['Name'],
-            "description": row['Description'],
-            "phoneNumber": {str(row['PhoneNumber']) if pd.notna(row['PhoneNumber']) else "N/A"},
+            "name": row["Name"],
+            "description": row["Description"],
+            "phoneNumber": {
+                str(row["PhoneNumber"]) if pd.notna(row["PhoneNumber"]) else "N/A"
+            },
             "address": "N/A",
-            "location": row['Location'],
-            "createdBy": row['CreatedBy'],
-            "createdDateTime": row['CreatedDateTime'],
-            "modifiedBy": row['ModifiedBy'],
-            "modifiedDateTime": row['ModifiedDateTime'],
-            "providedBy": row['ProvidedBy']
+            "location": row["Location"],
+            "createdBy": row["CreatedBy"],
+            "createdDateTime": row["CreatedDateTime"],
+            "modifiedBy": row["ModifiedBy"],
+            "modifiedDateTime": row["ModifiedDateTime"],
+            "providedBy": row["ProvidedBy"],
         }
     elif table == "organisations":
         schema = {
             "resourceType": "Organization",
-            "id": str(row['Identifier']),
-            "type": row['OrgType'],
-            "name": str(row['Name']),
-            "description": str(row['Name']),
-            "phoneNumber": {str(row['PhoneNumber']) if pd.notna(row['PhoneNumber']) else "N/A"},
-            "Address": {str(row['Address']) if pd.notna(row['Address']) else "N/A"},
-            "createdDateTime": row['CreatedDateTime'],
-            "partOf": {str(row['PartOf']) if pd.notna(row['PartOf']) else "N/A"},
-            "createdBy": row['CreatedBy'],
-            "modifiedBy": row['ModifiedBy'],
-            "modifiedDateTime": row['ModifiedDateTime']
+            "id": str(row["Identifier"]),
+            "type": row["OrgType"],
+            "name": str(row["Name"]),
+            "description": str(row["Name"]),
+            "phoneNumber": {
+                str(row["PhoneNumber"]) if pd.notna(row["PhoneNumber"]) else "N/A"
+            },
+            "Address": {str(row["Address"]) if pd.notna(row["Address"]) else "N/A"},
+            "createdDateTime": row["CreatedDateTime"],
+            "partOf": {str(row["PartOf"]) if pd.notna(row["PartOf"]) else "N/A"},
+            "createdBy": row["CreatedBy"],
+            "modifiedBy": row["ModifiedBy"],
+            "modifiedDateTime": row["ModifiedDateTime"],
         }
     elif table == "locations":
         schema = {
             "resourceType": "Location",
-            "id": str(row['Identifier']),
+            "id": str(row["Identifier"]),
             "status": "Active",
-            "name": row['Name'],
-            "address": row['Address'],
-            "latitude": str(Decimal(row['Latitude'])),
-            "longitude": str(Decimal(row['Longitude'])),
-            "createdBy": row['CreatedBy'],
-            "createdDateTime": row['CreatedDateTime'],
-            "modifiedBy": row['ModifiedBy'],
-            "modifiedDateTime": row['ModifiedDateTime']
+            "name": row["Name"],
+            "address": row["Address"],
+            "latitude": str(Decimal(row["Latitude"])),
+            "longitude": str(Decimal(row["Longitude"])),
+            "createdBy": row["CreatedBy"],
+            "createdDateTime": row["CreatedDateTime"],
+            "modifiedBy": row["ModifiedBy"],
+            "modifiedDateTime": row["ModifiedDateTime"],
         }
 
     return schema

@@ -19,7 +19,6 @@ jobs:
       build_datetime: ${{ steps.metadata.outputs.build_datetime }}
       build_timestamp: ${{ steps.metadata.outputs.build_timestamp }}
       build_epoch: ${{ steps.metadata.outputs.build_epoch }}
-      deployment_workspace: ${{ steps.metadata.outputs.deployment_workspace  }}
     steps:
       - id: metadata
         run: |
@@ -29,23 +28,20 @@ jobs:
           echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
           echo "triggering action: ${{ github.event_name }}"
           echo "triggering reference: ${{ github.ref_name }}"
-          echo "deployment_workspace=not-set"
-          if [ ${{ github.event_name }} == 'tags' ] then
-            echo "deployment_workspace=${{github.ref_name}}" >> $GITHUB_OUTPUT
+          if [ ${{ github.event_name == 'tags' }} ] then
+            echo success
           fi
-  extract-branch-name:
+  extract-workspace-from-tag:
+    if: github.event_name == 'tags'
     runs-on: ubuntu-latest
     outputs:
-      branch_name: "${{ steps.extract_branch.outputs.branch_name }}"
+      deployment_workspace: "${{ steps.extract_workspace.outputs.deployment_workspace }}"
     steps:
-      - id: extract_branch
-        name: Extract branch name
+      - id: extract_workspace
+        name: Extract workspace name
         shell: bash
-          # run: echo "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
         run: |
-          echo "branch name:$GITHUB_REF"
-          echo "head ref: $GITHUB_HEAD_REF"
-          echo "branch_name=${GITHUB_REF}" >> $GITHUB_OUTPUT
+          echo "deployment_workspace=${{ github.ref_name }}" >> $GITHUB_OUTPUT
   scan-secrets:
     uses: ./.github/workflows/scan-secrets.yaml
   check-file-format:
