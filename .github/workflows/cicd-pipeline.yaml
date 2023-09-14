@@ -28,7 +28,8 @@ jobs:
           echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
           echo "triggering action: ${{ github.event_name }}"
           echo "triggering reference: ${{ github.ref_name }}"
-          if [ ${{ github.event_name == 'tags' }} ] then
+          if [ ${{ github.event_name == 'tags' }} ]
+          then
             echo success
           fi
   extract-workspace-from-tag:
