@@ -49,7 +49,6 @@ jobs:
       [
         get-metadata,
         scan-secrets,
-        validate-terraform,
         check-file-format,
         check-markdown-format,
         check-terraform-format,
@@ -71,7 +70,10 @@ jobs:
       #     ?
   orchestrate-terraform:
       needs:
-          cicd-pipeline-test
+        [
+          cicd-pipeline-test,
+          validate-terraform,
+        ]
       uses: ./.github/workflows/orchestrate-terraform.yaml
       with:
         github_environment: dev
