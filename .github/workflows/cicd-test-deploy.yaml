@@ -3,7 +3,7 @@ name: CI/CD Test Deployment
 on:
   push:
     tags:
-      - '*-test'
+      - '[A-Z][A-Z]-[0-9][0-9]?[0-9]?-test-[0-9][0-9]?'
 
 jobs:
   get-metadata:
@@ -40,26 +40,13 @@ jobs:
       # - name: Run Tests ...
       #   run: |
       #     ?
-  # derive-workspace-from-tag:
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     branch_name: "${{ steps.extract_branch.outputs.branch_name }}"
-  #   steps:
-  #     - id: extract_branch
-  #       name: Extract branch name
-  #       shell: bash
-  #         # run: echo "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-  #       run: |
-  #         echo "branch name:$GITHUB_REF"
-  #         echo "head ref: $GITHUB_HEAD_REF"
-  #         echo "branch_name=${GITHUB_REF}" >> $GITHUB_OUTPUT
-  # orchestrate-terraform:
-  #     needs:
-  #       [
-  #         cicd-pipeline-test,
-  #       ]
-  #     uses: ./.github/workflows/orchestrate-terraform.yaml
-  #     with:
-  #       env: "test"
-  #       branch_name: ${{needs.extract-branch-name.outputs.branch_name}}
-  #     secrets: inherit
+  orchestrate-terraform:
+      needs:
+        [
+          cicd-pipeline-test,
+        ]
+      uses: ./.github/workflows/orchestrate-terraform.yaml
+      with:
+        service_environment: "test"
+        deployment_workspace: ${{ github.ref_name }}
+      secrets: inherit
