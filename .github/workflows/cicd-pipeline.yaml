@@ -19,7 +19,7 @@ jobs:
       build_datetime: ${{ steps.metadata.outputs.build_datetime }}
       build_timestamp: ${{ steps.metadata.outputs.build_timestamp }}
       build_epoch: ${{ steps.metadata.outputs.build_epoch }}
-      deployment_workspace: $${{ steps.metadata.outputs.deployment_workspace }}
+      deployment_workspace: ${{ steps.metadata.outputs.deployment_workspace }}
     steps:
       - id: metadata
         run: |
@@ -29,7 +29,7 @@ jobs:
           echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
           echo "triggering action: ${{ github.event_name }}"
           echo "triggering reference: ${{ github.ref_name }}"
-          echo "deployment_workspace=not-set" >> $GITHUB_OUTPUT
+          echo "deployment_workspace='not-set'" >> $GITHUB_OUTPUT
       # if [ ${{ github.event_name == 'tags' }} ]
           # then
           #   echo "deployment_workspace=${{ github.ref_name }}" >> $GITHUB_OUTPUT
