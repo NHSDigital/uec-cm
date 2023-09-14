@@ -49,6 +49,7 @@ jobs:
       [
         get-metadata,
         scan-secrets,
+        validate-terraform,
         check-file-format,
         check-markdown-format,
         check-terraform-format,
