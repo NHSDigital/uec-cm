@@ -19,7 +19,7 @@ jobs:
       build_datetime: ${{ steps.metadata.outputs.build_datetime }}
       build_timestamp: ${{ steps.metadata.outputs.build_timestamp }}
       build_epoch: ${{ steps.metadata.outputs.build_epoch }}
-      deployment_workflow: ${{ steps.metadata.outputs.deployment_workflow  }}
+      deployment_workspace: ${{ steps.metadata.outputs.deployment_workspace  }}
     steps:
       - id: metadata
         run: |
@@ -30,9 +30,9 @@ jobs:
           echo "triggering action: ${{ github.event_name }}"
           echo "triggering reference: ${{ github.ref_name }}"
           if ( ${{ github.event_name }} == 'tags' )
-            echo "deployment_workflow=${{github.ref_name}}"
+            echo "deployment_workspace=${{github.ref_name}}"
           else
-            echo "deployment_workflow=not-set"
+            echo "deployment_workspace=not-set"
           fi
   extract-branch-name:
     runs-on: ubuntu-latest
@@ -101,5 +101,5 @@ jobs:
       uses: ./.github/workflows/orchestrate-terraform.yaml
       with:
         service_environment: dev
-        deployment_workflow: ${{ needs.get-metadata-outputs.deployment_workflow }}
+        deployment_workspace: ${{ needs.get-metadata-outputs.deployment_workspace }}
       secrets: inherit
