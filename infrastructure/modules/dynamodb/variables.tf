@@ -24,6 +24,4 @@ variable "attributes" {
     type = "S"
   }]
 }
-# variable "terraform_workspace" {
-#   description = "Identifier for terraform workspace eg linked to feature branch in dev/test"
-# }
+
