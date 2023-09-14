@@ -29,22 +29,22 @@ jobs:
           echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
           echo "triggering action: ${{ github.event_name }}"
           echo "triggering reference: ${{ github.ref_name }}"
-          echo "deployment_workspace='not-set'" >> $GITHUB_OUTPUT
+          echo "deployment_workspace=${{ github.ref_name }}" >> $GITHUB_OUTPUT
           if [ ${{ github.event_name == 'tags' }} ]
           then
             echo "deployment_workspace=${{ github.ref_name }}" >> $GITHUB_OUTPUT
           fi
-  extract-workspace-from-tag:
-    if: github.event_name == 'tags'
-    runs-on: ubuntu-latest
-    outputs:
-      deployment_workspace: "${{ steps.extract_workspace.outputs.deployment_workspace }}"
-    steps:
-      - id: extract_workspace
-        name: Extract workspace name
-        shell: bash
-        run: |
-          echo "deployment_workspace=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+  # extract-workspace-from-tag:
+  #   if: github.event_name == 'tags'
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     deployment_workspace: "${{ steps.extract_workspace.outputs.deployment_workspace }}"
+  #   steps:
+  #     - id: extract_workspace
+  #       name: Extract workspace name
+  #       shell: bash
+  #       run: |
+  #         echo "deployment_workspace=${{ github.ref_name }}" >> $GITHUB_OUTPUT
   scan-secrets:
     uses: ./.github/workflows/scan-secrets.yaml
   check-file-format:
