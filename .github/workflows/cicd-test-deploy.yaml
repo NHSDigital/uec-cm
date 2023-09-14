@@ -47,6 +47,6 @@ jobs:
         ]
       uses: ./.github/workflows/orchestrate-terraform.yaml
       with:
-        service_environment: "test"
+        github_environment: "test"
         deployment_workspace: ${{ github.ref_name }}
       secrets: inherit
