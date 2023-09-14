@@ -27,7 +27,10 @@ jobs:
           echo "build_datetime=$datetime" >> $GITHUB_OUTPUT
           echo "build_timestamp=$(date --date=$datetime -u +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
           echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
+          echo "event: ${{ github.event }}"
+          echo "event path: ${{ github.event_path }}"
           echo "triggering action: ${{ github.event_name }}"
+          echo "triggering reference full: $${{ github.ref }}"
           echo "triggering reference: ${{ github.ref_name }}"
           echo "deployment_workspace='not-set'" >> $GITHUB_OUTPUT
           if [ ${{ github.event_name  }} == 'tags' ]
