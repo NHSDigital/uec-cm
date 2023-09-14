@@ -29,10 +29,9 @@ jobs:
           echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
           echo "triggering action: ${{ github.event_name }}"
           echo "triggering reference: ${{ github.ref_name }}"
+          echo "deployment_workspace=not-set"
           if ( ${{ github.event_name }} == 'tags' )
             echo "deployment_workspace=${{github.ref_name}}"
-          else
-            echo "deployment_workspace=not-set"
           fi
   extract-branch-name:
     runs-on: ubuntu-latest
