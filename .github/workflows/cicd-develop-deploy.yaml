@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI/CD Develop Pipeline
 
 on:
   push:
@@ -73,5 +73,5 @@ jobs:
           cicd-pipeline-test
       uses: ./.github/workflows/orchestrate-terraform.yaml
       with:
-        service_environment: dev
+        github_environment: dev
       secrets: inherit

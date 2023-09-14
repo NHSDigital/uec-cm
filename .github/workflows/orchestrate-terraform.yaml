@@ -3,8 +3,8 @@ name: Orchestrate terraform workflow
 on:
   workflow_call:
     inputs:
-      service_environment:
-        description: "Defines the service (Github) environment in which to pull environment variables from"
+      github_environment:
+        description: "Defines the Github environment in which to pull environment variables from"
         required: true
         type: string
       deployment_workspace:
@@ -19,12 +19,12 @@ jobs:
     steps:
       - name: echo workflow inputs
         run: |
-          echo "service environment: ${{ inputs.service_environment }}"
+          echo "github environment: ${{ inputs.github_environment }}"
           echo "deployment workspace: ${{ inputs.deployment_workspace }}"
 
   deploy-application-infrastructure:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.service_environment }}
+    environment: ${{ inputs.github_environment }}
     permissions:
       id-token: write
       contents: read

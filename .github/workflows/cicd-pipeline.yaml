@@ -3,14 +3,14 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
-      - 'task/*'
-    tags:
-      - '[A-Z][A-Z]-[0-9][0-9]?[0-9]?-test-[0-9][0-9]?'
-  pull_request:
-    branches:
-      - main
-    types: [opened, synchronize, reopened]
+      - main-jp
+  #     - 'task/*'
+  #   tags:
+  #     - '[A-Z][A-Z]-[0-9][0-9]?[0-9][0-9]?-test[-]?[0-9]?[0-9]?'
+  # pull_request:
+  #   branches:
+  #     - main
+  #   types: [opened, synchronize, reopened]
 
 jobs:
   get-metadata:
@@ -20,6 +20,7 @@ jobs:
       build_timestamp: ${{ steps.metadata.outputs.build_timestamp }}
       build_epoch: ${{ steps.metadata.outputs.build_epoch }}
       deployment_workspace: ${{ steps.metadata.outputs.deployment_workspace }}
+      github_environment: ${{ steps.metadata.outputs.github_environment }}
     steps:
       - id: metadata
         run: |
@@ -31,9 +32,11 @@ jobs:
           echo "ref type: ${{ github.ref_type }}"
           echo "triggering reference: ${{ github.ref_name }}"
           echo "deployment_workspace='not-set'" >> $GITHUB_OUTPUT
+          echo "github_environment='dev'" >> $GITHUB_OUTPUT
           if [ ${{ github.ref_type  }} == 'tag' ]
           then
             echo "deployment_workspace=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            echo "github_environment='test'" >> $GITHUB_OUTPUT"
           fi
   scan-secrets:
     uses: ./.github/workflows/scan-secrets.yaml
@@ -88,6 +91,6 @@ jobs:
         ]
       uses: ./.github/workflows/orchestrate-terraform.yaml
       with:
-        service_environment: dev
+        github_environment: ${{ needs.get-metadata.outputs.github_environment }}
         deployment_workspace: ${{ needs.get-metadata.outputs.deployment_workspace }}
       secrets: inherit
