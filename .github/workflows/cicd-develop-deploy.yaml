@@ -6,7 +6,6 @@ on:
       - main
       - task*
 
-
 jobs:
   get-metadata:
     runs-on: ubuntu-latest
@@ -21,6 +20,9 @@ jobs:
           echo "build_datetime=$datetime" >> $GITHUB_OUTPUT
           echo "build_timestamp=$(date --date=$datetime -u +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
           echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
+          echo "triggering action: ${{ github.event_name }}"
+          echo "ref type: ${{ github.ref_type }}"
+          echo "triggering reference: ${{ github.ref_name }}"
   scan-secrets:
     uses: ./.github/workflows/scan-secrets.yaml
   check-file-format:

@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.service_environment }}
     permissions:
-      id-token: write
+      id-token: read
       contents: read
     steps:
       - name: Checkout Repository

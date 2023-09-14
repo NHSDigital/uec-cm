@@ -35,17 +35,6 @@ jobs:
           then
             echo "deployment_workspace=${{ github.ref_name }}" >> $GITHUB_OUTPUT
           fi
-  # extract-workspace-from-tag:
-  #   if: github.event_name == 'tags'
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     deployment_workspace: "${{ steps.extract_workspace.outputs.deployment_workspace }}"
-  #   steps:
-  #     - id: extract_workspace
-  #       name: Extract workspace name
-  #       shell: bash
-  #       run: |
-  #         echo "deployment_workspace=${{ github.ref_name }}" >> $GITHUB_OUTPUT
   scan-secrets:
     uses: ./.github/workflows/scan-secrets.yaml
   check-file-format:

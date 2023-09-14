@@ -19,7 +19,9 @@ jobs:
           echo "build_datetime=$datetime" >> $GITHUB_OUTPUT
           echo "build_timestamp=$(date --date=$datetime -u +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
           echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
-          echo "triggering tag: ${{ github.ref_name }}"
+          echo "triggering action: ${{ github.event_name }}"
+          echo "ref type: ${{ github.ref_type }}"
+          echo "triggering reference: ${{ github.ref_name }}"
   cicd-pipeline-test:
     runs-on: ubuntu-latest
     needs:
