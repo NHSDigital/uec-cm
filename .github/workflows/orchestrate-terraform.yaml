@@ -3,36 +3,32 @@ name: Orchestrate terraform workflow
 on:
   workflow_call:
     inputs:
-      env:
-        default: 'dev'
-        required: false
-        type: string
-      branch_name:
-        description: 'Name of branch'
+      service_environment:
+        description: "Defines the service (Github) environment in which to pull environment variables from"
         required: true
         type: string
-      workspace:
-        description: 'Namespace'
+      deployment_workspace:
+        description: 'Name of the terraform workspace to spin up the service infrastructure'
         required: false
-        default: 'DR-355'
+        default: 'not-set'
         type: string
 
 jobs:
+  echo-workflow-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo workflow inputs
+        run: |
+          echo "service environment: ${{ inputs.service_environment }}"
+          echo "deployment workspace: ${{ inputs.deployment_workspace }}"
+
   deploy-application-infrastructure:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.env }}
+    environment: ${{ inputs.service_environment }}
     permissions:
       id-token: write
       contents: read
-
     steps:
-
-      - name: echo branch
-        run: |
-          echo "branch ${{ inputs.branch_name }}"
-          echo "account type ${{ vars.ACCOUNT_TYPE }}"
-          echo "secrets ${{ secrets.ACCOUNT_ID }}"
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -46,40 +42,14 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/uec-cm-github-runner
           role-session-name: github-pipeline-session
-          aws-region: eu-west-2
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Initialise and Run Terraform Apply
         run: |
-          export ACTION=plan
+          export ACTION=apply
           export STACK=capacity_management
           export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
+          if ( ${{ inputs.deployment_workspace }} != "not-set" )
+            export DEPLOYMENT_WORKSPACE=${{ inputs.deployment_workspace }}
+          fi
           /bin/bash ./scripts/infra-deploy.sh
-
-    # deploy-application-infrastructure:
-    #   runs-on: ubuntu-latest
-    #   environment: ${{ inputs.env }}
-
-
-    #   steps:
-
-    #     - name: Checkout Repository
-    #       uses: actions/checkout@v4
-
-    #     - name: Install Terraform
-    #       uses: hashicorp/setup-terraform@v2
-    #       with:
-    #         terraform_version: ${{ vars.TF_VERSION }}
-
-    #     - name: Configure AWS Credentials
-    #       uses: aws-actions/configure-aws-credentials@v2.2.0
-    #       with:
-    #         role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/uec-cm-github-runner
-    #         role-session-name: github-pipeline-session
-    #         aws-region: eu-west-2
-
-    #     - name: Initialise and Run Terraform Apply
-    #       run: |
-    #         export ACTION=apply
-    #         export STACK=capacity_management
-    #         export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
-    #         /bin/bash ./scripts/infra-deploy.sh
