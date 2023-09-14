@@ -31,7 +31,7 @@ jobs:
           echo "triggering reference: ${{ github.ref_name }}"
           echo "deployment_workspace=not-set"
           if [ ${{ github.event_name }} == 'tags' ] then
-            echo "deployment_workspace=${{github.ref_name}}"
+            echo "deployment_workspace=${{github.ref_name}}" >> $GITHUB_OUTPUT
           fi
   extract-branch-name:
     runs-on: ubuntu-latest
