@@ -29,6 +29,7 @@ jobs:
           echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
           echo "event: ${{ github.event }}"
           echo "event path: ${{ github.event_path }}"
+          echo "ref type: ${{ github.ref_type }}"
           echo "triggering action: ${{ github.event_name }}"
           echo "triggering reference full: $${{ github.ref }}"
           echo "triggering reference: ${{ github.ref_name }}"
