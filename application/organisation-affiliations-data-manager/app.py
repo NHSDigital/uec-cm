@@ -1,49 +1,31 @@
 from chalice import Chalice
+import oa_service
 
-#   import json   //Packages to be imported once Chalice is deployed
-import boto3
-
-#   import uuid   //Packages to be imported once Chalice is deployed
-#   from boto3.dynamodb.conditions import Key //Packages to be imported once Chalice is deployed
 
 app = Chalice(app_name="organisation-affiliations-data-manager")
-dynamodb = boto3.resource("dynamodb")
 
 
-@app.route("/organisation_affiliations", methods=["GET"], cors=True)
+@app.route("/organisationaffiliations", methods=["GET"])
 def get_organisationaffiliations():
-    #   request = app.current_request.json_body  //Required to get request from the API Gateway once it's set up
+    print("Get organisationaffiliations record...")
+    request = app.current_request.json_body()
 
-    print("Get organisationaffiliations")
-
-    organisationaffiliations_table = dynamodb.Table("organisation_affiliations")
-
-    response = organisationaffiliations_table.get_item(
-        Key={
-            "id": "001",
-        }
-    )
-
-    print(response["Item"])
-
-    print("\n\n\n-------\n\n\n")
+    oa_id = request["id"]
+    print("Get oa_id record...".oa_id)
+    oa_service.get_record_by_id(oa_id)
+    return {"statusCode": 200, "body": "Item Added Successfully"}
 
 
 @app.route("/organisationaffiliations", methods=["POST"])
 def create_organisationaffiliations():
-    #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
-
-    print("Creating organisationaffiliations")
-
-    organisationaffiliations_table = dynamodb.Table("organisation_affiliations")
-
-    organisationaffiliations_table.put_item(
-        Item={
-            "id": "002",
-            "HospitalName": "Middlesex Hospital",
-            "HospitalLocation": "London",
-        }
-    )
+    request = app.current_request.json_body
+    data = {
+        "id": request["id"],
+        "HospitalName": request["HospitalName"],
+        "HospitalLocation": request["HospitalLocation"],
+    }
+    print(data)
+    oa_service.add_record(data)
 
     return {"statusCode": 200, "body": "Item Added Successfully"}
 
@@ -51,33 +33,20 @@ def create_organisationaffiliations():
 @app.route("/organisationaffiliations", methods=["PUT"])
 def update_organisationaffiliations():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
-
-    print("Update organisationaffiliations")
-
-    organisationaffiliations_table = dynamodb.Table("organisation_affiliations")
-
-    organisationaffiliations_table.update_item(
-        Key={"id": "002"},
-        UpdateExpression="set HospitalLocation= :h",
-        ExpressionAttributeValues={":h": "York"},
-        ReturnValues="UPDATED_NEW",
+    print("Updating organisationaffiliations record...")
+    request = app.current_request.json_body
+    oa_service.update_record(
+        request["id"], request["HospitalName"], request["HospitalLocation"]
     )
-
     return {"statusCode": 200, "body": "Item Updated Successfully"}
 
 
 @app.route("/organisationaffiliations", methods=["DELETE"])
 def delete_organisationaffiliations():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
-
-    print("Delete organisationaffiliations")
-
-    organisationaffiliations_table = dynamodb.Table("organisation_affiliations")
-
-    organisationaffiliations_table.delete_item(
-        Key={
-            "id": "002",
-        }
-    )
+    print("Delete healthcareservice record...")
+    request = app.current_request.json_body
+    oa_id = request["id"]
+    oa_service.delete_record(oa_id)
 
     return {"statusCode": 200, "body": "Item Deleted Successfully"}
