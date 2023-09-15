@@ -68,7 +68,7 @@ resource "aws_api_gateway_integration" "organisations_GET_integration" {
   http_method             = aws_api_gateway_method.organisations_GET.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisations_function_name}-${terraform.workspace}/invocations"
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisations_function_name}${local.workspace_suffix}/invocations"
   depends_on = [
     aws_api_gateway_resource.organisations_resource,
     aws_api_gateway_method.organisations_GET
@@ -81,7 +81,7 @@ resource "aws_api_gateway_integration" "organisations_POST_integration" {
   http_method             = aws_api_gateway_method.organisations_POST.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisations_function_name}-${terraform.workspace}/invocations"
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisations_function_name}${local.workspace_suffix}/invocations"
   depends_on = [
     aws_api_gateway_resource.organisations_resource,
     aws_api_gateway_method.organisations_POST
@@ -94,7 +94,7 @@ resource "aws_api_gateway_integration" "organisations_PUT_integration" {
   http_method             = aws_api_gateway_method.organisations_PUT.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisations_function_name}-${terraform.workspace}/invocations"
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisations_function_name}${local.workspace_suffix}/invocations"
   depends_on = [
     aws_api_gateway_resource.organisations_resource,
     aws_api_gateway_method.organisations_PUT
@@ -107,7 +107,7 @@ resource "aws_api_gateway_integration" "organisations_DELETE_integration" {
   http_method             = aws_api_gateway_method.organisations_DELETE.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisations_function_name}-${terraform.workspace}/invocations"
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${var.organisations_function_name}${local.workspace_suffix}/invocations"
   depends_on = [
     aws_api_gateway_resource.organisations_resource,
     aws_api_gateway_method.organisations_DELETE
@@ -120,7 +120,7 @@ resource "aws_api_gateway_integration" "organisations_DELETE_integration" {
 resource "aws_lambda_permission" "organisations_lambda_permission" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = "${var.organisations_function_name}-${terraform.workspace}"
+  function_name = "${var.organisations_function_name}${local.workspace_suffix}"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.aws_region}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.cm_rest_api.id}/*/*"
 }
