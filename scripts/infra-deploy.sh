@@ -63,8 +63,6 @@ if [ $EXPORTS_SET = 1 ] ; then
   exit 1
 fi
 
-echo "Branch name: $BRANCH_NAME"
-
 COMMON_TF_VARS_FILE="common.tfvars"
 STACK_TF_VARS_FILE="$STACK.tfvars"
 PROJECT_TF_VARS_FILE="$ACCOUNT_PROJECT-project.tfvars"
