@@ -24,4 +24,3 @@ variable "attributes" {
     type = "S"
   }]
 }
-

@@ -11,4 +11,3 @@ variable "environment" {
 variable "repo_name" {
   description = "The name of git hub repository"
 }
-
