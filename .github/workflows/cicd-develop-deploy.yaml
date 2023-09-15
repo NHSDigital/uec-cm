@@ -43,7 +43,7 @@ jobs:
       uses: ./.github/workflows/check-python-flake-rules.yaml
   cloc-repository:
     uses: ./.github/workflows/cloc-repository.yaml
-  cicd-pipeline-test:
+  unit-test:
     runs-on: ubuntu-latest
     needs:
       [
@@ -64,14 +64,14 @@ jobs:
           export BUILD_DATETIME="${{ needs.get-metadata.outputs.build_datetime }}"
           export BUILD_TIMESTAMP="${{ needs.get-metadata.outputs.build_timestamp }}"
           export BUILD_EPOCH="${{ needs.get-metadata.outputs.build_epoch }}"
-          make list-variables
+          echo "Unit tests invoked"
       # - name: Run Tests ...
       #   run: |
       #     ?
   orchestrate-terraform:
       needs:
         [
-          cicd-pipeline-test,
+          unit-test,
           validate-terraform,
         ]
       uses: ./.github/workflows/orchestrate-terraform.yaml

@@ -3,7 +3,7 @@ name: CI/CD Test Deployment
 on:
   push:
     tags:
-      - '[A-Z][A-Z]-[0-9][0-9]?[0-9]?-test-[0-9][0-9]?'
+      - '[A-Z][A-Z]-[0-9][0-9]?[0-9]?[0-9]?-test-[0-9][0-9]?'
 
 jobs:
   get-metadata:
@@ -22,11 +22,18 @@ jobs:
           echo "triggering action: ${{ github.event_name }}"
           echo "ref type: ${{ github.ref_type }}"
           echo "triggering reference: ${{ github.ref_name }}"
-  cicd-pipeline-test:
+  orchestrate-terraform:
+      uses: ./.github/workflows/orchestrate-terraform.yaml
+      with:
+        github_environment: "test"
+        deployment_workspace: ${{ github.ref_name }}
+      secrets: inherit
+  integration-test:
     runs-on: ubuntu-latest
     needs:
       [
         get-metadata,
+        orchestrate-terraform,
       ]
     timeout-minutes: 10
     steps:
@@ -36,17 +43,7 @@ jobs:
           export BUILD_DATETIME="${{ needs.get-metadata.outputs.build_datetime }}"
           export BUILD_TIMESTAMP="${{ needs.get-metadata.outputs.build_timestamp }}"
           export BUILD_EPOCH="${{ needs.get-metadata.outputs.build_epoch }}"
-          make list-variables
+          echo "Integration tests invoked"
       # - name: Run Tests ...
       #   run: |
       #     ?
-  orchestrate-terraform:
-      needs:
-        [
-          cicd-pipeline-test,
-        ]
-      uses: ./.github/workflows/orchestrate-terraform.yaml
-      with:
-        github_environment: "test"
-        deployment_workspace: ${{ github.ref_name }}
-      secrets: inherit
