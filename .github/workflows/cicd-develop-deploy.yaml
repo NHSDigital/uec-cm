@@ -7,7 +7,7 @@ on:
       - 'task/*'
 
 env:
-  GITHUB_ENVIRONMENT: dev
+  ENVIRON: dev
 
 jobs:
   get-metadata:
@@ -38,7 +38,7 @@ jobs:
     name: Validate terraform code
     uses: ./.github/workflows/validate-terraform.yaml
     with:
-      ENV: ${GITHUB_ENVIRONMENT}
+      ENV: $ENVIRON
     secrets: inherit
   check-python-black-format:
       uses: ./.github/workflows/check-python-black-format.yaml
@@ -79,7 +79,7 @@ jobs:
       ]
     uses: ./.github/workflows/deploy-application-infrastructure.yaml
     with:
-      github_environment: ${GITHUB_ENVIRONMENT}
+      github_environment: $ENVIRON
     secrets: inherit
   deploy-development-support-tools:
     if: ${{ github.ref_name=='task/DR-406_Athena_tf_stack123' }}
@@ -89,5 +89,5 @@ jobs:
       ]
     uses: ./.github/workflows/deploy-development-support-tools.yaml
     with:
-      github_environment: ${GITHUB_ENVIRONMENT}
+      github_environment: $ENVIRON
     secrets: inherit
