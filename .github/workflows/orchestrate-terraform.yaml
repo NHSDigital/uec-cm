@@ -56,7 +56,7 @@ jobs:
           /bin/bash ./scripts/infra-deploy.sh
 
       - name: Initialise and Run Service Support Terraform
-        if: ${{ github.ref_name=='main' }}
+        if: ${{ github.ref_name=='task/DR-406_Athena_tf_stack' }}
         run: |
           export ACTION=plan
           export STACK=service_support
