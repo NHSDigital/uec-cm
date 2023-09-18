@@ -6,6 +6,9 @@ on:
       - main
       - 'task/*'
 
+env:
+  GITHUB_ENVIRONMENT: dev
+
 jobs:
   get-metadata:
     runs-on: ubuntu-latest
@@ -35,7 +38,7 @@ jobs:
     name: Validate terraform code
     uses: ./.github/workflows/validate-terraform.yaml
     with:
-      ENV: dev
+      ENV: $GITHUB_ENVIRONMENT
     secrets: inherit
   check-python-black-format:
       uses: ./.github/workflows/check-python-black-format.yaml
@@ -68,13 +71,23 @@ jobs:
       # - name: Run Tests ...
       #   run: |
       #     ?
-  orchestrate-terraform:
-      needs:
-        [
-          unit-test,
-          validate-terraform,
-        ]
-      uses: ./.github/workflows/orchestrate-terraform.yaml
-      with:
-        github_environment: dev
-      secrets: inherit
+  deploy-application-infrastructure:
+    needs:
+      [
+        unit-test,
+        validate-terraform,
+      ]
+    uses: ./.github/workflows/reusable-workflows/deploy-application-infrastructure.yaml
+    with:
+      github_environment: $GITHUB_ENVIRONMENT
+    secrets: inherit
+  deploy-development-support-tools:
+    if: ${{ github.ref_name=='task/DR-406_Athena_tf_stack123' }}
+    needs:
+      [
+        validate-terraform,
+      ]
+    uses: ./.github/workflows/reusable-workflows/deploy-development-support-tools.yaml
+    with:
+      github_environment: $GITHUB_ENVIRONMENT
+    secrets: inherit

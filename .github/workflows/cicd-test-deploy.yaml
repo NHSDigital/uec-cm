@@ -5,6 +5,9 @@ on:
     tags:
       - '[A-Z][A-Z]-[0-9][0-9]?[0-9]?[0-9]?-test-[0-9][0-9]?'
 
+env:
+  GITHUB_ENVIRONMENT: test
+
 jobs:
   get-metadata:
     runs-on: ubuntu-latest
@@ -22,12 +25,17 @@ jobs:
           echo "triggering action: ${{ github.event_name }}"
           echo "ref type: ${{ github.ref_type }}"
           echo "triggering reference: ${{ github.ref_name }}"
-  orchestrate-terraform:
-      uses: ./.github/workflows/orchestrate-terraform.yaml
-      with:
-        github_environment: "test"
-        deployment_workspace: ${{ github.ref_name }}
-      secrets: inherit
+  deploy-application-infrastructure:
+    uses: ./.github/workflows/reusable-workflows/deploy-application-infrastructure.yaml
+    with:
+      github_environment: $GITHUB_ENVIRONMENT
+    secrets: inherit
+  deploy-development-support-tools:
+    if: ${{ github.ref_name=='task/DR-406_Athena_tf_stack123' }}
+    uses: ./.github/workflows/reusable-workflows/deploy-development-support-tools.yaml
+    with:
+      github_environment: $GITHUB_ENVIRONMENT
+    secrets: inherit
   integration-test:
     runs-on: ubuntu-latest
     needs:
