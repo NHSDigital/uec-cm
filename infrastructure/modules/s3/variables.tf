@@ -10,6 +10,8 @@ variable "attach_policy" { default = false }
 variable "policy" { default = null }
 variable "lifecycle_rule_inputs" { default = [] }
 
+variable "force_destroy" { default = false }
+
 variable "target_access_logging_bucket" {
   description = "The name of the bucket where S3 to store server access logs"
   default     = null
