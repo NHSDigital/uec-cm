@@ -12,12 +12,13 @@ class ApiGatewayToService:
     Encapsulates Amazon API Gateway functions that are used to create a REST API that
     integrates with another AWS service.
     """
+
     def __init__(self):
         """
         :param apig_client: A Boto3 API Gateway client.
         """
 
-        self.apig_client = boto3.client('apigateway')
+        self.apig_client = boto3.client("apigateway")
         self.api_id = None
         self.root_id = None
         self.stage = None
@@ -34,16 +35,17 @@ class ApiGatewayToService:
         logger = logging.getLogger("cm-logger")
         try:
             rest_api = None
-            paginator = self.apig_client.get_paginator('get_rest_apis')
+            paginator = self.apig_client.get_paginator("get_rest_apis")
             for page in paginator.paginate():
                 rest_api = next(
-                    (item for item in page['items'] if item['name'] == api_name), None)
+                    (item for item in page["items"] if item["name"] == api_name), None
+                )
                 if rest_api is not None:
                     break
-            self.api_id = rest_api['id']
-            logger.info("Found ID %s for API %s.", rest_api['id'], api_name)
+            self.api_id = rest_api["id"]
+            logger.info("Found ID %s for API %s.", rest_api["id"], api_name)
         except ClientError:
             logger.exception("Couldn't find ID for API %s.", api_name)
             raise
         else:
-            return rest_api['id']
+            return rest_api["id"]
