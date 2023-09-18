@@ -38,7 +38,7 @@ jobs:
     name: Validate terraform code
     uses: ./.github/workflows/validate-terraform.yaml
     with:
-      ENV: $ENVIRON
+      ENV: dev
     secrets: inherit
   check-python-black-format:
       uses: ./.github/workflows/check-python-black-format.yaml
