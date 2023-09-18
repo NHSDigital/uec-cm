@@ -44,7 +44,7 @@ jobs:
           role-session-name: github-pipeline-session
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Initialise and Run Terraform Apply
+      - name: Initialise and Run Application Terraform
         run: |
           export ACTION=plan
           export STACK=capacity_management
@@ -53,4 +53,13 @@ jobs:
           then
             export DEPLOYMENT_WORKSPACE=${{ inputs.deployment_workspace }}
           fi
+          /bin/bash ./scripts/infra-deploy.sh
+
+      - name: Initialise and Run Service Support Terraform
+        if: ${{ github.ref_name=='main' }}
+        run: |
+          export ACTION=plan
+          export STACK=service_support
+          export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
+          export DEPLOYMENT_WORKSPACE=default
           /bin/bash ./scripts/infra-deploy.sh
