@@ -1,7 +1,10 @@
-allure-behave==2.13.2
-allure-pytest==2.13.2
-allure-python-commons==2.13.2
-assertpy==1.1
-behave==1.2.6
-boto3==1.21.9
-pytest==7.1.2
+allure-behave
+allure-pytest
+allure-python-commons
+assertpy
+behave
+boto3
+pytest
+botocore
+boto3-helpers
+pprintpp
