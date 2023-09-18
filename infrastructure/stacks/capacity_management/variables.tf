@@ -46,3 +46,6 @@ variable "questionnaires_dynamodb_table_name" {
 variable "questionnaire_responses_dynamodb_table_name" {
   description = "Name of dynamodb table for questionnaire responses"
 }
+variable "cloudwatch_log_group_name" {
+  description = "Name of cloudwatch log group"
+}
