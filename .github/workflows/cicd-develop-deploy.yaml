@@ -79,7 +79,7 @@ jobs:
       ]
     uses: ./.github/workflows/deploy-application-infrastructure.yaml
     with:
-      github_environment: $ENVIRON
+      github_environment: "${{ ENVIRON }}"
     secrets: inherit
   deploy-development-support-tools:
     if: ${{ github.ref_name=='task/DR-406_Athena_tf_stack123' }}
@@ -89,5 +89,5 @@ jobs:
       ]
     uses: ./.github/workflows/deploy-development-support-tools.yaml
     with:
-      github_environment: $ENVIRON
+      github_environment: "${ENVIRON}"
     secrets: inherit
