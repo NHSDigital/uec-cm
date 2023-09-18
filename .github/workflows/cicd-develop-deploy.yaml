@@ -77,7 +77,7 @@ jobs:
         unit-test,
         validate-terraform,
       ]
-    uses: ./.github/workflows/reusable-workflows/deploy-application-infrastructure.yaml
+    uses: ./.github/workflows/deploy-application-infrastructure.yaml
     with:
       github_environment: $GITHUB_ENVIRONMENT
     secrets: inherit
@@ -87,7 +87,7 @@ jobs:
       [
         validate-terraform,
       ]
-    uses: ./.github/workflows/reusable-workflows/deploy-development-support-tools.yaml
+    uses: ./.github/workflows/deploy-development-support-tools.yaml
     with:
       github_environment: $GITHUB_ENVIRONMENT
     secrets: inherit

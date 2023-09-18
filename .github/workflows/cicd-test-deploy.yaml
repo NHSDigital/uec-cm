@@ -26,13 +26,13 @@ jobs:
           echo "ref type: ${{ github.ref_type }}"
           echo "triggering reference: ${{ github.ref_name }}"
   deploy-application-infrastructure:
-    uses: ./.github/workflows/reusable-workflows/deploy-application-infrastructure.yaml
+    uses: ./.github/workflows/deploy-application-infrastructure.yaml
     with:
       github_environment: $GITHUB_ENVIRONMENT
     secrets: inherit
   deploy-development-support-tools:
     if: ${{ github.ref_name=='task/DR-406_Athena_tf_stack123' }}
-    uses: ./.github/workflows/reusable-workflows/deploy-development-support-tools.yaml
+    uses: ./.github/workflows/deploy-development-support-tools.yaml
     with:
       github_environment: $GITHUB_ENVIRONMENT
     secrets: inherit
