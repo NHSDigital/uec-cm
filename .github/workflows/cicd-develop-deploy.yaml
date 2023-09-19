@@ -26,6 +26,7 @@ jobs:
           echo "triggering action: ${{ github.event_name }}"
           echo "ref type: ${{ github.ref_type }}"
           echo "triggering reference: ${{ github.ref_name }}"
+          echo "github environment: $ENVIRON "
   scan-secrets:
     uses: ./.github/workflows/scan-secrets.yaml
   check-file-format:
