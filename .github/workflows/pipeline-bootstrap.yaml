@@ -1,4 +1,4 @@
-name: Orchestrate bootstrapper workflow
+name: Bootstrapper pipeline
 
 on:
   push:

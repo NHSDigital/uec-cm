@@ -1,4 +1,4 @@
-name: Run bootstrapper
+name: Deploy bootstrapper
 
 on:
   workflow_call:
