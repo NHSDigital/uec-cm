@@ -83,7 +83,6 @@ jobs:
     needs:
       [
         validate-terraform,
-        deploy-application-infrastructure,
       ]
     uses: ./.github/workflows/deploy-development-support-tools.yaml
     with:

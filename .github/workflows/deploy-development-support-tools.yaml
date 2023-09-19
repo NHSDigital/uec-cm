@@ -7,12 +7,6 @@ on:
         description: "Defines the Github environment in which to pull environment variables from"
         required: true
         type: string
-      deployment_workspace:
-        description: 'Name of the terraform workspace to spin up the service infrastructure'
-        required: false
-        default: 'default'
-        type: string
-
 jobs:
   echo-workflow-inputs:
     runs-on: ubuntu-latest
@@ -20,7 +14,6 @@ jobs:
       - name: echo workflow inputs
         run: |
           echo "github environment: ${{ inputs.github_environment }}"
-          echo "deployment workspace: ${{ inputs.deployment_workspace }}"
 
   deploy-development-support-tools:
     runs-on: ubuntu-latest
@@ -49,5 +42,5 @@ jobs:
           export ACTION=plan
           export STACK=development_support_tools
           export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
-          export DEPLOYMENT_WORKSPACE=default
+          export TF_VAR_AWS_SERVERLESS_APP_REPO=${{ vars.AWS_SERVERLESS_APPLICATIONS_REPO_URL }}
           /bin/bash ./scripts/infra-deploy.sh
