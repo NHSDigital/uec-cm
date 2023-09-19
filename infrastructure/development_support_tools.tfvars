@@ -11,3 +11,5 @@ athena_data_catalogue_lambda_name = "athena-dynamo-connect"
 athena_dynamo_connect_cf_stack_name    = "athena-dynamo-connect-cf-stack"
 athena_dynamo_connector_app            = "AthenaDynamoDBConnector"
 athena_dynamo_connect_semantic_version = "2023.35.2"
+
+aws_serverless_applications_repo_url = "test"
