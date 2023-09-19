@@ -17,6 +17,7 @@ export ACTION="${ACTION:-""}"               # The terraform action to execute
 export STACK="${STACK:-""}"                 # The terraform stack to be actioned
 export ACCOUNT_TYPE="${ACCOUNT_TYPE:-""}"     # The type of account being used - dev test
 export USE_REMOTE_STATE_STORE="${USE_REMOTE_STATE_STORE:-true}"
+export TF_VAR_AWS_SERVERLESS_APP_REPO="${TF_VAR_AWS_SERVERLESS_APP_REPO}:-"""
 
 export_terraform_workspace_name
 
