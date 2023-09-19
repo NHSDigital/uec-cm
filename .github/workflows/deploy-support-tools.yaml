@@ -35,6 +35,6 @@ jobs:
           export ACTION=plan
           export STACK=development_support_tools
           export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
-          export TF_VAR_AWS_SERVERLESS_APP_REPO=${{ vars.AWS_SERVERLESS_APPLICATIONS_REPO_URL }}
+          export TF_VAR_AWS_SERVERLESS_APPLICATIONS_REPO_URL=${{ vars.AWS_SERVERLESS_APPLICATIONS_REPO_URL }}
           export DEPLOYMENT_WORKSPACE=default
           /bin/bash ./scripts/infra-deploy.sh
