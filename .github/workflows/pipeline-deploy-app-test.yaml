@@ -1,4 +1,4 @@
-name: Test application deployment pipeline
+name: Pipeline Deployment Application Test Environment
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Deploy application infrastructure
+name: Deploy Application Infrastructure
 
 on:
   workflow_call:

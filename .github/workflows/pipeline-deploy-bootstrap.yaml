@@ -1,4 +1,4 @@
-name: Bootstrapper pipeline
+name: Pipeline Deployment Bootstrapper
 
 on:
   push:

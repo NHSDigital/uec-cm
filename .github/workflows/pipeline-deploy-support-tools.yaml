@@ -1,4 +1,4 @@
-name: Deploy support tools pipeline
+name: Pipeline Deployment Support Tools
 
 on:
   push:

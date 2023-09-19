@@ -1,4 +1,4 @@
-name: Development application deployment pipeline
+name: Pipeline Deployment Application Development Environment
 
 on:
   push:
