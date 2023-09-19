@@ -4,10 +4,6 @@ on:
   push:
     tags:
       - '[A-Z][A-Z]-[0-9][0-9]?[0-9]?[0-9]?-test-[0-9][0-9]?'
-
-env:
-  GITHUB_ENVIRONMENT: test
-
 jobs:
   get-metadata:
     runs-on: ubuntu-latest
@@ -28,13 +24,13 @@ jobs:
   deploy-application-infrastructure:
     uses: ./.github/workflows/deploy-application-infrastructure.yaml
     with:
-      github_environment: $GITHUB_ENVIRONMENT
+      github_environment: test
     secrets: inherit
   deploy-development-support-tools:
     if: ${{ github.ref_name=='task/DR-406_Athena_tf_stack123' }}
     uses: ./.github/workflows/deploy-development-support-tools.yaml
     with:
-      github_environment: $GITHUB_ENVIRONMENT
+      github_environment: test
     secrets: inherit
   integration-test:
     runs-on: ubuntu-latest
