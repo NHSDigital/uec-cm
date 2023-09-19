@@ -2,8 +2,6 @@
 # Context
 
 locals {
-  account_id = data.aws_caller_identity.current.id
-
   athena_bucket_name                  = "${var.project}-${var.environment}-${var.athena_bucket_name}"
   athena_database_name                = replace("${var.athena_database_name}", "-", "_")
   athena_workgroup_name               = var.athena_workgroup_name
