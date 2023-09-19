@@ -32,7 +32,7 @@ jobs:
 
       - name: Initialise and Run Support Tools Terraform
         run: |
-          export ACTION=plan
+          export ACTION=apply
           export STACK=support_tools
           export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
           export TF_VAR_aws_serverless_applications_repo_url=${{ vars.AWS_SERVERLESS_APPLICATIONS_REPO_URL }}
