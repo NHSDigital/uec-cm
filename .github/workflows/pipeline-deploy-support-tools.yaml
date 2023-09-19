@@ -1,16 +1,16 @@
-name: Deploy development support tools
+name: Deploy support tools pipeline
 
 on:
   push:
     branches:
       - 'task/DR-406_Athena_tf_stack'
 jobs:
-  deploy-development-support-tools-dev:
+  deploy-support-tools-to-dev:
     uses: ./.github/workflows/deploy-support-tools.yaml
     with:
       github_environment: dev
     secrets: inherit
-  deploy-development-support-tools-test:
+  deploy-support-tools-to-test:
     uses: ./.github/workflows/deploy-support-tools.yaml
     with:
       github_environment: test

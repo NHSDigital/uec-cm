@@ -1,4 +1,4 @@
-name: Deploy development support tools
+name: Deploy support tools
 
 on:
   workflow_call:
@@ -8,7 +8,7 @@ on:
         required: true
         type: string
 jobs:
-  deploy-development-support-tools:
+  deploy-support-tools:
     runs-on: ubuntu-latest
     environment: ${{ inputs.github_environment }}
     permissions:
@@ -30,10 +30,10 @@ jobs:
           role-session-name: github-pipeline-session
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Initialise and Run Development Support Tools Terraform
+      - name: Initialise and Run Support Tools Terraform
         run: |
           export ACTION=plan
-          export STACK=development_support_tools
+          export STACK=support_tools
           export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
           export TF_VAR_aws_serverless_applications_repo_url=${{ vars.AWS_SERVERLESS_APPLICATIONS_REPO_URL }}
           export DEPLOYMENT_WORKSPACE=default

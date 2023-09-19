@@ -1,6 +1,3 @@
-# ==============================================================================
-# Context
-
 locals {
   athena_bucket_name                  = "${var.project}-${var.environment}-${var.athena_bucket_name}"
   athena_database_name                = replace("${var.athena_database_name}", "-", "_")
@@ -9,4 +6,3 @@ locals {
   athena_data_catalogue_lambda_name   = var.athena_data_catalogue_lambda_name
   athena_dynamo_connect_cf_stack_name = var.athena_dynamo_connect_cf_stack_name
 }
-
