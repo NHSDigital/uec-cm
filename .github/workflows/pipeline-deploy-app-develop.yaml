@@ -78,13 +78,3 @@ jobs:
     with:
       github_environment: dev
     secrets: inherit
-  deploy-development-support-tools:
-    if: ${{ github.ref_name=='task/DR-406_Athena_tf_stack' }}
-    needs:
-      [
-        validate-terraform,
-      ]
-    uses: ./.github/workflows/deploy-development-support-tools.yaml
-    with:
-      github_environment: dev
-    secrets: inherit
