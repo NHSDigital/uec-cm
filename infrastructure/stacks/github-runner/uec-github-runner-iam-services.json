@@ -18,7 +18,9 @@
               "iam:SimulatePrincipalPolicy",
               "iam:SimulateCustomPolicy",
               "iam:CreatePolicyVersion",
-              "iam:DeletePolicyVersion"
+              "iam:DeletePolicyVersion",
+              "iam:DeleteRolePolicy",
+              "iam:PutRolePolicy"
           ],
           "Effect": "Allow",
           "Resource": "*",
