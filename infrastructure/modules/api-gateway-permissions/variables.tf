@@ -6,10 +6,12 @@ variable "aws_region" {
 variable "lambda_function_name" {
   description = "Name of lambda function"
 }
-variable "path_part" {
-  description = "Path to api gateway resource"
+variable "account_id" {
+  description = "Id of AWS account"
 }
-
+variable "rest_api_id" {
+  description = "Id of rest api"
+}
 
 # ==============================================================================
 # Default variables
