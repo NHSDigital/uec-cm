@@ -2,6 +2,18 @@ from behave import given, then, step
 from config.config_local import URI
 import requests
 from assertpy import assert_that
+from utilities.api_gateway import ApiGatewayToService
+
+
+def seturl(workspace, apigateway):
+    agts = ApiGatewayToService()
+    apigatewayid = agts.get_rest_api_id(apigateway)
+    return (
+        "https://"
+        + str(apigatewayid)
+        + ".execute-api.eu-west-2.amazonaws.com/"
+        + workspace
+    )
 
 
 @given("I send a temperature request")
@@ -11,6 +23,8 @@ def impl_bk(context):
 
 @then("I receive a 200 status response")
 def get_bk(context):
+    # myurl = seturl(context.workspace, context.apigateway)
+    # assert_that(context.response.status_code).is_equal_to(myurl)
     assert_that(context.response.status_code).is_equal_to(200)
 
 
