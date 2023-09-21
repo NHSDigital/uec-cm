@@ -14,5 +14,3 @@ def before_all(context):
         + ".execute-api.eu-west-2.amazonaws.com/"
         + workspace
     )
-
-
