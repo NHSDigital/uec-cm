@@ -2,7 +2,7 @@ Feature: Open weather api
   As a user,
   I want to find the temperature at a location
 
-@tag1
+@tag0
   Scenario: Basic temperature request
     Given I send a temperature request
     Then I receive a 200 status response
