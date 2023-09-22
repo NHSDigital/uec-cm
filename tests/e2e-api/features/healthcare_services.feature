@@ -5,5 +5,6 @@ Feature: healthcare_services
 @tag1
   Scenario: Basic healthcare_services request
     Given I send a request to the resource healthcare_services
-    Then I will receive a status code 200 in response
+    Then I receive a status code 200 in response
+    And I receive the message Item Deleted Successfully in response
 
