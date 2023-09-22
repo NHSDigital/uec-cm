@@ -5,7 +5,7 @@ set -e
 # This script runs python unit tests
 #
 APPLICATION_DIR=application
-APPLICATION_TEST_DIR='test/unit'
+APPLICATION_TEST_DIR='tests/unit'
 
 #  now clear down copied test code after testing
 for path in "$APPLICATION_DIR"/*/ ; do
@@ -39,7 +39,7 @@ for path in "$APPLICATION_DIR"/*/ ; do
         done
 done
 
-#  use requirements defined for test/unit
+#  use requirements defined for tests/unit
 #pip install -r $APPLICATION_TEST_DIR/requirements.txt
 #coverage run --source=$APPLICATION_DIR  -m pytest $APPLICATION_DIR/*
 coverage report

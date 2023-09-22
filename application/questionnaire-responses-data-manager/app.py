@@ -1,5 +1,5 @@
 from chalice import Chalice
-import qr_service
+import service
 
 
 app = Chalice(app_name="questionnaire-responses-data-manager")
@@ -12,7 +12,7 @@ def get_questionnaireresponses():
 
     qr_id = request["id"]
     print("Get qr_id record...".qr_id)
-    qr_service.get_record_by_id(qr_id)
+    service.get_record_by_id(qr_id)
     return {"statusCode": 200, "body": "Item Added Successfully"}
 
 
@@ -25,7 +25,7 @@ def create_questionnaireresponses():
         "HospitalLocation": request["HospitalLocation"],
     }
     print(data)
-    qr_service.add_record(data)
+    service.add_record(data)
 
     return {"statusCode": 200, "body": "Item Added Successfully"}
 
@@ -35,7 +35,7 @@ def update_questionnaireresponses():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
     print("Updating questionnaireresponses record...")
     request = app.current_request.json_body
-    qr_service.update_record(
+    service.update_record(
         request["id"], request["HospitalName"], request["HospitalLocation"]
     )
     return {"statusCode": 200, "body": "Item Updated Successfully"}
@@ -47,6 +47,6 @@ def delete_questionnaireresponses():
     print("Delete questionnaireresponses record...")
     request = app.current_request.json_body
     qr_id = request["id"]
-    qr_service.delete_record(qr_id)
+    service.delete_record(qr_id)
 
     return {"statusCode": 200, "body": "Item Deleted Successfully"}

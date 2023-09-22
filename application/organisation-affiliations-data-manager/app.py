@@ -1,5 +1,5 @@
 from chalice import Chalice
-import oa_service
+import service
 
 
 app = Chalice(app_name="organisation-affiliations-data-manager")
@@ -12,7 +12,7 @@ def get_organisationaffiliations():
 
     oa_id = request["id"]
     print("Get oa_id record...".oa_id)
-    oa_service.get_record_by_id(oa_id)
+    service.get_record_by_id(oa_id)
     return {"statusCode": 200, "body": "Item Added Successfully"}
 
 
@@ -25,7 +25,7 @@ def create_organisationaffiliations():
         "HospitalLocation": request["HospitalLocation"],
     }
     print(data)
-    oa_service.add_record(data)
+    service.add_record(data)
 
     return {"statusCode": 200, "body": "Item Added Successfully"}
 
@@ -35,7 +35,7 @@ def update_organisationaffiliations():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
     print("Updating organisationaffiliations record...")
     request = app.current_request.json_body
-    oa_service.update_record(
+    service.update_record(
         request["id"], request["HospitalName"], request["HospitalLocation"]
     )
     return {"statusCode": 200, "body": "Item Updated Successfully"}
@@ -47,6 +47,6 @@ def delete_organisationaffiliations():
     print("Delete healthcareservice record...")
     request = app.current_request.json_body
     oa_id = request["id"]
-    oa_service.delete_record(oa_id)
+    service.delete_record(oa_id)
 
     return {"statusCode": 200, "body": "Item Deleted Successfully"}

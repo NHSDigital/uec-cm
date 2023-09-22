@@ -1,5 +1,5 @@
 from chalice import Chalice
-import l_service
+import service
 
 
 app = Chalice(app_name="locations-data-manager")
@@ -12,7 +12,7 @@ def get_locations():
 
     l_id = request["id"]
     print("Get l_id record...".l_id)
-    l_service.get_record_by_id(l_id)
+    service.get_record_by_id(l_id)
     return {"statusCode": 200, "body": "Item Added Successfully"}
 
 
@@ -25,7 +25,7 @@ def create_locations():
         "HospitalLocation": request["HospitalLocation"],
     }
     print(data)
-    l_service.add_record(data)
+    service.add_record(data)
 
     return {"statusCode": 200, "body": "Item Added Successfully"}
 
@@ -35,7 +35,7 @@ def update_locations():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
     print("Updating locations record...")
     request = app.current_request.json_body
-    l_service.update_record(
+    service.update_record(
         request["id"], request["HospitalName"], request["HospitalLocation"]
     )
     return {"statusCode": 200, "body": "Item Updated Successfully"}
@@ -47,6 +47,6 @@ def delete_locations():
     print("Delete locations record...")
     request = app.current_request.json_body
     l_id = request["id"]
-    l_service.delete_record(l_id)
+    service.delete_record(l_id)
 
     return {"statusCode": 200, "body": "Item Deleted Successfully"}

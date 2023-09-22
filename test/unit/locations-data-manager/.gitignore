@@ -1,7 +1,0 @@
-coverage.xml
-.coverage
-**/__pycache__/
-.pytest_cache/
-htmlcov/
-*/test
-*/*.pyc
