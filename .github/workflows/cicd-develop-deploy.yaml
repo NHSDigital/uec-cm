@@ -1,11 +1,15 @@
-name: CI/CD Pipeline
+name: CI/CD Develop Pipeline
 
 on:
   push:
-  pull_request:
     branches:
+<<<<<<< HEAD:.github/workflows/cicd-pipeline.yaml
       - task/DR-391_Unit_test_action
     types: [opened, synchronize, reopened]
+=======
+      - main
+      - 'task/*'
+>>>>>>> main:.github/workflows/cicd-develop-deploy.yaml
 
 jobs:
   get-metadata:
@@ -21,6 +25,9 @@ jobs:
           echo "build_datetime=$datetime" >> $GITHUB_OUTPUT
           echo "build_timestamp=$(date --date=$datetime -u +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
           echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
+          echo "triggering action: ${{ github.event_name }}"
+          echo "ref type: ${{ github.ref_type }}"
+          echo "triggering reference: ${{ github.ref_name }}"
   scan-secrets:
     uses: ./.github/workflows/scan-secrets.yaml
   check-file-format:
@@ -41,9 +48,13 @@ jobs:
       uses: ./.github/workflows/check-python-flake-rules.yaml
   cloc-repository:
     uses: ./.github/workflows/cloc-repository.yaml
+<<<<<<< HEAD:.github/workflows/cicd-pipeline.yaml
   run-unit-tests:
     uses: ./.github/workflows/pytest.yaml
   cicd-pipeline-test:
+=======
+  unit-test:
+>>>>>>> main:.github/workflows/cicd-develop-deploy.yaml
     runs-on: ubuntu-latest
     needs:
       [
@@ -64,7 +75,17 @@ jobs:
           export BUILD_DATETIME="${{ needs.get-metadata.outputs.build_datetime }}"
           export BUILD_TIMESTAMP="${{ needs.get-metadata.outputs.build_timestamp }}"
           export BUILD_EPOCH="${{ needs.get-metadata.outputs.build_epoch }}"
-          make list-variables
+          echo "Unit tests invoked"
       # - name: Run Tests ...
       #   run: |
       #     ?
+  orchestrate-terraform:
+      needs:
+        [
+          unit-test,
+          validate-terraform,
+        ]
+      uses: ./.github/workflows/orchestrate-terraform.yaml
+      with:
+        github_environment: dev
+      secrets: inherit

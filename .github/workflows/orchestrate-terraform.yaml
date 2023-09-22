@@ -1,13 +1,56 @@
 name: Orchestrate terraform workflow
 
 on:
-  push:
-    branches:
-      - 'main'
+  workflow_call:
+    inputs:
+      github_environment:
+        description: "Defines the Github environment in which to pull environment variables from"
+        required: true
+        type: string
+      deployment_workspace:
+        description: 'Name of the terraform workspace to spin up the service infrastructure'
+        required: false
+        default: 'not-set'
+        type: string
+
 jobs:
-    apply-terraform-dos-dev:
-      name: Build read-write iam policies for dos dev account
-      uses: ./.github/workflows/apply-terraform.yaml
-      with:
-        ENV: dev
-      secrets: inherit
+  echo-workflow-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo workflow inputs
+        run: |
+          echo "github environment: ${{ inputs.github_environment }}"
+          echo "deployment workspace: ${{ inputs.deployment_workspace }}"
+
+  deploy-application-infrastructure:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.github_environment }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ vars.TF_VERSION }}
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2.2.0
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/uec-cm-github-runner
+          role-session-name: github-pipeline-session
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Initialise and Run Terraform Apply
+        run: |
+          export ACTION=plan
+          export STACK=capacity_management
+          export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
+          if [ ${{ inputs.deployment_workspace }} != 'not-set' ]
+          then
+            export DEPLOYMENT_WORKSPACE=${{ inputs.deployment_workspace }}
+          fi
+          /bin/bash ./scripts/infra-deploy.sh
