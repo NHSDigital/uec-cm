@@ -69,6 +69,7 @@ jobs:
         uses: ./.github/workflows/unit-test.yaml
         with:
           ENV: dev
+          secrets: inherit
   orchestrate-terraform:
       needs:
         [
