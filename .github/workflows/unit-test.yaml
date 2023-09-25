@@ -16,7 +16,6 @@ jobs:
         run: |
           echo "github environment: ${{ inputs.github_environment }}"
           echo "deployment workspace: ${{ inputs.deployment_workspace }}"
-jobs:
   python-tests:
     runs-on: ubuntu-latest
     environment: ${{ inputs.github_environment }}
