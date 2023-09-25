@@ -65,9 +65,10 @@ jobs:
           export BUILD_TIMESTAMP="${{ needs.get-metadata.outputs.build_timestamp }}"
           export BUILD_EPOCH="${{ needs.get-metadata.outputs.build_epoch }}"
           echo "Unit tests invoked"
-      # - name: Run Tests ...
-      #   run: |
-      #     ?
+      - name: Run Tests
+        uses: ./.github/workflows/unit-test.yaml
+        with:
+          ENV: dev
   orchestrate-terraform:
       needs:
         [
