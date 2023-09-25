@@ -9,8 +9,20 @@ on:
         type: string
 
 jobs:
+  echo-workflow-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo workflow inputs
+        run: |
+          echo "github environment: ${{ inputs.github_environment }}"
+          echo "deployment workspace: ${{ inputs.deployment_workspace }}"
+jobs:
   python-tests:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.github_environment }}
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
