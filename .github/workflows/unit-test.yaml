@@ -2,10 +2,6 @@ name: Run unit tests
 
 on:
   workflow_call:
-    inputs:
-      ENV:
-        required: true
-        type: string
 
 jobs:
   python-tests:
