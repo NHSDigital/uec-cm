@@ -60,22 +60,6 @@ jobs:
     with:
       github_environment: dev
     secrets: inherit
-  # unit-test:
-  #   runs-on: ubuntu-latest
-  #   # timeout-minutes: 10
-  #   # steps:
-  #   #   - uses: actions/checkout@v4
-  #   #   - name: List Variables
-  #   #     run: |
-  #   #       export BUILD_DATETIME="${{ needs.get-metadata.outputs.build_datetime }}"
-  #   #       export BUILD_TIMESTAMP="${{ needs.get-metadata.outputs.build_timestamp }}"
-  #   #       export BUILD_EPOCH="${{ needs.get-metadata.outputs.build_epoch }}"
-  #   #       echo "Unit tests invoked"
-  #     # - name: Run Tests
-  #   uses: ./.github/workflows/unit-test.yaml
-  #   with:
-  #     github_environment: dev
-  #   secrets: inherit
   orchestrate-terraform:
       needs:
         [
