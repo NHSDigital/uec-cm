@@ -3,14 +3,14 @@ name: Run unit tests
 on:
   workflow_call:
     inputs:
-      ENV:
+      github_environment:
+        description: "Defines the Github environment in which to pull environment variables from"
         required: true
         type: string
 
 jobs:
   python-tests:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.ENV }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
