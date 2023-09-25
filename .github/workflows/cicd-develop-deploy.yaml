@@ -68,7 +68,7 @@ jobs:
       - name: Run Tests
         uses: ./.github/workflows/unit-test.yaml
         with:
-          ENV: dev
+          github_environment: dev
           secrets: inherit
   orchestrate-terraform:
       needs:
