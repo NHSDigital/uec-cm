@@ -80,7 +80,7 @@ jobs:
         stack: capacity_management
         action: plan
       secrets: inherit
-    terraform-support_tools-infrastructure:
+  terraform-support_tools-infrastructure:
       needs:
         [
           validate-terraform,
