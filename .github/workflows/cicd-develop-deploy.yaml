@@ -68,13 +68,26 @@ jobs:
       # - name: Run Tests ...
       #   run: |
       #     ?
-  orchestrate-terraform:
+  terraform-application-infrastructure:
       needs:
         [
           unit-test,
           validate-terraform,
         ]
-      uses: ./.github/workflows/orchestrate-terraform.yaml
+      uses: ./.github/workflows/apply-terraform.yaml
       with:
         github_environment: dev
+        stack: capacity_management
+        action: plan
+      secrets: inherit
+    terraform-support_tools-infrastructure:
+      needs:
+        [
+          validate-terraform,
+        ]
+      uses: ./.github/workflows/apply-terraform.yaml
+      with:
+        github_environment: dev
+        stack: support_tools
+        action: plan
       secrets: inherit
