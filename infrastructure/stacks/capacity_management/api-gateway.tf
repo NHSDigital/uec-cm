@@ -58,9 +58,12 @@ resource "aws_api_gateway_deployment" "deployment" {
     module.questionnaire_responses_integrations_put,
     module.questionnaire_responses_integrations_get,
     module.questionnaire_responses_integrations_delete,
-
-
   ]
+  triggers = {
+    redeployment = sha1(jsonencode([
+      module.cm_rest_api
+    ]))
+  }
 }
 
 resource "aws_api_gateway_stage" "stage" {
