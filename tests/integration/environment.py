@@ -7,7 +7,6 @@ def before_all(context):
     userdata = context.config.userdata
     workspace = userdata.get("workspace")
 
-
     # get the api gateway name env var and then the api gateway id
     apigateway_name = userdata.get("apigateway")
     apigateway_name = apigateway_name + "-" + workspace
