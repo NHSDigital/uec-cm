@@ -3,10 +3,6 @@ from botocore.exceptions import ClientError
 import logging
 
 
-# api_gateway_client = boto3.client('apigateway')
-# api_name = 'cm-rest-apig'
-
-
 class ApiGatewayToService:
     """
     Encapsulates Amazon API Gateway functions that are used to create a REST API that

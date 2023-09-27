@@ -7,9 +7,13 @@ def before_all(context):
     userdata = context.config.userdata
     # TODO: uncomment workspace once DR-412 is complete
     # workspace = userdata.get("workspace")
+    workspace = 'dr-412'
 
     # get the api gateway name env var and then the api gateway id
     apigateway_name = userdata.get("apigateway")
+    #  TODO: uncomment workspace once DR-412 is complete
+    apigateway_name = apigateway_name + "-" + workspace
+    print(apigateway_name)
     agts = ApiGatewayToService()
     apigatewayid = agts.get_rest_api_id(apigateway_name)
 
@@ -18,6 +22,6 @@ def before_all(context):
     context.URL = (
         "https://"
         + str(apigatewayid)
-        + ".execute-api.eu-west-2.amazonaws.com/twr"
-        # + workspace
+        + ".execute-api.eu-west-2.amazonaws.com/default"
     )
+    print(context.URL)
