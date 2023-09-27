@@ -4,7 +4,7 @@
 set -e
 # This script runs python integration tests
 #
-APPLICATION_TEST_DIR='tests/e2e-api'
+APPLICATION_TEST_DIR='tests/integration'
 
 source ./scripts/functions/git-functions.sh
 
