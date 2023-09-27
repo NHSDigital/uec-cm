@@ -1,49 +1,31 @@
 from chalice import Chalice
+import service
 
-#   import json   //Packages to be imported once Chalice is deployed
-import boto3
-
-#   import uuid   //Packages to be imported once Chalice is deployed
-#   from boto3.dynamodb.conditions import Key //Packages to be imported once Chalice is deployed
 
 app = Chalice(app_name="locations-data-manager")
-dynamodb = boto3.resource("dynamodb")
 
 
-@app.route("/locations", methods=["GET"], cors=True)
+@app.route("/locations", methods=["GET"])
 def get_locations():
-    #   request = app.current_request.json_body  //Required to get request from the API Gateway once it's set up
+    print("Get locations record...")
+    request = app.current_request.json_body()
 
-    print("Get locations")
-
-    locations_table = dynamodb.Table("locations")
-
-    response = locations_table.get_item(
-        Key={
-            "id": "001",
-        }
-    )
-
-    print(response["Item"])
-
-    print("\n\n\n-------\n\n\n")
+    l_id = request["id"]
+    print("Get l_id record...".l_id)
+    service.get_record_by_id(l_id)
+    return {"statusCode": 200, "body": "Item Added Successfully"}
 
 
 @app.route("/locations", methods=["POST"])
 def create_locations():
-    #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
-
-    print("Creating locations")
-
-    locations_table = dynamodb.Table("locations")
-
-    locations_table.put_item(
-        Item={
-            "id": "002",
-            "HospitalName": "Middlesex Hospital",
-            "HospitalLocation": "London",
-        }
-    )
+    request = app.current_request.json_body
+    data = {
+        "id": request["id"],
+        "HospitalName": request["HospitalName"],
+        "HospitalLocation": request["HospitalLocation"],
+    }
+    print(data)
+    service.add_record(data)
 
     return {"statusCode": 200, "body": "Item Added Successfully"}
 
@@ -51,33 +33,20 @@ def create_locations():
 @app.route("/locations", methods=["PUT"])
 def update_locations():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
-
-    print("Update locations")
-
-    locations_table = dynamodb.Table("locations")
-
-    locations_table.update_item(
-        Key={"id": "002"},
-        UpdateExpression="set HospitalLocation= :h",
-        ExpressionAttributeValues={":h": "York"},
-        ReturnValues="UPDATED_NEW",
+    print("Updating locations record...")
+    request = app.current_request.json_body
+    service.update_record(
+        request["id"], request["HospitalName"], request["HospitalLocation"]
     )
-
     return {"statusCode": 200, "body": "Item Updated Successfully"}
 
 
 @app.route("/locations", methods=["DELETE"])
 def delete_locations():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
-
-    print("Delete locations")
-
-    locations_table = dynamodb.Table("locations")
-
-    locations_table.delete_item(
-        Key={
-            "id": "002",
-        }
-    )
+    print("Delete locations record...")
+    request = app.current_request.json_body
+    l_id = request["id"]
+    service.delete_record(l_id)
 
     return {"statusCode": 200, "body": "Item Deleted Successfully"}

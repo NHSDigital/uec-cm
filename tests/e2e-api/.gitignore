@@ -1,9 +1,0 @@
-
-__pycache__
-*/__pycache__
-*.pyc
-.coverage
-.coverage.*
-coverage.xml
-reports/*
-.DS_Store

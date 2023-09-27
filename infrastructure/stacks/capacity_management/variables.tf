@@ -1,4 +1,4 @@
-variable "api_gateway_name" {
+variable "rest_api_name" {
   description = "Name of the api gateway"
 }
 variable "gateway_authorizer" {

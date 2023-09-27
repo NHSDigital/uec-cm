@@ -43,8 +43,7 @@ jobs:
       uses: ./.github/workflows/check-python-flake-rules.yaml
   cloc-repository:
     uses: ./.github/workflows/cloc-repository.yaml
-  unit-test:
-    runs-on: ubuntu-latest
+  unit-tests:
     needs:
       [
         get-metadata,
@@ -56,22 +55,15 @@ jobs:
         check-python-flake-rules,
         cloc-repository,
       ]
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-      - name: List Variables
-        run: |
-          export BUILD_DATETIME="${{ needs.get-metadata.outputs.build_datetime }}"
-          export BUILD_TIMESTAMP="${{ needs.get-metadata.outputs.build_timestamp }}"
-          export BUILD_EPOCH="${{ needs.get-metadata.outputs.build_epoch }}"
-          echo "Unit tests invoked"
-      # - name: Run Tests ...
-      #   run: |
-      #     ?
-  terraform-application-infrastructure:
+    name: Run unit test
+    uses: ./.github/workflows/unit-test.yaml
+    with:
+      github_environment: dev
+    secrets: inherit
+  orchestrate-terraform:
       needs:
         [
-          unit-test,
+          unit-tests,
           validate-terraform,
         ]
       uses: ./.github/workflows/apply-terraform.yaml

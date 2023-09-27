@@ -1,0 +1,14 @@
+
+[run]
+branch = True
+omit =
+        */test/*
+        */usr/local/lib*
+        */__init__.py
+
+
+[report]
+omit =
+        */test/*
+        */usr/local/lib*
+        */__init__.py
