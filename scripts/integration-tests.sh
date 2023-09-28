@@ -27,7 +27,7 @@ fi
 echo "Installing requirements"
 pip install -r $APPLICATION_TEST_DIR/requirements.txt
 
-echo "Running tests for E2E api"
+echo "Running integration tests"
 # echo $TERRAFORM_WORKSPACE_NAME
 cd $APPLICATION_TEST_DIR
 behave --tags=tag1 -D workspace=$TERRAFORM_WORKSPACE_NAME

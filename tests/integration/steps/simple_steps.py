@@ -11,7 +11,6 @@ def impl_bk(context):
 
 @then("I receive a 200 status response")
 def get_bk(context):
-    # assert_that(context.response.status_code).is_equal_to(context.URL)
     assert_that(context.response.status_code).is_equal_to(200)
 
 

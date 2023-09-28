@@ -7,7 +7,6 @@ from assertpy import assert_that
 @given("I send a request to the resource {resource_name}")
 def send_request(context, resource_name):
     context.response = requests.get(context.URL + "/" + resource_name)
-    # assert_that((context.URL)+"/"+resource_name).is_equal_to("233")
 
 
 @then("I receive a status code {status_code} in response")
