@@ -23,7 +23,7 @@ jobs:
           echo "ref type: ${{ github.ref_type }}"
           echo "triggering reference: ${{ github.ref_name }}"
   deploy-application-infrastructure:
-    uses: ./.github/workflows/deploy-application-infrastructure.yaml
+    uses: ./.github/workflows/deploy-infrastructure-stack.yaml
     with:
       github_environment: "test"
       deployment_workspace: ${{ github.ref_name }}
@@ -35,7 +35,7 @@ jobs:
     needs:
       [
         get-metadata,
-        terraform-application-infrastructure,
+        deploy-application-infrastructure,
       ]
     timeout-minutes: 10
     steps:

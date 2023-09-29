@@ -66,7 +66,7 @@ jobs:
           unit-tests,
           validate-terraform,
         ]
-      uses: ./.github/workflows/deploy-application-infrastructure.yaml
+      uses: ./.github/workflows/deploy-infrastructure-stack.yaml
       with:
         github_environment: dev
         stack: capacity_management
@@ -77,7 +77,7 @@ jobs:
         [
           validate-terraform,
         ]
-      uses: ./.github/workflows/apply-terraform.yaml
+      uses: ./.github/workflows/deploy-infrastructure-stack.yaml
       with:
         github_environment: dev
         stack: support_tools
