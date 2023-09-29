@@ -1,7 +1,9 @@
 from chalicelib import service
 import boto3
+import os
 
 from moto import mock_dynamodb
+from unittest import mock
 
 mock_id = "999"
 mock_hospital_name = "PyTest"
@@ -49,6 +51,7 @@ def load_mock_data(data: map):
 
 
 @mock_dynamodb
+@mock.patch.dict(os.environ, {"WORKFLOW": ""})
 def test_get_record_by_id():
     "Test get_record_by_id method"
     table = create_mock_dynamodb()
@@ -61,6 +64,7 @@ def test_get_record_by_id():
 
 
 @mock_dynamodb
+@mock.patch.dict(os.environ, {"WORKFLOW": ""})
 def test_add_record():
     "Test add record method - eg used by POST"
     table = create_mock_dynamodb()
@@ -77,6 +81,7 @@ def test_add_record():
 
 
 @mock_dynamodb
+@mock.patch.dict(os.environ, {"WORKFLOW": ""})
 def test_update_record():
     "Test update record method - eg used by PUT"
     table = create_mock_dynamodb()
@@ -94,6 +99,7 @@ def test_update_record():
 
 
 @mock_dynamodb
+@mock.patch.dict(os.environ, {"WORKFLOW": ""})
 def test_delete_record_by_id():
     "Test delete_record method first adding and then checking it exists"
     table = create_mock_dynamodb()
