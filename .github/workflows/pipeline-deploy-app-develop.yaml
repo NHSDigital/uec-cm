@@ -82,6 +82,7 @@ jobs:
         github_environment: dev
         stack: support_tools
         action: apply
+        deployment_workspace: default
       secrets: inherit
   build-and-deploy-application-code:
     runs-on: ubuntu-latest
