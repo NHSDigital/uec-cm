@@ -51,7 +51,7 @@ def load_mock_data(data: map):
 
 
 @mock_dynamodb
-@mock.patch.dict(os.environ, {"WORKFLOW": ""})
+@mock.patch.dict(os.environ, {"WORKSPACE": ""})
 def test_get_record_by_id():
     "Test get_record_by_id method"
     table = create_mock_dynamodb()
