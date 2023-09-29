@@ -10,7 +10,10 @@ def get_table_resource():
 
 
 def get_table_name():
-    return TABLE_NAME + os.environ.get("WORKSPACE")
+    table_name = TABLE_NAME
+    if os.environ.get("WORKSPACE") is not None:
+        table_name = TABLE_NAME + os.environ.get("WORKSPACE")
+    return table_name
 
 
 def get_record_by_id(id: str):
