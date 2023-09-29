@@ -1,4 +1,4 @@
-name: Deploy Infrastructure Stack
+name: Action Infrastructure Stack
 
 on:
   workflow_call:
@@ -29,7 +29,7 @@ jobs:
           echo "deployment workspace: ${{ inputs.deployment_workspace }}"
           echo "stack: ${{ inputs.stack }}"
           echo "action: ${{ inputs.action }}"
-  deploy-stack:
+  action-stack:
     runs-on: ubuntu-latest
     environment: ${{ inputs.github_environment }}
     permissions:
@@ -51,7 +51,7 @@ jobs:
           role-session-name: github-pipeline-session
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Deploy Infrastructure Stack
+      - name: Action Infrastructure Stack
         run: |
           export ACTION=${{ inputs.action }}
           export STACK=${{ inputs.stack }}

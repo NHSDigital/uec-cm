@@ -66,22 +66,22 @@ jobs:
           unit-tests,
           validate-terraform,
         ]
-      uses: ./.github/workflows/deploy-infrastructure-stack.yaml
+      uses: ./.github/workflows/action-infrastructure-stack.yaml
       with:
         github_environment: dev
         stack: capacity_management
-        action: plan
+        action: apply
       secrets: inherit
   deploy-support-tools-infrastructure:
       needs:
         [
           validate-terraform,
         ]
-      uses: ./.github/workflows/deploy-infrastructure-stack.yaml
+      uses: ./.github/workflows/action-infrastructure-stack.yaml
       with:
         github_environment: dev
         stack: support_tools
-        action: plan
+        action: apply
       secrets: inherit
   build-and-deploy-application-code:
     runs-on: ubuntu-latest
