@@ -1,4 +1,4 @@
-name: CI/CD Develop Pipeline
+name: Pipeline Deployment Application Development Environment
 
 on:
   push:
@@ -60,13 +60,13 @@ jobs:
     with:
       github_environment: dev
     secrets: inherit
-  orchestrate-terraform:
+  deploy-application-infrastructure:
       needs:
         [
           unit-tests,
           validate-terraform,
         ]
-      uses: ./.github/workflows/apply-terraform.yaml
+      uses: ./.github/workflows/deploy-application-infrastructure.yaml
       with:
         github_environment: dev
         stack: capacity_management

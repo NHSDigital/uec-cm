@@ -1,4 +1,4 @@
-name: Orchestrate bootstrapper workflow
+name: Pipeline Deploy Bootstrapper
 
 on:
   push:
@@ -6,15 +6,15 @@ on:
       - 'main'
 
 jobs:
-    run-bootstrap-cm-dev:
+    deploy-bootstrap-cm-dev:
       name: Run bootstrap for cm dev account
-      uses: ./.github/workflows/run-bootstrap.yaml
+      uses: ./.github/workflows/deploy-bootstrap.yaml
       with:
         ENV: dev
       secrets: inherit
-    run-bootstrap-cm-test:
+    deploy-bootstrap-cm-test:
       name: Run bootstrap for cm test account
-      uses: ./.github/workflows/run-bootstrap.yaml
+      uses: ./.github/workflows/deploy-bootstrap.yaml
       with:
         ENV: test
       secrets: inherit

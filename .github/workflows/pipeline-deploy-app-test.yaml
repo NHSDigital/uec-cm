@@ -1,4 +1,4 @@
-name: CI/CD Test Deployment
+name: Pipeline Deployment Application Test Environment
 
 on:
   push:
@@ -22,8 +22,8 @@ jobs:
           echo "triggering action: ${{ github.event_name }}"
           echo "ref type: ${{ github.ref_type }}"
           echo "triggering reference: ${{ github.ref_name }}"
-  terraform-application-infrastructure:
-    uses: ./.github/workflows/apply-terraform.yaml
+  deploy-application-infrastructure:
+    uses: ./.github/workflows/deploy-application-infrastructure.yaml
     with:
       github_environment: "test"
       deployment_workspace: ${{ github.ref_name }}

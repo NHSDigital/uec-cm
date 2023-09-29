@@ -1,4 +1,4 @@
-name: Apply terraform
+name: Deploy Application Infrastructure
 
 on:
   workflow_call:
@@ -51,7 +51,7 @@ jobs:
           role-session-name: github-pipeline-session
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Initialise and Run Terraform
+      - name: Initialise and Run Application Infrastructure
         run: |
           export ACTION=${{ inputs.action }}
           export STACK=${{ inputs.stack }}
