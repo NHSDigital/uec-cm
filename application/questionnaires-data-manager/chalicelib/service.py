@@ -1,6 +1,7 @@
 import boto3
+import os
 
-TABLE_NAME = "healthcare_services"
+TABLE_NAME = "questionnaires"
 
 
 def get_table_resource():
@@ -8,24 +9,28 @@ def get_table_resource():
     return dynamodb_resource
 
 
+def get_table_name():
+    return TABLE_NAME + os.environ.get("WORKSPACE")
+
+
 def get_record_by_id(id: str):
     dynamodb = get_table_resource()
-    hcs_table = dynamodb.Table(TABLE_NAME)
-    response = hcs_table.get_item(Key={"id": id})
+    q_table = dynamodb.Table(get_table_name())
+    response = q_table.get_item(Key={"id": id})
     return response
 
 
 def add_record(item):
     dynamodb = get_table_resource()
-    hcs_table = dynamodb.Table(TABLE_NAME)
-    response = hcs_table.put_item(Item=item, TableName=TABLE_NAME)
+    q_table = dynamodb.Table(get_table_name())
+    response = q_table.put_item(Item=item, TableName=get_table_name())
     return response
 
 
 def update_record(id: str, hospital_location: str, hospital_name: str):
     dynamodb = get_table_resource()
-    hcs_table = dynamodb.Table(TABLE_NAME)
-    response = hcs_table.update_item(
+    q_table = dynamodb.Table(get_table_name())
+    response = q_table.update_item(
         Key={"id": id},
         UpdateExpression="SET HospitalLocation= :h_location, HospitalName = :h_name",
         ExpressionAttributeValues={
@@ -39,6 +44,6 @@ def update_record(id: str, hospital_location: str, hospital_name: str):
 
 def delete_record(id):
     dynamodb = get_table_resource()
-    hcs_table = dynamodb.Table(TABLE_NAME)
-    response = hcs_table.delete_item(Key={"id": id}, TableName=TABLE_NAME)
+    q_table = dynamodb.Table(get_table_name())
+    response = q_table.delete_item(Key={"id": id}, TableName=get_table_name())
     return response

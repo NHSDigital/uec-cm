@@ -1,28 +1,25 @@
 from chalice import Chalice
-import service
+from chalicelib import service
 
 
 app = Chalice(app_name="organisation-affiliations-data-manager")
 
 
-@app.route("/organisationaffiliations", methods=["GET"])
+@app.route("/organisation_affiliations", methods=["GET"])
 def get_organisationaffiliations():
     print("Get organisationaffiliations record...")
-    request = app.current_request.json_body()
-
-    oa_id = request["id"]
-    print("Get oa_id record...".oa_id)
-    service.get_record_by_id(oa_id)
-    return {"statusCode": 200, "body": "Item Added Successfully"}
+    oa_id = app.current_request.query_params["id"]
+    print("Get oa_id record..." + oa_id)
+    response = service.get_record_by_id(oa_id)
+    return {"statusCode": 200, "body": response}
 
 
-@app.route("/organisationaffiliations", methods=["POST"])
+@app.route("/organisation_affiliations", methods=["POST"])
 def create_organisationaffiliations():
     request = app.current_request.json_body
     data = {
         "id": request["id"],
-        "HospitalName": request["HospitalName"],
-        "HospitalLocation": request["HospitalLocation"],
+        "healthcareService": request["healthcareservice"],
     }
     print(data)
     service.add_record(data)
@@ -30,10 +27,10 @@ def create_organisationaffiliations():
     return {"statusCode": 200, "body": "Item Added Successfully"}
 
 
-@app.route("/organisationaffiliations", methods=["PUT"])
+@app.route("/organisation_affiliations", methods=["PUT"])
 def update_organisationaffiliations():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
-    print("Updating organisationaffiliations record...")
+    print("Updating organisation_affiliations record...")
     request = app.current_request.json_body
     service.update_record(
         request["id"], request["HospitalName"], request["HospitalLocation"]
@@ -41,7 +38,7 @@ def update_organisationaffiliations():
     return {"statusCode": 200, "body": "Item Updated Successfully"}
 
 
-@app.route("/organisationaffiliations", methods=["DELETE"])
+@app.route("/organisation_affiliations", methods=["DELETE"])
 def delete_organisationaffiliations():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
     print("Delete healthcareservice record...")

@@ -1,5 +1,5 @@
 from chalice import Chalice
-import service
+from chalicelib import service
 
 
 app = Chalice(app_name="questionnaires-data-manager")
@@ -8,12 +8,10 @@ app = Chalice(app_name="questionnaires-data-manager")
 @app.route("/questionnaires", methods=["GET"])
 def get_questionnaires():
     print("Get questionnaires record...")
-    request = app.current_request.json_body()
-
-    q_id = request["id"]
-    print("Get q_id record...".q_id)
-    service.get_record_by_id(q_id)
-    return {"statusCode": 200, "body": "Item Added Successfully"}
+    q_id = app.current_request.query_params["id"]
+    print("Get q_id record..." + q_id)
+    response = service.get_record_by_id(q_id)
+    return {"statusCode": 200, "body": response}
 
 
 @app.route("/questionnaires", methods=["POST"])
@@ -21,8 +19,7 @@ def create_questionnaires():
     request = app.current_request.json_body
     data = {
         "id": request["id"],
-        "HospitalName": request["HospitalName"],
-        "HospitalLocation": request["HospitalLocation"],
+        "name": request["name"],
     }
     print(data)
     service.add_record(data)

@@ -1,6 +1,7 @@
 import boto3
+import os
 
-TABLE_NAME = "organisation_affiliations"
+TABLE_NAME = "organisations"
 
 
 def get_table_resource():
@@ -8,24 +9,28 @@ def get_table_resource():
     return dynamodb_resource
 
 
+def get_table_name():
+    return TABLE_NAME + os.environ.get("WORKSPACE")
+
+
 def get_record_by_id(id: str):
     dynamodb = get_table_resource()
-    oa_table = dynamodb.Table(TABLE_NAME)
-    response = oa_table.get_item(Key={"id": id})
+    o_table = dynamodb.Table(get_table_name())
+    response = o_table.get_item(Key={"id": id})
     return response
 
 
 def add_record(item):
     dynamodb = get_table_resource()
-    oa_table = dynamodb.Table(TABLE_NAME)
-    response = oa_table.put_item(Item=item, TableName=TABLE_NAME)
+    o_table = dynamodb.Table(get_table_name())
+    response = o_table.put_item(Item=item, TableName=get_table_name())
     return response
 
 
 def update_record(id: str, hospital_location: str, hospital_name: str):
     dynamodb = get_table_resource()
-    oa_table = dynamodb.Table(TABLE_NAME)
-    response = oa_table.update_item(
+    o_table = dynamodb.Table(get_table_name())
+    response = o_table.update_item(
         Key={"id": id},
         UpdateExpression="SET HospitalLocation= :h_location, HospitalName = :h_name",
         ExpressionAttributeValues={
@@ -39,6 +44,6 @@ def update_record(id: str, hospital_location: str, hospital_name: str):
 
 def delete_record(id):
     dynamodb = get_table_resource()
-    oa_table = dynamodb.Table(TABLE_NAME)
-    response = oa_table.delete_item(Key={"id": id}, TableName=TABLE_NAME)
+    o_table = dynamodb.Table(get_table_name())
+    response = o_table.delete_item(Key={"id": id}, TableName=get_table_name())
     return response
