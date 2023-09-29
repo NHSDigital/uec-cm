@@ -1,4 +1,4 @@
-name: Orchestrate terraform workflow
+name: Apply terraform
 
 on:
   workflow_call:
@@ -12,6 +12,12 @@ on:
         required: false
         default: 'not-set'
         type: string
+      stack:
+        required: true
+        type: string
+      action:
+        required: true
+        type: string
 
 jobs:
   echo-workflow-inputs:
@@ -21,8 +27,9 @@ jobs:
         run: |
           echo "github environment: ${{ inputs.github_environment }}"
           echo "deployment workspace: ${{ inputs.deployment_workspace }}"
-
-  deploy-application-infrastructure:
+          echo "stack: ${{ inputs.stack }}"
+          echo "action: ${{ inputs.action }}"
+  deploy-stack:
     runs-on: ubuntu-latest
     environment: ${{ inputs.github_environment }}
     permissions:
@@ -44,10 +51,10 @@ jobs:
           role-session-name: github-pipeline-session
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Initialise and Run Terraform Apply
+      - name: Initialise and Run Terraform
         run: |
-          export ACTION=apply
-          export STACK=capacity_management
+          export ACTION=${{ inputs.action }}
+          export STACK=${{ inputs.stack }}
           export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
           if [ ${{ inputs.deployment_workspace }} != 'not-set' ]
           then

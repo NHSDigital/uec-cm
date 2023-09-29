@@ -3,11 +3,16 @@
 import pandas as pd
 from decimal import Decimal
 import boto3
+from io import BytesIO
 
+# Initialize the S3 and DynamoDB clients
+s3 = boto3.client("s3")
 dynamodb = boto3.resource("dynamodb")
 ddbclient = boto3.client("dynamodb")
 
-path_to_excel = "./CapacityManagementFullDataset.xlsx"
+# Specify the S3 bucket name and Excel file key
+bucket_name = "nhse-uec-cm-dev-databucket"
+file_key = "CapacityManagementFullDataset.xlsx"
 
 # A list of the relevant dynamoDB tables, and the names of the corresponding
 # tabs in the spreadsheet. These must be manually confirmed to be correct
@@ -38,63 +43,27 @@ def populate_database():
         print(
             ":::::Running populator script for table: " + FHIR_entity["db_table_name"]
         )
-        """if check_data_exists_in_db(FHIR_entity["db_table_name"]):
-            print(
-                ":::::DynamoDB Table: "
-                + FHIR_entity["db_table_name"]
-                + " has existing data within it."
-            )
-            print(":::::Taking no further action.")
-
-        else:
-            print(
-                ":::::DynamoDB Table: " + FHIR_entity["db_table_name"] + " is empty..."
-            )
-            print(
-                ":::::Running populator script for table: "
-                + FHIR_entity["db_table_name"]
-            )"""
-
-        # Extract the data from the excel file at the relevant tab
-        # name into a pandas dataframe
-
+        # Use the S3 `get_object` method to read the Excel file directly into a DataFrame
+        excel_object = s3.get_object(Bucket=bucket_name, Key=file_key)
         df = pd.read_excel(
-            path_to_excel, sheet_name=FHIR_entity["spreadsheet_tab_name"]
+            BytesIO(excel_object["Body"].read()),
+            sheet_name=FHIR_entity["spreadsheet_tab_name"],
         )
-
         # Copy the data from the spreadsheet into the relevant table
-
-        copy_data_from_spreadsheet(FHIR_entity["db_table_name"], df)
-
-    return
+        copy_data_to_dynamodb(FHIR_entity["db_table_name"], df)
 
 
-def check_data_exists_in_db(table):
-    # If the table has an ItemCount of zero, we can safely assume that
-    # the table is empty and can be populated
-
-    if ddbclient.describe_table(TableName=table)["Table"]["ItemCount"] == 0:
-        return False
-    else:
-        return True
-
-
-def copy_data_from_spreadsheet(table, df):
-    print("::::Populating data into DynamoDB Table: " + table)
-
-    # Loop through each row in the dataframe
+def copy_data_to_dynamodb(table_name, df):
+    table = dynamodb.Table(table_name)
 
     for index, row in df.iterrows():
-        # Transpose into the FHIR schema and insert into dynamo
-
-        data_item = transpose_into_schema(table, row)
+        data_item = transpose_into_schema(table_name, row)
         insert_into_table(table, data_item)
-    return
 
 
-def transpose_into_schema(table, row):
+def transpose_into_schema(table_name, row):
     print("Row Data:", row)
-    if table == "organisation_affiliations":
+    if table_name == "organisation_affiliations":
         schema = {
             "resourceType": "OrganizationAffiliation",
             "id": str(row["Identifier"]),
@@ -117,7 +86,7 @@ def transpose_into_schema(table, row):
             "modifiedDateTime": row["ModifiedDateTime"],
         }
 
-    elif table == "healthcare_services":
+    elif table_name == "healthcare_services":
         schema = {
             "resourceType": "HealthcareService",
             "id": str(row["Identifier"]),
@@ -135,7 +104,7 @@ def transpose_into_schema(table, row):
             "modifiedDateTime": row["ModifiedDateTime"],
             "providedBy": row["ProvidedBy"],
         }
-    elif table == "organisations":
+    elif table_name == "organisations":
         schema = {
             "resourceType": "Organization",
             "id": str(row["Identifier"]),
@@ -152,7 +121,7 @@ def transpose_into_schema(table, row):
             "modifiedBy": row["ModifiedBy"],
             "modifiedDateTime": row["ModifiedDateTime"],
         }
-    elif table == "locations":
+    elif table_name == "locations":
         schema = {
             "resourceType": "Location",
             "id": str(row["Identifier"]),
@@ -172,7 +141,6 @@ def transpose_into_schema(table, row):
 
 def insert_into_table(table, data_item):
     print("dyno Data:", data_item)
-    table = dynamodb.Table(table)
     table.put_item(Item=data_item)
 
 
