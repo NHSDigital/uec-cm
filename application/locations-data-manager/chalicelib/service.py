@@ -1,5 +1,5 @@
 import boto3
-import os
+from chalicelib import utilities
 
 TABLE_NAME = "locations"
 
@@ -9,30 +9,25 @@ def get_table_resource():
     return dynamodb_resource
 
 
-def get_table_name():
-    table_name = TABLE_NAME
-    if os.environ.get("WORKSPACE") is not None:
-        table_name = TABLE_NAME + os.environ.get("WORKSPACE")
-    return table_name
-
-
 def get_record_by_id(id: str):
     dynamodb = get_table_resource()
-    l_table = dynamodb.Table(get_table_name())
+    l_table = dynamodb.Table(utilities.get_table_name(TABLE_NAME))
     response = l_table.get_item(Key={"id": id})
     return response
 
 
 def add_record(item):
     dynamodb = get_table_resource()
-    l_table = dynamodb.Table(get_table_name())
-    response = l_table.put_item(Item=item, TableName=get_table_name())
+    l_table = dynamodb.Table(utilities.get_table_name(TABLE_NAME))
+    response = l_table.put_item(
+        Item=item, TableName=utilities.get_table_name(TABLE_NAME)
+    )
     return response
 
 
 def update_record(id: str, hospital_location: str, hospital_name: str):
     dynamodb = get_table_resource()
-    l_table = dynamodb.Table(get_table_name())
+    l_table = dynamodb.Table(utilities.get_table_name(TABLE_NAME))
     response = l_table.update_item(
         Key={"id": id},
         UpdateExpression="SET HospitalLocation= :h_location, HospitalName = :h_name",
@@ -47,6 +42,8 @@ def update_record(id: str, hospital_location: str, hospital_name: str):
 
 def delete_record(id):
     dynamodb = get_table_resource()
-    l_table = dynamodb.Table(get_table_name())
-    response = l_table.delete_item(Key={"id": id}, TableName=get_table_name())
+    l_table = dynamodb.Table(utilities.get_table_name(TABLE_NAME))
+    response = l_table.delete_item(
+        Key={"id": id}, TableName=utilities.get_table_name(TABLE_NAME)
+    )
     return response
