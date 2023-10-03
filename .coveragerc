@@ -5,10 +5,13 @@ omit =
         */test/*
         */usr/local/lib*
         */__init__.py
-
+        */*/chalicelib/common/utilities.py
+        */app.py
 
 [report]
 omit =
         */test/*
         */usr/local/lib*
         */__init__.py
+        */*/chalicelib/common/utilities.py
+        */app.py

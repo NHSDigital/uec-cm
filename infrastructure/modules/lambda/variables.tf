@@ -11,7 +11,7 @@ variable "policy_jsons" { description = "Policy for Lambda to write to DynamoDB"
 # Default variables
 
 variable "handler" {
-  default = "app.lambda_handler"
+  default = "app.app"
 }
 variable "runtime" {
   default = "python3.9"
@@ -33,4 +33,8 @@ variable "attach_policy_jsons" {
 }
 variable "number_of_policy_jsons" {
   default = "1"
+}
+
+variable "environment_variables" {
+  default = {}
 }

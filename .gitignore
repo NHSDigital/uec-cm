@@ -44,3 +44,6 @@ tests/*/reports/*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Chalice build and configuration scripts
+*chalicebuild*

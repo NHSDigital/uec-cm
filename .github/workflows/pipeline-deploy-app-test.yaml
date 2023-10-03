@@ -23,7 +23,7 @@ jobs:
           echo "ref type: ${{ github.ref_type }}"
           echo "triggering reference: ${{ github.ref_name }}"
   deploy-application-infrastructure:
-    uses: ./.github/workflows/deploy-infrastructure-stack.yaml
+    uses: ./.github/workflows/action-infrastructure-stack.yaml
     with:
       github_environment: "test"
       deployment_workspace: ${{ github.ref_name }}

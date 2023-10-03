@@ -1,28 +1,25 @@
 from chalice import Chalice
-import service
+from chalicelib import service
 
 
 app = Chalice(app_name="questionnaire-responses-data-manager")
 
 
-@app.route("/questionnaireresponses", methods=["GET"])
+@app.route("/questionnaire_responses", methods=["GET"])
 def get_questionnaireresponses():
-    print("Get questionnaireresponses record...")
-    request = app.current_request.json_body()
-
-    qr_id = request["id"]
-    print("Get qr_id record...".qr_id)
-    service.get_record_by_id(qr_id)
-    return {"statusCode": 200, "body": "Item Added Successfully"}
+    print("Get questionnaire_responses record...")
+    qr_id = app.current_request.query_params["id"]
+    print("Get qr_id record..." + qr_id)
+    response = service.get_record_by_id(qr_id)
+    return {"statusCode": 200, "body": response}
 
 
-@app.route("/questionnaireresponses", methods=["POST"])
+@app.route("/questionnaire_responses", methods=["POST"])
 def create_questionnaireresponses():
     request = app.current_request.json_body
     data = {
         "id": request["id"],
-        "HospitalName": request["HospitalName"],
-        "HospitalLocation": request["HospitalLocation"],
+        "name": request["name"],
     }
     print(data)
     service.add_record(data)
@@ -30,7 +27,7 @@ def create_questionnaireresponses():
     return {"statusCode": 200, "body": "Item Added Successfully"}
 
 
-@app.route("/questionnaireresponses", methods=["PUT"])
+@app.route("/questionnaire_responses", methods=["PUT"])
 def update_questionnaireresponses():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
     print("Updating questionnaireresponses record...")
@@ -41,7 +38,7 @@ def update_questionnaireresponses():
     return {"statusCode": 200, "body": "Item Updated Successfully"}
 
 
-@app.route("/questionnaireresponses", methods=["DELETE"])
+@app.route("/questionnaire_responses", methods=["DELETE"])
 def delete_questionnaireresponses():
     #    request = app.current_request.json_body  // Required to get request from the API Gateway once it's set up.
     print("Delete questionnaireresponses record...")

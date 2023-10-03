@@ -1,5 +1,5 @@
 from chalice import Chalice
-import service
+from chalicelib import service
 
 
 app = Chalice(app_name="organisations-data-manager")
@@ -8,12 +8,10 @@ app = Chalice(app_name="organisations-data-manager")
 @app.route("/organisations", methods=["GET"])
 def get_organisations():
     print("Get organisations record...")
-    request = app.current_request.json_body()
-
-    o_id = request["id"]
-    print("Get o_id record...".o_id)
-    service.get_record_by_id(o_id)
-    return {"statusCode": 200, "body": "Item Added Successfully"}
+    o_id = app.current_request.query_params["id"]
+    print("Get o_id record..." + o_id)
+    response = service.get_record_by_id(o_id)
+    return {"statusCode": 200, "body": response}
 
 
 @app.route("/organisations", methods=["POST"])
@@ -21,8 +19,7 @@ def create_organisations():
     request = app.current_request.json_body
     data = {
         "id": request["id"],
-        "HospitalName": request["HospitalName"],
-        "HospitalLocation": request["HospitalLocation"],
+        "name": request["name"],
     }
     print(data)
     service.add_record(data)

@@ -1,4 +1,4 @@
-import service
+from chalicelib import service
 import boto3
 
 from moto import mock_dynamodb
