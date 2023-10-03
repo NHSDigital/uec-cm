@@ -38,6 +38,6 @@ def test_get_table_name_with_environment_var_set():
 
 @mock.patch.dict(os.environ, {workspace_env_name: workspace_env_value})
 def test_get_table_name_with_environment_var_set_empty_table_name():
-    "Test get_table_name method with WORKSPACE environment variable set"
+    "Test get_table_name method with WORKSPACE environment variable set with no table name set"
     table_name = utilities.get_table_name("")
     assert table_name == "-" + workspace_env_value
