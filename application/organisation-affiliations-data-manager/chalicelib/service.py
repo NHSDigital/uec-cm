@@ -1,5 +1,5 @@
 import boto3
-from chalicelib import utilities
+from chalicelib.common import utilities
 
 TABLE_NAME = "organisation_affiliations"
 

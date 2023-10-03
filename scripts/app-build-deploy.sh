@@ -18,7 +18,7 @@ cd ./application/${SERVICE_NAME}
 
 rsync -Rr ./ ./chalicebuildtmp
 cd ./chalicebuildtmp
-cp ../../../application-utils/* ./chalicelib/
+cp -r ../../../application-utils/* ./chalicelib/
 pip install -r requirements.txt --target .
 
 pip install chalice==1.29.0

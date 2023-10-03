@@ -16,7 +16,7 @@ for path in "$APPLICATION_DIR"/*/ ; do
             if [ -d $APPLICATION_DIR/"$dir"/test/ ]; then
                 echo "Clearing down temp test files for $dir"
                 rm -rf $APPLICATION_DIR/"$dir"/test
-                rm -rf $APPLICATION_DIR/"$dir"/chalicelib/utilities.py
+                rm -rf $APPLICATION_DIR/"$dir"/chalicelib/common
             fi
         done
 done
@@ -32,10 +32,11 @@ for path in "$APPLICATION_DIR"/*/ ; do
             if ! [ "$dir" == $APPLICATION_DIR ] ; then
                 echo "Preparing tests for $dir"
                 mkdir $APPLICATION_DIR/"$dir"/test
+                mkdir $APPLICATION_DIR/"$dir"/chalicelib/common
                 if [ -d $APPLICATION_TEST_DIR/"$dir" ]; then
                     echo "Copying tests for $dir"
                     cp $APPLICATION_TEST_DIR/"$dir"/* $APPLICATION_DIR/"$dir"/test/
-                    cp $APPLICATION_UTIL_DIR/* $APPLICATION_DIR/"$dir"/chalicelib/
+                    cp -r $APPLICATION_UTIL_DIR/* $APPLICATION_DIR/"$dir"/chalicelib/
                     coverage run -a --source=$APPLICATION_DIR/"$dir"  -m pytest $APPLICATION_DIR/"$dir"
                 fi
             fi
@@ -56,7 +57,7 @@ for path in "$APPLICATION_DIR"/*/ ; do
             if [ -d $APPLICATION_DIR/"$dir"/test/ ]; then
                 echo "Clearing down temp test files for $dir"
                 rm -rf $APPLICATION_DIR/"$dir"/test
-                rm -rf $APPLICATION_DIR/"$dir"/chalicelib/utilities.py
+                rm -rf $APPLICATION_DIR/"$dir"/chalicelib/common
             fi
         done
 done
