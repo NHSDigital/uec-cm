@@ -4,6 +4,7 @@ import pandas as pd
 from decimal import Decimal
 import boto3
 from io import BytesIO
+import datetime
 
 # Initialize the S3 and DynamoDB clients
 s3 = boto3.client("s3")
@@ -61,7 +62,33 @@ def copy_data_to_dynamodb(table_name, df):
         insert_into_table(table, data_item)
 
 
+# Define a function to get the current date and time in UK format
+def get_formatted_datetime():
+    current_datetime = datetime.datetime.now()
+    return current_datetime.strftime("%d-%m-%Y %H:%M:%S")
+
+
+def split_telecom_numbers(telecom_str):
+    telecom_numbers = []
+    if isinstance(telecom_str, str):
+        # Split the "telecom" field by ',' to get individual telephone numbers
+        telecom_list = telecom_str.split(",")
+        for telecom_item in telecom_list:
+            telecom_item = telecom_item.strip()  # Remove leading/trailing spaces
+            telecom_numbers.append({"system": "phone", "value": telecom_item})
+    return telecom_numbers
+
+
+def filter_empty_address_fields(address):
+    filtered_address = {}
+    for k, v in address.items():
+        if isinstance(v, str) and v.strip() != "" and v.strip().lower() != "nan":
+            filtered_address[k] = v
+    return filtered_address
+
+
 def transpose_into_schema(table_name, row):
+    formatted_datetime = get_formatted_datetime()
     print("Row Data:", row)
     if table_name == "organisation_affiliations":
         schema = {
@@ -105,22 +132,50 @@ def transpose_into_schema(table_name, row):
             "providedBy": row["ProvidedBy"],
         }
     elif table_name == "organisations":
+        telecom_numbers = split_telecom_numbers(row["Telecom"])
+        address = {
+            "line1": str(row["Line1"]),
+            "line2": str(row["Line2"]),
+            "line3": str(row["Line3"]),
+            "city": str(row["City"]),
+            "district": str(row["Discrict"]),
+            "postalcode": str(row["PostalCode"]),
+        }
+        filtered_address = filter_empty_address_fields(address)
         schema = {
             "resourceType": "Organization",
             "id": str(row["Identifier"]),
-            "type": row["OrgType"],
+            "identifier": [
+                {
+                    "use": "official",
+                    "value": str(row["Identifier"]),
+                }
+            ],
+            "active": "true",
+            "type": row["Type"],
             "name": str(row["Name"]),
-            "description": str(row["Name"]),
-            "phoneNumber": {
-                str(row["PhoneNumber"]) if pd.notna(row["PhoneNumber"]) else "N/A"
-            },
-            "Address": {str(row["Address"]) if pd.notna(row["Address"]) else "N/A"},
-            "createdDateTime": row["CreatedDateTime"],
-            "partOf": {str(row["PartOf"]) if pd.notna(row["PartOf"]) else "N/A"},
-            "createdBy": row["CreatedBy"],
-            "modifiedBy": row["ModifiedBy"],
-            "modifiedDateTime": row["ModifiedDateTime"],
+            "telecom": telecom_numbers,
+            "Address": filtered_address,
+            "createdDateTime": formatted_datetime,
+            "partOf": str(row["partof"]),
+            "createdBy": "Admin",
+            "modifiedBy": "Admin",
+            "modifiedDateTime": formatted_datetime,
         }
+
+        if not telecom_numbers:  # If there is no telecom data in the source file
+            schema.pop("telecom")  # Remove the telecom field from the schema
+        if not filtered_address:  # If there is no address data in the source file
+            schema.pop("Address")  # Remove the Address field from the schema
+        if row["partof"] in [
+            "",
+            None,
+            "N/A",
+            "N/A",
+            "NO ID",
+        ]:  # If the partOf field is blank, null, n/a, N/A, or NO ID
+            schema.pop("partOf")  # Remove the partOf field from the schema
+
     elif table_name == "locations":
         schema = {
             "resourceType": "Location",
