@@ -102,6 +102,7 @@ def transpose_into_schema(table_name, row):
     else:
         raise ValueError("Unsupported table name: {}".format(table_name))
 
+
 def transpose_organisation_affiliations(row, formatted_datetime):
     schema = {
         "resourceType": "OrganizationAffiliation",
@@ -129,10 +130,16 @@ def transpose_organisation_affiliations(row, formatted_datetime):
 
     # Remove empty keys from the schema
     for key in schema_keys:
-        if schema[key] is None or schema[key] == "" or schema[key] == "NO ID" or schema[key] == "NOT FOUND":
+        if (
+            schema[key] is None
+            or schema[key] == ""
+            or schema[key] == "NO ID"
+            or schema[key] == "NOT FOUND"
+        ):
             schema.pop(key)
 
     return schema
+
 
 def transpose_healthcare_services(row, formatted_datetime):
     telecom_numbers = split_telecom_numbers(row["Telecom"])
@@ -162,42 +169,48 @@ def transpose_healthcare_services(row, formatted_datetime):
 
     # Remove empty keys from the schema
     for key in schema.keys():
-        if schema[key] is None or schema[key] == "" or schema[key] == "N/A" or schema[key] == "NO ID":
+        if (
+            schema[key] is None
+            or schema[key] == ""
+            or schema[key] == "N/A"
+            or schema[key] == "NO ID"
+        ):
             schema.pop(key)
 
     return schema
 
+
 def transpose_organisations(row, formatted_datetime):
     telecom_numbers = split_telecom_numbers(row["Telecom"])
     address = {
-            "line1": str(row["Line1"]),
-            "line2": str(row["Line2"]),
-            "line3": str(row["Line3"]),
-            "city": str(row["City"]),
-            "district": str(row["Discrict"]),
-            "postalcode": str(row["PostalCode"]),
+        "line1": str(row["Line1"]),
+        "line2": str(row["Line2"]),
+        "line3": str(row["Line3"]),
+        "city": str(row["City"]),
+        "district": str(row["Discrict"]),
+        "postalcode": str(row["PostalCode"]),
     }
     filtered_address = filter_empty_address_fields(address)
     schema = {
-            "resourceType": "Organization",
-            "id": str(row["Identifier"]),
-            "identifier": [
-                {
-                    "use": "official",
-                    "value": str(row["Identifier"]),
-                }
-            ],
-            "active": "true",
-            "type": row["Type"],
-            "name": str(row["Name"]),
-            "createdDateTime": formatted_datetime,
-            "partOf": str(row["partof"]),
-            "createdBy": "Admin",
-            "modifiedBy": "Admin",
-            "modifiedDateTime": formatted_datetime,
+        "resourceType": "Organization",
+        "id": str(row["Identifier"]),
+        "identifier": [
+            {
+                "use": "official",
+                "value": str(row["Identifier"]),
+            }
+        ],
+        "active": "true",
+        "type": row["Type"],
+        "name": str(row["Name"]),
+        "createdDateTime": formatted_datetime,
+        "partOf": str(row["partof"]),
+        "createdBy": "Admin",
+        "modifiedBy": "Admin",
+        "modifiedDateTime": formatted_datetime,
     }
 
-        # Add the telecom field to the schema if it has a value
+    # Add the telecom field to the schema if it has a value
     if telecom_numbers:
         schema["telecom"] = telecom_numbers
 
@@ -208,41 +221,56 @@ def transpose_organisations(row, formatted_datetime):
     schema_copy = schema.copy()
     schema_keys = list(schema_copy.keys())
     for key in schema_keys:
-        if schema_copy[key] is None or schema_copy[key] == "" or schema_copy[key] == "N/A" or schema_copy[key] == "NO ID" or schema_copy[key] == "0":
+        if (
+            schema_copy[key] is None
+            or schema_copy[key] == ""
+            or schema_copy[key] == "N/A"
+            or schema_copy[key] == "NO ID"
+            or schema_copy[key] == "0"
+        ):
             schema_copy.pop(key)
 
     return schema_copy
 
+
 def transpose_locations(row, formatted_datetime):
     address = {
-            "line1": str(row["Line1"]),
-            "line2": str(row["Line2"]),
-            "line3": str(row["Line3"]),
-            "city": str(row["City"]),
-            "district": str(row["District"]),
-            "postalcode": str(row["PostalCode"]),
-        }
+        "line1": str(row["Line1"]),
+        "line2": str(row["Line2"]),
+        "line3": str(row["Line3"]),
+        "city": str(row["City"]),
+        "district": str(row["District"]),
+        "postalcode": str(row["PostalCode"]),
+    }
     filtered_address = filter_empty_address_fields(address)
     schema = {
-            "resourceType": "Location",
-            "id": str(row["Identifier"]),
-            "identifier": [
-                {
-                    "use": "official",
-                    "value": str(row["Identifier"]),
-                }
-            ],
-            "status": "Active",
-            "name": row["Name"],
-            "position": {
-                "latitude": str(Decimal(row["Latitude"]).quantize(Decimal("0.0000001"), rounding=ROUND_HALF_UP)),
-                "longitude": str(Decimal(row["Longitude"]).quantize(Decimal("0.0000001"), rounding=ROUND_HALF_UP)),
-            },
-            "createdBy": "Admin",
-            "createdDateTime": formatted_datetime,
-            "modifiedBy": "Admin",
-            "modifiedDateTime": formatted_datetime,
-            "managingOrganization": str(row["ManagingOrg"]),
+        "resourceType": "Location",
+        "id": str(row["Identifier"]),
+        "identifier": [
+            {
+                "use": "official",
+                "value": str(row["Identifier"]),
+            }
+        ],
+        "status": "Active",
+        "name": row["Name"],
+        "position": {
+            "latitude": str(
+                Decimal(row["Latitude"]).quantize(
+                    Decimal("0.0000001"), rounding=ROUND_HALF_UP
+                )
+            ),
+            "longitude": str(
+                Decimal(row["Longitude"]).quantize(
+                    Decimal("0.0000001"), rounding=ROUND_HALF_UP
+                )
+            ),
+        },
+        "createdBy": "Admin",
+        "createdDateTime": formatted_datetime,
+        "modifiedBy": "Admin",
+        "modifiedDateTime": formatted_datetime,
+        "managingOrganization": str(row["ManagingOrg"]),
     }
 
     if filtered_address:
@@ -252,10 +280,17 @@ def transpose_locations(row, formatted_datetime):
     schema_copy = schema.copy()
     schema_keys = list(schema_copy.keys())
     for key in schema_keys:
-        if schema_copy[key] is None or schema_copy[key] == "" or schema_copy[key] == "N/A" or schema_copy[key] == "NO ID" or schema_copy[key] == "0":
+        if (
+            schema_copy[key] is None
+            or schema_copy[key] == ""
+            or schema_copy[key] == "N/A"
+            or schema_copy[key] == "NO ID"
+            or schema_copy[key] == "0"
+        ):
             schema_copy.pop(key)
 
     return schema_copy
+
 
 def insert_into_table(table, data_item):
     print("dyno Data:", data_item)
