@@ -10,7 +10,7 @@ on:
 jobs:
 
   validate-against-tf-versions:
-    name: Validate terraform against the min/max versions
+    name: Validate terraform against the version in use
     runs-on: ubuntu-latest
     environment: ${{ inputs.ENV }}
     permissions:
