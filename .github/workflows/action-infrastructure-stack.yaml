@@ -29,20 +29,6 @@ jobs:
           echo "deployment workspace: ${{ inputs.deployment_workspace }}"
           echo "stack: ${{ inputs.stack }}"
           echo "action: ${{ inputs.action }}"
-  # derive-tf-versions:
-  #   name: Derive Max Terraform Versions
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-
-  #     - name: Extract Terraform min/max versions
-  #       id: minMax
-  #       uses: clowdhaus/terraform-min-max@main
-  #       with:
-  #         directory: ./infrastructure/remote
-  #   outputs:
-  #     maxVersion: ${{ steps.minMax.outputs.maxVersion }}
   derive-tf-versions:
     uses: ./.github/workflows/derive-tf-version.yaml
   action-stack:
