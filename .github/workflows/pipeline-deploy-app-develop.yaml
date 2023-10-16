@@ -38,7 +38,7 @@ jobs:
     uses: ./.github/workflows/validate-terraform.yaml
     with:
       ENV: dev
-      TF_VERS: ${{needs.derive-tf-versions.outputs.maxVersion}}
+      tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
     secrets: inherit
   check-python-black-format:
       uses: ./.github/workflows/check-python-black-format.yaml
