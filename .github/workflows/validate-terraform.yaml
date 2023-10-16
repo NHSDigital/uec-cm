@@ -6,10 +6,13 @@ on:
       ENV:
         required: true
         type: string
+      tf_vers:
+        required: true
+        type: string
 
 jobs:
-  derive-tf-versions:
-    uses: ./.github/workflows/derive-tf-version.yaml
+  # derive-tf-versions:
+  #   uses: ./.github/workflows/derive-tf-version.yaml
   validate-against-tf-versions:
     name: Validate terraform against the max version
     runs-on: ubuntu-latest
@@ -17,7 +20,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    needs: derive-tf-versions
+    # needs: derive-tf-versions
     strategy:
       matrix:
         stack:
@@ -34,12 +37,12 @@ jobs:
           role-session-name: github-pipeline-session
           aws-region: eu-west-2
 
-      - name: Install Terraform v${{ needs.derive-tf-versions.outputs.maxVersion }}
+      - name: Install Terraform v${{ inputs.tf_vers }}
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: ${{ needs.derive-tf-versions.outputs.maxVersion }}
+          terraform_version: ${{ inputs.tf_vers }}
 
-      - name: Initialize terraform and validate stack ${{ matrix.stack }} against v${{ needs.derive-tf-versions.outputs.maxVersion }}
+      - name: Initialize terraform and validate stack ${{ matrix.stack }} against v${{ inputs.tf_vers }}
         run: |
           export ACTION=validate
           export STACK=${{ matrix.stack }}

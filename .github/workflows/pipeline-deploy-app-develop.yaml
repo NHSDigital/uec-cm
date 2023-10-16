@@ -7,6 +7,8 @@ on:
       - 'task/*'
 
 jobs:
+  derive-tf-versions:
+    uses: ./.github/workflows/derive-tf-version.yaml
   get-metadata:
     runs-on: ubuntu-latest
     outputs:
@@ -36,6 +38,7 @@ jobs:
     uses: ./.github/workflows/validate-terraform.yaml
     with:
       ENV: dev
+      TF_VERS: ${{needs.derive-tf-versions.outputs.maxVersion}}
     secrets: inherit
   check-python-black-format:
       uses: ./.github/workflows/check-python-black-format.yaml
@@ -70,7 +73,8 @@ jobs:
       with:
         github_environment: dev
         stack: capacity_management
-        action: apply
+        action: plan
+        tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
       secrets: inherit
   deploy-support-tools-infrastructure:
       needs:
