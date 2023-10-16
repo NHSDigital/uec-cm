@@ -6,6 +6,8 @@ on:
       - '[A-Z][A-Z]-[0-9][0-9]?[0-9]?[0-9]?-test-[0-9][0-9]?'
 
 jobs:
+  derive-tf-versions:
+    uses: ./.github/workflows/derive-tf-version.yaml
   get-metadata:
     runs-on: ubuntu-latest
     outputs:
@@ -23,12 +25,17 @@ jobs:
           echo "ref type: ${{ github.ref_type }}"
           echo "triggering reference: ${{ github.ref_name }}"
   deploy-application-infrastructure:
+    needs:
+      [
+        derive-tf-versions,
+      ]
     uses: ./.github/workflows/action-infrastructure-stack.yaml
     with:
       github_environment: "test"
       deployment_workspace: ${{ github.ref_name }}
       stack: capacity_management
       action: apply
+      tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
     secrets: inherit
   integration-test:
     runs-on: ubuntu-latest
