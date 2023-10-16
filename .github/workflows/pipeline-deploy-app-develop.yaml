@@ -36,6 +36,7 @@ jobs:
   validate-terraform:
     name: Validate terraform code
     uses: ./.github/workflows/validate-terraform.yaml
+    needs: derive-tf-versions
     with:
       ENV: dev
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
@@ -68,6 +69,7 @@ jobs:
         [
           unit-tests,
           validate-terraform,
+          derive-tf-versions,
         ]
       uses: ./.github/workflows/action-infrastructure-stack.yaml
       with:
@@ -80,6 +82,7 @@ jobs:
       needs:
         [
           validate-terraform,
+          derive-tf-versions,
         ]
       uses: ./.github/workflows/action-infrastructure-stack.yaml
       with:
