@@ -11,8 +11,6 @@ on:
         type: string
 
 jobs:
-  # derive-tf-versions:
-  #   uses: ./.github/workflows/derive-tf-version.yaml
   validate-against-tf-versions:
     name: Validate terraform against the max version
     runs-on: ubuntu-latest
@@ -20,7 +18,6 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    # needs: derive-tf-versions
     strategy:
       matrix:
         stack:
