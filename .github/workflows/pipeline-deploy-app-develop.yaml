@@ -7,6 +7,8 @@ on:
       - 'task/*'
 
 jobs:
+  derive-tf-versions:
+    uses: ./.github/workflows/derive-tf-version.yaml
   get-metadata:
     runs-on: ubuntu-latest
     outputs:
@@ -34,8 +36,10 @@ jobs:
   validate-terraform:
     name: Validate terraform code
     uses: ./.github/workflows/validate-terraform.yaml
+    needs: derive-tf-versions
     with:
       ENV: dev
+      tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
     secrets: inherit
   check-python-black-format:
       uses: ./.github/workflows/check-python-black-format.yaml
@@ -65,17 +69,20 @@ jobs:
         [
           unit-tests,
           validate-terraform,
+          derive-tf-versions,
         ]
       uses: ./.github/workflows/action-infrastructure-stack.yaml
       with:
         github_environment: dev
         stack: capacity_management
         action: apply
+        tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
       secrets: inherit
   deploy-support-tools-infrastructure:
       needs:
         [
           validate-terraform,
+          derive-tf-versions,
         ]
       uses: ./.github/workflows/action-infrastructure-stack.yaml
       with:
@@ -83,6 +90,7 @@ jobs:
         stack: support_tools
         action: plan
         deployment_workspace: default
+        tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
       secrets: inherit
   build-and-deploy-application-code:
     runs-on: ubuntu-latest
