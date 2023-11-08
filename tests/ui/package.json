@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@cucumber/cucumber": "^10.0.1",
+    "@cucumber/pretty-formatter": "^1.0.0",
+    "fs-extra": "^11.1.1",
+    "playwright": "^1.39.0",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.39.0"
+  },
+  "scripts": {
+    "pretest": "npx ts-node src/utilities/init.ts",
+    "test": "cucumber-js test"
+  }
+}
