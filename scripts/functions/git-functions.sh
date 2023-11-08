@@ -90,6 +90,24 @@ function export_terraform_workspace_name {
     export TERRAFORM_WORKSPACE_NAME
 }
 
-#
+# generate tag based on jira ref (derived from branch name ) and commit hash
+function export_generated_tag {
+    if [ -z "$TAG_TYPE" ] ; then
+      TAG_TYPE="T"
+    fi
+    GENERATED_TAG="$TERRAFORM_WORKSPACE_NAME-$TAG_TYPE-$COMMIT_HASH_SHORT"
+    export GENERATED_TAG
+}
+
+
+function export_short_commit_hash {
+    COMMIT_HASH_SHORT="$(git rev-parse --short HEAD)"
+    export COMMIT_HASH_SHORT
+}
+
+function tag_code_at_commit {
+    git tag $GENERATED_TAG $COMMIT_HASH_SHORT
+    git push origin $GENERATED_TAG
+}
 
 
