@@ -25,7 +25,7 @@ AfterStep(async function ({pickle, result}) {
 After(async function ({pickle, result}) {
     console.log(result?.status);
     //screenshot for end of every scenario
-    // const img = await pageFixture.page.screenshot({path: `./test-results/screenshots/${pickle.name}.png`, type: "png"})
+    const img = await pageFixture.page.screenshot({path: `reports/screenshots/${pickle.name}.png`, type: "png"})
     if(result?.status == Status.FAILED) {
     const img = await pageFixture.page.screenshot({path: `reports/screenshots/${pickle.name}.png`, type: "png"})
     await this.attach(img, "image/png")}
