@@ -7,7 +7,6 @@ let context: BrowserContext
 
 BeforeAll(async  function() {
     browser = await chromium.launch({ headless: false});
-
 });
 
 Before(async  function() {
@@ -26,10 +25,11 @@ After(async function ({pickle, result}) {
     console.log(result?.status);
     //screenshot for end of every scenario
     const img = await pageFixture.page.screenshot({path: `reports/screenshots/${pickle.name}.png`, type: "png"})
+    //screenshot for every failure
     if(result?.status == Status.FAILED) {
     const img = await pageFixture.page.screenshot({path: `reports/screenshots/${pickle.name}.png`, type: "png"})
     await this.attach(img, "image/png")}
-
+    //close page and context
     await pageFixture.page.close();
     await context.close();
 })
