@@ -6,7 +6,7 @@ set -e
 # The format for the tag is $TAG_TYPE-$TERRAFORM_WORKSPACE_NAME-$COMMIT_HASH_SHORT
 # Where
 # TAG_TYPE defaults to T but can we set by exporting an alternative value before calling script
-# TERRAFORM_WORKSPACE_NAME = JIRA ticket number eg dr-999
+# BRANCH_NAME =
 # COMMIT_HASH_SHORT = short version of the commit hash (ie commit to be tagged)
 
 # functions
@@ -20,6 +20,11 @@ EXPORTS_SET=0
 if [ -z "$TAG_TYPE" ] ; then
     echo TAG_TYPE defaulting to T
     TAG_TYPE="T"
+fi
+
+if [ -z "$BRANCH_NAME" ] ; then
+    echo BRANCH_NAME not set
+    EXPORTS_SET=1
 fi
 
 export_terraform_workspace_name

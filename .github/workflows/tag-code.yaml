@@ -19,6 +19,7 @@ jobs:
         id: get-test-tag
         run: |
           export TAG_TYPE="T"
+          export BRANCH_NAME=${{ github.head_ref }}
           echo "TEST_TAG=$(/bin/bash ./scripts/tag-code.sh)" >> $GITHUB_OUTPUT
     outputs:
       test_tag: "${{ steps.get-test-tag.outputs.TEST_TAG }}"
