@@ -1,4 +1,4 @@
-name: Tag code if code labelled
+name: Tag code if PR labelled
 
 on:
   pull_request:
@@ -6,27 +6,29 @@ on:
 
 jobs:
   generate-test-ready-tag:
-    if: ${{ github.event.label.name == 'Test Ready' }}
+    # if: ${{ github.event.label.name == 'Test Ready' }}
     runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Run a one-line script
-      run: echo Hello ${{ github.event.label.name }}
-  tag-code:
-    runs-on: ubuntu-latest
-    environment: ${{ inputs.github_environment }}
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Tag test ready code
+        id: get-test-tag
         run: |
-          export ACTION=${{ inputs.action }}
-          export STACK=${{ inputs.stack }}
-          export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
+          export TAG_TYPE="T"
+          echo "TEST_TAG=$(/bin/bash ./scripts/tag-code.sh)" >> $GITHUB_OUTPUT
+    outputs:
+      test_tag: "${{ steps.get-test-tag.outputs.TEST_TAG }}"
+  apply-test-ready-tag:
+    runs-on: ubuntu-latest
+    needs: generate-test-ready-tag
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-          /bin/bash ./scripts/tag-code.sh
+      - name: Tag test-ready code
+        run: echo Tagging code with ${{needs.generate-test-ready-tag.outputs.test_tag}}
+
+      - name: End
+        run: echo Done
+

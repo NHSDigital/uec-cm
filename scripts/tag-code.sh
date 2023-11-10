@@ -40,9 +40,7 @@ if [ $EXPORTS_SET = 1 ] ; then
 fi
 
 # continue if required exports set
+generate_tag
 
-export_generated_tag
-echo "Created tag $GENERATED_TAG (tag type: $TAG_TYPE branch ref $TERRAFORM_WORKSPACE_NAME commit hash: $COMMIT_HASH_SHORT)"
-# now tag code and push
-tag_code_at_commit
+
 
