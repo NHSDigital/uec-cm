@@ -8,7 +8,7 @@ on:
 
 jobs:
   generate-test-ready-tag:
-    # if: ${{ github.event.label.name == 'Test Ready' }}
+    if: ${{ github.event.label.name == 'Test Ready' }} && startsWith(github.head_ref, 'task/')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
