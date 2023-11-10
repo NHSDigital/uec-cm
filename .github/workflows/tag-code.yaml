@@ -3,12 +3,10 @@ name: Tag code if PR labelled
 on:
   pull_request:
     types: [ labeled ]
-    branches:
-      - 'task/*'
 
 jobs:
   generate-test-ready-tag:
-    if: ${{ github.event.label.name == 'Test Ready' }}
+    if: ${{ github.event.label.name == 'Test Ready' }} && && startswith(github.head.ref, 'task/')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
