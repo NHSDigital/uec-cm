@@ -2,10 +2,13 @@
 
 # fail on first error
 set -e
-# This script generates a tag for git repo
-# Defaults to a Test tag (T)
-# To generate different tag eg release (R) prior to calling script
-# export TAG_TYPE="R"
+# This script generates a git tag
+# The format for the tag is $TAG_TYPE-$TERRAFORM_WORKSPACE_NAME-$COMMIT_HASH_SHORT
+# Where
+# TAG_TYPE defaults to T but can we set by exporting an alternative value before calling script
+# TERRAFORM_WORKSPACE_NAME = JIRA ticket number eg dr-999
+# COMMIT_HASH_SHORT = short version of the commit hash (ie commit to be tagged)
+
 # functions
 source ./scripts/project-common.sh
 source ./scripts/functions/terraform-functions.sh
@@ -39,8 +42,7 @@ fi
 # continue if required exports set
 
 export_generated_tag
-echo "Created tag $GENERATED_TAG (tag type: $TAG_TYPE branch $TERRAFORM_WORKSPACE_NAME commit hash: $COMMIT_HASH_SHORT)"
-echo
+echo "Created tag $GENERATED_TAG (tag type: $TAG_TYPE branch ref $TERRAFORM_WORKSPACE_NAME commit hash: $COMMIT_HASH_SHORT)"
 # now tag code and push
 tag_code_at_commit
 

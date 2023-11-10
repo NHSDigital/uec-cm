@@ -95,7 +95,7 @@ function export_generated_tag {
     if [ -z "$TAG_TYPE" ] ; then
       TAG_TYPE="T"
     fi
-    GENERATED_TAG="$TERRAFORM_WORKSPACE_NAME-$TAG_TYPE-$COMMIT_HASH_SHORT"
+    GENERATED_TAG="$TAG_TYPE-$TERRAFORM_WORKSPACE_NAME-$COMMIT_HASH_SHORT"
     export GENERATED_TAG
 }
 
