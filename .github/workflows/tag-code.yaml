@@ -18,7 +18,7 @@ jobs:
       - name: Tag test ready code
         id: get-test-tag
         run: |
-          export TAG_TYPE="T"
+          export TAG_TYPE="test"
           export BRANCH_NAME=${{ github.head_ref }}
           echo "TEST_TAG=$(/bin/bash ./scripts/tag-code.sh)" >> $GITHUB_OUTPUT
     outputs:
@@ -36,6 +36,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: ${{needs.generate-test-ready-tag.outputs.test_tag}}
+          tag_prefix: ""
         # uses: rickstaa/action-create-tag@v1
         # id: "tag-code"
         # with:
