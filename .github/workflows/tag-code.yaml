@@ -31,12 +31,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Tag test-ready code
-        uses: rickstaa/action-create-tag@v1
         id: "tag-code"
+        uses: mathieudutour/github-tag-action@v6.1
         with:
-          tag: ${{needs.generate-test-ready-tag.outputs.test_tag}}
-          tag_exists_error: true
-          message: "Tagged via workflow"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: ${{needs.generate-test-ready-tag.outputs.test_tag}}
+        # uses: rickstaa/action-create-tag@v1
+        # id: "tag-code"
+        # with:
+        #   tag: ${{needs.generate-test-ready-tag.outputs.test_tag}}
+        #   tag_exists_error: true
+        #   message: "Tagged via workflow"
           # gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           # gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
