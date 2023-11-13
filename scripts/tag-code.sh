@@ -18,8 +18,8 @@ source ./scripts/functions/git-functions.sh
 EXPORTS_SET=0
 
 if [ -z "$TAG_TYPE" ] ; then
-    echo TAG_TYPE defaulting to T
-    TAG_TYPE="T"
+    echo TAG_TYPE defaulting to test
+    TAG_TYPE="test"
 fi
 
 if [ -z "$BRANCH_NAME" ] ; then
