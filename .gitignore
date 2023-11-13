@@ -36,7 +36,7 @@ __pycache__
 *.pyc
 .coverage.*
 coverage.xml
-tests/*/reports/*
+
 
 # IDE - VSCode
 .vscode/*
@@ -47,3 +47,10 @@ tests/*/reports/*
 
 # Chalice build and configuration scripts
 *chalicebuild*
+
+# Tests
+tests/*/reports/*
+tests/*/node_modules/
+tests/*/playwright/.cache/
+
+
