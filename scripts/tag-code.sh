@@ -28,7 +28,6 @@ if [ -z "$BRANCH_NAME" ] ; then
 fi
 
 export_terraform_workspace_name
-get_branch_name
 export_short_commit_hash
 
 if [ -z "$TERRAFORM_WORKSPACE_NAME" ] ; then

@@ -105,9 +105,6 @@ function export_short_commit_hash {
     export COMMIT_HASH_SHORT
 }
 
-function get_branch_name {
-  git rev-parse --abbrev-ref HEAD
-}
 
 
 
