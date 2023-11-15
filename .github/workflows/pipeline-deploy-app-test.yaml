@@ -23,7 +23,7 @@ jobs:
           echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
           echo "triggering action: ${{ github.event_name }}"
           echo "ref type: ${{ github.ref_type }}"
-          echo "triggering reference: ${{ github.ref_name }}"
+          echo "triggering git reference: ${{ github.ref_name }}"
   deploy-application-infrastructure:
     needs:
       [
