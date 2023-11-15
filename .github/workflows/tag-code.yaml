@@ -30,7 +30,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Tag test-ready code
+      - name: Tag test ready code
         id: "tag-code"
         uses: mathieudutour/github-tag-action@v6.1
         with:
