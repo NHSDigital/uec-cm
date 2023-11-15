@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Tag test ready code
+      - name: Generate test ready tag
         id: get-test-tag
         run: |
           export TAG_TYPE="test"
