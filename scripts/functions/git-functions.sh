@@ -79,7 +79,7 @@ function export_terraform_workspace_name {
           TERRAFORM_WORKSPACE_NAME=$(echo "$DEPLOYMENT_WORKSPACE" | tr "." "-")
         fi
     else
-      BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+      BRANCH_NAME="${BRANCH_NAME:-$(git rev-parse --abbrev-ref HEAD)}"
       if [ "$BRANCH_NAME" != 'main' ] && [[ $BRANCH_NAME =~ $GIT_BRANCH_PATTERN ]]  ; then
         IFS='/' read -r -a name_array <<< "$BRANCH_NAME"
         IFS='_' read -r -a ref <<< "${name_array[1]}"
@@ -90,6 +90,22 @@ function export_terraform_workspace_name {
     export TERRAFORM_WORKSPACE_NAME
 }
 
-#
+# generate tag based on jira ref (derived from branch name ) commit hash and tag type
+function generate_tag {
+    if [ -z "$TAG_TYPE" ] ; then
+      TAG_TYPE="test"
+    fi
+    GENERATED_TAG="$TERRAFORM_WORKSPACE_NAME-$COMMIT_HASH_SHORT-$TAG_TYPE"
+    echo "$GENERATED_TAG"
+}
+
+
+function export_short_commit_hash {
+    COMMIT_HASH_SHORT="$(git rev-parse --short HEAD)"
+    export COMMIT_HASH_SHORT
+}
+
+
+
 
 
