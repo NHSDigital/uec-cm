@@ -40,6 +40,4 @@ jobs:
   deploy-to-test:
     name: Deploy to test via callable workflow
     uses: ./.github/workflows/pipeline-deploy-app-test.yaml
-
-
-
+    secrets: inherit
