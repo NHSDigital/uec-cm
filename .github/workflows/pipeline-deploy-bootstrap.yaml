@@ -6,16 +6,21 @@ on:
       - 'main'
 
 jobs:
-    deploy-bootstrap-cm-dev:
-      name: Run bootstrap for cm dev account
-      uses: ./.github/workflows/deploy-bootstrap.yaml
-      with:
-        ENV: dev
-      secrets: inherit
-    deploy-bootstrap-cm-test:
-      name: Run bootstrap for cm test account
-      uses: ./.github/workflows/deploy-bootstrap.yaml
-      with:
-        ENV: test
-      secrets: inherit
-    # TODO add other cm related accounts as required
+  derive-tf-versions:
+    name: Derive terraform version
+    uses: ./.github/workflows/derive-tf-version.yaml
+  deploy-bootstrap-cm-dev:
+    name: Run bootstrap for cm dev account
+    needs: derive-tf-versions
+    uses: ./.github/workflows/deploy-bootstrap.yaml
+    with:
+      ENV: dev
+    secrets: inherit
+  deploy-bootstrap-cm-test:
+    name: Run bootstrap for cm test account
+    needs: derive-tf-versions
+    uses: ./.github/workflows/deploy-bootstrap.yaml
+    with:
+      ENV: test
+    secrets: inherit
+  # TODO add other cm related accounts as required
