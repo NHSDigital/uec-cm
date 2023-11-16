@@ -1,9 +1,12 @@
 name: Pipeline Deployment Application Test Environment
 
+# on:
+#   push:
+#     tags:
+#       - '[A-Za-z][A-Za-z]-[0-9][0-9]?[0-9]?[0-9]?-[A-Za-z0-9][A-Za-z0-9]*-test'
+
 on:
-  push:
-    tags:
-      - '[A-Za-z][A-Za-z]-[0-9][0-9]?[0-9]?[0-9]?-[A-Za-z0-9][A-Za-z0-9]*-test'
+  workflow_call:
 
 jobs:
   derive-tf-versions:
