@@ -1,5 +1,5 @@
 name: Tag code if PR labelled
-
+# TODO add ref to use tag if necessary
 on:
   pull_request:
     types: [ labeled ]
@@ -39,5 +39,11 @@ jobs:
           tag_prefix: ""
   deploy-to-test:
     name: Deploy to test via callable workflow
+    needs: [
+      generate-test-ready-tag,
+      apply-test-ready-tag,
+    ]
     uses: ./.github/workflows/pipeline-deploy-app-test.yaml
+    with:
+      git_tag: ${{needs.generate-test-ready-tag.outputs.test_tag}}
     secrets: inherit
