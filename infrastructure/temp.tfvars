@@ -1,2 +1,2 @@
 # None
-cm_temp_bucket_name = "temp_data-bucket"
+cm_temp_bucket_name = "temp-data-bucket"
