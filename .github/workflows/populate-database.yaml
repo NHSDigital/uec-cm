@@ -1,5 +1,4 @@
 name: Populate Database
-# TODO add ref to use tag if necessary
 on:
   workflow_call:
     inputs:
