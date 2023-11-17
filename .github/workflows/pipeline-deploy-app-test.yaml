@@ -47,7 +47,7 @@ jobs:
       - id: derive-workspace-from-tag
         name: Extract deployment workspace from git tag
         run: |
-            echo "deployment_workspace=$(awk -F- '{print $1}' <<< ${{ inputs.git_tag }})-$(awk -F- '{print $2}' <<< ${{ inputs.git_tag }}) >> $GITHUB_OUTPUT
+            echo "deployment_workspace=$(awk -F- '{print $1}' <<< ${{ inputs.git_tag }})-$(awk -F- '{print $2}' <<< ${{ inputs.git_tag }})" >> $GITHUB_OUTPUT
   deploy-application-infrastructure:
     name: Deploy application infrastructure
     needs:
