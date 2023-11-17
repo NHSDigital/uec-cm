@@ -13,6 +13,7 @@ on:
         description: "Defines git commit tag to be used for deployment"
         required: true
         type: string
+
 jobs:
   derive-tf-versions:
     name: Derive terraform version
@@ -37,16 +38,27 @@ jobs:
           echo "ref type: ${{ github.ref_type }}"
           echo "triggering git reference: ${{ github.ref_name }}"
           echo "deploying from git tag ${{ inputs.git_tag }}"
+  derive-deployment-workspace:
+    name: Derive deployment workspace
+    runs-on: ubuntu-latest
+    outputs:
+      deployment_workspace: ${{ steps.derive-workspace-from-tag.outputs.deployment_workspace }}
+    steps:
+      - id: derive-workspace-from-tag
+        name: Extract deployment workspace from git tag
+        run: |
+            echo "deployment_workspace=$(awk -F- '{print $1}' <<< ${{ inputs.git_tag }})-$(awk -F- '{print $2}' <<< ${{ inputs.git_tag }}) >> $GITHUB_OUTPUT
   deploy-application-infrastructure:
     name: Deploy application infrastructure
     needs:
       [
         derive-tf-versions,
+        derive-deployment-workspace,
       ]
     uses: ./.github/workflows/action-infrastructure-stack.yaml
     with:
       github_environment: "test"
-      deployment_workspace: ${{ github.ref_name }}
+      deployment_workspace: ${{ needs.derive-deployment-workspace.outputs.deployment_workspace }}
       stack: temp
       action: plan
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
