@@ -56,3 +56,22 @@ jobs:
   cloc-repository:
     name: Count lines of code
     uses: ./.github/workflows/cloc-repository.yaml
+  deploy-application-infrastructure:
+    needs:
+      [
+        get-metadata,
+        scan-secrets,
+        check-file-format,
+        check-markdown-format,
+        check-terraform-format,
+        check-python-black-format,
+        check-python-flake-rules,
+        cloc-repository,
+      ]
+    uses: ./.github/workflows/action-infrastructure-stack.yaml
+    with:
+      github_environment: dev
+      stack: temp
+      action: apply
+      tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
+    secrets: inherit
