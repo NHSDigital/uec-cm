@@ -29,6 +29,7 @@ on:
 
 jobs:
   echo-workflow-inputs:
+    name: List inputs
     runs-on: ubuntu-latest
     steps:
       - name: echo workflow inputs
@@ -39,6 +40,7 @@ jobs:
           echo "action: ${{ inputs.action }}"
           echo "git ref ${{ inputs.git_ref }}"
   action-stack:
+    name: Run terraform
     runs-on: ubuntu-latest
     environment: ${{ inputs.github_environment }}
     permissions:
