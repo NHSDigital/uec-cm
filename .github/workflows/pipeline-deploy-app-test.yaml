@@ -1,11 +1,5 @@
 name: Pipeline Deployment Application Test Environment
 
-# TODO add ref to use tag if necessary
-# on:
-#   push:
-#     tags:
-#       - '[A-Za-z][A-Za-z]-[0-9][0-9]?[0-9]?[0-9]?-[A-Za-z0-9][A-Za-z0-9]*-test'
-
 on:
   workflow_call:
     inputs:
@@ -60,7 +54,7 @@ jobs:
       github_environment: "test"
       deployment_workspace: ${{ needs.derive-deployment-workspace.outputs.deployment_workspace }}
       stack: temp
-      action: plan
+      action: apply
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
       git_ref: ${{ inputs.git_tag }}
     secrets: inherit
