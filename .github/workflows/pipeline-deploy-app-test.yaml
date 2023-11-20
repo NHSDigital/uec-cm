@@ -53,7 +53,7 @@ jobs:
     with:
       github_environment: "test"
       deployment_workspace: ${{ needs.derive-deployment-workspace.outputs.deployment_workspace }}
-      stack: temp
+      stack: application
       action: apply
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
       git_ref: ${{ inputs.git_tag }}
