@@ -3,13 +3,13 @@ on:
   push:
     branches:
       - ' task/DR-436_Fix_broken_bootstrapper'
-  workflow_dispatch:
-    inputs:
-      git_tag:
-        description: "Specify the git commit tag to be used for deployment"
-        required: true
-        default: 'dr-436-84e575f-test'
-        type: string
+  # workflow_dispatch:
+  #   inputs:
+  #     git_tag:
+  #       description: "Specify the git commit tag to be used for deployment"
+  #       required: true
+  #       default: 'dr-436-84e575f-test'
+  #       type: string
 
 jobs:
   deploy-to-test:
