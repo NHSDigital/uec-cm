@@ -1,5 +1,4 @@
 name: Derive max version of terraform
-# TODO add ref to use tag if necessary
 on:
   workflow_call:
     inputs:
