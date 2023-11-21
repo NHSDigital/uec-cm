@@ -12,5 +12,5 @@ jobs:
     name: Deploy tagged code to test
     uses: ./.github/workflows/pipeline-deploy-app-test.yaml
     with:
-      git_tag: ${{ inputs.git_tag }}'
+      git_tag: ${{ inputs.git_tag }}
     secrets: inherit
