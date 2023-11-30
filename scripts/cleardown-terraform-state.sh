@@ -22,6 +22,9 @@ if [ $EXPORTS_SET = 1 ] ; then
 fi
 
 echo "Current terraform workspace is --> $TERRAFORM_WORKSPACE_NAME"
+echo "Terraform state S3 bucket name is --> $TERRAFORM_BUCKET_NAME"
+echo "Terraform state lock DynamoDB table is --> $TERRAFORM_LOCK_TABLE"
+
 
 # Delete terraform state for current terraform workspace & echo results following deletion
 
