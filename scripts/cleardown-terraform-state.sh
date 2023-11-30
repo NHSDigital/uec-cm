@@ -25,12 +25,12 @@ echo "current terraform workspace is $TERRAFORM_WORKSPACE_NAME"
 
 # delete terraform state for current terraform workspace
 
-aws s3 rm s3://nhse-dev-uec-cm-terraform-state/env:/ --recursive --exclude "*" --include "$TERRAFORM_WORKSPACE_NAME/*"
+aws s3 rm s3://$TERRAFORM_BUCKET_NAME/env:/ --recursive --exclude "*" --include "$TERRAFORM_WORKSPACE_NAME/*"
 echo "Sucessfully deleted terraform state for the following workspace $TERRAFORM_WORKSPACE_NAME"
 
 # delete terraform state lock for current terraform workspace
 aws dynamodb delete-item \
-    --table-name "nhse-dev-uec-cm-terraform-state-lock" \
+    --table-name "$TERRAFORM_LOCK_TABLE" \
     --key '{"LockID": {
-    "S": "nhse-dev-uec-cm-terraform-state/env:/'${TERRAFORM_WORKSPACE_NAME}'/application/terraform.state-md5"}}'
+    "S": "'${TERRAFORM_BUCKET_NAME}'/env:/'${TERRAFORM_WORKSPACE_NAME}'/application/terraform.state-md5"}}'
 echo "Sucessfully deleted terraform state lock for the following workspace $TERRAFORM_WORKSPACE_NAME"
