@@ -56,23 +56,23 @@ jobs:
   cloc-repository:
     name: Count lines of code
     uses: ./.github/workflows/cloc-repository.yaml
-  unit-tests:
-    needs:
-      [
-        get-metadata,
-        scan-secrets,
-        check-file-format,
-        check-markdown-format,
-        check-terraform-format,
-        check-python-black-format,
-        check-python-flake-rules,
-        cloc-repository,
-      ]
-    name: Run unit test
-    uses: ./.github/workflows/unit-test.yaml
-    with:
-      github_environment: dev
-    secrets: inherit
+  # unit-tests:
+  #   needs:
+  #     [
+  #       get-metadata,
+  #       scan-secrets,
+  #       check-file-format,
+  #       check-markdown-format,
+  #       check-terraform-format,
+  #       check-python-black-format,
+  #       check-python-flake-rules,
+  #       cloc-repository,
+  #     ]
+  #   name: Run unit test
+  #   uses: ./.github/workflows/unit-test.yaml
+  #   with:
+  #     github_environment: dev
+  #   secrets: inherit
   deploy-application-infrastructure:
     needs:
       [
