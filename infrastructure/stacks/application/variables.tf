@@ -5,6 +5,3 @@ variable "cm_temp_bucket_name" {
 variable "front-end-s3-bucket-name" {
   description = "CM Front End"
 }
-
-
-
