@@ -12,9 +12,9 @@ resource "aws_cloudfront_origin_access_identity" "static_website" {
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
-    domain_name               = var.s3_bucket_regional_domain_name
-    origin_access_control_id  = aws_cloudfront_origin_access_control.frontend.id
-    origin_id                 = "S3Origin"
+    domain_name              = var.s3_bucket_regional_domain_name
+    origin_access_control_id = aws_cloudfront_origin_access_control.frontend.id
+    origin_id                = "S3Origin"
   }
 
   enabled             = true
