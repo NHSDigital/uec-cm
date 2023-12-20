@@ -4,16 +4,16 @@ module "front_end_bucket" {
 }
 
 resource "aws_s3_object" "index_html" {
-  bucket        = module.front_end_bucket.s3_bucket_id
-  key           = "index.html"
-  content       = "<html><body><h1>Hello, UEC CM World!</h1></body></html>"
-  content_type  = "text/html"
+  bucket       = module.front_end_bucket.s3_bucket_id
+  key          = "index.html"
+  content      = "<html><body><h1>Hello, UEC CM World!</h1></body></html>"
+  content_type = "text/html"
 }
 
 module "front_end_cloudfront" {
-  source                          = "../../modules/cloudfront"
-  s3_bucket_id                    = module.front_end_bucket.s3_bucket_id
-  s3_bucket_regional_domain_name  = module.front_end_bucket.s3_bucket_bucket_domain_name
+  source                         = "../../modules/cloudfront"
+  s3_bucket_id                   = module.front_end_bucket.s3_bucket_id
+  s3_bucket_regional_domain_name = module.front_end_bucket.s3_bucket_bucket_domain_name
 }
 
 resource "aws_s3_bucket_policy" "allow_access_from_cloudfront" {
