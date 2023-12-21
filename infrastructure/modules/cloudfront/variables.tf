@@ -8,35 +8,35 @@ variable "s3_bucket_regional_domain_name" {
 
 variable "comment" {
   description = "The default comment"
-  default = "S3 bucket distribution"
+  default     = "S3 bucket distribution"
 }
 
 variable "default_root_object" {
   description = "The default root object"
-  default = "index.html"
+  default     = "index.html"
 }
 
 variable "allowed_methods" {
   description = "allowed methods"
-  default = ["GET", "HEAD"]
+  default     = ["GET", "HEAD"]
 }
 
 variable "cached_methods" {
   description = "cached methods"
-  default = ["GET", "HEAD"]
+  default     = ["GET", "HEAD"]
 }
 
 variable "min_ttl" {
   description = "min ttl"
-  default = 0
+  default     = 0
 }
 
 variable "default_ttl" {
   description = "default ttl"
-  default = 3600
+  default     = 3600
 }
 
 variable "max_ttl" {
   description = "max ttl"
-  default = 86400
+  default     = 86400
 }
