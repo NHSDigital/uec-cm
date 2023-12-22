@@ -6,12 +6,12 @@ module "s3" {
   attach_policy  = var.attach_policy
   policy         = var.policy
   lifecycle_rule = var.lifecycle_rule_inputs
+  force_destroy  = false
 
-  force_destroy           = false
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
+  block_public_acls       = var.block_public_acls
+  block_public_policy     = var.block_public_policy
+  ignore_public_acls      = var.ignore_public_acls
+  restrict_public_buckets = var.restrict_public_buckets
 
   server_side_encryption_configuration = {
     rule = {
