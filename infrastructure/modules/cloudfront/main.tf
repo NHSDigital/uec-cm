@@ -1,5 +1,5 @@
 resource "aws_cloudfront_origin_access_control" "frontend" {
-  name                              = "frontend"
+  name                              = "${var.project}-${var.environment}-${var.front-end-s3-bucket-name}${local.workspace_suffix}"
   description                       = "Access Policy for the Frontend Bucket"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
