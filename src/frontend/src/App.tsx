@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      Hello UEC CM World from React!'
+      Hello UEC CM World from React!
     </div>
   );
 }
