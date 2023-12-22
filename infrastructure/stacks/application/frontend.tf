@@ -14,6 +14,7 @@ module "front_end_cloudfront" {
   source                         = "../../modules/cloudfront"
   s3_bucket_id                   = module.front_end_bucket.s3_bucket_id
   s3_bucket_regional_domain_name = module.front_end_bucket.s3_bucket_bucket_domain_name
+  cloud_front_name               = "${var.project}-${var.environment}-${var.front-end-s3-bucket-name}${local.workspace_suffix}"
 }
 
 resource "aws_s3_bucket_policy" "allow_access_from_cloudfront" {
