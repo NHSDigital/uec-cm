@@ -40,3 +40,7 @@ variable "max_ttl" {
   description = "max ttl"
   default     = 86400
 }
+
+variable "cloud_front_name" {
+  description = "Name of the cloudfront instance"
+}
