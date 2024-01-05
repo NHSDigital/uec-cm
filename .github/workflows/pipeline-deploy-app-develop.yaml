@@ -93,3 +93,44 @@ jobs:
       action: apply
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
     secrets: inherit
+  build-and-deploy-react-app:
+    runs-on: ubuntu-latest
+    needs:
+      - deploy-application-infrastructure  # or any other dependencies
+    environment: dev
+    permissions:
+      id-token: write
+      contents: read
+    strategy:
+      matrix:
+        service-name:
+          - your-react-app-service  # Change this to your React app service name
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Specify Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build React app
+        run: npm run build
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2.2.0
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/your-role
+          role-session-name: github-pipeline-session
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Deploy React App
+        run: |
+          # Add your deployment script here
+          # For example, deploying to S3:
+          aws s3 cp build/ s3://your-s3-bucket-name/ --recursive
+
