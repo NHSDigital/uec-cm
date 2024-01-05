@@ -1,11 +1,15 @@
 import React from 'react';
 import './App.css';
+import Header from './components/header';
 
 function App() {
   return (
     // @ts-ignore
-    <div className="App">
-      Hello UEC CM World from React!
+    <div>
+      <Header />
+      <div className="centered-text">
+          <h3>Hello and welcome to UEC Capacity Management</h3>
+      </div>
     </div>
   );
 }
