@@ -101,10 +101,6 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    strategy:
-      matrix:
-        service-name:
-          - your-react-app-service  # Change this to your React app service name
 
     steps:
       - name: Checkout Repository
@@ -113,7 +109,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Specify Node.js version
+          node-version: '14'
 
       - name: Install dependencies
         run: npm install
@@ -121,16 +117,31 @@ jobs:
       - name: Build React app
         run: npm run build
 
+      - name: Extract Workspace Name
+        run: echo "WORKSPACE=$(echo ${GITHUB_REF#refs/heads/} | sed 's/.*\/\(.*\)/\1/')" >> $GITHUB_ENV
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2.2.0
         with:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/your-role
           role-session-name: github-pipeline-session
-          aws-region: ${{ vars.AWS_REGION }}
+          aws-region: eu-west-1  # Change to the right AWS region
+
+      - name: Find S3 Bucket
+        id: find_bucket
+        run: |
+          BUCKET_NAME=$(for bucket in $(aws s3api list-buckets --query "Buckets[].Name" --output text)
+          do
+            workspace_tag=$(aws s3api get-bucket-tagging --bucket $bucket --query "TagSet[?Key=='Workspace'].Value" --output text 2>/dev/null)
+            if [ "$workspace_tag" == "${{ env.WORKSPACE }}" ]; then
+              echo $bucket
+              break
+            fi
+          done)
+          echo "S3_BUCKET_NAME=$BUCKET_NAME" >> $GITHUB_ENV
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Deploy React App
-        run: |
-          # Add your deployment script here
-          # For example, deploying to S3:
-          aws s3 cp build/ s3://your-s3-bucket-name/ --recursive
-
+        run: aws s3 cp build/ s3://${{ env.S3_BUCKET_NAME }}/ --recursive
