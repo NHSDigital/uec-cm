@@ -17,6 +17,7 @@ jobs:
       build_datetime: ${{ steps.metadata.outputs.build_datetime }}
       build_timestamp: ${{ steps.metadata.outputs.build_timestamp }}
       build_epoch: ${{ steps.metadata.outputs.build_epoch }}
+      workspace: ${{ steps.extract_workspace.outputs.workspace }}
     steps:
       - id: metadata
         run: |
@@ -27,6 +28,9 @@ jobs:
           echo "triggering action: ${{ github.event_name }}"
           echo "ref type: ${{ github.ref_type }}"
           echo "triggering reference: ${{ github.ref_name }}"
+      - name: Extract Workspace Name
+        id: extract_workspace
+        run: echo "::set-output name=workspace::$(echo ${GITHUB_REF#refs/heads/} | sed 's/.*\/\(.*\)/\1/')"
   scan-secrets:
     name: Scan code for secrets
     uses: ./.github/workflows/scan-secrets.yaml
@@ -92,6 +96,7 @@ jobs:
       stack: application
       action: apply
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
+      workspace: ${{needs.get-metadata.outputs.workspace}}
     secrets: inherit
   build-and-deploy-react-app:
     runs-on: ubuntu-latest
