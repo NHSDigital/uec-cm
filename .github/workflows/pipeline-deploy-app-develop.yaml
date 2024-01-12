@@ -112,10 +112,10 @@ jobs:
           node-version: '14'
 
       - name: Install dependencies
-        run: npm install
+        run: cd src/frontend && npm install
 
       - name: Build React app
-        run: npm run build
+        run: cd src/frontend && npm run build
 
       - name: Extract Workspace Name
         run: echo "WORKSPACE=$(echo ${GITHUB_REF#refs/heads/} | sed 's/.*\/\(.*\)/\1/')" >> $GITHUB_ENV
@@ -144,4 +144,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Deploy React App
-        run: aws s3 cp build/ s3://${{ env.S3_BUCKET_NAME }}/ --recursive
+        run: |
+          cd src/frontend
+          aws s3 cp build/ s3://${{ env.S3_BUCKET_NAME }}/ --recursive
