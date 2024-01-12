@@ -109,7 +109,3 @@ jobs:
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
       git_ref: ${{ inputs.git_tag }}
     secrets: inherit
-  build-and-deploy-react-app:
-    needs: deploy-application-infrastructure
-    name: Build and Deploy React App
-    uses: ./.github/workflows/build-deploy-react-app.yaml
