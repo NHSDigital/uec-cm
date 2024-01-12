@@ -29,6 +29,8 @@ jobs:
           echo "triggering action: ${{ github.event_name }}"
           echo "ref type: ${{ github.ref_type }}"
           echo "triggering reference: ${{ github.ref_name }}"
+          echo "triggering git reference: ${{ github.ref_name }}"
+          echo "deploying from git tag ${{ inputs.git_tag }}"
   scan-secrets:
     name: Scan code for secrets
     uses: ./.github/workflows/scan-secrets.yaml
