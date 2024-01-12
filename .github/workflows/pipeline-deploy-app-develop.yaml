@@ -1,10 +1,12 @@
 name: Pipeline Deployment Application Development Environment
 
 on:
-  push:
-    branches:
-      - main
-      - 'task/*'
+  workflow_call:
+    inputs:
+      git_tag:
+        description: "Defines git commit tag to be used for deployment"
+        required: true
+        type: string
 
 jobs:
   derive-tf-versions:
@@ -104,7 +106,7 @@ jobs:
       ]
     uses: ./.github/workflows/action-infrastructure-stack.yaml
     with:
-      github_environment: dev
+      github_environment: "dev"
       deployment_workspace: ${{ needs.derive-deployment-workspace.outputs.deployment_workspace }}
       stack: application
       action: apply
