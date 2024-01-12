@@ -132,15 +132,21 @@ jobs:
       - name: Find S3 Bucket
         id: find_bucket
         run: |
-          BUCKET_NAME=$(for bucket in $(aws s3api list-buckets --query "Buckets[].Name" --output text)
+          for bucket in $(aws s3api list-buckets --query "Buckets[].Name" --output text)
           do
+            echo "Checking bucket $bucket"
             workspace_tag=$(aws s3api get-bucket-tagging --bucket $bucket --query "TagSet[?Key=='Workspace'].Value" --output text 2>/dev/null)
             if [ "$workspace_tag" == "${{ env.WORKSPACE }}" ]; then
-              echo $bucket
+              echo "Found matching bucket: $bucket"
+              echo "S3_BUCKET_NAME=$bucket" >> $GITHUB_ENV
               break
             fi
-          done)
-          echo "S3_BUCKET_NAME=$BUCKET_NAME" >> $GITHUB_ENV
+          done
+
+          if [ -z "${{ env.S3_BUCKET_NAME }}" ];
+          then
+            echo "Could not find a bucket with Workspace tag matching ${{ env.WORKSPACE }}"
+          fi
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
