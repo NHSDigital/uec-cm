@@ -11,6 +11,11 @@ on:
         description: "Defines git commit tag to be used for deployment"
         required: true
         type: string
+      deployment_workspace:
+        type: string
+        description: 'Name of the terraform workspace to tear down the service infrastructure'
+        required: false
+        default: 'not-set'
 
 jobs:
   derive-tf-versions:
@@ -37,6 +42,7 @@ jobs:
           echo "triggering reference: ${{ github.ref_name }}"
           echo "triggering git reference: ${{ github.ref_name }}"
           echo "deploying from git tag ${{ inputs.git_tag }}"
+          echo "deployment_workspace ${{ inputs.deployment_workspace }}"
   scan-secrets:
     name: Scan code for secrets
     uses: ./.github/workflows/scan-secrets.yaml
@@ -112,7 +118,7 @@ jobs:
     uses: ./.github/workflows/action-infrastructure-stack.yaml
     with:
       github_environment: "dev"
-      deployment_workspace: ${{ needs.derive-deployment-workspace.outputs.deployment_workspace }}
+      deployment_workspace: ${{ inputs.deployment_workspace }}
       stack: application
       action: apply
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
