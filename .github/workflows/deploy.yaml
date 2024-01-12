@@ -37,7 +37,7 @@ jobs:
           BUCKET_NAME=$(for bucket in $(aws s3api list-buckets --query "Buckets[].Name" --output text)
           do
             workspace_tag=$(aws s3api get-bucket-tagging --bucket $bucket --query "TagSet[?Key=='Workspace'].Value" --output text 2>/dev/null)
-            if [ "$workspace_tag" == "${{ env.WORKSPACE }}" ]; then
+            if [ "$workspace_tag" == "${WORKSPACE}" ]; then
               echo $bucket
               break
             fi
