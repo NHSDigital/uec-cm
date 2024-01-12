@@ -17,7 +17,6 @@ jobs:
       build_datetime: ${{ steps.metadata.outputs.build_datetime }}
       build_timestamp: ${{ steps.metadata.outputs.build_timestamp }}
       build_epoch: ${{ steps.metadata.outputs.build_epoch }}
-      workspace: ${{ steps.extract_workspace.outputs.workspace }}
     steps:
       - id: metadata
         run: |
@@ -28,9 +27,6 @@ jobs:
           echo "triggering action: ${{ github.event_name }}"
           echo "ref type: ${{ github.ref_type }}"
           echo "triggering reference: ${{ github.ref_name }}"
-      - name: Extract Workspace Name
-        id: extract_workspace
-        run: echo "::set-output name=workspace::$(echo ${GITHUB_REF#refs/heads/} | sed 's/.*\/\(.*\)/\1/')"
   scan-secrets:
     name: Scan code for secrets
     uses: ./.github/workflows/scan-secrets.yaml
@@ -96,7 +92,6 @@ jobs:
       stack: application
       action: apply
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
-      workspace: ${{needs.get-metadata.outputs.workspace}}
     secrets: inherit
   build-and-deploy-react-app:
     runs-on: ubuntu-latest
@@ -135,27 +130,27 @@ jobs:
           aws-region: eu-west-1
 
       - name: Find S3 Bucket
+        id: find_bucket
         run: |
           for bucket in $(aws s3api list-buckets --query "Buckets[].Name" --output text)
           do
             echo "Checking bucket $bucket"
             workspace_tag=$(aws s3api get-bucket-tagging --bucket $bucket --query "TagSet[?Key=='Workspace'].Value" --output text 2>/dev/null)
-            if [ "$workspace_tag" == "${WORKSPACE}" ]; then
+            if [ "$workspace_tag" == "${{ env.WORKSPACE }}" ]; then
               echo "Found matching bucket: $bucket"
               echo "S3_BUCKET_NAME=$bucket" >> $GITHUB_ENV
               break
             fi
           done
 
-          if [ -z "${S3_BUCKET_NAME}" ];
+          if [ -z "${{ env.S3_BUCKET_NAME }}" ];
           then
-            echo "Could not find a bucket with Workspace tag matching ${WORKSPACE}"
+            echo "Could not find a bucket with Workspace tag matching ${{ env.WORKSPACE }}"
           fi
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          WORKSPACE: ${{ env.WORKSPACE }}
 
       - name: Deploy React App
-        run: aws s3 cp build/ s3://${{ env.S3_BUCKET_NAME }}/ --recursive
+        run:  aws s3 cp build/ s3://${{ env.S3_BUCKET_NAME }}/ --recursive
         working-directory: src/frontend
