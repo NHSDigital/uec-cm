@@ -146,7 +146,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/uec-cm-github-runner
           role-session-name: github-pipeline-session
-          aws-region: ${{ vars.AWS_REGION }}
+          aws-region: eu-west-2
 
       - name: Find S3 Bucket
         id: find_bucket
