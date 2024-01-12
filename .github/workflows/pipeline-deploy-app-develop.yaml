@@ -16,6 +16,11 @@ on:
         description: 'Name of the terraform workspace to tear down the service infrastructure'
         required: false
         default: 'not-set'
+      terraform_workspace_name:
+        type: string
+        description: 'Name of the terraform workspace to tear down the service infrastructure'
+        required: false
+        default: 'not-set'
 
 jobs:
   derive-tf-versions:
@@ -43,6 +48,7 @@ jobs:
           echo "triggering git reference: ${{ github.ref_name }}"
           echo "deploying from git tag ${{ inputs.git_tag }}"
           echo "deployment_workspace ${{ inputs.deployment_workspace }}"
+          echo "terraform_workspace_name ${{ inputs.terraform_workspace_name }}"
   scan-secrets:
     name: Scan code for secrets
     uses: ./.github/workflows/scan-secrets.yaml
