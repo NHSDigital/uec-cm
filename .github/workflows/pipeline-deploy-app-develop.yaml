@@ -120,7 +120,11 @@ jobs:
         working-directory: src/frontend
 
       - name: Extract Workspace Name
-        run: echo "WORKSPACE=$(echo ${GITHUB_REF#refs/heads/} | sed 's/.*\/\(.*\)/\1/')" >> $GITHUB_ENV
+        run: |
+          WORKSPACE=$(echo ${GITHUB_REF#refs/heads/} | cut -d'/' -f 2)
+          echo "WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
+          ISSUE_KEY=$(echo $WORKSPACE | cut -d'-' -f 1)
+          echo "ISSUE_KEY=$ISSUE_KEY" >> $GITHUB_ENVrun: echo "WORKSPACE=$(echo ${GITHUB_REF#refs/heads/} | sed 's/.*\/\(.*\)/\1/')" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2.2.0
@@ -135,17 +139,16 @@ jobs:
           for bucket in $(aws s3api list-buckets --query "Buckets[].Name" --output text)
           do
             echo "Checking bucket $bucket"
-            workspace_tag=$(aws s3api get-bucket-tagging --bucket $bucket --query "TagSet[?Key=='Workspace'].Value" --output text 2>/dev/null)
-            if [ "$workspace_tag" == "${{ env.WORKSPACE }}" ]; then
+            bucket_suffix=$(echo $bucket | cut -d'-' -f 5)
+            if [ "$bucket_suffix" == "${{ env.ISSUE_KEY }}" ]; then
               echo "Found matching bucket: $bucket"
               echo "S3_BUCKET_NAME=$bucket" >> $GITHUB_ENV
               break
             fi
           done
 
-          if [ -z "${{ env.S3_BUCKET_NAME }}" ];
-          then
-            echo "Could not find a bucket with Workspace tag matching ${{ env.WORKSPACE }}"
+          if [ -z "${{ env.S3_BUCKET_NAME }}" ]; then
+            echo "Could not find a bucket with suffix matching ${{ env.ISSUE_KEY }}"
           fi
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
