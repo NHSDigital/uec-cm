@@ -125,7 +125,8 @@ jobs:
         working-directory: src/frontend
 
       - name: Extract Workspace Name
-        run: echo "WORKSPACE=$(echo ${GITHUB_REF#refs/heads/} | sed 's/.*\/\(.*\)/\1/')" >> $GITHUB_ENV
+        id: extract_workspace
+        run: echo "::set-output name=workspace::$(echo ${GITHUB_REF#refs/heads/} | sed 's/.*\/\(.*\)/\1/')"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2.2.0
