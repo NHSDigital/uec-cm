@@ -10,6 +10,8 @@ jobs:
   derive-tf-versions:
     name: Derive terraform version
     uses: ./.github/workflows/derive-tf-version.yaml
+    with:
+      git_ref: ${{ inputs.git_tag }}
   get-metadata:
     name: Get metadata
     runs-on: ubuntu-latest
@@ -82,7 +84,9 @@ jobs:
       - id: derive-workspace-from-tag
         name: Extract deployment workspace from git tag
         run: |
+          echo "deployment_workspace=$(awk -F- '{print $1}' <<< ${{ inputs.git_tag }})-$(awk -F- '{print $2}' <<< ${{ inputs.git_tag }})" >> $GITHUB_OUTPUT
   deploy-application-infrastructure:
+    name: Deploy application infrastructure
     needs:
       [
         get-metadata,
@@ -94,13 +98,16 @@ jobs:
         check-python-flake-rules,
         cloc-repository,
         derive-tf-versions,
+        derive-deployment-workspace,
       ]
     uses: ./.github/workflows/action-infrastructure-stack.yaml
     with:
-      github_environment: dev
+      github_environment: "dev"
+      deployment_workspace: ${{ needs.derive-deployment-workspace.outputs.deployment_workspace }}
       stack: application
       action: apply
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
+      git_ref: ${{ inputs.git_tag }}
     secrets: inherit
   build-and-deploy-react-app:
     needs: deploy-application-infrastructure
