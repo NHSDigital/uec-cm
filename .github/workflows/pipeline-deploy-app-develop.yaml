@@ -133,40 +133,17 @@ jobs:
         run: npm run build
         working-directory: src/frontend
 
-      - name: Extract Workspace Name and Issue Key
-        id: extract
-        run: |
-          WORKSPACE=$(echo ${GITHUB_REF#refs/heads/} | cut -d'/' -f 2)
-          echo "::set-output name=workspace::$WORKSPACE"
-          ISSUE_KEY=$(echo $WORKSPACE | cut -d'-' -f 1)
-          echo "::set-output name=issue_key::$ISSUE_KEY"
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v3
+      - name: Deploy React App
+        uses: jakejarvis/s3-sync-action@master
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/uec-cm-github-runner
-          role-session-name: github-pipeline-session
-          aws-region: eu-west-2
-
-      - name: Find S3 Bucket
-        id: find_bucket
-        run: |
-          for bucket in $(aws s3api list-buckets --query "Buckets[].Name" --output text)
-          do
-            echo "Checking bucket $bucket"
-            bucket_suffix=$(echo $bucket | cut -d'-' -f 5)
-            if [ "$bucket_suffix" == "${{ steps.extract.outputs.issue_key }}" ]; then
-              echo "Found matching bucket: $bucket"
-              echo "::set-output name=bucket_name::$bucket"
-              break
-            fi
-          done
+          args: --acl public-read --delete
         env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_PRODUCTION_BUCKET_NAME }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-west-2
-          AWS_DEFAULT_OUTPUT: json
-
-      - name: Deploy React App
-        run: aws s3 cp build/ s3://${{ steps.find_bucket.outputs.bucket_name }}/ --recursive
-        working-directory: src/frontend
+          AWS_REGION: 'us-west-2'
+          SOURCE_DIR: 'build'
+      - name: Test Connection
+        run: |
+          aws sts get-caller-identity
+          aws s3 ls s3://${{ secrets.AWS_PRODUCTION_BUCKET_NAME }}
