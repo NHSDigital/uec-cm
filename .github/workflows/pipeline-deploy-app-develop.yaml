@@ -167,7 +167,7 @@ jobs:
           ENVIRONMENT=dev  # Modify as per your setup
           BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end-${WORKSPACE}-${TASK_ID}"
 
-          echo "bucket=${BUCKET_NAME}" >> $GITHUB_ENV
+          echo "BUCKET_NAME=${BUCKET_NAME}" >> $GITHUB_ENV
 #      - name: Deploy React App
 #        run: |
 #          aws s3 cp build/ s3://${{ steps.bucket.outputs.bucket }}/ --recursive
