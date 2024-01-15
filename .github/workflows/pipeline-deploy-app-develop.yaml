@@ -154,8 +154,8 @@ jobs:
           echo "${{ github.repository }}"
           echo "${{ github.environment }}"
           echo "${{ needs.derive-workspace-from-tag.outputs.workspace }}"
-#      - name: Deploy React App to S3
-#        uses: aws-actions/amazon-s3-deploy@v1
-#        with:
-#          bucket-name: ${{ steps.bucket.outputs.bucket }}
-#          source-directory: 'src/frontend/build'
+      - name: Deploy React App to S3
+        uses: aws-actions/amazon-s3-sync@main
+        with:
+          bucket: ${{ steps.bucket.outputs.bucket }}
+          source: 'src/frontend/build'
