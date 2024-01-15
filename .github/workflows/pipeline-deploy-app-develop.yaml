@@ -146,3 +146,6 @@ jobs:
           BUCKET_NAME=$(aws s3api list-buckets --query 'Buckets[0].Name' --output text)
           echo "Bucket: $BUCKET_NAME"
           echo "::set-output name=bucket::$BUCKET_NAME"
+    permissions:
+      id-token: write
+      contents: read
