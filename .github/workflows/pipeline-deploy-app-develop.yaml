@@ -106,7 +106,7 @@ jobs:
         - name: Derive Workspace
           id: derive-workspace
           run: |
-            export BRANCH_NAME=${{ github.event.ref }}
+            export BRANCH_NAME=${{ github.ref_name }}
             workspace=$(/bin/bash ./scripts/branch-name-workspace.sh)
             echo "Setting workspace to $workspace"
             echo "workspace=$workspace" >> $GITHUB_OUTPUT
