@@ -139,7 +139,7 @@ jobs:
         with:
          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/uec-cm-github-runner
          role-session-name: github-pipeline-session
-         aws-region: ${{ dev.AWS_REGION }}
+         aws-region: ${{ vars.AWS_REGION }}
       - name: Deploy React App
         id: bucket
         run: |
