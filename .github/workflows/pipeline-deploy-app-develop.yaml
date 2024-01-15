@@ -117,6 +117,7 @@ jobs:
   build-and-deploy-react-app:
     needs: deploy-application-infrastructure
     runs-on: ubuntu-latest
+    environment: 'dev'
     permissions:
       id-token: write
       contents: read
