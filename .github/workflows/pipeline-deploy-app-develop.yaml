@@ -7,6 +7,10 @@ on:
       - 'task/*'
   workflow_call:
         inputs:
+          git_tag:
+            description: "Defines git commit tag to be used for deployment"
+            required: true
+            type: string
           deployment_workspace:
             description: 'Name of the terraform workspace to tear down the service infrastructure'
             required: false
@@ -18,6 +22,7 @@ jobs:
     steps:
       - name: echo workflow inputs
         run: |
+          echo "git tag: ${{ inputs.git_tag }}"
           echo "deployment workspace: ${{ inputs.deployment_workspace }}"
   derive-tf-versions:
     name: Derive terraform version
