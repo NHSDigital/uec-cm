@@ -115,7 +115,10 @@ jobs:
       git_ref: ${{ inputs.git_tag }}
     secrets: inherit
   build-and-deploy-react-app:
-    needs: deploy-application-infrastructure
+    needs: [
+      deploy-application-infrastructure,
+      derive-workspace-from-branch-name
+    ]
     runs-on: ubuntu-latest
     environment: 'dev'
     permissions:
@@ -156,5 +159,5 @@ jobs:
           echo "${{ needs.derive-workspace-from-tag.outputs.workspace }}"
       - name: Deploy React App
         run: |
-          aws s3 cp build/ s3://${{ steps.bucket.outputs.bucket }}/ --recursive
+#          aws s3 cp build/ s3://${{ steps.bucket.outputs.bucket }}/ --recursive
         working-directory: src/frontend
