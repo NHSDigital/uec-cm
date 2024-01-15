@@ -101,7 +101,8 @@ jobs:
       - id: derive-workspace-from-tag
         name: Extract deployment workspace from github.ref_name
         run: |
-            echo "deployment_workspace=$(awk -F- '{print $1}' <<< ${{ github.ref_name }})-$(awk -F- '{print $2}' <<< ${{ inputs.git_tag }})" >> $GITHUB_OUTPUT
+            echo "deployment_workspace=$(awk -F/ '{print $2}' <<< ${{ github.ref_name }} | awk -F- '{print $1"-"$2}')" >> $GITHUB_OUTPUT
+
   deploy-application-infrastructure:
     name: Deploy application infrastructure
     needs:
