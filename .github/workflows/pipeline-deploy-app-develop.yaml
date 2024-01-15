@@ -30,8 +30,6 @@ jobs:
           echo "triggering reference: ${{ github.ref_name }}"
           echo "triggering git reference: ${{ github.ref_name }}"
           echo "deploying from git tag ${{ inputs.git_tag }}"
-          echo "deployment_workspace ${{ inputs.deployment_workspace }}"
-          echo "terraform_workspace_name ${{ inputs.terraform_workspace_name }}"
   scan-secrets:
     name: Scan code for secrets
     uses: ./.github/workflows/scan-secrets.yaml
@@ -78,17 +76,20 @@ jobs:
     with:
       github_environment: dev
     secrets: inherit
-  derive-deployment-workspace:
-    name: Derive deployment workspace
-    runs-on: ubuntu-latest
-    outputs:
-      deployment_workspace: ${{ steps.derive-workspace-from-tag.outputs.deployment_workspace }}
-    steps:
-      - id: derive-workspace-from-tag
-        name: Extract deployment workspace from git tag
-        run: |
-          git_tag="${{ inputs.git_tag }}"
-          echo "deployment_workspace=$(awk -F- '{print $1}' <<< $git_tag)-$(awk -F- '{print $2}' <<< $git_tag)" >> $GITHUB_OUTPUT
+  derive-workspace-from-branch-name:
+      runs-on: ubuntu-latest
+      outputs:
+          workspace: ${{ steps.derive-workspace.outputs.workspace }}
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        - name: Derive Workspace
+          id: derive-workspace
+          run: |
+            export BRANCH_NAME=${{ github.ref_name }}
+            echo "workspace=$(awk -F/ '{print $2}' <<< ${{ github.ref_name }} | awk -F- '{print $1"-"$2}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
   deploy-application-infrastructure:
     name: Deploy application infrastructure
     needs:
@@ -102,12 +103,12 @@ jobs:
         check-python-flake-rules,
         cloc-repository,
         derive-tf-versions,
-        derive-deployment-workspace,
+        derive-workspace-from-branch-name,
       ]
     uses: ./.github/workflows/action-infrastructure-stack.yaml
     with:
       github_environment: "dev"
-      deployment_workspace: ${{ inputs.deployment_workspace }}
+      deployment_workspace: ${{needs.derive-workspace-from-branch-name.outputs.workspace}}
       stack: application
       action: apply
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
