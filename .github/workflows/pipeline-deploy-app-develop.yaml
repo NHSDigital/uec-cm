@@ -161,13 +161,13 @@ jobs:
         id: generate-bucket
         run: |
           REPO_NAME=$(echo "${{ github.repository }}" | awk -F/ '{print $2}' | tr -d '-')
-
           WORKSPACE_AND_TASKID=${{ needs.derive-workspace-from-branch-name.outputs.workspace }}
           WORKSPACE=$(echo $WORKSPACE_AND_TASKID | awk -F "-" '{print $1"-"$2}')
           TASK_ID=$(echo $WORKSPACE_AND_TASKID | awk -F "-" '{print $3}')
-
+          ENVIRONMENT=dev  # Modify as per your setup
           BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end-${WORKSPACE}-${TASK_ID}"
-          echo "::set-output name=bucket::$BUCKET_NAME"
+
+          echo "bucket=${BUCKET_NAME}" >> $GITHUB_ENV
 #      - name: Deploy React App
 #        run: |
 #          aws s3 cp build/ s3://${{ steps.bucket.outputs.bucket }}/ --recursive
