@@ -5,7 +5,20 @@ on:
     branches:
       - main
       - 'task/*'
+  workflow_call:
+        inputs:
+          deployment_workspace:
+            description: 'Name of the terraform workspace to tear down the service infrastructure'
+            required: false
+            default: 'not-set'
+            type: string
 jobs:
+  echo-workflow-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo workflow inputs
+        run: |
+          echo "deployment workspace: ${{ inputs.deployment_workspace }}"
   derive-tf-versions:
     name: Derive terraform version
     uses: ./.github/workflows/derive-tf-version.yaml
