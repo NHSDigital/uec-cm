@@ -89,7 +89,7 @@ jobs:
           id: derive-workspace
           run: |
             export BRANCH_NAME=${{ github.ref_name }}
-            echo "workspace=$(awk -F/ '{print $2}' <<< ${{ github.ref_name }} | awk -F- '{print $1"-"$2}')" >> $GITHUB_OUTPUT
+            echo "workspace=$(awk -F/ '{print $2}' <<< ${{ github.ref_name }} | awk -F- '{print $1"-"$2}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
   deploy-application-infrastructure:
     name: Deploy application infrastructure
     needs:
