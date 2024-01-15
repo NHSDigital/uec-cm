@@ -5,25 +5,7 @@ on:
     branches:
       - main
       - 'task/*'
-  workflow_call:
-        inputs:
-          git_tag:
-            description: "Defines git commit tag to be used for deployment"
-            required: true
-            type: string
-          deployment_workspace:
-            description: 'Name of the terraform workspace to tear down the service infrastructure'
-            required: false
-            default: 'not-set'
-            type: string
 jobs:
-  echo-workflow-inputs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: echo workflow inputs
-        run: |
-          echo "git tag: ${{ inputs.git_tag }}"
-          echo "deployment workspace: ${{ inputs.deployment_workspace }}"
   derive-tf-versions:
     name: Derive terraform version
     uses: ./.github/workflows/derive-tf-version.yaml
@@ -110,6 +92,16 @@ jobs:
             workspace=$(/bin/bash ./scripts/branch-name-workspace.sh)
             echo "Setting workspace to $workspace"
             echo "workspace=$workspace" >> $GITHUB_OUTPUT
+  derive-deployment-workspace2:
+    name: Derive deployment workspace2
+    runs-on: ubuntu-latest
+    outputs:
+      deployment_workspace: ${{ steps.derive-workspace-from-tag.outputs.deployment_workspace }}
+    steps:
+      - id: derive-workspace-from-tag
+        name: Extract deployment workspace from github.ref_name
+        run: |
+            echo "deployment_workspace=$(awk -F- '{print $1}' <<< ${{ github.ref_name }})-$(awk -F- '{print $2}' <<< ${{ inputs.git_tag }})" >> $GITHUB_OUTPUT
   deploy-application-infrastructure:
     name: Deploy application infrastructure
     needs:
