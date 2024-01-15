@@ -168,6 +168,9 @@ jobs:
           BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end-${WORKSPACE}-${TASK_ID}"
 
           echo "BUCKET_NAME=${BUCKET_NAME}" >> $GITHUB_ENV
+      - name: Use Bucket Name
+        run: |
+          echo "Bucket: ${BUCKET_NAME}"
 #      - name: Deploy React App
 #        run: |
 #          aws s3 cp build/ s3://${{ steps.bucket.outputs.bucket }}/ --recursive
