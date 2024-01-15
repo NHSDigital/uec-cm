@@ -89,22 +89,7 @@ jobs:
           id: derive-workspace
           run: |
             export BRANCH_NAME=${{ github.ref_name }}
-            workspace=$(/bin/bash ./scripts/branch-name-workspace.sh)
-            echo "Setting workspace to $workspace"
-            echo "workspace=$workspace" >> $GITHUB_OUTPUT
-  derive-deployment-workspace2:
-    name: Derive deployment workspace2
-    runs-on: ubuntu-latest
-    outputs:
-      workspace: ${{ steps.derive-deployment-workspace2.outputs.workspace }}
-    steps:
-      - id: derive-workspace-from-tag
-        name: Extract deployment workspace from github.ref_name
-        run: |
-            echo ${{ github.ref_name }}
-            echo $(awk -F/ '{print $2}' <<< ${{ github.ref_name }} | awk -F- '{print $1"-"$2}')
             echo "workspace=$(awk -F/ '{print $2}' <<< ${{ github.ref_name }} | awk -F- '{print $1"-"$2}')" >> $GITHUB_OUTPUT
-            echo ${{ steps.derive-deployment-workspace2.outputs.workspace  }}
   deploy-application-infrastructure:
     name: Deploy application infrastructure
     needs:
@@ -123,7 +108,7 @@ jobs:
     uses: ./.github/workflows/action-infrastructure-stack.yaml
     with:
       github_environment: "dev"
-      deployment_workspace: ${{needs.steps.derive-deployment-workspace2.outputs.workspace}}
+      deployment_workspace: ${{needs.derive-workspace-from-branch-name.outputs.workspace}}
       stack: application
       action: apply
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
