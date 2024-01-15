@@ -145,9 +145,14 @@ jobs:
           role-session-name: github-pipeline-session
           aws-region: 'eu-west-2'
           audience: sts.amazonaws.com
-      - name: Deploy React App
+      - name: Find S3 Bucket
         id: bucket
         run: |
           BUCKET_NAME=$(aws s3api list-buckets --query 'Buckets[0].Name' --output text)
           echo "Bucket: $BUCKET_NAME"
           echo "::set-output name=bucket::$BUCKET_NAME"
+      - name: Deploy React App to S3
+        uses: aws-actions/amazon-s3-deploy@v1
+        with:
+          bucket-name: ${{ steps.bucket.outputs.bucket }}
+          source-directory: 'src/frontend/build'
