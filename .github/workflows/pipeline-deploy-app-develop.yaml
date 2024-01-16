@@ -121,3 +121,6 @@ jobs:
       derive-workspace-from-branch-name
     ]
     uses: ./.github/workflows/build-and-deploy-react-app.yaml
+    permissions:
+      id-token: write
+      contents: read
