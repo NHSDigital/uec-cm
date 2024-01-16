@@ -127,7 +127,6 @@ jobs:
       cloc-repository,
       derive-tf-versions,
       derive-workspace-from-branch-name,
-      deploy-application-infrastructure,
     ]
     uses: ./.github/workflows/build-and-deploy-react-app.yaml
     with:
