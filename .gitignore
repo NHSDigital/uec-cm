@@ -36,6 +36,7 @@ __pycache__
 *.pyc
 .coverage.*
 coverage.xml
+.idea
 
 
 # IDE - VSCode
