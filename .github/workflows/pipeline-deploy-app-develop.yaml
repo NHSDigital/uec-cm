@@ -107,7 +107,7 @@ jobs:
       ]
     uses: ./.github/workflows/action-infrastructure-stack.yaml
     with:
-      github_environment: "dev"
+      github_environment: dev
       deployment_workspace: ${{needs.derive-workspace-from-branch-name.outputs.workspace}}
       stack: application
       action: apply
@@ -131,7 +131,7 @@ jobs:
     ]
     uses: ./.github/workflows/build-and-deploy-react-app.yaml
     with:
-      github_environment: "dev"
+      github_environment: dev
       deployment_workspace: ${{needs.derive-workspace-from-branch-name.outputs.workspace}}
       stack: application
       action: apply
