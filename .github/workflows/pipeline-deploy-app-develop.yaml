@@ -117,8 +117,17 @@ jobs:
   build-and-deploy-react-app-to-s3-bucket:
     name: Build and deploy react app to S3 bucket
     needs: [
+      get-metadata,
+      scan-secrets,
+      check-file-format,
+      check-markdown-format,
+      check-terraform-format,
+      check-python-black-format,
+      check-python-flake-rules,
+      cloc-repository,
+      derive-tf-versions,
+      derive-workspace-from-branch-name,
       deploy-application-infrastructure,
-      derive-workspace-from-branch-name
     ]
     uses: ./.github/workflows/build-and-deploy-react-app.yaml
     with:
