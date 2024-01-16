@@ -151,9 +151,6 @@ jobs:
       - name: Find S3 Bucket
         id: bucket
         run: |
-          BUCKET_NAME=$(aws s3api list-buckets --query 'Buckets[0].Name' --output text)
-          echo "Bucket: $BUCKET_NAME"
-          echo "::set-output name=bucket::$BUCKET_NAME"
           echo "${{ github.repository }}"
           echo "${{ github.environment }}"
           echo "${{ needs.derive-workspace-from-branch-name.outputs.workspace }}"
