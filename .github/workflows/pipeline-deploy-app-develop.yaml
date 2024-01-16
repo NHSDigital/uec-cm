@@ -116,4 +116,8 @@ jobs:
     secrets: inherit
   build-and-deploy-react-app-to-s3-bucket:
     name: Build and deploy react app to S3 bucket
+    needs: [
+      deploy-application-infrastructure,
+      derive-workspace-from-branch-name
+    ]
     uses: ./.github/workflows/build-and-deploy-react-app.yaml
