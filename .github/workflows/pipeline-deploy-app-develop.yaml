@@ -114,9 +114,6 @@ jobs:
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
       git_ref: ${{ inputs.git_tag }}
     secrets: inherit
-  complete:
-    needs: deploy-application-infrastructure
-    runs-on: ubuntu-latest
-    steps:
-      - name: Signal to other workflows that this is done
-        run: echo "Pipeline Deployment Application Development Environment job is done!"
+  build-and-deploy-react-app-to-s3-bucket:
+    name: Build and deploy react app to S3 bucket
+    uses: ./.github/workflows/build-and-deploy-react-app.yaml
