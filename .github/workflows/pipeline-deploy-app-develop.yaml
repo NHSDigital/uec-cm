@@ -79,7 +79,7 @@ jobs:
   derive-workspace-from-branch-name:
     runs-on: ubuntu-latest
     outputs:
-        workspace: ${{ steps.derive-workspace.outputs.workspace }}
+      workspace: ${{ steps.derive-workspace.outputs.workspace }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4

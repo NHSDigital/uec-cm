@@ -2,7 +2,7 @@ name: Build And Deploy React App
 
 on:
   workflow_run:
-    workflows: ["Pipeline Deployment Application Development Environment"]
+    workflows: [ "Pipeline Deployment Application Development Environment" ]
     types:
       - completed
 
