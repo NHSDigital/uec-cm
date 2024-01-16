@@ -178,5 +178,5 @@ jobs:
           echo "Bucket: ${BUCKET_NAME}"
       - name: Deploy React App
         run: |
-          aws s3 sync build/ s3://${{ env.BUCKET_NAME }}/ --recursive
+          aws s3 sync build/ s3://${{ env.BUCKET_NAME }}/
         working-directory: src/frontend
