@@ -5,8 +5,12 @@ on:
 
 jobs:
   build-and-deploy-react-app:
+    needs: [
+      deploy-application-infrastructure,
+      derive-workspace-from-branch-name
+    ]
     runs-on: ubuntu-latest
-    environment: dev
+    environment: 'dev'
     permissions:
       id-token: write
       contents: read
@@ -17,7 +21,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: '16'
 
       - name: Install dependencies
         run: npm ci
@@ -32,9 +36,14 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/uec-cm-github-runner
           role-session-name: github-pipeline-session
-          aws-region: eu-west-2
+          aws-region: 'eu-west-2'
           audience: sts.amazonaws.com
-
+      - name: Find S3 Bucket
+        id: bucket
+        run: |
+          echo "${{ github.repository }}"
+          echo "${{ github.environment }}"
+          echo "${{ needs.derive-workspace-from-branch-name.outputs.workspace }}"
       - name: Generate Bucket Name
         id: generate-bucket
         run: |
@@ -43,16 +52,18 @@ jobs:
           WORKSPACE=$(echo $WORKSPACE_AND_TASKID | awk -F "-" '{print $1"-"$2}')
           TASK_ID=$(echo $WORKSPACE_AND_TASKID | awk -F "-" '{print $3}')
           ENVIRONMENT=dev
+
           BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end-${WORKSPACE}"
+
           if [ -n "${TASK_ID}" ]; then
             BUCKET_NAME="${BUCKET_NAME}-${TASK_ID}"
           fi
-          echo "BUCKET_NAME=${BUCKET_NAME}" >> $GITHUB_ENV
 
+          echo "BUCKET_NAME=${BUCKET_NAME}" >> $GITHUB_ENV
       - name: Use Bucket Name
         run: |
           echo "Bucket: ${BUCKET_NAME}"
-
       - name: Deploy React App
-        run: aws s3 sync build/ s3://${{ env.BUCKET_NAME }}/
+        run: |
+          aws s3 sync build/ s3://${{ env.BUCKET_NAME }}/
         working-directory: src/frontend
