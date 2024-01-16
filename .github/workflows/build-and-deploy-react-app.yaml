@@ -2,6 +2,30 @@ name: New Build And Deploy React App
 
 on:
   workflow_call:
+    inputs:
+      github_environment:
+        description: "Defines the Github environment in which to pull environment variables from"
+        required: true
+        type: string
+      deployment_workspace:
+        description: 'Name of the terraform workspace to spin up the service infrastructure'
+        required: true
+        default: 'not-set'
+        type: string
+      stack:
+        required: true
+        type: string
+      action:
+        required: true
+        type: string
+      tf_vers:
+        description: "Version of terraform used"
+        required: true
+        type: string
+      git_ref:
+        description: "Git tag or not set to use head of current branch"
+        required: true
+        type: string
 
 jobs:
   build-and-deploy-react-app:
@@ -39,12 +63,12 @@ jobs:
         run: |
           echo "${{ github.repository }}"
           echo "${{ github.environment }}"
-          echo "${{ needs.derive-workspace-from-branch-name.outputs.workspace }}"
+          echo "${{ inputs.deployment_workspace }}"
       - name: Generate Bucket Name
         id: generate-bucket
         run: |
           REPO_NAME=$(echo "${{ github.repository }}" | awk -F/ '{print $2}')
-          WORKSPACE_AND_TASKID=${{ needs.derive-workspace-from-branch-name.outputs.workspace }}
+          WORKSPACE_AND_TASKID=${{ inputs.deployment_workspace }}
           WORKSPACE=$(echo $WORKSPACE_AND_TASKID | awk -F "-" '{print $1"-"$2}')
           TASK_ID=$(echo $WORKSPACE_AND_TASKID | awk -F "-" '{print $3}')
           ENVIRONMENT=dev
