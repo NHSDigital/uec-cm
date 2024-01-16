@@ -131,7 +131,7 @@ jobs:
     uses: ./.github/workflows/build-and-deploy-react-app.yaml
     with:
       github_environment: dev
-      deployment_workspace: ${{needs.derive-workspace-from-branch-name.outputs.workspace}}
+      deployment_workspace: ${{inputs.deployment_workspace}}
       stack: application
       action: apply
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
