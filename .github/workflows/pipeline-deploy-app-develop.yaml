@@ -132,7 +132,7 @@ jobs:
     uses: ./.github/workflows/build-and-deploy-react-app.yaml
     with:
       github_environment: dev
-      deployment_workspace: ${{inputs.deployment_workspace}}
+      deployment_workspace: ${{needs.derive-workspace-from-branch-name.outputs.workspace}}
     permissions:
       id-token: write
       contents: read
