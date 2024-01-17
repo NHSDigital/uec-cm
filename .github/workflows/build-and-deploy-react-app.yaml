@@ -11,6 +11,16 @@ on:
         description: 'Name of the terraform workspace to spin up the service infrastructure'
         required: false
         type: string
+      stack:
+        required: true
+        type: string
+      action:
+        required: true
+        type: string
+      tf_vers:
+        description: "Version of terraform used"
+        required: true
+        type: string
       git_ref:
         description: "Git tag or not set to use head of current branch"
         required: true
