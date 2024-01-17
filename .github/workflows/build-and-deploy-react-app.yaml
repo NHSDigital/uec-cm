@@ -68,7 +68,8 @@ jobs:
         run: |
           REPO_NAME=$(echo "${{ github.repository }}" | awk -F/ '{print $2}')
           WORKSPACE_AND_TASKID=${{ inputs.deployment_workspace }}
-
+          WORKSPACE=$(echo $WORKSPACE_AND_TASKID | awk -F "-" '{print $1"-"$2}')
+          TASK_ID=$(echo $WORKSPACE_AND_TASKID | awk -F "-" '{print $3}')
           ENVIRONMENT=dev
 
           BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end-${WORKSPACE}"
