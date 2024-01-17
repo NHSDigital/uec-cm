@@ -11,20 +11,6 @@ on:
         description: 'Name of the terraform workspace to spin up the service infrastructure'
         required: false
         type: string
-      stack:
-        required: true
-        type: string
-      action:
-        required: true
-        type: string
-      tf_vers:
-        description: "Version of terraform used"
-        required: true
-        type: string
-      git_ref:
-        description: "Git tag or not set to use head of current branch"
-        required: true
-        type: string
 
 jobs:
   build-and-deploy-react-app:
@@ -68,15 +54,10 @@ jobs:
         run: |
           REPO_NAME=$(echo "${{ github.repository }}" | awk -F/ '{print $2}')
           WORKSPACE_AND_TASKID=${{ inputs.deployment_workspace }}
-          WORKSPACE=$(echo $WORKSPACE_AND_TASKID | awk -F "-" '{print $1"-"$2}')
-          TASK_ID=$(echo $WORKSPACE_AND_TASKID | awk -F "-" '{print $3}')
+
           ENVIRONMENT=dev
 
           BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end-${WORKSPACE}"
-
-          if [ -n "${TASK_ID}" ]; then
-            BUCKET_NAME="${BUCKET_NAME}-${TASK_ID}"
-          fi
 
           echo "BUCKET_NAME=${BUCKET_NAME}" >> $GITHUB_ENV
       - name: Use Bucket Name
