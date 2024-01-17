@@ -133,6 +133,9 @@ jobs:
     with:
       github_environment: dev
       deployment_workspace: ${{needs.derive-workspace-from-branch-name.outputs.workspace}}
+      stack: application
+      action: apply
+      tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
       git_ref: ${{ inputs.git_tag }}
     permissions:
       id-token: write

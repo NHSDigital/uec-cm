@@ -63,6 +63,10 @@ jobs:
 
           BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end-${WORKSPACE}"
 
+          if [ -n "${TASK_ID}" ]; then
+            BUCKET_NAME="${BUCKET_NAME}-${TASK_ID}"
+          fi
+
           echo "BUCKET_NAME=${BUCKET_NAME}" >> $GITHUB_ENV
       - name: Use Bucket Name
         run: |
