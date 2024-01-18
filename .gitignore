@@ -36,6 +36,7 @@ __pycache__
 *.pyc
 .coverage.*
 coverage.xml
+.idea
 
 
 # IDE - VSCode
@@ -54,3 +55,4 @@ tests/*/node_modules/
 tests/*/playwright/.cache/
 
 
+/node_modules/

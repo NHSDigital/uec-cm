@@ -19,6 +19,7 @@ provider "aws" {
       owner               = var.project_owner
       project             = var.project
       environment         = "${var.environment}${local.workspace_suffix}"
+      workspace           = terraform.workspace
       terraform-base-path = replace(path.cwd, "/^.*?(${var.repo_name}\\/)/", "$1")
     }
   }

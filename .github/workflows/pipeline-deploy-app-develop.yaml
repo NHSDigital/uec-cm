@@ -5,11 +5,12 @@ on:
     branches:
       - main
       - 'task/*'
-
 jobs:
   derive-tf-versions:
     name: Derive terraform version
     uses: ./.github/workflows/derive-tf-version.yaml
+    with:
+      git_ref: ${{ inputs.git_tag }}
   get-metadata:
     name: Get metadata
     runs-on: ubuntu-latest
@@ -27,6 +28,8 @@ jobs:
           echo "triggering action: ${{ github.event_name }}"
           echo "ref type: ${{ github.ref_type }}"
           echo "triggering reference: ${{ github.ref_name }}"
+          echo "triggering git reference: ${{ github.ref_name }}"
+          echo "deploying from git tag ${{ inputs.git_tag }}"
   scan-secrets:
     name: Scan code for secrets
     uses: ./.github/workflows/scan-secrets.yaml
@@ -73,7 +76,22 @@ jobs:
     with:
       github_environment: dev
     secrets: inherit
+  derive-workspace-from-branch-name:
+    runs-on: ubuntu-latest
+    outputs:
+      workspace: ${{ steps.derive-workspace.outputs.workspace }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Derive Workspace
+        id: derive-workspace
+        run: |
+          export BRANCH_NAME=${{ github.ref_name }}
+          echo "workspace=$(awk -F/ '{print $2}' <<< ${{ github.ref_name }} | awk -F- '{print $1"-"$2}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
   deploy-application-infrastructure:
+    name: Deploy application infrastructure
     needs:
       [
         get-metadata,
@@ -85,11 +103,37 @@ jobs:
         check-python-flake-rules,
         cloc-repository,
         derive-tf-versions,
+        derive-workspace-from-branch-name,
       ]
     uses: ./.github/workflows/action-infrastructure-stack.yaml
     with:
       github_environment: dev
+      deployment_workspace: ${{needs.derive-workspace-from-branch-name.outputs.workspace}}
       stack: application
       action: apply
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
+      git_ref: ${{ inputs.git_tag }}
+    secrets: inherit
+  build-and-deploy-react-app-to-s3-bucket:
+    name: Build and deploy react app to S3 bucket
+    needs: [
+      get-metadata,
+      scan-secrets,
+      check-file-format,
+      check-markdown-format,
+      check-terraform-format,
+      check-python-black-format,
+      check-python-flake-rules,
+      cloc-repository,
+      derive-tf-versions,
+      derive-workspace-from-branch-name,
+      deploy-application-infrastructure,
+    ]
+    uses: ./.github/workflows/build-and-deploy-react-app.yaml
+    with:
+      github_environment: dev
+      deployment_workspace: ${{needs.derive-workspace-from-branch-name.outputs.workspace}}
+    permissions:
+      id-token: write
+      contents: read
     secrets: inherit

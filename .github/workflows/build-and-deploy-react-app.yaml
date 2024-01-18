@@ -1,0 +1,69 @@
+name: New Build And Deploy React App
+
+on:
+  workflow_call:
+    inputs:
+      github_environment:
+        description: "Defines the Github environment in which to pull environment variables from"
+        required: true
+        type: string
+      deployment_workspace:
+        description: 'Name of the terraform workspace to spin up the service infrastructure'
+        required: false
+        type: string
+
+jobs:
+  build-and-deploy-react-app:
+    runs-on: ubuntu-latest
+    environment: dev
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: src/frontend
+
+      - name: Build React app
+        run: npm run build
+        working-directory: src/frontend
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.1
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/uec-cm-github-runner
+          role-session-name: github-pipeline-session
+          aws-region: 'eu-west-2'
+          audience: sts.amazonaws.com
+      - name: Find S3 Bucket
+        id: bucket
+        run: |
+          echo "${{ github.repository }}"
+          echo "${{ github.environment }}"
+          echo "${{ inputs.deployment_workspace }}"
+      - name: Generate Bucket Name
+        id: generate-bucket
+        run: |
+          REPO_NAME=$(echo "${{ github.repository }}" | awk -F/ '{print $2}')
+          WORKSPACE=${{ inputs.deployment_workspace }}
+
+          ENVIRONMENT=${{ inputs.github_environment }}
+
+          BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end-${WORKSPACE}"
+
+          echo "BUCKET_NAME=${BUCKET_NAME}" >> $GITHUB_ENV
+      - name: Use Bucket Name
+        run: |
+          echo "Bucket: ${BUCKET_NAME}"
+      - name: Deploy React App
+        run: |
+          aws s3 sync build/ s3://${{ env.BUCKET_NAME }}/
+        working-directory: src/frontend

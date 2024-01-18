@@ -3,13 +3,6 @@ module "front_end_bucket" {
   bucket_name = "${var.project}-${var.environment}-${var.front-end-s3-bucket-name}${local.workspace_suffix}"
 }
 
-resource "aws_s3_object" "index_html" {
-  bucket       = module.front_end_bucket.s3_bucket_id
-  key          = "index.html"
-  content      = "<html><body><h1>Hello, UEC CM World!</h1></body></html>"
-  content_type = "text/html"
-}
-
 module "front_end_cloudfront" {
   source                         = "../../modules/cloudfront"
   s3_bucket_id                   = module.front_end_bucket.s3_bucket_id
