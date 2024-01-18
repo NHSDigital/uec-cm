@@ -43,30 +43,31 @@ jobs:
           role-session-name: github-pipeline-session
           aws-region: 'eu-west-2'
           audience: sts.amazonaws.com
-      - name: Find S3 Bucket
-        id: bucket
-        run: |
-          echo "${{ github.repository }}"
-          echo "${{ github.environment }}"
-          echo "${{ inputs.deployment_workspace }}"
-      - name: Generate Bucket Name
-        id: generate-bucket
-        run: |
-          REPO_NAME=$(echo "${{ github.repository }}" | awk -F/ '{print $2}')
-          WORKSPACE=${{ inputs.deployment_workspace }}
 
-          ENVIRONMENT=${{ inputs.github_environment }}
-
-          if [[ "${WORKSPACE}" == "main" ]]; then
-          BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end"
+      - name: Handle Deployment Workspace and Bucket Name
+        run: |
+          if [[ "${{ inputs.git_tag }}" == "main" ]]; then
+            echo "deployment_workspace=main" >> $GITHUB_ENV
           else
-          BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end-${WORKSPACE}"
+            echo "deployment_workspace=$(awk -F- '{print $1}' <<< ${{ inputs.git_tag }})-$(awk -F- '{print $2}' <<< ${{ inputs.git_tag }})" >> $GITHUB_ENV
           fi
 
+          WORKSPACE=${{ inputs.deployment_workspace }}
+          ENVIRONMENT=${{ inputs.github_environment }}
+
+
+          if [[ "${WORKSPACE}" == "main" ]]; then
+            BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end"
+          else
+            BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end-${WORKSPACE}"
+          fi
           echo "BUCKET_NAME=${BUCKET_NAME}" >> $GITHUB_ENV
+        shell: bash
+
       - name: Use Bucket Name
         run: |
           echo "Bucket: ${BUCKET_NAME}"
+
       - name: Deploy React App
         run: |
           aws s3 sync build/ s3://${{ env.BUCKET_NAME }}/
