@@ -57,7 +57,11 @@ jobs:
 
           ENVIRONMENT=${{ inputs.github_environment }}
 
+          if [[ "${WORKSPACE}" == "main" ]]; then
+          BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end"
+          else
           BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end-${WORKSPACE}"
+          fi
 
           echo "BUCKET_NAME=${BUCKET_NAME}" >> $GITHUB_ENV
       - name: Use Bucket Name
