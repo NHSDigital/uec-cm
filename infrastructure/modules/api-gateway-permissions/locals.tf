@@ -1,5 +1,5 @@
 # ==============================================================================
 # Context
 locals {
-  workspace_suffix = "${terraform.workspace}" == "default" || "${terraform.workspace}" == "" ? "" : "-${terraform.workspace}"
+  workspace_suffix = "${terraform.workspace}" == "default" ? "" : "-${terraform.workspace}"
 }
