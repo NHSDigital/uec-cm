@@ -53,6 +53,7 @@ jobs:
             WORKSPACE="default"
           else
             WORKSPACE="$(awk -F- '{print $1}' <<< "${GITHUB_REF##*/}")-$(awk -F- '{print $2}' <<< "${GITHUB_REF##*/}")"
+            WORKSPACE="${WORKSPACE,,}"
           fi
 
           echo "deployment_workspace=${WORKSPACE}" >> $GITHUB_ENV
