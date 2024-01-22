@@ -46,15 +46,16 @@ jobs:
 
       - name: Handle Deployment Workspace and Bucket Name
         run: |
+          REPO_NAME=$(echo "${{ github.repository }}" | awk -F/ '{print $2}')
+          ENVIRONMENT=${{ inputs.github_environment }}
+
           if [[ "${GITHUB_REF##*/}" == "main" ]]; then
-            echo "deployment_workspace=default" >> $GITHUB_ENV
+            WORKSPACE="default"
           else
-            echo "deployment_workspace=$(awk -F- '{print $1}' <<< "${GITHUB_REF##*/}")-$(awk -F- '{print $2}' <<< "${GITHUB_REF##*/}")" >> $GITHUB_ENV
+            WORKSPACE="$(awk -F- '{print $1}' <<< "${GITHUB_REF##*/}")-$(awk -F- '{print $2}' <<< "${GITHUB_REF##*/}")"
           fi
 
-          REPO_NAME=$(echo "${{ github.repository }}" | awk -F/ '{print $2}')
-          WORKSPACE=${{ inputs.deployment_workspace }}
-          ENVIRONMENT=${{ inputs.github_environment }}
+          echo "deployment_workspace=${WORKSPACE}" >> $GITHUB_ENV
 
           if [[ "${WORKSPACE}" == "default" ]]; then
             BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end"
