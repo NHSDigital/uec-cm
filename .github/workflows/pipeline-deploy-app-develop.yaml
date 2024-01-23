@@ -88,53 +88,56 @@ jobs:
       - name: Derive Workspace
         id: derive-workspace
         run: |
-          /bin/bash ./scripts/branch-name-workspace.sh
-          echo "workspace=$TERRAFORM_WORKSPACE_NAME" >> $GITHUB_OUTPUT
-          echo $TERRAFORM_WORKSPACE_NAME
-  deploy-application-infrastructure:
-    name: Deploy application infrastructure
-    needs:
-      [
-        get-metadata,
-        scan-secrets,
-        check-file-format,
-        check-markdown-format,
-        check-terraform-format,
-        check-python-black-format,
-        check-python-flake-rules,
-        cloc-repository,
-        derive-tf-versions,
-        derive-workspace-from-branch-name,
-      ]
-    uses: ./.github/workflows/action-infrastructure-stack.yaml
-    with:
-      github_environment: dev
-      deployment_workspace: ${{needs.derive-workspace-from-branch-name.outputs.workspace}}
-      stack: application
-      action: apply
-      tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
-      git_ref: ${{ inputs.git_tag }}
-    secrets: inherit
-  build-and-deploy-react-app-to-s3-bucket:
-    name: Build and deploy react app to S3 bucket
-    needs: [
-      get-metadata,
-      scan-secrets,
-      check-file-format,
-      check-markdown-format,
-      check-terraform-format,
-      check-python-black-format,
-      check-python-flake-rules,
-      cloc-repository,
-      derive-tf-versions,
-      derive-workspace-from-branch-name,
-      deploy-application-infrastructure,
-    ]
-    uses: ./.github/workflows/build-and-deploy-react-app.yaml
-    with:
-      github_environment: dev
-      deployment_workspace: ${{needs.derive-workspace-from-branch-name.outputs.workspace}}
-    permissions:
-      id-token: write
-      contents: read
-    secrets: inherit
+          export BRANCH_NAME=${{ github.ref_name }}
+          echo "Branch name is:"
+          echo $BRANCH_NAME
+          workspace=$(/bin/bash ./scripts/branch-name-workspace.sh)
+          echo "Setting workspace to $workspace"
+          echo "workspace=$workspace" >> $GITHUB_OUTPUT
+  # deploy-application-infrastructure:
+  #   name: Deploy application infrastructure
+  #   needs:
+  #     [
+  #       get-metadata,
+  #       scan-secrets,
+  #       check-file-format,
+  #       check-markdown-format,
+  #       check-terraform-format,
+  #       check-python-black-format,
+  #       check-python-flake-rules,
+  #       cloc-repository,
+  #       derive-tf-versions,
+  #       derive-workspace-from-branch-name,
+  #     ]
+  #   uses: ./.github/workflows/action-infrastructure-stack.yaml
+  #   with:
+  #     github_environment: dev
+  #     deployment_workspace: ${{needs.derive-workspace-from-branch-name.outputs.workspace}}
+  #     stack: application
+  #     action: apply
+  #     tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
+  #     git_ref: ${{ inputs.git_tag }}
+  #   secrets: inherit
+  # build-and-deploy-react-app-to-s3-bucket:
+  #   name: Build and deploy react app to S3 bucket
+  #   needs: [
+  #     get-metadata,
+  #     scan-secrets,
+  #     check-file-format,
+  #     check-markdown-format,
+  #     check-terraform-format,
+  #     check-python-black-format,
+  #     check-python-flake-rules,
+  #     cloc-repository,
+  #     derive-tf-versions,
+  #     derive-workspace-from-branch-name,
+  #     deploy-application-infrastructure,
+  #   ]
+  #   uses: ./.github/workflows/build-and-deploy-react-app.yaml
+  #   with:
+  #     github_environment: dev
+  #     deployment_workspace: ${{needs.derive-workspace-from-branch-name.outputs.workspace}}
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   secrets: inherit
