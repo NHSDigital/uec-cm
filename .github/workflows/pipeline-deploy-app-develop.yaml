@@ -88,9 +88,9 @@ jobs:
       - name: Derive Workspace
         id: derive-workspace
         run: |
-          ./scripts/branch-name-workspace.sh
-          echo $TERRAFORM_WORKSPACE_NAME
+          /bin/bash ./scripts/branch-name-workspace.sh
           echo "workspace=$TERRAFORM_WORKSPACE_NAME" >> $GITHUB_OUTPUT
+          echo $TERRAFORM_WORKSPACE_NAME
   deploy-application-infrastructure:
     name: Deploy application infrastructure
     needs:
