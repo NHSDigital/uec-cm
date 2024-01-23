@@ -88,10 +88,9 @@ jobs:
       - name: Derive Workspace
         id: derive-workspace
         run: |
-          export BRANCH_NAME=${{ github.ref_name }}
-          workspace=$(/bin/bash ./scripts/branch-name-workspace.sh)
-          echo "Setting workspace to $workspace"
-          echo "workspace=$workspace" >> $GITHUB_OUTPUT
+          ./scripts/branch-name-workspace.sh
+          echo $TERRAFORM_WORKSPACE_NAME
+          echo "workspace=$TERRAFORM_WORKSPACE_NAME" >> $GITHUB_OUTPUT
   deploy-application-infrastructure:
     name: Deploy application infrastructure
     needs:
