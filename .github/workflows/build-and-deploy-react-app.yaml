@@ -52,7 +52,7 @@ jobs:
           if [[ "${GITHUB_REF##*/}" == "main" ]]; then
             WORKSPACE="default"
           else
-            WORKSPACE="$(echo "${GITHUB_REF##*/}" | awk -F '-' '{if(NF>=3)print $1"-"$2; else print $1}')"
+            WORKSPACE="$(echo "${GITHUB_REF##*/}" | cut -d '_' -f1 | tr '[:upper:]' '[:lower:]' | tr '/' '-')"
             WORKSPACE="${WORKSPACE,,}"
           fi
 
