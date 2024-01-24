@@ -48,15 +48,7 @@ jobs:
         run: |
           REPO_NAME=$(echo "${{ github.repository }}" | awk -F/ '{print $2}')
           ENVIRONMENT=${{ inputs.github_environment }}
-
-          if [[ "${GITHUB_REF##*/}" == "main" ]]; then
-            WORKSPACE="default"
-          else
-            WORKSPACE="$(awk -F- '{print $1}' <<< "${GITHUB_REF##*/}")-$(awk -F- '{print $2}' <<< "${GITHUB_REF##*/}")"
-            WORKSPACE="${WORKSPACE,,}"
-          fi
-
-          echo "deployment_workspace=${WORKSPACE}" >> $GITHUB_ENV
+          WORKSPACE=${{ inputs.deployment_workspace }}
 
           if [[ "${WORKSPACE}" == "default" ]]; then
             BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end"
