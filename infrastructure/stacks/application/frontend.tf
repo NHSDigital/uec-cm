@@ -14,21 +14,21 @@ module "front_end_cloudfront" {
 resource "aws_s3_bucket_policy" "allow_access_from_cloudfront" {
   bucket = module.front_end_bucket.s3_bucket_id
   policy = jsonencode({
-    Version = "2012-10-17",
-    Id      = "PolicyForCloudFrontPrivateContent",
+    Version = "2012-10-17"
+    Id      = "PolicyForCloudFrontPrivateContent"
     Statement = [
       {
-        Effect    = "Allow",
-        Principal = { Service = "cloudfront.amazonaws.com" },
-        Action    = "s3:GetObject",
-        Resource  = "${module.front_end_bucket.s3_bucket_arn}/*",
+        Effect    = "Allow"
+        Principal = { Service = "cloudfront.amazonaws.com" }
+        Action    = "s3:GetObject"
+        Resource  = "${module.front_end_bucket.s3_bucket_arn}/*"
         Condition = {
           StringEquals = {
-            "aws:SourceArn" = module.front_end_cloudfront.cloudfront_distribution_arn,
+            "aws:SourceArn" = module.front_end_cloudfront.cloudfront_distribution_arn
           }
-        },
-      },
-    ],
+        }
+      }
+    ]
   })
 
   depends_on = [
