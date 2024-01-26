@@ -1,22 +1,14 @@
 # ==============================================================================
 # Mandatory variables
-variable "bucket_name" {
-  description = "The S3 bucket name"
-}
+
+variable "bucket_name" { description = "The S3 bucket name" }
 
 # ==============================================================================
 # Default variables
-variable "attach_policy" {
-  default = false
-}
 
-variable "policy" {
-  default = null
-}
-
-variable "lifecycle_rule_inputs" {
-  default = []
-}
+variable "attach_policy" { default = false }
+variable "policy" { default = null }
+variable "lifecycle_rule_inputs" { default = [] }
 
 variable "force_destroy" {
   description = "Whether to forcefully destroy the bucket when it contains objects"
