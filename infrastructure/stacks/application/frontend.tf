@@ -1,6 +1,7 @@
 module "front_end_bucket" {
   source      = "../../modules/s3"
   bucket_name = "${var.project}-${var.environment}-${var.front-end-s3-bucket-name}${local.workspace_suffix}"
+
   force_destroy = true
 }
 
