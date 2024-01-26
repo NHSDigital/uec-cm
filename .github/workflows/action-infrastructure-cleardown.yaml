@@ -43,7 +43,7 @@ jobs:
   derive-terraform-workspace-from-branch-name:
     runs-on: ubuntu-latest
     outputs:
-        workspace: ${{ steps.derive-workspace.outputs.workspace }}
+      workspace: ${{ steps.derive-workspace.outputs.workspace }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -52,10 +52,9 @@ jobs:
       - name: Derive Workspace
         id: derive-workspace
         run: |
-          export BRANCH_NAME=${{ github.event.ref }}
-          workspace=$(/bin/bash ./scripts/branch-name-workspace.sh)
-          echo "Setting workspace to $workspace"
-          echo "workspace=$workspace" >> $GITHUB_OUTPUT
+          export BRANCH_NAME=${{ github.head_ref }}
+          $WORKSPACE=./scripts/branch-name-workspace.sh
+          echo "workspace=$WORKSPACE" >> $GITHUB_OUTPUT
   destroy-application-infrastructure:
         needs:
           [
