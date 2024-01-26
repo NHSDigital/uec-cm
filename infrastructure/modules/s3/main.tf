@@ -6,7 +6,7 @@ module "s3" {
   attach_policy  = var.attach_policy
   policy         = var.policy
   lifecycle_rule = var.lifecycle_rule_inputs
-  force_destroy  = true
+  force_destroy = var.force_destroy
 
   block_public_acls       = var.block_public_acls
   block_public_policy     = var.block_public_policy

@@ -43,3 +43,9 @@ variable "restrict_public_buckets" {
   type        = bool
   default     = true
 }
+
+variable "force_destroy" {
+  description = "Whether to forcefully destroy the bucket when it contains objects"
+  type        = bool
+  default     = false
+}
