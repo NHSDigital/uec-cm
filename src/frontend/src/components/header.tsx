@@ -1,11 +1,11 @@
+import React from 'react';
 import { Header as NhsHeader } from "nhsuk-react-components";
 
-function Header() {
-
+const Header: React.FC = () => {
   return (
     <NhsHeader>
       <NhsHeader.Container>
-        <NhsHeader.Logo href="/" />
+        <NhsHeader.Logo href="/" alt='Home Page' />
         <NhsHeader.ServiceName href="/">UEC Capacity Management</NhsHeader.ServiceName>
       </NhsHeader.Container>
     </NhsHeader>

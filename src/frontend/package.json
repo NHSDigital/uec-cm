@@ -22,7 +22,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "lint": "eslint src"
   },
   "eslintConfig": {
     "extends": [
@@ -41,5 +41,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@axe-core/react": "^4.8.3",
+    "eslint": "^8.56.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0"
   }
 }

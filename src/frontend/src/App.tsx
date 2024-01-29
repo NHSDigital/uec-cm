@@ -1,14 +1,16 @@
 import React from 'react';
+import { Label } from 'nhsuk-react-components';
 import './App.css';
 import Header from './components/header';
 
 function App() {
   return (
-    // @ts-ignore
     <div>
       <Header />
-      <div className="centered-text">
-          <h3>Hello and welcome to UEC Capacity Management</h3>
+      <div role="main" className="centered-text">
+        <Label isPageHeading={true} size={'l'}>
+          Hello and welcome to UEC Capacity Management
+        </Label>
       </div>
     </div>
   );
