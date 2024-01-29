@@ -4,6 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+if (process.env.NODE_ENV !== 'production') {
+  console.log('axe enbled');
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const axe = require('@axe-core/react');
+  axe(React, ReactDOM, 1000);
+}
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
