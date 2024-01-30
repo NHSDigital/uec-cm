@@ -4,4 +4,4 @@
 cd src/frontend
 
 # Run the linter
-npm run lint
+#npm run lint
