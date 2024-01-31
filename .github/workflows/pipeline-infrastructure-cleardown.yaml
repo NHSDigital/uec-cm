@@ -5,6 +5,11 @@ on:
     branches:
       - 'task/*'
 jobs:
+  -name: debug:
+  run: |
+    echo "Branch Name: ${{github_ref_name}}""
+    echo "GitHub Event Trigger: ${{ github.event_name }}"
+    echo "GitHub Actor: ${{ github.actor }}"
   destroy:
     if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
     uses: ./.github/workflows/action-infrastructure-cleardown.yaml
