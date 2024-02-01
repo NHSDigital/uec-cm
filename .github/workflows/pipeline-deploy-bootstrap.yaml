@@ -26,3 +26,13 @@ jobs:
       tf_version: ${{ needs.derive-tf-versions.outputs.maxVersion }}
     secrets: inherit
   # TODO add other cm related accounts as required
+  slack-notifications:
+    needs: [
+      deploy-bootstrap-cm-dev,
+      deploy-bootstrap-cm-test,
+    ]
+    if: always()
+    uses: ./.github/workflows/slack-notifications.yaml
+    with:
+      env: dev, test
+    secrets: inherit

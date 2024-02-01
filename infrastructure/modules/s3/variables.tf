@@ -13,7 +13,7 @@ variable "lifecycle_rule_inputs" { default = [] }
 variable "force_destroy" {
   description = "Whether to forcefully destroy the bucket when it contains objects"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "target_access_logging_bucket" {

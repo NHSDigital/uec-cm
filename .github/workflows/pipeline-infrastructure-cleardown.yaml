@@ -7,11 +7,10 @@ on:
 jobs:
   destroy:
     if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
-    branch_name: ${{ github.event.ref }}
     uses: ./.github/workflows/action-infrastructure-cleardown.yaml
     with:
       github_environment: dev
-      #branch_name: ${{ github.event.ref }}
+      branch_name: ${{ github.event.ref }}
     secrets: inherit
   summarise:
     if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
