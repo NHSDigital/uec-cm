@@ -3,5 +3,5 @@
 # Navigate to the frontend directory
 cd src/frontend
 
-# Run the linter
+# Run the linter #
 npm run lint
