@@ -13,6 +13,7 @@
   },
   "scripts": {
     "pretest": "npx ts-node src/utilities/init.ts",
-    "test": "cross-env test_env=dev cucumber-js test"
+    "test": "cross-env test_env=dev cucumber-js test",
+    "test_cmd_line": "cucumber-js test"
   }
 }
