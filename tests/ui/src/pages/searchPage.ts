@@ -26,11 +26,9 @@ async searchForText(searchString: string) {
   await pageFixture.page.getByTitle(this.searchPageElements.searchBox).press('Enter');
 }
 
-async textIsReturned(searchResultsString: string) {
-  await expect(pageFixture.page.getByRole('heading', {name: searchResultsString })).toBeVisible();
+async headerIsReturned(searchResultsString: string) {
+  await expect(pageFixture.page.getByRole('heading', {name: searchResultsString }),'Header not found').toBeVisible();
+  await expect(pageFixture.page.getByRole('heading', {name: searchResultsString }),'Header not found').toBeVisible();
 }
 
 }
-
-
-

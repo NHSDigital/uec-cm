@@ -1,25 +1,32 @@
 import { Given , When , Then } from "@cucumber/cucumber";
 import {pageFixture} from "../../src/hooks/pageFixture";
 import SearchPage from "../../src/pages/searchPage";
+import {getCloudFrontUrl} from "../../src/utilities/cloudfront";
+
 
 let searchPage: SearchPage;
 searchPage = new SearchPage(pageFixture.page);
 
-Given('the Google home page is displayed', async function () {
-  await pageFixture.page.goto("https://www.google.co.uk");
-});
+Given('I navigate to the cloudfront endpoint for workspace {string}', async function (workspace) {
+  var distribution = getCloudFrontUrl(workspace);
+  var url = JSON.parse(distribution)
+  console.log(url.DomainName)
+  await pageFixture.page.goto("https://"+url.DomainName)
 
+  })
 
-Given('the User accepts all cookies', async function () {
-  await searchPage.acceptAllCookies();
-});
+Given('I navigate to the env cloudfront endpoint', async function () {
+  console.log("This is also my workspace: " + process.env.WORKSPACE);
+  let workspace = process.env.WORKSPACE as string;
+  var distribution = getCloudFrontUrl(workspace);
+  var url = JSON.parse(distribution)
+  console.log(url.DomainName)
+  await pageFixture.page.goto("https://"+url.DomainName)
 
-When('the User searches for {string}', async function (searchString) {
-  await searchPage.searchForText(searchString);
+  })
 
-});
 Then('{string} is returned', async function (searchResultsString) {
-  await searchPage.textIsReturned(searchResultsString)
+  await searchPage.headerIsReturned(searchResultsString)
 });
 
 
