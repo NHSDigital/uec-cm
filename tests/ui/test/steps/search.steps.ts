@@ -18,6 +18,7 @@ Given('I navigate to the cloudfront endpoint for workspace {string}', async func
 Given('I navigate to the env cloudfront endpoint', async function () {
   console.log("This is also my workspace: " + process.env.WORKSPACE);
   let workspace = process.env.WORKSPACE as string;
+  console.log(workspace)
   var distribution = getCloudFrontUrl(workspace);
   var url = JSON.parse(distribution)
   console.log(url.DomainName)
