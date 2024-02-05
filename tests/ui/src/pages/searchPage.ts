@@ -15,20 +15,16 @@ async acceptAllCookies() {
   await pageFixture.page.locator(this.searchPageElements.acceptAllCookies).click();
 }
 
-async searchForText(searchString: string) {
-  await pageFixture.page.getByTitle(this.searchPageElements.searchBox).click();
-  await pageFixture.page.getByTitle(this.searchPageElements.searchBox).fill(searchString);
-  await pageFixture.page.getByTitle(this.searchPageElements.searchBox).click();
-  await pageFixture.page.getByTitle(this.searchPageElements.searchBox).click();
-  await pageFixture.page.getByTitle(this.searchPageElements.searchBox).press('Tab');
-  await pageFixture.page.getByTitle(this.searchPageElements.searchBox).press('Tab');
-  await pageFixture.page.getByTitle(this.searchPageElements.searchBox).press('Tab');
-  await pageFixture.page.getByTitle(this.searchPageElements.searchBox).press('Enter');
+async headerIsReturned(searchResultsHeader: string) {
+  await expect(pageFixture.page.getByRole('heading', {name: searchResultsHeader })).toBeVisible();
 }
 
-async headerIsReturned(searchResultsString: string) {
-  await expect(pageFixture.page.getByRole('heading', {name: searchResultsString }),'Header not found').toBeVisible();
-  await expect(pageFixture.page.getByRole('heading', {name: searchResultsString }),'Header not found').toBeVisible();
+async textIsReturned(searchResultsText: string) {
+  await expect(pageFixture.page.getByText(searchResultsText, {exact: true} )).toBeVisible();
+}
+
+async linkIsReturned(searchResultsLink: string) {
+  await expect(pageFixture.page.getByRole("link" , {name: searchResultsLink } )).toBeVisible();
 }
 
 }

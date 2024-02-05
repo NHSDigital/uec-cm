@@ -1,4 +1,4 @@
 
-export function getCloudFrontUrl(workspace: string) {return require('child_process').execSync(
-  `aws cloudfront list-distributions --query "DistributionList.Items[].{DomainName: DomainName, OriginDomainName: Origins.Items[0].DomainName}[?contains(OriginDomainName, 'front-end`+workspace+`')] | [0]"`).toString();
+export function getCloudFrontUrl(env: string, workspace: string) {return require('child_process').execSync(
+  `aws cloudfront list-distributions --query "DistributionList.Items[].{DomainName: DomainName, OriginDomainName: Origins.Items[0].DomainName}[?OriginDomainName=='nhse-uec-cm-`+env+`-front-end`+workspace+`.s3.amazonaws.com'] | [0]"`).toString();
 }
