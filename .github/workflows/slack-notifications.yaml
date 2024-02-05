@@ -36,13 +36,13 @@ jobs:
       with:
         payload: |
             {
-            "text": "GitHub Action build result: ${{ env.WORKFLOW_CONCLUSION }}\nhttps://github.com/NHSDigital/uec-dos-service-management/actions/runs/${{ github.run_id }} \nPushed by: @${{ github.actor }}",
+            "text": "GitHub Action build result: ${{ env.WORKFLOW_CONCLUSION }}\nhttps://github.com/NHSDigital/uec-cm/actions/runs/${{ github.run_id }} \nPushed by: @${{ github.actor }}",
             "blocks": [
                 {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "GitHub Action build result: ${{ env.WORKFLOW_CONCLUSION }}\nhttps://github.com/NHSDigital/uec-dos-service-management/actions/runs/${{ github.run_id }}\nPushed by: @${{ github.actor }}"
+                    "text": "GitHub Action build result: ${{ env.WORKFLOW_CONCLUSION }}\nhttps://github.com/NHSDigital/uec-cm/actions/runs/${{ github.run_id }}\nPushed by: @${{ github.actor }}"
                 }
                 }
             ]
