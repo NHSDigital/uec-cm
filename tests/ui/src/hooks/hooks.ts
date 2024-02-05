@@ -1,12 +1,20 @@
 import  { BeforeAll, Before, AfterAll, After, Status, AfterStep} from "@cucumber/cucumber";
 import {chromium, Browser, Page, BrowserContext} from "@playwright/test"
 import { pageFixture } from "./pageFixture";
+import {getEnv} from "../config/env"
 
 let browser: Browser;
 let context: BrowserContext
 
 BeforeAll(async  function() {
-    browser = await chromium.launch({ headless: false});
+  getEnv();
+  if (process.env.WORKSPACE != "default")
+    {process.env.WORKSPACE = "-" + process.env.WORKSPACE}
+  else
+    {process.env.WORKSPACE = ""};
+    console.log(process.env.WORKSPACE);
+
+  browser = await chromium.launch({ headless: false});
 });
 
 Before(async  function() {
