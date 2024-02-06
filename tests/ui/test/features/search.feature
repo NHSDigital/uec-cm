@@ -1,7 +1,6 @@
-Feature: Google search tests
+Feature: Cloudfront tests
 
-  Scenario: Search on Google
-    Given the Google home page is displayed
-    When the User accepts all cookies
-    And the User searches for "DuckDuckGo"
-    Then "DuckDuckGo — Privacy, simplified." is returned
+  Scenario: Navigate to home page via env
+    Given I navigate to the cloudfront endpoint
+    Then "Capacity Management" link is displayed on the page
+    And "Hello and welcome to UEC Capacity Management" is displayed on the page
