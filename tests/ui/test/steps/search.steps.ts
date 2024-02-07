@@ -5,7 +5,6 @@ import {getCloudFrontUrl} from "../../src/utilities/cloudfront";
 
 
 let searchPage: SearchPage;
-searchPage = new SearchPage(pageFixture.page);
 
 Given('I navigate to the cloudfront endpoint', async function () {
   console.log("This is also my workspace: " + process.env.WORKSPACE);
@@ -17,12 +16,17 @@ Given('I navigate to the cloudfront endpoint', async function () {
   var url = JSON.parse(distribution)
   console.log("This is the domain name:" +url.DomainName)
   await pageFixture.page.goto("https://"+url.DomainName)
-  })
+  searchPage = new SearchPage(pageFixture.page);
+})
 
-Then('{string} is displayed on the page', async function (searchResultsText) {
+Then('the accessibility checks are passing', async function(){
+  await searchPage.runAxeCheck();
+})
+
+Then('{string} is displayed on the page', async function (searchResultsText: string) {
   await searchPage.textIsReturned(searchResultsText)
 });
 
-Then('{string} link is displayed on the page', async function (searchResultsLink) {
+Then('{string} link is displayed on the page', async function (searchResultsLink: string) {
   await searchPage.linkIsReturned(searchResultsLink)
 });
