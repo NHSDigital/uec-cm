@@ -1,9 +1,9 @@
-variable "cm_temp_bucket_name" {
-  description = "Temp stack to test deployment"
-}
-
 variable "front-end-s3-bucket-name" {
   description = "CM Front End"
+}
+
+variable "website_map" {
+  description = "Map of static website hosting"
 }
 
 variable "force_destroy" {

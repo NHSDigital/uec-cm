@@ -1,8 +1,8 @@
 module "front_end_bucket" {
-  source      = "../../modules/s3"
-  bucket_name = "${var.project}-${var.environment}-${var.front-end-s3-bucket-name}${local.workspace_suffix}"
-
-  force_destroy = var.force_destroy
+  source        = "../../modules/s3"
+  bucket_name   = "${var.project}-${var.environment}-${var.front-end-s3-bucket-name}${local.workspace_suffix}"
+  website_map   = var.website_map
+  force_destroy = true
 }
 
 module "front_end_cloudfront" {

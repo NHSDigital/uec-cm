@@ -49,3 +49,7 @@ variable "restrict_public_buckets" {
   type        = bool
   default     = true
 }
+variable "website_map" {
+  description = "Map containing static website hosting"
+  default     = {}
+}
