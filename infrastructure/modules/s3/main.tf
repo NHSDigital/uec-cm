@@ -21,10 +21,7 @@ module "s3" {
     }
   }
 
-  website = {
-    index_document = "index.html"
-    error_document = "index.html"
-  }
+  website = var.website_map
 
   # TODO Set up access logging bucket for CSOC
   #logging = {
