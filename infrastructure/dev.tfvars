@@ -1,1 +1,3 @@
-environment = "dev"
+environment   = "dev"
+force_destroy = true
+
