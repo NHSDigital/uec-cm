@@ -79,6 +79,7 @@ jobs:
       [
         get-metadata,
         deploy-application-infrastructure,
+        build-and-deploy-react-app-to-s3-bucket
       ]
     timeout-minutes: 10
     steps:
