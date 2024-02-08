@@ -58,6 +58,20 @@ jobs:
       tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
       git_ref: ${{ inputs.git_tag }}
     secrets: inherit
+  build-and-deploy-react-app-to-s3-bucket:
+    name: Build and deploy react app to S3 bucket
+    needs: [
+      deploy-application-infrastructure,
+      derive-deployment-workspace
+    ]
+    uses: ./.github/workflows/build-and-deploy-react-app.yaml
+    with:
+      github_environment: test
+      deployment_workspace: ${{needs.derive-deployment-workspace.outputs.deployment_workspace}}
+    permissions:
+      id-token: write
+      contents: read
+    secrets: inherit
   integration-test:
     name: Run integration tests
     runs-on: ubuntu-latest
