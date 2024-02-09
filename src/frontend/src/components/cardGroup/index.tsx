@@ -4,7 +4,7 @@ import { CardGroupProps } from "./interface";
 
 const CardGroup: React.FC<CardGroupProps> = ({ cards }) => {
   return (
-    <Card.Group>
+    <Card.Group data-testid='card-group'>
       {cards.map((card, index) => (
         <Card.GroupItem key={index} width="one-third">
           <Card clickable>
