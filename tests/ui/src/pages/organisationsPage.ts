@@ -7,11 +7,38 @@ export default class OrganisationsPage {
   }
 
 private organisationsPageElements = {
-  addCardLink : "add-card-link",
-  searchBox: 'Search'
+  addOrganisation : 'add-card-link',
+  name : 'name-input',
+  postcode : 'postcode-input',
+  org : 'managing-organisation-input',
+  searchInstructions: 'search-by'
   }
 
+
   async clickTestId(action: string) {
-    await expect(pageFixture.page.getByTestId(this.organisationsPageElements.addCardLink).click());
-  }
+    const pageAction = `this.organisationsPageElements.${action}`
+    console.log(pageAction)
+    await pageFixture.page.getByTestId(pageAction).click();
+}
+
+async clickAdd() {
+  await pageFixture.page.getByTestId(this.organisationsPageElements.addOrganisation).click();
+}
+
+async inputName(name: string) {
+  await pageFixture.page.getByTestId(this.organisationsPageElements.name).fill(name);
+}
+
+async inputPostcode(postcode: string) {
+  await pageFixture.page.getByTestId(this.organisationsPageElements.postcode).fill(postcode);
+}
+
+async inputOrg(org: string) {
+  await pageFixture.page.getByTestId(this.organisationsPageElements.org).fill(org);
+}
+
+async searchInstructionsAreReturned(Text: string) {
+  await expect(pageFixture.page.getByTestId(this.organisationsPageElements.searchInstructions)).toContainText(Text);
+}
+
 }
