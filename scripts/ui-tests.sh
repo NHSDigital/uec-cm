@@ -4,6 +4,7 @@
 set -e
 # This script runs playwright cucumber ui tests
 #
+export AWS_REGION="${AWS_REGION:-""}"     # The aws region
 export ACCOUNT_TYPE="${ACCOUNT_TYPE:-""}"     # The type of account being used - dev test
 
 APPLICATION_TEST_DIR='tests/ui'
@@ -14,6 +15,11 @@ source ./scripts/functions/git-functions.sh
 export_terraform_workspace_name
 # check export has been done
 EXPORTS_SET=0
+
+if [ -z "$AWS_REGION" ] ; then
+  echo Set AWS_REGION
+  EXPORTS_SET=1
+fi
 
 if [ -z "$ACCOUNT_TYPE" ] ; then
   echo Set ACCOUNT_TYPE type of ACCOUNT_TYPE - one of dev, test, preprod, prod
@@ -40,4 +46,4 @@ echo "Installing requirements"
 
 # echo "Running integration tests"
 cd $APPLICATION_TEST_DIR
-WORKSPACE=$TERRAFORM_WORKSPACE_NAME ENV=$ACCOUNT_TYPE npm run test_cmd_line
+WORKSPACE=$TERRAFORM_WORKSPACE_NAME ENV=$ACCOUNT_TYPE REGION=$AWS_REGION npm run test_cmd_line
