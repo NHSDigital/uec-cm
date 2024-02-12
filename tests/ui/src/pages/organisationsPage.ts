@@ -37,6 +37,18 @@ async inputOrg(org: string) {
   await pageFixture.page.getByTestId(this.organisationsPageElements.org).fill(org);
 }
 
+async enteredName(name: string) {
+  await expect(pageFixture.page.getByTestId(this.organisationsPageElements.name)).toHaveValue(name);
+}
+
+async enteredPostcode(postcode: string) {
+  await expect(pageFixture.page.getByTestId(this.organisationsPageElements.postcode)).toHaveValue(postcode);
+}
+
+async enteredOrg(org: string) {
+  await expect(pageFixture.page.getByTestId(this.organisationsPageElements.org)).toHaveValue(org);
+}
+
 async searchInstructionsAreReturned(Text: string) {
   await expect(pageFixture.page.getByTestId(this.organisationsPageElements.searchInstructions)).toContainText(Text);
 }

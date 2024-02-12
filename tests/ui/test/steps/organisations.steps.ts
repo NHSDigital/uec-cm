@@ -23,9 +23,22 @@ When('I enter {string} as the organisation postcode', async function (postcode) 
   await organisationsPage.inputPostcode(postcode);
 });
 
-When('I enter {string} as the organisation code', async function (org) {
+Then('I enter {string} as the organisation code', async function (org) {
   await organisationsPage.inputOrg(org);
 });
+
+When('{string} is input as the organisation name', async function (name) {
+  await organisationsPage.inputName(name);
+});
+
+When('{string} is input as the organisation postcode', async function (postcode) {
+  await organisationsPage.inputPostcode(postcode);
+});
+
+When('{string} is input as the organisation code', async function (org) {
+  await organisationsPage.inputOrg(org);
+});
+
 
 Then('The instructions stating {string} are displayed on the page', async function (Text) {
   await organisationsPage.searchInstructionsAreReturned(Text);
