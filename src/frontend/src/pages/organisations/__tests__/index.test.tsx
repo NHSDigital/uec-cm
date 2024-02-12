@@ -4,6 +4,11 @@ import OrganisationsPage from '..';
 import { addUrl } from '../cards';
 
 describe('Organisations page', () => {
+
+  it('should render the component without crashing', () => {
+    render(<OrganisationsPage />);
+  });
+
   it('renders the banner', () => {
     render(<OrganisationsPage />);
 
