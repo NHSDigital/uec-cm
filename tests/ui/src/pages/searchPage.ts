@@ -6,15 +6,6 @@ export default class SearchPage {
     pageFixture.page = page;
   }
 
-private searchPageElements = {
-  acceptAllCookies : "//div[text()='Accept all']",
-  searchBox: 'Search'
-  }
-
-async acceptAllCookies() {
-  await pageFixture.page.locator(this.searchPageElements.acceptAllCookies).click();
-}
-
 async headerIsReturned(searchResultsHeader: string) {
   await expect(pageFixture.page.getByRole('heading', {name: searchResultsHeader })).toBeVisible();
 }
