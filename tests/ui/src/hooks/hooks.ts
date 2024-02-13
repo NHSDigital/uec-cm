@@ -12,7 +12,6 @@ BeforeAll(async  function() {
     {process.env.WORKSPACE = "-" + process.env.WORKSPACE}
   else
     {process.env.WORKSPACE = ""};
-    console.log(process.env.WORKSPACE);
 
   browser = await chromium.launch({ headless: false});
 });
