@@ -1,13 +1,13 @@
 import React from 'react';
-import { Label } from 'nhsuk-react-components';
+import OrganisationsSearch from '../../components/organisations/search';
 
 const AddOrganisationPage: React.FC = () => {
+
     return (
-        <>
-            <div className="nhsuk-width-container">
-                <Label isPageHeading={true} size='m'>Placeholder for adding an organisation</Label>
-            </div>
-        </>
+        <div data-testid='add-organisation-page' className="nhsuk-width-container nhsuk-u-margin-top-4" >
+            <span className="nhsuk-caption-m">Data management</span>
+            <OrganisationsSearch />
+        </div>
     );
 };
 
