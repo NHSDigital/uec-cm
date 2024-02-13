@@ -11,17 +11,21 @@ const OrganisationsSearch: React.FC = () => {
         e.currentTarget.blur();
     }
 
-    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setName(e.target.value)
-    }
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        switch(event.target.name){
+            case 'name':
+                setName(event.target.value);
+                break;
 
-    const handlePostCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPostCode(e.target.value)
-    }
+            case 'postcode':
+                setPostCode(event.target.value);
+                break;
 
-    const handleOrganisationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setOrganisation(e.target.value)
-    }
+            case 'organisation':
+                setOrganisation(event.target.value);
+                break;
+        }
+    };
 
     return (
         <div data-testid='organisation-search'>
@@ -30,8 +34,9 @@ const OrganisationsSearch: React.FC = () => {
 
             <Input
                 label="Name"
+                name='name'
                 value={name}
-                onChange={handleNameChange}
+                onChange={handleInputChange}
                 aria-label="Name"
                 data-testid="name-input"
                 width={20}
@@ -41,8 +46,9 @@ const OrganisationsSearch: React.FC = () => {
 
             <Input
                 label="Postcode"
+                name='postcode'
                 value={postCode}
-                onChange={handlePostCodeChange}
+                onChange={handleInputChange}
                 aria-label="Postcode"
                 data-testid="postcode-input"
                 width={10}
@@ -52,8 +58,9 @@ const OrganisationsSearch: React.FC = () => {
 
             <Input
                 label="Managing organisation"
+                name='organisation'
                 value={organisation}
-                onChange={handleOrganisationChange}
+                onChange={handleInputChange}
                 aria-label="Managing organisation"
                 data-testid="managing-organisation-input"
                 width={20}
