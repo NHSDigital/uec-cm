@@ -11,6 +11,18 @@ const OrganisationsSearch: React.FC = () => {
         e.currentTarget.blur();
     }
 
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setName(e.target.value)
+    }
+
+    const handlePostCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPostCode(e.target.value)
+    }
+
+    const handleOrganisationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setOrganisation(e.target.value)
+    }
+
     return (
         <div data-testid='organisation-search'>
             <Label isPageHeading={true} size='l'>Organisation search</Label>
@@ -19,7 +31,7 @@ const OrganisationsSearch: React.FC = () => {
             <Input
                 label="Name"
                 value={name}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                onChange={handleNameChange}
                 aria-label="Name"
                 data-testid="name-input"
                 width={20}
@@ -30,7 +42,7 @@ const OrganisationsSearch: React.FC = () => {
             <Input
                 label="Postcode"
                 value={postCode}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPostCode(e.target.value)}
+                onChange={handlePostCodeChange}
                 aria-label="Postcode"
                 data-testid="postcode-input"
                 width={10}
@@ -41,7 +53,7 @@ const OrganisationsSearch: React.FC = () => {
             <Input
                 label="Managing organisation"
                 value={organisation}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setOrganisation(e.target.value)}
+                onChange={handleOrganisationChange}
                 aria-label="Managing organisation"
                 data-testid="managing-organisation-input"
                 width={20}
