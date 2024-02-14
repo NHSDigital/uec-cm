@@ -1,5 +1,5 @@
 import { expect, Page } from "@playwright/test";
-import {pageFixture} from "../../src/hooks/pageFixture";
+import { pageFixture } from "../../src/hooks/pageFixture";
 
 export default class SearchPage {
   constructor(page: Page) {
