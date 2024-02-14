@@ -57,5 +57,6 @@ tests/ui/*.html
 tests/ui/playwright-report/index.html
 **/allure-reports/*
 **/allure-results/*
-
 /node_modules/
+tests/ui/*.html
+tests/ui/playwright-report/index.html
