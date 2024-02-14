@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { Button, Input, Label } from 'nhsuk-react-components';
+import usePostcodeValidator from '../../../hooks/usePostcodeValidator';
 
 const OrganisationsSearch: React.FC = () => {
 
     const [name, setName] = useState('');
     const [postCode, setPostCode] = useState('');
     const [organisation, setOrganisation] = useState('');
+    const [isValidPostcode, validatePostcode ] = usePostcodeValidator();
 
     const handleSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.currentTarget.blur();
+
+        validatePostcode(postCode, true);
     }
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +53,8 @@ const OrganisationsSearch: React.FC = () => {
                 name='postcode'
                 value={postCode}
                 onChange={handleInputChange}
+                error={isValidPostcode ? "" : "Enter a valid postcode"}
+                errorProps={{ id : 'postcode-error-message' }}
                 aria-label="Postcode"
                 data-testid="postcode-input"
                 width={10}
