@@ -7,9 +7,6 @@ import {getCloudFrontUrl} from "../../src/utilities/cloudFront";
 let organisationsPage: OrganisationsPage;
 organisationsPage = new OrganisationsPage(pageFixture.page);
 
-When('I choose to {string} an organisation', async function (action) {
-  await organisationsPage.clickTestId(action);
-});
 
 When('I add an organisation', async function () {
   await organisationsPage.clickAdd();
@@ -21,6 +18,10 @@ When('I enter {string} as the organisation name', async function (name) {
 
 When('I enter {string} as the organisation postcode', async function (postcode) {
   await organisationsPage.inputPostcode(postcode);
+});
+
+When('I submit the search', async function () {
+  await organisationsPage.clickOrgAddSearch();
 });
 
 Then('I enter {string} as the organisation code', async function (org) {
@@ -39,7 +40,13 @@ When('{string} is input as the organisation code', async function (org) {
   await organisationsPage.inputOrg(org);
 });
 
-
 Then('The instructions stating {string} are displayed on the page', async function (Text) {
   await organisationsPage.searchInstructionsAreReturned(Text);
 });
+
+Then('a postcode error message {string} is displayed on the page', async function (Text) {
+  await organisationsPage.postcodeErrorVisible();
+  await organisationsPage.postcodeErrorMessage(Text);
+});
+
+

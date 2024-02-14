@@ -53,8 +53,9 @@ coverage.xml
 tests/*/reports/*
 tests/*/node_modules/
 tests/*/playwright/.cache/
-tests/ui/allure-reports/*
-tests/ui/allure-results/*.json
-tests/ui/allure-results/*.png
 tests/ui/*.html
 tests/ui/playwright-report/index.html
+**/allure-reports/*
+**/allure-results/*
+
+/node_modules/
