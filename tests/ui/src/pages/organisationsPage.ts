@@ -13,6 +13,8 @@ static readonly postcode = 'postcode-input'
 static readonly org = 'managing-organisation-input'
 static readonly searchInstructions = 'search-by'
 static readonly postcodeError = 'postcode-error-message'
+static readonly orgNameError = 'name-error-message'
+static readonly orgError = 'organisation-error-message'
 static readonly orgAddSearchBtn = 'search-button'
 
 
@@ -52,13 +54,36 @@ async searchInstructionsAreReturned(Text: string) {
   await expect(pageFixture.page.getByTestId(OrganisationsPage.searchInstructions)).toContainText(Text);
 }
 
+
+
+async errorMessage(Text: string) {
+  await expect(pageFixture.page.getByText(Text)).toBeVisible;
+
+}
+
+async orgErrorVisible() {
+  await expect(pageFixture.page.getByTestId(OrganisationsPage.orgError)).toBeVisible;
+}
+
+async orgNameErrorVisible() {
+  await expect(pageFixture.page.getByTestId(OrganisationsPage.orgNameError)).toBeVisible;
+}
+
 async postcodeErrorVisible() {
   await expect(pageFixture.page.getByTestId(OrganisationsPage.postcodeError)).toBeVisible;
 }
 
-async postcodeErrorMessage(Text: string) {
-  await expect(pageFixture.page.getByText(Text)).toBeVisible;
 
+async orgErrorNotVisible() {
+  await expect(pageFixture.page.getByTestId(OrganisationsPage.orgError)).not.toBeVisible;
+}
+
+async orgNameErrorNotVisible() {
+  await expect(pageFixture.page.getByTestId(OrganisationsPage.orgNameError)).not.toBeVisible;
+}
+
+async postcodeErrorNotVisible() {
+  await expect(pageFixture.page.getByTestId(OrganisationsPage.postcodeError)).not.toBeVisible;
 }
 
 }
