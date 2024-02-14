@@ -1,7 +1,7 @@
 import { Given , When , Then } from "@cucumber/cucumber";
-import {pageFixture} from "../../src/hooks/pageFixture";
+import { pageFixture } from "../../src/hooks/pageFixture";
 import SearchPage from "../../src/pages/searchPage";
-import {getCloudFrontUrl} from "../../src/utilities/cloudfront";
+import { getCloudFrontUrl } from "../../src/utilities/cloudFront";
 
 
 let searchPage: SearchPage;
