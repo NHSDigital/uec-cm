@@ -59,12 +59,23 @@ describe('OrganisationsSearch', () => {
     expect(postcodeInput?.parentElement?.textContent?.includes('Enter a valid postcode')).toBeTruthy();
   });
 
-  it('no postcode validation message', () => {
+  it('no postcode validation message with valid post code', () => {
     render(<OrganisationsSearch />);
 
     const postcodeInput = screen.getByTestId('postcode-input') as HTMLInputElement;
 
     fireEvent.change(postcodeInput, { target: { value: 'NG1 1AA' } });
+
+    const searchButton = screen.getByTestId('search-button');
+    fireEvent.click(searchButton);
+
+    expect(postcodeInput?.parentElement?.textContent?.includes('Enter a valid postcode')).toBeFalsy();
+  });
+
+  it('no postcode validation message when nothing entered', () => {
+    render(<OrganisationsSearch />);
+
+    const postcodeInput = screen.getByTestId('postcode-input') as HTMLInputElement;
 
     const searchButton = screen.getByTestId('search-button');
     fireEvent.click(searchButton);

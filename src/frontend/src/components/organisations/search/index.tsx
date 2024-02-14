@@ -12,7 +12,7 @@ const OrganisationsSearch: React.FC = () => {
     const handleSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.currentTarget.blur();
 
-        validatePostcode(postCode);
+        validatePostcode(postCode, true);
     }
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +54,7 @@ const OrganisationsSearch: React.FC = () => {
                 value={postCode}
                 onChange={handleInputChange}
                 error={isValidPostcode ? "" : "Enter a valid postcode"}
+                errorProps={{ id : 'postcode-error-message' }}
                 aria-label="Postcode"
                 data-testid="postcode-input"
                 width={10}
