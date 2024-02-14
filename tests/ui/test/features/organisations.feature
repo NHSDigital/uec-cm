@@ -18,6 +18,14 @@ Feature: As a user I want to be able to manage organisation data
     And I enter "BD1 1AW" as the organisation postcode
     And "BD1 1AW" is input as the organisation postcode
 
+  Scenario: Search for an invalid organisation postcode
+    Given I navigate to the organisations page
+    When I add an organisation
+    And I enter "BD1 1AWW" as the organisation postcode
+    And I submit the search
+    Then a postcode error message "Error: Enter a valid postcode" is displayed on the page
+
+
   Scenario: Search for an organisation code
     Given I navigate to the organisations page
     When I add an organisation

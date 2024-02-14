@@ -53,6 +53,7 @@ coverage.xml
 tests/*/reports/*
 tests/*/node_modules/
 tests/*/playwright/.cache/
-
+**/allure-reports/*
+**/allure-results/*
 
 /node_modules/
