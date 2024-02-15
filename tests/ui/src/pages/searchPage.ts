@@ -1,8 +1,9 @@
 import { expect, Page } from "@playwright/test";
 import { pageFixture } from "../../src/hooks/pageFixture";
-
-export default class SearchPage {
+import BasePage from './BasePage';
+export default class SearchPage extends BasePage {
   constructor(page: Page) {
+    super(page);
     pageFixture.page = page;
   }
 

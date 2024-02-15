@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@axe-core/playwright": "^4.8.5",
     "@cucumber/pretty-formatter": "^1.0.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.1",

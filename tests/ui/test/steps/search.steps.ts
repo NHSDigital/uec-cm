@@ -35,3 +35,6 @@ Then('{string} link is displayed on the page', async function (searchResultsLink
 });
 
 
+Then('the accessibility checks are passing', async function(){
+  await searchPage.runAxeCheck();
+})
