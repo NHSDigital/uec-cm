@@ -2,6 +2,7 @@
   "dependencies": {
     "@axe-core/playwright": "^4.8.5",
     "@cucumber/pretty-formatter": "^1.0.0",
+    "axe-html-reporter": "^2.2.3",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.1",
     "fs-extra": "^11.1.1",
@@ -19,7 +20,7 @@
   "scripts": {
     "pretest": "npx ts-node src/utilities/init.ts",
     "test": "npm run build && cross-env test_env=dev cucumber-js test",
-    "tests:tagged": "node ./node_modules/.bin/cucumber-js  --tags",
+    "tests:tagged": "node ./node_modules/.bin/cucumber-js  --tags @Test",
     "test_cmd_line": "cucumber-js test",
     "allure": "allure generate --single-file -c -o  allure-reports"
   }

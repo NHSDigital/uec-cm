@@ -2,9 +2,11 @@ import  { BeforeAll, Before, AfterAll, After, Status, AfterStep} from "@cucumber
 import {chromium, Browser, Page, BrowserContext} from "@playwright/test"
 import { pageFixture } from "./pageFixture";
 import {getEnv} from "../config/env"
+// import Accessibility from "../utilities/acccessibility";
 
 let browser: Browser;
-let context: BrowserContext
+let context: BrowserContext;
+// let acccessibility: Accessibility;
 
 BeforeAll(async  function() {
   getEnv();
@@ -20,9 +22,11 @@ Before(async  function() {
     context = await browser.newContext();
     const page = await context.newPage();
     pageFixture.page = page;
+    // acccessibility = new Accessibility(pageFixture.page);
 });
 
 AfterStep(async function ({pickle, result}) {
+  // await acccessibility.runAxeCheck();
   //screenshot for end of every step
   const img = await pageFixture.page.screenshot({path: `reports/screenshots/${pickle.name}.png`, type: "png"})
   await this.attach(img, "image/png")
