@@ -16,7 +16,7 @@
             "ts-node/register"
         ],
         "format": [
-          "./dist/reporter.js"
+          "./src/utilities/reporter.js"
         ]
     }
 }

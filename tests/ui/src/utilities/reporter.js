@@ -1,14 +1,13 @@
-import { AllureRuntime, CucumberJSAllureFormatter } from "allure-cucumberjs";
+const { CucumberJSAllureFormatter, AllureRuntime } = require("allure-cucumberjs");
 
-export default class Reporter extends CucumberJSAllureFormatter {
-  constructor(options: any) {
+class Reporter extends CucumberJSAllureFormatter {
+  constructor(options) {
     super(
       options,
       new AllureRuntime({
         resultsDir: "./allure-results"
       }),
       {
-        exceptionFormatter: (message) => message.replace("qwerty123", "[password edited]"),
         labels: [
           {
             pattern: [/@epic:(.*)/],
@@ -39,3 +38,5 @@ export default class Reporter extends CucumberJSAllureFormatter {
     );
   }
 }
+
+module.exports = Reporter;

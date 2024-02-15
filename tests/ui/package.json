@@ -16,12 +16,10 @@
     "allure-playwright": "^2.12.0"
   },
   "scripts": {
-    "build": "tsc -p tsconfig-build.json",
     "pretest": "npx ts-node src/utilities/init.ts",
     "test": "npm run build && cross-env test_env=dev cucumber-js test",
     "tests:tagged": "node ./node_modules/.bin/cucumber-js  --tags",
     "test_cmd_line": "cucumber-js test",
-    "allure": "npx allure generate allure-results -c -o allure-reports",
-    "allure:serve": "npx allure serve allure-results --host localhost --port 9999"
+    "allure": "allure generate --single-file -c -o  allure-reports"
   }
 }
