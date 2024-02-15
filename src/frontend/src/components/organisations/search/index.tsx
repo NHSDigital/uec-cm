@@ -63,7 +63,7 @@ const OrganisationsSearch: React.FC = () => {
 
                             <ErrorSummary.List>
                                 <ErrorSummary.Item href="#name" data-testid='error-summary-name-link'>
-                                   name
+                                    name
                                 </ErrorSummary.Item>
                                 <ErrorSummary.Item href="#postcode" data-testid='error-summary-postcode-link'>
                                     postcode
