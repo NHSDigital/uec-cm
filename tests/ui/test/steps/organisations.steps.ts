@@ -72,8 +72,8 @@ Then('a managing organisation error is not displayed on the page', async functio
 });
 
 Then('no errors are displayed on the page', async function (Text) {
-  await organisationsPage.orgErrorNotVisible();
-  await organisationsPage.postcodeErrorNotVisible();
+  await organisationsPage.orgErrorNotVisible(),
+  await organisationsPage.postcodeErrorNotVisible(),
   await organisationsPage.orgNameErrorNotVisible();
 });
 
