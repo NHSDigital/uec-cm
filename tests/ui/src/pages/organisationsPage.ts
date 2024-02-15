@@ -86,4 +86,10 @@ async postcodeErrorNotVisible() {
   await expect(pageFixture.page.getByTestId(OrganisationsPage.postcodeError)).not.toBeVisible;
 }
 
+async noErrorsVisible() {
+  await expect(pageFixture.page.getByTestId(OrganisationsPage.postcodeError)).not.toBeVisible;
+  await expect(pageFixture.page.getByTestId(OrganisationsPage.orgNameError)).not.toBeVisible;
+  await expect(pageFixture.page.getByTestId(OrganisationsPage.orgError)).not.toBeVisible;
+}
+
 }
