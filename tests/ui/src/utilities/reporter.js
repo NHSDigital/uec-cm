@@ -1,5 +1,4 @@
 const { CucumberJSAllureFormatter, AllureRuntime } = require("allure-cucumberjs");
-// const path = require("path");
 
 class Reporter extends CucumberJSAllureFormatter {
   constructor(options) {
