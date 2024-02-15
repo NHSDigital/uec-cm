@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@cucumber/cucumber": "^10.0.1",
     "@cucumber/pretty-formatter": "^1.0.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.1",
@@ -9,11 +8,18 @@
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.41.2"
+    "@cucumber/cucumber": "^10.3.1",
+    "@playwright/test": "^1.41.2",
+    "allure-commandline": "^2.27.0",
+    "allure-cucumberjs": "^2.12.0",
+    "allure-js-commons": "^2.12.0",
+    "allure-playwright": "^2.12.0"
   },
   "scripts": {
     "pretest": "npx ts-node src/utilities/init.ts",
-    "test": "cross-env test_env=dev cucumber-js test",
-    "test_cmd_line": "cucumber-js test"
+    "test": "npm run build && cross-env test_env=dev cucumber-js test",
+    "tests:tagged": "node ./node_modules/.bin/cucumber-js  --tags",
+    "test_cmd_line": "cucumber-js test",
+    "allure": "allure generate --single-file -c -o  allure-reports"
   }
 }
