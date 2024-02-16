@@ -3,7 +3,11 @@ import { Button, ErrorSummary, Input, Label } from 'nhsuk-react-components';
 import usePostcodeValidator from '../../../hooks/usePostcodeValidator';
 import useNameValidator from '../../../hooks/useNameValidator';
 
-const OrganisationsSearch: React.FC = () => {
+export interface OrganisationsSearchProps {
+    onSearch: (name: string, postCode: string, organisation: string) => void;
+}
+
+const OrganisationsSearch: React.FC<OrganisationsSearchProps> = ({ onSearch }) => {
 
     const [name, setName] = useState('');
     const [postCode, setPostCode] = useState('');
@@ -26,10 +30,14 @@ const OrganisationsSearch: React.FC = () => {
             setShowErrorSummary(true);
         }
 
-        if ((name && (postCode || organisation)) ||
+        else if ((name && (postCode || organisation)) ||
             (postCode && (name || organisation)) ||
             (organisation && (name || postCode))) {
             setShowErrorSummary(true);
+        }
+
+        else if (isValidName && isValidPostcode && isValidOrganisation) {
+            onSearch(name, postCode, organisation);
         }
     }
 
