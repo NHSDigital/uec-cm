@@ -10,7 +10,7 @@ const NoResultsFound: React.FC = () => {
     }
 
     function handleOptionChange(e: FormEvent<HTMLInputElement>): void {
-       setSelectedOption(e.currentTarget.value)
+        setSelectedOption(e.currentTarget.value)
     }
 
     return (
