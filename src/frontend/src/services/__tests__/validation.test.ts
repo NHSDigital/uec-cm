@@ -1,4 +1,4 @@
-import { isPostcodeValid } from "../validation";
+import { isPostcodeValid, isNameValid } from "../validation";
 
 describe('post code validation', () => {
   const tests = [
@@ -22,6 +22,35 @@ describe('post code validation', () => {
   tests.forEach(test => {
     it(test.description, () => {
       const isValid = isPostcodeValid(test.input);
+      expect(isValid).toBe(test.expected);
+    });
+  });
+});
+
+describe('name validation', () => {
+  const tests = [
+    { description: 'no name', input: '', expected: false },
+    { description: 'name 1 character', input: '1', expected: true },
+    { description: 'name 100 characters', input: 'Z'.repeat(100), expected: true },
+    { description: 'name 101 characters', input: 'Z'.repeat(101), expected: false },
+    { description: 'name 100 numeric characters', input: '1'.repeat(100), expected: true },
+    { description: 'name full stop', input: '.', expected: true },
+    { description: 'name comma', input: ',', expected: true },
+    { description: 'name ampersand', input: '&', expected: true },
+    { description: 'name apostrophe', input: '\'', expected: true },
+    { description: 'name hyphen', input: '-', expected: true },
+    { description: 'name plus', input: '+', expected: true },
+    { description: 'name round brackets', input: '()', expected: true },
+    { description: 'name square brackets', input: '[]', expected: true },
+    { description: 'name pound sign', input: '£', expected: false },
+    { description: 'name dollar sign', input: '$', expected: false },
+    { description: 'name percent sign', input: '%', expected: false },
+    { description: 'name with spaces', input: 'I am a hospital', expected: true },
+  ];
+
+  tests.forEach(test => {
+    it(test.description, () => {
+      const isValid = isNameValid(test.input);
       expect(isValid).toBe(test.expected);
     });
   });
