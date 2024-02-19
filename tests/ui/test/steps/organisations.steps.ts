@@ -67,6 +67,10 @@ Then('a name error is not displayed on the page', async function () {
   await organisationsPage.orgNameErrorNotVisible();
 });
 
+Then('a no results found text is displayed on organisation page', async function () {
+  await organisationsPage.orgNoResultsFound();
+});
+
 Then('a managing organisation error is not displayed on the page', async function () {
   await organisationsPage.orgErrorNotVisible();
 });
@@ -82,3 +86,4 @@ Then('all validation errors are displayed on the page', async function () {
   await organisationsPage.postcodeErrorVisible();
   await organisationsPage.orgNameErrorVisible();
 });
+
