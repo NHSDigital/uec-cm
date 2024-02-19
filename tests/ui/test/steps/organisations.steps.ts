@@ -67,39 +67,6 @@ Then('a name error is not displayed on the page', async function () {
   await organisationsPage.orgNameErrorNotVisible();
 });
 
-Then('a no results found text is displayed on organisation page', async function () {
-  await organisationsPage.orgNoResultsFound();
-});
-
-Then('a managing organisation error is not displayed on the page', async function () {
-  await organisationsPage.orgErrorNotVisible();
-});
-
-Then('no errors are displayed on the page', async function () {
-  await organisationsPage.orgErrorNotVisible(),
-  await organisationsPage.postcodeErrorNotVisible(),
-  await organisationsPage.orgNameErrorNotVisible();
-});
-
-Then('all validation errors are displayed on the page', async function () {
-  await organisationsPage.orgErrorVisible();
-  await organisationsPage.postcodeErrorVisible();
-  await organisationsPage.orgNameErrorVisible();
-});
-
-Then('a managing organisation error message {string} is displayed on the page', async function (text: string) {
-  await organisationsPage.orgErrorVisible();
-  await organisationsPage.errorMessage(text);
-});
-
-Then('a postcode error is not displayed on the page', async function () {
-  await organisationsPage.postcodeErrorNotVisible();
-});
-
-Then('a name error is not displayed on the page', async function () {
-  await organisationsPage.orgNameErrorNotVisible();
-});
-
 Then('a managing organisation error is not displayed on the page', async function () {
   await organisationsPage.orgErrorNotVisible();
 });

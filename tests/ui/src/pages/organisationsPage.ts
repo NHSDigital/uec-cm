@@ -57,9 +57,6 @@ export default class OrganisationsPage {
     await expect(pageFixture.page.getByText(text)).toBeVisible;
   }
 
-  async orgNoResultsFound() {
-    await expect(pageFixture.page.getByText('No results found')).toBeVisible;
-  }
   async orgErrorVisible() {
     await expect(pageFixture.page.getByTestId(OrganisationsPage.orgError)).toBeVisible;
   }
