@@ -1,9 +1,8 @@
-Feature: As a user I want to be able to display no results screen
+Feature: As a user I want to be able to see no results screen displayed
 
-  Scenario: Search for a non existent organisation
+  Scenario: No results found for non existent organisation search
     Given I navigate to the organisations page
     When I add an organisation
-    And I enter "£" as the organisation name
+    And I enter "abc" as the organisation name
     And I submit the search
-    Then the reults page is displayed
-    And no results are displayed
+    Then a no results found text is displayed on organisation page
