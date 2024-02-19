@@ -22,9 +22,9 @@ const OrganisationsSearch: React.FC<OrganisationsSearchProps> = ({ onSearch }) =
 
         setShowErrorSummary(false);
 
-        validateName(name, true);
-        validatePostcode(postCode, true);
-        validateOrganisation(organisation, true);
+        const isNameValid = validateName(name, true);
+        const isPostcodeValid = validatePostcode(postCode, true);
+        const isOrganisationValid = validateOrganisation(organisation, true);
 
         if (name.length === 0 && postCode.length === 0 && organisation.length === 0) {
             setShowErrorSummary(true);
@@ -36,7 +36,7 @@ const OrganisationsSearch: React.FC<OrganisationsSearchProps> = ({ onSearch }) =
             setShowErrorSummary(true);
         }
 
-        else if (isValidName && isValidPostcode && isValidOrganisation) {
+        else if (isNameValid && isPostcodeValid && isOrganisationValid) {
             onSearch(name, postCode, organisation);
         }
     }

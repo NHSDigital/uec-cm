@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
 import NoResultsFound from '../noresultsfound';
 
@@ -22,7 +22,10 @@ describe('NoResultsFound', () => {
     const radioYes = screen.getByTestId('yes-radio') as HTMLOptionElement;
     const radioNo = screen.getByTestId('no-radio') as HTMLOptionElement;
 
-    userEvent.click(radioYes);
+    act(() => {
+      userEvent.click(radioYes);
+    });
+
     expect(radioYes).toBeChecked();
     expect(radioNo).not.toBeChecked();
   });
@@ -32,7 +35,10 @@ describe('NoResultsFound', () => {
     const radioYes = screen.getByTestId('yes-radio') as HTMLOptionElement;
     const radioNo = screen.getByTestId('no-radio') as HTMLOptionElement;
 
-    userEvent.click(radioNo);
+    act(() => {
+      userEvent.click(radioNo);
+    });
+
     expect(radioYes).not.toBeChecked();
     expect(radioNo).toBeChecked();
   });
