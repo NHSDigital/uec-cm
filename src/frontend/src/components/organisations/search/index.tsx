@@ -8,7 +8,6 @@ export interface OrganisationsSearchProps {
 }
 
 const OrganisationsSearch: React.FC<OrganisationsSearchProps> = ({ onSearch }) => {
-
     const [name, setName] = useState('');
     const [postCode, setPostCode] = useState('');
     const [organisation, setOrganisation] = useState('');

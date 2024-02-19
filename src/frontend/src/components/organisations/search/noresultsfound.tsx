@@ -2,7 +2,6 @@ import React, { FormEvent, useState } from 'react';
 import { Button, Label, Radios } from 'nhsuk-react-components';
 
 const NoResultsFound: React.FC = () => {
-
     const [selectedOption, setSelectedOption] = useState('yes');
 
     const handleNext = (e: React.MouseEvent<HTMLButtonElement>) => {
