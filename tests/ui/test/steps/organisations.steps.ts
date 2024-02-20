@@ -1,8 +1,7 @@
 import { Given , When , Then } from "@cucumber/cucumber";
-import {pageFixture} from "../../src/hooks/pageFixture";
-import SearchPage from "../../src/pages/searchPage";
+import { pageFixture } from "../../src/hooks/pageFixture";
 import OrganisationsPage from "../../src/pages/organisationsPage";
-import {getCloudFrontUrl} from "../../src/utilities/cloudFront";
+import { getCloudFrontUrl } from "../../src/utilities/cloudFront";
 
 let organisationsPage: OrganisationsPage;
 organisationsPage = new OrganisationsPage(pageFixture.page);
@@ -67,6 +66,10 @@ Then('a name error is not displayed on the page', async function () {
   await organisationsPage.orgNameErrorNotVisible();
 });
 
+Then('{string} is displayed on the screen', async function (text: string) {
+  await organisationsPage.errorMessage(text);
+});
+
 Then('a managing organisation error is not displayed on the page', async function () {
   await organisationsPage.orgErrorNotVisible();
 });
@@ -82,7 +85,6 @@ Then('all validation errors are displayed on the page', async function () {
   await organisationsPage.postcodeErrorVisible();
   await organisationsPage.orgNameErrorVisible();
 });
-
 Then('option to add a new organisation is selected by default', async function () {
   await organisationsPage.addOrganisationOptionIsSelected();
 });

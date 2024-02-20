@@ -99,3 +99,27 @@ Feature: As a user I want to be able to manage organisation data
     And "!123\ £" is input as the managing organisation
     And I submit the search
     And all validation errors are displayed on the page
+
+  Scenario: No results found displayed with non existent organisation name
+    Given I navigate to the organisations page
+    When I add an organisation
+    And I enter "abc" as the organisation name
+    And I submit the search
+    Then "no results found" is displayed on the screen
+    And option to add a new organisation is selected by default
+
+  Scenario: No results found displayed with non existent organisation postcode
+    Given I navigate to the organisations page
+    When I add an organisation
+    And I enter "BD1 1AW" as the organisation postcode
+    And I submit the search
+    Then "no results found" is displayed on the screen
+    And option to add a new organisation is selected by default
+
+  Scenario: No results found displayed with non existent managing organisation
+    Given I navigate to the organisations page
+    When I add an organisation
+    And I enter "TAD" as the managing organisation
+    And I submit the search
+    Then "no results found" is displayed on the screen
+    And option to add a new organisation is selected by default
