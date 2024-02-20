@@ -115,3 +115,7 @@ Then('all validation errors are displayed on the page', async function () {
   await organisationsPage.postcodeErrorVisible();
   await organisationsPage.orgNameErrorVisible();
 });
+
+Then('option to add a new organisation is selected by default', async function () {
+  await organisationsPage.addOrganisationOptionIsSelected();
+});
