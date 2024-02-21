@@ -1,4 +1,4 @@
-import { expect, Page } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 import { pageFixture } from "../../src/hooks/pageFixture";
 
 export default class OrganisationsPage {
@@ -16,6 +16,11 @@ export default class OrganisationsPage {
   static readonly orgError = 'organisation-error-message'
   static readonly orgAddSearchBtn = 'search-button'
   static readonly orgAddNewOption = 'yes-radio'
+  static readonly orgErrorSummaryLink = (type: string) => `error-summary-${type}-link`
+  static readonly orgErrorSummary = (type: string) => `error-summary-${type}`
+  static readonly inputField = (type: string) => `${type}-input`
+
+
 
   async clickAdd() {
     await pageFixture.page.getByTestId(OrganisationsPage.add).click();
@@ -89,5 +94,21 @@ export default class OrganisationsPage {
 
   async addOrganisationOptionIsSelected() {
     expect(pageFixture.page.getByTestId(OrganisationsPage.orgAddNewOption)).toBeChecked();
+  }
+
+  async getOrgErrorSummaryLink(type: string): Promise<Locator> {
+    return pageFixture.page.getByTestId(OrganisationsPage.orgErrorSummaryLink(type));
+  }
+
+  async getOrgErrorSummary(type: string): Promise<Locator> {
+    return pageFixture.page.getByTestId(OrganisationsPage.orgErrorSummary(type));
+  }
+
+  async getOrgInputField(type: string): Promise<Locator> {
+    return pageFixture.page.getByTestId(OrganisationsPage.inputField(type));
+  }
+
+  async clickOrgInputField(type: string) {
+    (await this.getOrgInputField(type)).click();
   }
 }
