@@ -1,6 +1,6 @@
 import { expect, Page } from "@playwright/test";
 import { pageFixture } from "../hooks/pageFixture";
-import Accessibility from "../utilities/acccessibility";
+import Accessibility from "../utilities/accessibility";
 
 export default class SearchPage extends Accessibility {
   constructor(page: Page) {

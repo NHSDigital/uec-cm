@@ -9,7 +9,7 @@ import {
 import { chromium, Browser, Page, BrowserContext } from "@playwright/test";
 import { pageFixture } from "./pageFixture";
 import { getEnv } from "../config/env";
-import Accessibility from "../utilities/acccessibility";
+import Accessibility from "../utilities/accessibility";
 
 let browser: Browser;
 let context: BrowserContext;
