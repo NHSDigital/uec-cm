@@ -7,6 +7,10 @@ useDefault = true # SEE: https://github.com/gitleaks/gitleaks/blob/master/config
 description = "allow ="
 Regexes = '''========================================='''
 
+[[allowlist.files]]
+pattern = '''^tests/ui/artifacts/accessibilityReport\.html$'''
+regexes = ["ipv4"]
+
 [[rules]]
 description = "IPv4"
 id = "ipv4"
