@@ -15,7 +15,6 @@ Feature: As a user I want to be able to manage organisation data
     Then "Test Organisation" is input as the organisation name
     And no errors are displayed on the page
 
-
   Scenario: Search for an invalid length in organisation name
     Given I navigate to the organisations page
     When I add an organisation
@@ -83,14 +82,6 @@ Feature: As a user I want to be able to manage organisation data
     Then "St. Vincent & Mary's Hospital - Trust, Outcome+ No (1)" is input as the managing organisation
     And no errors are displayed on the page
 
-  Scenario: Search for all valid characters in managing organisation
-    Given I navigate to the organisations page
-    When I add an organisation
-    And I enter "St. Vincent & Mary's Hospital - Trust, Outcome+ No (1)" as the managing organisation
-    And I submit the search
-    Then "St. Vincent & Mary's Hospital - Trust, Outcome+ No (1)" is input as the managing organisation
-    And no errors are displayed on the page
-
   Scenario: Search for invalid characters in all search fields
     Given I navigate to the organisations page
     When I add an organisation
@@ -99,3 +90,27 @@ Feature: As a user I want to be able to manage organisation data
     And "!123\ £" is input as the managing organisation
     And I submit the search
     And all validation errors are displayed on the page
+
+  Scenario: No results found displayed with non existent organisation name
+    Given I navigate to the organisations page
+    When I add an organisation
+    And I enter "abc" as the organisation name
+    And I submit the search
+    Then "no results found" is displayed on the screen
+    And option to add a new organisation is selected by default
+
+  Scenario: No results found displayed with non existent organisation postcode
+    Given I navigate to the organisations page
+    When I add an organisation
+    And I enter "BD1 1AW" as the organisation postcode
+    And I submit the search
+    Then "no results found" is displayed on the screen
+    And option to add a new organisation is selected by default
+
+  Scenario: No results found displayed with non existent managing organisation
+    Given I navigate to the organisations page
+    When I add an organisation
+    And I enter "TAD" as the managing organisation
+    And I submit the search
+    Then "no results found" is displayed on the screen
+    And option to add a new organisation is selected by default

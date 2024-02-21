@@ -15,6 +15,7 @@ export default class OrganisationsPage {
   static readonly orgNameError = 'name-error-message'
   static readonly orgError = 'organisation-error-message'
   static readonly orgAddSearchBtn = 'search-button'
+  static readonly orgAddNewOption = 'yes-radio'
 
   async clickAdd() {
     await pageFixture.page.getByTestId(OrganisationsPage.add).click();
@@ -56,10 +57,6 @@ export default class OrganisationsPage {
     await expect(pageFixture.page.getByText(text)).toBeVisible;
   }
 
-  async orgNoResultsFound() {
-    await expect(pageFixture.page.getByText('No results found')).toBeVisible;
-  }
-
   async orgErrorVisible() {
     await expect(pageFixture.page.getByTestId(OrganisationsPage.orgError)).toBeVisible;
   }
@@ -88,5 +85,9 @@ export default class OrganisationsPage {
     await expect(pageFixture.page.getByTestId(OrganisationsPage.postcodeError)).not.toBeVisible;
     await expect(pageFixture.page.getByTestId(OrganisationsPage.orgNameError)).not.toBeVisible;
     await expect(pageFixture.page.getByTestId(OrganisationsPage.orgError)).not.toBeVisible;
+  }
+
+  async addOrganisationOptionIsSelected() {
+    expect(pageFixture.page.getByTestId(OrganisationsPage.orgAddNewOption)).toBeChecked();
   }
 }
