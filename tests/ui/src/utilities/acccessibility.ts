@@ -9,15 +9,16 @@ export default class Accessibility {
     pageFixture.page = page;
   }
 
-  async runAxeCheck() {
+  async runAxeCheck(testId: string) {
     const accessibilityScanResults = await new AxeBuilder({
       page: pageFixture.page,
     }).analyze();
 
-    const reportHTML = createHtmlReport({
+    createHtmlReport({
       results: accessibilityScanResults,
       options: {
-        projectKey: "uec-cm",
+        projectKey: "uec-cm-" + testId,
+        outputDirPath: 'artifacts/' + testId
       },
     });
 
