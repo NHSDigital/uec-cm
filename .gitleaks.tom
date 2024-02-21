@@ -1,0 +1,6 @@
+[[allowlist]]
+description = "ignore the false ipv4 inside accessibilityReport.html"
+files = ['tests/ui/artifacts/accessibilityReport.html']
+[[denylist]]
+  paths = ['tests/ui/artifacts/accessibilityReport.html']
+  rules = ['ipv4']
