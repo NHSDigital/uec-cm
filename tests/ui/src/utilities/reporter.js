@@ -1,11 +1,14 @@
-const { CucumberJSAllureFormatter, AllureRuntime } = require("allure-cucumberjs");
+const {
+  CucumberJSAllureFormatter,
+  AllureRuntime,
+} = require("allure-cucumberjs");
 
 class Reporter extends CucumberJSAllureFormatter {
   constructor(options) {
     super(
       options,
       new AllureRuntime({
-        resultsDir: "./allure-results"
+        resultsDir: "./allure-results",
       }),
       {
         labels: [

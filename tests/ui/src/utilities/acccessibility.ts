@@ -4,7 +4,6 @@ import { AxeBuilder } from "@axe-core/playwright";
 import { createHtmlReport } from "axe-html-reporter";
 
 export default class Accessibility {
-
   constructor(page: Page) {
     pageFixture.page = page;
   }
@@ -18,7 +17,7 @@ export default class Accessibility {
       results: accessibilityScanResults,
       options: {
         projectKey: "uec-cm-" + testId,
-        outputDirPath: 'artifacts/' + testId
+        outputDirPath: "artifacts/" + testId,
       },
     });
 

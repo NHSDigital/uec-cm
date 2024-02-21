@@ -38,11 +38,8 @@ export default class SearchPage extends Accessibility {
     }, selector);
   }
   async removeAnyInputElement() {
-    const inputElement = await pageFixture.page.$('input');
-    await pageFixture.page.evaluate(
-      (el) => el.remove(),
-      inputElement,
-    );
+    const inputElement = await pageFixture.page.$("input");
+    await pageFixture.page.evaluate((el) => el.remove(), inputElement);
   }
   async expectAccessibilityCheckFails(testId: string) {
     const result = await this.runAxeCheck(testId);

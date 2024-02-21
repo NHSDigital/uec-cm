@@ -34,7 +34,6 @@ Before(async function () {
 });
 
 AfterStep(async function ({ pickle, result }) {
-
   //screenshot for end of every step
   const img = await pageFixture.page.screenshot({
     path: `reports/screenshots/${pickle.name}.png`,
