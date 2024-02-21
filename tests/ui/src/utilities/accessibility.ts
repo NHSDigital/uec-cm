@@ -8,7 +8,7 @@ export default class Accessibility {
     pageFixture.page = page;
   }
 
-  async runAxeCheck(testId: string) {
+  async runAxeCheck(testId: string, maxErrors = 10) {
     const accessibilityScanResults = await new AxeBuilder({
       page: pageFixture.page,
     }).analyze();
@@ -20,6 +20,12 @@ export default class Accessibility {
         outputDirPath: "artifacts/" + testId,
       },
     });
+
+    // Check violations against the threshold
+    const errorCount = accessibilityScanResults.violations.length;
+    if(errorCount > maxErrors) {
+      throw new Error(`Accessibility Error: Page has ${errorCount} violations which exceeds the allowed maximum of ${maxErrors}`);
+    }
 
     return accessibilityScanResults;
   }
