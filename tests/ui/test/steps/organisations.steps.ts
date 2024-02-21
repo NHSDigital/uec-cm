@@ -80,14 +80,6 @@ Then('all validation errors are displayed on the page', async function () {
   await organisationsPage.orgNameErrorVisible();
 });
 
-Then('a name error is not displayed on the page', async function () {
-  await organisationsPage.orgNameErrorNotVisible();
-});
-
-Then('a managing organisation error is not displayed on the page', async function () {
-  await organisationsPage.orgErrorNotVisible();
-});
-
 Then('no field level errors are displayed on the page', async function () {
   await organisationsPage.orgErrorNotVisible(),
   await organisationsPage.postcodeErrorNotVisible(),
