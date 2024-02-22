@@ -1,6 +1,6 @@
 import { ApiInterface, Location, Organisation } from './api';
 
-const baseUrl = "https://raw.githubusercontent.com/asudbury/test-data/";
+const baseUrl = "https://raw.githubusercontent.com/NHSDigital/uec-cm/";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getApiData = async (baseUrl: string, fileName: string): Promise<any> => {
@@ -32,11 +32,11 @@ const getBranch = () : string => {
 const RemoteMockApi: ApiInterface = {
     getOrganisations: async (name: string, postcode: string, organisation: string): Promise<Organisation[]> => {
         const fileName = [name, postcode, organisation].filter(Boolean).join("+");
-        return getApiData(baseUrl +  getBranch() + "/organisations/", fileName);
+        return getApiData(baseUrl +  getBranch() + "/getorganisations/", fileName);
     },
     getLocations: async (name: string, postcode: string, organisation: string): Promise<Location[]> => {
         const fileName = [name, postcode, organisation].filter(Boolean).join("+");
-        return getApiData(baseUrl +  getBranch() + "/locations/", fileName);
+        return getApiData(baseUrl +  getBranch() + "/getlocations/", fileName);
     }
 };
 
