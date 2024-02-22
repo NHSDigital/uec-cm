@@ -1,16 +1,14 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import AddOrganisationPage from '../add';
+
+beforeEach(() => {
+  render(<AddOrganisationPage />);
+});
 
 describe('Add page', () => {
 
-  it('should render the component without crashing', () => {
-    render(<AddOrganisationPage />);
-  });
-
   it('renders the page component', () => {
-    render(<AddOrganisationPage  />);
-
     const label = screen.getByText('Data management');
     expect(label).toBeInTheDocument();
 
@@ -19,15 +17,23 @@ describe('Add page', () => {
   });
 
   it('renders the OrganisationsSearch component', () => {
-    render(<AddOrganisationPage  />);
-
     const testid = screen.getByTestId('organisation-search');
     expect(testid).toBeInTheDocument();
   });
 
-  it('renders the NoResults component', () => {
-    render(<AddOrganisationPage  />);
+  it('renders the NoResults component', async() => {
+    const nameInput = screen.getByTestId('name-input');
 
+    fireEvent.change(nameInput, { target: { value: '0' } });
+
+    const searchButton = screen.getByTestId('search-button');
+    fireEvent.click(searchButton);
+
+    const testid = screen.getByTestId('no-results-found');
+    expect(testid).toBeInTheDocument();
+  });
+
+  it('renders the Results component', async() => {
     const nameInput = screen.getByTestId('name-input');
 
     fireEvent.change(nameInput, { target: { value: 'adrian' } });
@@ -35,7 +41,7 @@ describe('Add page', () => {
     const searchButton = screen.getByTestId('search-button');
     fireEvent.click(searchButton);
 
-    const testid = screen.getByTestId('no-results-found');
+    const testid = screen.getByTestId('search-results');
     expect(testid).toBeInTheDocument();
   });
 });
