@@ -1,8 +1,7 @@
 import { Given , When , Then } from "@cucumber/cucumber";
-import {pageFixture} from "../../src/hooks/pageFixture";
-import SearchPage from "../../src/pages/searchPage";
+import { pageFixture } from "../../src/hooks/pageFixture";
 import OrganisationsPage from "../../src/pages/organisationsPage";
-import {getCloudFrontUrl} from "../../src/utilities/cloudFront";
+import { expect } from "playwright/test";
 
 let organisationsPage: OrganisationsPage;
 organisationsPage = new OrganisationsPage(pageFixture.page);
@@ -67,18 +66,42 @@ Then('a name error is not displayed on the page', async function () {
   await organisationsPage.orgNameErrorNotVisible();
 });
 
-Then('a managing organisation error is not displayed on the page', async function () {
-  await organisationsPage.orgErrorNotVisible();
+Then('{string} is displayed on the screen', async function (text: string) {
+  await organisationsPage.errorMessage(text);
 });
 
-Then('no errors are displayed on the page', async function () {
-  await organisationsPage.orgErrorNotVisible(),
-  await organisationsPage.postcodeErrorNotVisible(),
-  await organisationsPage.orgNameErrorNotVisible();
+Then('a managing organisation error is not displayed on the page', async function () {
+  await organisationsPage.orgErrorNotVisible();
 });
 
 Then('all validation errors are displayed on the page', async function () {
   await organisationsPage.orgErrorVisible();
   await organisationsPage.postcodeErrorVisible();
   await organisationsPage.orgNameErrorVisible();
+});
+
+Then('no field level errors are displayed on the page', async function () {
+  await organisationsPage.orgErrorNotVisible(),
+  await organisationsPage.postcodeErrorNotVisible(),
+  await organisationsPage.orgNameErrorNotVisible();
+});
+
+Then('option to add a new organisation is selected by default', async function () {
+  await organisationsPage.addOrganisationOptionIsSelected();
+});
+
+Then('a summary {string} error link text: {string} is displayed on the page', async function (type: string, message: string) {
+  expect(await organisationsPage.getOrgErrorSummaryLink(type)).toContainText(message);
+});
+
+Then('a summary {string} error message: {string} is displayed on the page', async function (type: string, message: string) {
+  expect(await organisationsPage.getOrgErrorSummary(type)).toContainText(message);
+});
+
+Then('I click the summary {string} error link text', async function (type: string) {
+    await organisationsPage.clickOrgInputField(type);
+});
+
+Then('the organisation {string} field is focused', async function (type: string) {
+  expect(await organisationsPage.getOrgInputField(type)).toBeFocused();;
 });
