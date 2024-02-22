@@ -1,7 +1,7 @@
 import { Location } from "../api/api";
 import { getStringNumericValue } from "../utilities";
-import defaultLocationData from '../../mockdata/organisations/getlocations/default.json'
-import singleLocationData from '../../mockdata/organisations/getlocations/single.json'
+import defaultLocationData from '../../mockdata/getlocations/default.json'
+import singleLocationData from '../../mockdata/getlocations/single.json'
 
 const getLocationsMock = (name: string, postcode: string, organisation: string): Promise<Location[]> => {
     let results: Location[] = [];

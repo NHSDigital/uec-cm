@@ -1,7 +1,7 @@
 import { Organisation } from "../api/api";
 import { getStringNumericValue } from "../utilities";
-import defaultOrgData from '../../mockdata/organisations/getorganisations/default.json';
-import singleOrgData from '../../mockdata/organisations/getorganisations/single.json';
+import defaultOrgData from '../../mockdata/getorganisations/default.json';
+import singleOrgData from '../../mockdata/getorganisations/single.json';
 
 const getOrganisationsMock = (name: string, postcode: string, organisation: string): Promise<Organisation[]> => {
     let results: Organisation[] = [];

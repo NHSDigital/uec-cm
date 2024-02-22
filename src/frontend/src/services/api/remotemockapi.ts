@@ -1,12 +1,13 @@
 import { ApiInterface, Location, Organisation } from './api';
 
 const baseUrl = "https://raw.githubusercontent.com/NHSDigital/uec-cm/";
+const mockDataFolder = "/src/frontend/src/mockdata/";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getApiData = async (baseUrl: string, fileName: string): Promise<any> => {
-    const response = await fetch(baseUrl + fileName + ".json");
+const getApiData = async (url: string, fileName: string): Promise<any> => {
+    const response = await fetch(url + fileName + ".json");
     if (!response.ok) {
-        const defaultResponse = await fetch(baseUrl + "default.json");
+        const defaultResponse = await fetch(url + "default.json");
         if (!defaultResponse.ok) {
             throw new Error('Network response was not ok');
         }
@@ -29,14 +30,18 @@ const getBranch = () : string => {
     return "main";
 }
 
+const getTestFolder = (folder: string) : string => {
+    return baseUrl + getBranch() + mockDataFolder + folder + "/";
+}
+
 const RemoteMockApi: ApiInterface = {
     getOrganisations: async (name: string, postcode: string, organisation: string): Promise<Organisation[]> => {
         const fileName = [name, postcode, organisation].filter(Boolean).join("+");
-        return getApiData(baseUrl +  getBranch() + "/getorganisations/", fileName);
+        return getApiData(getTestFolder("getorganisations"), fileName);
     },
     getLocations: async (name: string, postcode: string, organisation: string): Promise<Location[]> => {
         const fileName = [name, postcode, organisation].filter(Boolean).join("+");
-        return getApiData(baseUrl +  getBranch() + "/getlocations/", fileName);
+        return getApiData(getTestFolder("getlocations"), fileName);
     }
 };
 

@@ -29,13 +29,9 @@ const useOrganisationLocationSearch = () => {
           const sortedResults = combinedResults.sort((a, b) => a.name.localeCompare(b.name));
           setSearchResults(sortedResults);
           setStep(Step.SearchResults);
-        } else {
-          if (isOrganisationsLoading && isLocationsLoading) {
-            setStep(Step.NoResultsFound);
-          }
         }
       }
-    }, [step, organisationSearchResult, locationSearchResults, isOrganisationsLoading, isLocationsLoading]);
+    }, [step, organisationSearchResult, locationSearchResults]);
 
     return { step, searchResults, handleSearch };
   }
