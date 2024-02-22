@@ -12,8 +12,8 @@ export enum Step {
 
 const useOrganisationLocationSearch = () => {
     const [step, setStep] = useState(Step.OrganisationsSearch);
-    const [isOrganisationsLoading, organisationSearchResult, organisationSearch] = useOrganisationSearch();
-    const [isLocationsLoading, locationSearchResults, locationSearch] = useLocationSearch();
+    const [organisationResultsRetrieved, organisationSearchResult, organisationSearch] = useOrganisationSearch();
+    const [locationResultsRetrieved, locationSearchResults, locationSearch] = useLocationSearch();
     const [searchResults, setSearchResults] = useState<Organisation[]>([]);
 
     const handleSearch = (name : string, postcode : string, organisation : string) => {
@@ -23,7 +23,7 @@ const useOrganisationLocationSearch = () => {
     };
 
     useEffect(() => {
-      if (step === Step.Searching || step === Step.SearchResults) {
+      if (organisationResultsRetrieved ||  locationResultsRetrieved) {
         if (organisationSearchResult.length > 0 || locationSearchResults.length > 0) {
           const combinedResults = [...organisationSearchResult, ...locationSearchResults];
           const sortedResults = combinedResults.sort((a, b) => a.name.localeCompare(b.name));
@@ -31,7 +31,7 @@ const useOrganisationLocationSearch = () => {
           setStep(Step.SearchResults);
         }
       }
-    }, [step, organisationSearchResult, locationSearchResults]);
+    }, [organisationResultsRetrieved, locationResultsRetrieved, organisationSearchResult, locationSearchResults]);
 
     return { step, searchResults, handleSearch };
   }

@@ -5,17 +5,17 @@ const useOrganisationSearch = (): [
     isLoading: boolean,
     results: Organisation[],
     search: (name: string, postcode: string, organisation: string) => void ] => {
-        const [isLoading, setIsLoading] = useState(false);
+        const [resultsRetrived, setResultsRetrieved] = useState(false);
         const [results, setResults] = useState<Organisation[]>([]);
 
         const search = async (name: string, postcode: string, organisation: string) => {
-            setIsLoading(true);
+            setResultsRetrieved(false);
             const results = await getApi().getOrganisations(name, postcode, organisation);
-            setIsLoading(false);
             setResults(results);
+            setResultsRetrieved(false);
         };
 
-        return [isLoading, results, search];
+        return [resultsRetrived, results, search];
     };
 
 export default useOrganisationSearch;
