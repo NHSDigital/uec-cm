@@ -11,7 +11,6 @@ const AddOrganisationPage: React.FC = () => {
     <div data-testid='add-organisation-page' className="nhsuk-width-container nhsuk-u-margin-top-4" >
       <span className="nhsuk-caption-m">Data management</span>
       {step === Step.OrganisationsSearch && <OrganisationsSearch onSearch={handleSearch} />}
-      {step === Step.Searching && <h3>Searching...</h3>}
       {step === Step.NoResultsFound && <NoResultsFound />}
       {step === Step.SearchResults && <SearchResults results={searchResults} />}
     </div>
