@@ -6,7 +6,7 @@ Feature: As a user I want to be able to manage organisation data
     Then "Organisation search" is displayed on the page
     And The instructions stating "Search by either name, postcode or managing organisation." are displayed on the page
 
-@Test
+
   Scenario: Search for an organisation name
     Given I navigate to the organisations page
     When I add an organisation

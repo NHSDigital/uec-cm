@@ -1,8 +1,10 @@
 import { expect, Page } from "@playwright/test";
 import { pageFixture } from "../../src/hooks/pageFixture";
+import Accessibility from "../utilities/accessibility"
 
-export default class SearchPage {
+export default class SearchPage extends Accessibility {
   constructor(page: Page) {
+    super(page);
     pageFixture.page = page;
   }
 
@@ -16,6 +18,16 @@ async textIsReturned(searchResultsText: string) {
 
 async linkIsReturned(searchResultsLink: string) {
   await expect(pageFixture.page.getByRole("link" , {name: searchResultsLink } )).toBeVisible();
+}
+
+async runAxeCheck(testId: string) {
+  return super.runAxeCheck(testId);
+}
+
+
+async expectAccessibilityCheckFails(testId: string) {
+  const result = await this.runAxeCheck(testId);
+  expect(result.violations.length).toBeGreaterThan(0);
 }
 
 }
