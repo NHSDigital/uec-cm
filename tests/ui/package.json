@@ -16,7 +16,6 @@
     "allure-cucumberjs": "^2.12.0",
     "allure-js-commons": "^2.12.0",
     "allure-playwright": "^2.12.0",
-    "prettier": "^3.2.5",
     "ts-node": "^10.9.2"
   },
   "scripts": {
@@ -24,8 +23,6 @@
     "test": "npm run build && cross-env test_env=dev npx cucumber-js --require-module ts-node/register --require 'test/**/*.ts'",
     "tests:tagged": "ts-node node_modules/.bin/cucumber-js --tags @Test",
     "test_cmd_line": "cross-env cucumber-js --require-module ts-node/register --require 'src/**/*.ts'",
-    "allure": "allure generate --single-file -c -o  allure-reports",
-    "format": "prettier --write .",
-    "check-format": "prettier --check ."
+    "allure": "allure generate --single-file -c -o  allure-reports"
   }
 }

@@ -6,24 +6,22 @@ export default class OrganisationsPage {
     pageFixture.page = page;
   }
 
-  static readonly add = "add-card-link";
-  static readonly orgName = "name-input";
-  static readonly postcode = "postcode-input";
-  static readonly org = "managing-organisation-input";
-  static readonly searchInstructions = "search-by";
-  static readonly postcodeError = "postcode-error-message";
-  static readonly orgNameError = "name-error-message";
-  static readonly orgError = "organisation-error-message";
-  static readonly orgAddSearchBtn = "search-button";
+  static readonly add = 'add-card-link'
+  static readonly orgName = 'name-input'
+  static readonly postcode = 'postcode-input'
+  static readonly org = 'managing-organisation-input'
+  static readonly searchInstructions = 'search-by'
+  static readonly postcodeError = 'postcode-error-message'
+  static readonly orgNameError = 'name-error-message'
+  static readonly orgError = 'organisation-error-message'
+  static readonly orgAddSearchBtn = 'search-button'
 
   async clickAdd() {
     await pageFixture.page.getByTestId(OrganisationsPage.add).click();
   }
 
   async clickOrgAddSearch() {
-    await pageFixture.page
-      .getByTestId(OrganisationsPage.orgAddSearchBtn)
-      .click();
+    await pageFixture.page.getByTestId(OrganisationsPage.orgAddSearchBtn).click();
   }
 
   async inputName(name: string) {
@@ -31,9 +29,7 @@ export default class OrganisationsPage {
   }
 
   async inputPostcode(postcode: string) {
-    await pageFixture.page
-      .getByTestId(OrganisationsPage.postcode)
-      .fill(postcode);
+    await pageFixture.page.getByTestId(OrganisationsPage.postcode).fill(postcode);
   }
 
   async inputOrg(org: string) {
@@ -41,27 +37,19 @@ export default class OrganisationsPage {
   }
 
   async enteredName(name: string) {
-    await expect(
-      pageFixture.page.getByTestId(OrganisationsPage.name),
-    ).toHaveValue(name);
+    await expect(pageFixture.page.getByTestId(OrganisationsPage.name)).toHaveValue(name);
   }
 
   async enteredPostcode(postcode: string) {
-    await expect(
-      pageFixture.page.getByTestId(OrganisationsPage.postcode),
-    ).toHaveValue(postcode);
+    await expect(pageFixture.page.getByTestId(OrganisationsPage.postcode)).toHaveValue(postcode);
   }
 
   async enteredOrg(org: string) {
-    await expect(
-      pageFixture.page.getByTestId(OrganisationsPage.orgName),
-    ).toHaveValue(org);
+    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgName)).toHaveValue(org);
   }
 
   async searchInstructionsAreReturned(text: string) {
-    await expect(
-      pageFixture.page.getByTestId(OrganisationsPage.searchInstructions),
-    ).toContainText(text);
+    await expect(pageFixture.page.getByTestId(OrganisationsPage.searchInstructions)).toContainText(text);
   }
 
   async errorMessage(text: string) {
@@ -69,41 +57,32 @@ export default class OrganisationsPage {
   }
 
   async orgErrorVisible() {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgError))
-      .toBeVisible;
+    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgError)).toBeVisible;
   }
 
   async orgNameErrorVisible() {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgNameError))
-      .toBeVisible;
+    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgNameError)).toBeVisible;
   }
 
   async postcodeErrorVisible() {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.postcodeError))
-      .toBeVisible;
+    await expect(pageFixture.page.getByTestId(OrganisationsPage.postcodeError)).toBeVisible;
   }
 
   async orgErrorNotVisible() {
-    expect(pageFixture.page.getByTestId(OrganisationsPage.orgError)).not
-      .toBeVisible;
+    expect(pageFixture.page.getByTestId(OrganisationsPage.orgError)).not.toBeVisible;
   }
 
   async orgNameErrorNotVisible() {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgNameError))
-      .not.toBeVisible;
+    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgNameError)).not.toBeVisible;
   }
 
   async postcodeErrorNotVisible() {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.postcodeError))
-      .not.toBeVisible;
+    await expect(pageFixture.page.getByTestId(OrganisationsPage.postcodeError)).not.toBeVisible;
   }
 
   async noErrorsVisible() {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.postcodeError))
-      .not.toBeVisible;
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgNameError))
-      .not.toBeVisible;
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgError)).not
-      .toBeVisible;
+    await expect(pageFixture.page.getByTestId(OrganisationsPage.postcodeError)).not.toBeVisible;
+    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgNameError)).not.toBeVisible;
+    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgError)).not.toBeVisible;
   }
 }
