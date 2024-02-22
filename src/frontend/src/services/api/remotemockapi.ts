@@ -15,8 +15,7 @@ const getApiData = async (baseUrl: string, fileName: string): Promise<any> => {
     }
 
     return response.json();
- };
-
+}
 
 const getBranch = () : string => {
     const url = new URL(window.location.href);
