@@ -34,7 +34,7 @@ const useOrganisationLocationSearch = () => {
         setStep(Step.NoResultsFound);
       }
 
-    }, [organisationSearchResult, locationSearchResults]);
+    }, [step, organisationSearchResult, locationSearchResults]);
 
     return { step, searchResults, handleSearch };
   }
