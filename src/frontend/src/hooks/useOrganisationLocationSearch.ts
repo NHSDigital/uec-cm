@@ -5,6 +5,7 @@ import { Organisation } from '../services/api/api';
 
 export enum Step {
     OrganisationsSearch,
+    Searching,
     NoResultsFound,
     SearchResults
 }
@@ -16,6 +17,7 @@ const useOrganisationLocationSearch = () => {
     const [searchResults, setSearchResults] = useState<Organisation[]>([]);
 
     const handleSearch = (name : string, postcode : string, organisation : string) => {
+      setStep(Step.Searching);
       organisationSearch(name, postcode, organisation);
       locationSearch(name, postcode, organisation);
     };
@@ -27,6 +29,11 @@ const useOrganisationLocationSearch = () => {
         setSearchResults(sortedResults);
         setStep(Step.SearchResults);
       }
+
+      else if (step === Step.Searching){
+        setStep(Step.NoResultsFound);
+      }
+
     }, [organisationSearchResult, locationSearchResults]);
 
     return { step, searchResults, handleSearch };

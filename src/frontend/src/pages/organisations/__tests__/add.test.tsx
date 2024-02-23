@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import AddOrganisationPage from '../add';
 
 beforeEach(() => {
