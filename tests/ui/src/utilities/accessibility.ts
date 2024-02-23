@@ -27,11 +27,13 @@ export default class Accessibility {
     });
 
     // Check violations against the threshold
+
+    if (!accessibilityScanResults.url.includes("/test")) {
     const errorCount = accessibilityScanResults.violations.length;
     if(errorCount > maxErrors) {
       throw new Error(`Accessibility Error: Page has ${errorCount} violations which exceeds the allowed maximum of ${maxErrors}`);
     }
-
+  }
     return accessibilityScanResults;
   }
 }

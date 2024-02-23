@@ -3,8 +3,7 @@ import { pageFixture } from "../../src/hooks/pageFixture";
 import OrganisationsPage from "../../src/pages/organisationsPage";
 import { expect } from "playwright/test";
 
-let organisationsPage: OrganisationsPage;
-organisationsPage = new OrganisationsPage(pageFixture.page);
+const organisationsPage: OrganisationsPage = new OrganisationsPage(pageFixture.page);
 
 
 When('I add an organisation', async function () {

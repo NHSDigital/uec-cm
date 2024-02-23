@@ -17,9 +17,11 @@
   },
   "scripts": {
     "pretest": "npx ts-node src/utilities/init.ts",
+    "filecount": "npx ts-node src/utilities/fileCount.ts",
     "test": "npm run build && cross-env test_env=dev cucumber-js test",
-    "tests:tagged": "node ./node_modules/.bin/cucumber-js  --tags",
+    "tests:tagged": "node ./node_modules/.bin/cucumber-js  --tags @Test",
     "test_cmd_line": "cucumber-js test",
-    "allure": "allure generate --single-file -c -o  allure-reports"
+    "allure": "allure generate --single-file -c -o  allure-reports" ,
+    "axe_report": "cat ./accessibility-reports/artifacts/*.html >> ./accessibility-reports/artifacts/FinalAccessibilityReport.html"
   }
 }

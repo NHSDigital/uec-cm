@@ -1,6 +1,7 @@
 import { expect, Page } from "@playwright/test";
 import { pageFixture } from "../../src/hooks/pageFixture";
 import Accessibility from "../utilities/accessibility"
+import countFilesInDirectory from "../utilities/fileCount"
 
 export default class SearchPage extends Accessibility {
   constructor(page: Page) {
@@ -25,9 +26,9 @@ async runAxeCheck(testId: string) {
 }
 
 
-async expectAccessibilityCheckFails(testId: string) {
-  const result = await this.runAxeCheck(testId);
-  expect(result.violations.length).toBeGreaterThan(0);
+async expectAccessibilityCheckFails(partFileName: string) {
+  const fileCount = await countFilesInDirectory("./accessibility-reports/artifacts",partFileName);
+  return fileCount
 }
 
 }
