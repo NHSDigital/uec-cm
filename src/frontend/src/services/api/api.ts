@@ -18,7 +18,6 @@ export interface ApiInterface {
 }
 
 export const getApi = (): ApiInterface => {
-
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
     const api = params.get('api');
