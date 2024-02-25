@@ -33,7 +33,7 @@ describe('getOrganisationsMock', () => {
     });
   });
 
-   it('should return an array of Organisation objects with length equal to 400 when name is "400"', () => {
+  it('should return an array of Organisation objects with length equal to 400 when name is "400"', () => {
     const name = "400";
     const postcode = "test";
     const organisation = "test";
