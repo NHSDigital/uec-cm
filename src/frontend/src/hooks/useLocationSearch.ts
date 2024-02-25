@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { getApi, Location } from '../services/api/api'
+import { getApi } from '../services/api/controller'
+import { Location } from '../services/api/interface'
 
 const useLocationSearch = (): [
     results: Location[],

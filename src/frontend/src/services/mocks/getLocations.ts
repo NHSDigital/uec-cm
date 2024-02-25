@@ -1,4 +1,4 @@
-import { Location } from "../api/api";
+import { Location } from "../api/interface";
 import { getStringNumericValue } from "../utilities";
 import defaultLocationData from '../../mockdata/getlocations/default.json'
 import singleLocationData from '../../mockdata/getlocations/single.json'

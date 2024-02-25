@@ -1,4 +1,4 @@
-import { ApiInterface, Location, Organisation } from './api'
+import { ApiInterface, Location, Organisation } from './interface'
 
 const RealApi: ApiInterface = {
     getOrganisations(name: string, postcode: string, organisation: string): Promise<Organisation[]> {

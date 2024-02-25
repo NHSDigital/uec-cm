@@ -1,4 +1,4 @@
-import { Organisation } from "../api/api";
+import { Organisation } from "../api/interface";
 import { getStringNumericValue } from "../utilities";
 import defaultOrgData from '../../mockdata/getorganisations/default.json';
 import singleOrgData from '../../mockdata/getorganisations/single.json';

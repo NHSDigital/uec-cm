@@ -1,6 +1,6 @@
 import React from 'react';
 import { Label } from 'nhsuk-react-components';
-import { Organisation } from '../../../services/api/api';
+import { Organisation } from '../../../services/api/interface';
 
 export interface SearchResultsProps {
     results: Organisation[];

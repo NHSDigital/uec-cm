@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { getApi, Organisation } from '../services/api/api'
+import { getApi } from '../services/api/controller'
+import { Organisation } from '../services/api/interface'
 
 const useOrganisationSearch = (): [
     results: Organisation[],

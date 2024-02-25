@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import useOrganisationSearch from './useOrganisationSearch';
 import useLocationSearch from './useLocationSearch';
-import { Organisation } from '../services/api/api';
+import { Organisation } from '../services/api/interface';
 
 export enum Step {
     OrganisationsSearch,

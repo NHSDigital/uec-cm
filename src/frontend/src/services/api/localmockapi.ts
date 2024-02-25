@@ -1,4 +1,4 @@
-import { ApiInterface, Location, Organisation } from './api';
+import { ApiInterface, Location, Organisation } from './interface';
 import getOrganisationsMock from '../mocks/getOrganisations';
 import getLocationsMock from '../mocks/getLocations';
 

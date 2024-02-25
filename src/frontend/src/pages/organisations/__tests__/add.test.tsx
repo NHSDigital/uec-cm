@@ -1,47 +1,51 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import AddOrganisationPage from '../add';
 
 beforeEach(() => {
   render(<AddOrganisationPage />);
 });
 
-describe('Add page', () => {
-
-  it('renders the page component', () => {
+describe('AddOrganisationPage', () => {
+    it('should render the page component', () => {
     const label = screen.getByText('Data management');
     expect(label).toBeInTheDocument();
-
     const testid = screen.getByTestId('add-organisation-page');
     expect(testid).toBeInTheDocument();
   });
 
-  it('renders the OrganisationsSearch component', () => {
+  it('should render the OrganisationsSearch component', () => {
     const testid = screen.getByTestId('organisation-search');
     expect(testid).toBeInTheDocument();
   });
 
-  it('renders the NoResults component', async() => {
-    const nameInput = screen.getByTestId('name-input');
+  it('should render the NoResults component', async() => {
 
-    fireEvent.change(nameInput, { target: { value: '0' } });
+    act(() => {
+      const nameInput = screen.getByTestId('name-input');
+      fireEvent.change(nameInput, { target: { value: '0' } });
+      const searchButton = screen.getByTestId('search-button');
+      userEvent.click(searchButton);
+    });
 
-    const searchButton = screen.getByTestId('search-button');
-    fireEvent.click(searchButton);
-
-    const testid = screen.getByTestId('no-results-found');
-    expect(testid).toBeInTheDocument();
+    await waitFor(() => {
+      const searchResults = screen.getByTestId('no-results-found');
+      expect(searchResults).toBeInTheDocument();
+    });
   });
 
-  it('renders the Results component', async() => {
-    const nameInput = screen.getByTestId('name-input');
+  it('should render the Results component', async() => {
+    act(() => {
+      const nameInput = screen.getByTestId('name-input');
+      fireEvent.change(nameInput, { target: { value: 'adrian' } });
+      const searchButton = screen.getByTestId('search-button');
+      userEvent.click(searchButton);
+    });
 
-    fireEvent.change(nameInput, { target: { value: 'adrian' } });
-
-    const searchButton = screen.getByTestId('search-button');
-    fireEvent.click(searchButton);
-
-    const testid = screen.getByTestId('search-results');
-    expect(testid).toBeInTheDocument();
+    await waitFor(() => {
+      const searchResults = screen.getByTestId('search-results');
+      expect(searchResults).toBeInTheDocument();
+    });
   });
 });
