@@ -17,13 +17,15 @@ const useOrganisationLocationSearch = () => {
     const [searchResults, setSearchResults] = useState<Organisation[]>([]);
 
     const handleSearch = (name : string, postcode : string, organisation : string) => {
-      setStep(Step.Searching);
-      organisationSearch(name, postcode, organisation);
-      locationSearch(name, postcode, organisation);
+      Promise.all([organisationSearch(name, postcode, organisation), locationSearch(name, postcode, organisation)])
+        .then(() => {
+          setStep(Step.Searching);
+        })
     };
 
     useEffect(() => {
       if (organisationSearchResult.length > 0 || locationSearchResults.length > 0) {
+        console.log("4");
         const combinedResults = [...organisationSearchResult, ...locationSearchResults];
         const sortedResults = combinedResults.sort((a, b) => a.name.localeCompare(b.name));
         setSearchResults(sortedResults);
