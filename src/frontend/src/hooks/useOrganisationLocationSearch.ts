@@ -25,7 +25,6 @@ const useOrganisationLocationSearch = () => {
 
     useEffect(() => {
       if (organisationSearchResult.length > 0 || locationSearchResults.length > 0) {
-        console.log("4");
         const combinedResults = [...organisationSearchResult, ...locationSearchResults];
         const sortedResults = combinedResults.sort((a, b) => a.name.localeCompare(b.name));
         setSearchResults(sortedResults);
