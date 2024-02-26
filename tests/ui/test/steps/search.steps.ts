@@ -7,29 +7,29 @@ import { expect } from "playwright/test";
 const searchPage: SearchPage = new SearchPage(pageFixture.page);
 
 Given('I navigate to the cloudfront endpoint', async function () {
-  let workspace = process.env.WORKSPACE as string;
-  let env = process.env.ENV as string;
-  let region = process.env.REGION as string;
-  var distribution = getCloudFrontUrl(region,env, workspace);
-  var url = JSON.parse(distribution)
+  const workspace = process.env.WORKSPACE as string;
+  const env = process.env.ENV as string;
+  const region = process.env.REGION as string;
+  const distribution = getCloudFrontUrl(region,env, workspace);
+  const url = JSON.parse(distribution)
   await pageFixture.page.goto("https://"+url.DomainName)
   })
 
   Given('I navigate to the organisations page', async function () {
-    let workspace = process.env.WORKSPACE as string;
-    let env = process.env.ENV as string;
-    let region = process.env.REGION as string;
-    var distribution = getCloudFrontUrl(region,env, workspace);
-    var url = JSON.parse(distribution);
+    const workspace = process.env.WORKSPACE as string;
+    const env = process.env.ENV as string;
+    const region = process.env.REGION as string;
+    const distribution = getCloudFrontUrl(region,env, workspace);
+    const url = JSON.parse(distribution);
     await pageFixture.page.goto("https://"+url.DomainName);
     })
 
     Given('I navigate to the accessibility test page', async function () {
-      let workspace = process.env.WORKSPACE as string;
-      let env = process.env.ENV as string;
-      let region = process.env.REGION as string;
-      var distribution = getCloudFrontUrl(region,env, workspace);
-      var url = JSON.parse(distribution);
+      const workspace = process.env.WORKSPACE as string;
+      const env = process.env.ENV as string;
+      const region = process.env.REGION as string;
+      const distribution = getCloudFrontUrl(region,env, workspace);
+      const url = JSON.parse(distribution);
       await pageFixture.page.goto("https://"+url.DomainName+"/test");
       })
 
