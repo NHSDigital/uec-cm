@@ -4,7 +4,7 @@ import usePostcodeValidator from '../../../hooks/usePostcodeValidator';
 import useNameValidator from '../../../hooks/useNameValidator';
 
 export interface OrganisationsSearchProps {
-    onSearch: (name: string, postCode: string, organisation: string) => void;
+    onSearch: (name: string, postcode: string, organisation: string) => void;
 }
 
 const OrganisationsSearch: React.FC<OrganisationsSearchProps> = ({ onSearch }) => {
