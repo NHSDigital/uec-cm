@@ -37,6 +37,10 @@ export default class OrganisationsPage {
     return pageFixture.page.locator(OrganisationsPage.fieldError(field));
   }
 
+  async getSearchInstructions(): Promise<Locator> {
+    return pageFixture.page.getByTestId(OrganisationsPage.searchInstructions);
+  }
+
   // Methods
   async clickAdd() {
     await pageFixture.page.getByTestId(OrganisationsPage.add).click();
@@ -48,10 +52,6 @@ export default class OrganisationsPage {
 
   async inputTextInField(field: string, text: string) {
     await pageFixture.page.getByTestId(OrganisationsPage.inputField(field)).fill(text);
-  }
-
-  async searchInstructionsAreReturned(text: string) {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.searchInstructions)).toContainText(text);
   }
 
   async errorMessage(text: string): Promise<Locator> {

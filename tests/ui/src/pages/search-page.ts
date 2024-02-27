@@ -10,7 +10,7 @@ export default class SearchPage extends Accessibility {
   }
 
   async headerIsReturned(searchResultsHeader: string) {
-    return pageFixture.page.getByRole('heading', {name: searchResultsHeader });
+    return pageFixture.page.getByRole('heading', { name: searchResultsHeader });
   }
 
   async textIsReturned(searchResultsText: string): Promise<Locator> {

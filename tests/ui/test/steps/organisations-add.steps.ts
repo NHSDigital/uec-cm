@@ -20,7 +20,7 @@ When('I submit the search', async function () {
 });
 
 Then('The instructions stating {string} are displayed on the page', async function (text: string) {
-  await organisationsPage.searchInstructionsAreReturned(text);
+  expect(await organisationsPage.getSearchInstructions()).toContainText(text);
 });
 
 Then('a {string} field error message {string} is displayed on the page', async function (field: string, text: string) {
