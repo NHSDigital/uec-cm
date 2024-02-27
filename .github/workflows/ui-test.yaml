@@ -56,6 +56,7 @@ jobs:
           export BUILD_TIMESTAMP="${{ inputs.build_timestamp }}"
           export BUILD_EPOCH="${{ inputs.build_epoch }}"
           export DEPLOYMENT_WORKSPACE=${{ inputs.deployment_workspace }}
+          export ACCOUNT_TYPE=${{ inputs.github_environment }}
           echo "ui tests invoked"
           /bin/bash ./scripts/ui-tests.sh
 
