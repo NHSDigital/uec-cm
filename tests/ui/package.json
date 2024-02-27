@@ -23,6 +23,7 @@
     "test": "npm run build && cross-env test_env=dev cucumber-js test",
     "tests:tagged": "node ./node_modules/.bin/cucumber-js  --tags @Test",
     "test_cmd_line": "cucumber-js test",
+    "test_pipeline": "cucumber-js test",
     "allure": "allure generate --single-file -c -o  allure-reports",
     "axe_report": "cat ./accessibility-reports/artifacts/*.html >> ./accessibility-reports/artifacts/FinalAccessibilityReport.html"
   }

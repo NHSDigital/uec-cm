@@ -44,6 +44,9 @@ fi
 # install requirements
 echo "Installing requirements"
 
-# echo "Running integration tests"
+echo "Running integration tests"
 cd $APPLICATION_TEST_DIR
-WORKSPACE=$TERRAFORM_WORKSPACE_NAME ENV=$ACCOUNT_TYPE REGION=$AWS_REGION npm run test_cmd_line
+WORKSPACE=$TERRAFORM_WORKSPACE_NAME ENV=$ACCOUNT_TYPE REGION=$AWS_REGION npm run test_pipeline
+
+echo "next generating report"
+allure generate --single-file -c -o  allure-reports;
