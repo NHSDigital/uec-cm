@@ -1,6 +1,6 @@
 import { Given , When , Then } from "@cucumber/cucumber";
 import { pageFixture } from "../../src/hooks/pageFixture";
-import OrganisationsPage from "../../src/pages/organisationsPage";
+import OrganisationsPage from "../../src/pages/organisations-add-page";
 import { expect } from "playwright/test";
 
 let organisationsPage: OrganisationsPage;

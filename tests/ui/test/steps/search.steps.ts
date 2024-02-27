@@ -1,6 +1,6 @@
 import { Given , When , Then } from "@cucumber/cucumber";
 import { pageFixture } from "../../src/hooks/pageFixture";
-import SearchPage from "../../src/pages/searchPage";
+import SearchPage from "../../src/pages/search-page";
 import { getCloudFrontUrl } from "../../src/utilities/cloudFront";
 import { expect } from "playwright/test";
 
