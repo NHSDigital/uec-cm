@@ -80,7 +80,7 @@ jobs:
         build-and-deploy-react-app-to-s3-bucket
       ]
     name: Run ui tests
-    uses: ./.github/workflows/integration-test.yaml
+    uses: ./.github/workflows/ui-test.yaml
     with:
       github_environment: test
       DEPLOYMENT_WORKSPACE: ${{ needs.derive-deployment-workspace.outputs.deployment_workspace }}
