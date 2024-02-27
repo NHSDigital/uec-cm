@@ -48,6 +48,9 @@ npm ci
 npx playwright install --with-deps
 
 echo "Running integration tests"
+echo $TERRAFORM_WORKSPACE_NAME
+echo $ACCOUNT_TYPE
+echo $AWS_REGION
 
 WORKSPACE=$TERRAFORM_WORKSPACE_NAME ENV=$ACCOUNT_TYPE REGION=$AWS_REGION npm run test_pipeline
 
