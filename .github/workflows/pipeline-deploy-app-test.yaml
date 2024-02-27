@@ -77,7 +77,8 @@ jobs:
       [
         get-metadata,
         deploy-application-infrastructure,
-        build-and-deploy-react-app-to-s3-bucket
+        build-and-deploy-react-app-to-s3-bucket,
+        derive-deployment-workspace
       ]
     name: Run ui tests
     uses: ./.github/workflows/ui-test.yaml
