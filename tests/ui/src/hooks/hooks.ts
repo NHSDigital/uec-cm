@@ -15,7 +15,7 @@ BeforeAll(async  function() {
   else
     {process.env.WORKSPACE = ""};
 
-  browser = await chromium.launch({ headless: false});
+  browser = await chromium.launch({ headless: true});
 });
 
 Before(async  function() {
