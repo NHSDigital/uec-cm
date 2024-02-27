@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # fail on first error
-set -e
+# set -e
 # This script runs playwright cucumber ui tests
 #
 export AWS_REGION="${AWS_REGION:-""}"     # The aws region
