@@ -1,3 +1,4 @@
+
 import { expect, Locator, Page } from "@playwright/test";
 import { pageFixture } from "../../src/hooks/pageFixture";
 
@@ -7,95 +8,15 @@ export default class OrganisationsPage {
   }
 
   static readonly add = 'add-card-link'
-  static readonly orgName = 'name-input'
-  static readonly postcode = 'postcode-input'
-  static readonly org = 'managing-organisation-input'
   static readonly searchInstructions = 'search-by'
-  static readonly postcodeError = 'postcode-error-message'
-  static readonly orgNameError = 'name-error-message'
-  static readonly orgError = 'organisation-error-message'
+  static readonly fieldError = (field: string) => `#${field}-error-message`
   static readonly orgAddSearchBtn = 'search-button'
   static readonly orgAddNewOption = 'yes-radio'
   static readonly orgErrorSummaryLink = (type: string) => `error-summary-${type}-link`
   static readonly orgErrorSummary = (type: string) => `error-summary-${type}`
-  static readonly inputField = (type: string) => `${type}-input`
+  static readonly inputField = (field: string) => `${field}-input`
 
-
-
-  async clickAdd() {
-    await pageFixture.page.getByTestId(OrganisationsPage.add).click();
-  }
-
-  async clickOrgAddSearch() {
-    await pageFixture.page.getByTestId(OrganisationsPage.orgAddSearchBtn).click();
-  }
-
-  async inputName(name: string) {
-    await pageFixture.page.getByTestId(OrganisationsPage.orgName).fill(name);
-  }
-
-  async inputPostcode(postcode: string) {
-    await pageFixture.page.getByTestId(OrganisationsPage.postcode).fill(postcode);
-  }
-
-  async inputOrg(org: string) {
-    await pageFixture.page.getByTestId(OrganisationsPage.org).fill(org);
-  }
-
-  async enteredName(name: string) {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.name)).toHaveValue(name);
-  }
-
-  async enteredPostcode(postcode: string) {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.postcode)).toHaveValue(postcode);
-  }
-
-  async enteredOrg(org: string) {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgName)).toHaveValue(org);
-  }
-
-  async searchInstructionsAreReturned(text: string) {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.searchInstructions)).toContainText(text);
-  }
-
-  async errorMessage(text: string) {
-    await expect(pageFixture.page.getByText(text)).toBeVisible;
-  }
-
-  async orgErrorVisible() {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgError)).toBeVisible;
-  }
-
-  async orgNameErrorVisible() {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgNameError)).toBeVisible;
-  }
-
-  async postcodeErrorVisible() {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.postcodeError)).toBeVisible;
-  }
-
-  async orgErrorNotVisible() {
-    expect(pageFixture.page.getByTestId(OrganisationsPage.orgError)).not.toBeVisible;
-  }
-
-  async orgNameErrorNotVisible() {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgNameError)).not.toBeVisible;
-  }
-
-  async postcodeErrorNotVisible() {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.postcodeError)).not.toBeVisible;
-  }
-
-  async noErrorsVisible() {
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.postcodeError)).not.toBeVisible;
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgNameError)).not.toBeVisible;
-    await expect(pageFixture.page.getByTestId(OrganisationsPage.orgError)).not.toBeVisible;
-  }
-
-  async addOrganisationOptionIsSelected() {
-    expect(pageFixture.page.getByTestId(OrganisationsPage.orgAddNewOption)).toBeChecked();
-  }
-
+  // Getters
   async getOrgErrorSummaryLink(type: string): Promise<Locator> {
     return pageFixture.page.getByTestId(OrganisationsPage.orgErrorSummaryLink(type));
   }
@@ -106,6 +27,39 @@ export default class OrganisationsPage {
 
   async getOrgInputField(type: string): Promise<Locator> {
     return pageFixture.page.getByTestId(OrganisationsPage.inputField(type));
+  }
+
+  async getFieldErrorMessage(field: string): Promise<Locator> {
+    return pageFixture.page.getByTestId(OrganisationsPage.fieldError(field));
+  }
+
+  async getFieldError(field: string): Promise<Locator> {
+    return pageFixture.page.locator(OrganisationsPage.fieldError(field));
+  }
+
+  // Methods
+  async clickAdd() {
+    await pageFixture.page.getByTestId(OrganisationsPage.add).click();
+  }
+
+  async clickOrgAddSearch() {
+    await pageFixture.page.getByTestId(OrganisationsPage.orgAddSearchBtn).click();
+  }
+
+  async inputTextInField(field: string, text: string) {
+    await pageFixture.page.getByTestId(OrganisationsPage.inputField(field)).fill(text);
+  }
+
+  async searchInstructionsAreReturned(text: string) {
+    await expect(pageFixture.page.getByTestId(OrganisationsPage.searchInstructions)).toContainText(text);
+  }
+
+  async errorMessage(text: string): Promise<Locator> {
+    return pageFixture.page.getByText(text);
+  }
+
+  async addOrganisationOptionIsSelected(): Promise<Locator> {
+    return pageFixture.page.getByTestId(OrganisationsPage.orgAddNewOption);
   }
 
   async clickOrgInputField(type: string) {
