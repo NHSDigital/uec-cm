@@ -75,14 +75,12 @@ function check_commit_message_length {
 function export_terraform_workspace_name {
     TERRAFORM_WORKSPACE_NAME="default"
     if [ -n "$DEPLOYMENT_WORKSPACE" ] ; then
-        echo "Deployment workspace here $DEPLOYMENT_WORKSPACE"
         if  ! [[ $DEPLOYMENT_WORKSPACE =~ ^[RV]{1} ]]; then
           TERRAFORM_WORKSPACE_NAME=$(echo "$DEPLOYMENT_WORKSPACE" | tr "." "-")
         fi
     else
       BRANCH_NAME="${BRANCH_NAME:-$(git rev-parse --abbrev-ref HEAD)}"
       BRANCH_NAME=$(echo $BRANCH_NAME | sed 's/refs\/heads\/task/task/g')
-      echo "branch name $BRANCH_NAME"
       if [ "$BRANCH_NAME" != 'main' ] && [[ $BRANCH_NAME =~ $GIT_BRANCH_PATTERN ]]  ; then
         IFS='/' read -r -a name_array <<< "$BRANCH_NAME"
         IFS='_' read -r -a ref <<< "${name_array[1]}"
