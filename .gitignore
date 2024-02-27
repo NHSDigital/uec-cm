@@ -55,5 +55,6 @@ tests/*/node_modules/
 tests/*/playwright/.cache/
 **/allure-reports/*
 **/allure-results/*
+**/accessibility-reports/*
 
 /node_modules/

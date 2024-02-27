@@ -2,9 +2,11 @@ import  { BeforeAll, Before, AfterAll, After, Status, AfterStep} from "@cucumber
 import {chromium, Browser, Page, BrowserContext} from "@playwright/test"
 import { pageFixture } from "./pageFixture";
 import {getEnv} from "../config/env"
+import Accessibility from "../utilities/accessibility";
 
 let browser: Browser;
 let context: BrowserContext
+let acccessibility: Accessibility;
 
 BeforeAll(async  function() {
   getEnv();
@@ -20,9 +22,13 @@ Before(async  function() {
     context = await browser.newContext();
     const page = await context.newPage();
     pageFixture.page = page;
+    acccessibility = new Accessibility(pageFixture.page);
 });
 
 AfterStep(async function ({pickle, result}) {
+  //run Axe for end of every step
+  const timestamp = new Date().toISOString().replace(/:/g, '-');
+  await acccessibility.runAxeCheck(pickle.name+'-'+timestamp);
   //screenshot for end of every step
   const img = await pageFixture.page.screenshot({path: `reports/screenshots/${pickle.name}.png`, type: "png"})
   await this.attach(img, "image/png")
@@ -30,11 +36,10 @@ AfterStep(async function ({pickle, result}) {
 
 After(async function ({pickle, result}) {
     console.log(result?.status);
-    //screenshot for end of every scenario
-    const img = await pageFixture.page.screenshot({path: `reports/screenshots/${pickle.name}.png`, type: "png"})
+    const timestamp = new Date().toISOString().replace(/:/g, '-');
     //screenshot for every failure
     if(result?.status == Status.FAILED) {
-    const img = await pageFixture.page.screenshot({path: `reports/screenshots/${pickle.name}.png`, type: "png"})
+    const img = await pageFixture.page.screenshot({path: `reports/screenshots/${pickle.name+'-'+timestamp}.png`, type: "png"})
     await this.attach(img, "image/png")}
     //close page and context
     await pageFixture.page.close();
