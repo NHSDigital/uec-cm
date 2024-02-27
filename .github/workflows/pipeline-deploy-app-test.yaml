@@ -72,26 +72,16 @@ jobs:
       id-token: write
       contents: read
     secrets: inherit
-  integration-test:
-    name: Run integration tests
-    runs-on: ubuntu-latest
+  ui-test:
     needs:
       [
         get-metadata,
         deploy-application-infrastructure,
         build-and-deploy-react-app-to-s3-bucket
       ]
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.git_tag }}
-      - name: List Variables
-        run: |
-          export BUILD_DATETIME="${{ needs.get-metadata.outputs.build_datetime }}"
-          export BUILD_TIMESTAMP="${{ needs.get-metadata.outputs.build_timestamp }}"
-          export BUILD_EPOCH="${{ needs.get-metadata.outputs.build_epoch }}"
-          echo "Integration tests invoked"
-      # - name: Run Tests ...
-      #   run: |
-      #     ?
+    name: Run ui tests
+    uses: ./.github/workflows/integration-test.yaml
+    with:
+      github_environment: test
+      DEPLOYMENT_WORKSPACE: ${{ needs.derive-deployment-workspace.outputs.deployment_workspace }}
+    secrets: inherit
