@@ -72,5 +72,5 @@ jobs:
         id: accessibiity-artifact-upload-step
         with:
           name: axe-report
-          path: tests/ui/accessibility-reports/*.html
+          path: tests/ui/accessibility-reports/artifacts/*.html
           retention-days: 10
