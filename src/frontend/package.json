@@ -24,6 +24,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:ci": "npm run test -- --coverage --watchAll=false",
+    "test:coverage": "npm run test -- --coverage --watchAll=true",
     "lint": "eslint src"
   },
   "eslintConfig": {
@@ -48,6 +50,36 @@
     "@axe-core/react": "^4.8.3",
     "eslint": "^8.56.0",
     "eslint-plugin-jsx-a11y": "^6.8.0",
-    "jest-fetch-mock": "^3.0.3"
+    "jest-fetch-mock": "^3.0.3",
+    "ts-jest": "^29.1.2"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.test.{js,jsx,ts,tsx}",
+      "!src/index.tsx",
+      "!src/pages/test.tsx",
+      "!src/reportWebVitals.ts",
+      "!<rootDir>/node_modules/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    },
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+      "\\.(gif|ttf|eot|svg)$": "identity-obj-proxy"
+    }
   }
 }
