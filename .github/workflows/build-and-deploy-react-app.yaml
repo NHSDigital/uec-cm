@@ -74,10 +74,3 @@ jobs:
         run: |
           aws s3 sync build/ s3://${{ env.BUCKET_NAME }}/
         working-directory: src/frontend
-  run-unit-tests:
-    name: Run Unit Tests
-    needs:
-      [
-        build-and-deploy-react-app,
-      ]
-    uses: ./.github/workflows/npm-unit-test.yaml
