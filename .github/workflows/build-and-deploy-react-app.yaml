@@ -37,8 +37,7 @@ jobs:
         working-directory: src/frontend
 
       - name: Run Unit Tests
-        run: |
-          /bin/bash ./scripts/npm-unit-tests.sh
+        uses: ./.github/workflows/npm-unit-test.yaml
 
       - name: Build React app
         run: npm run build
