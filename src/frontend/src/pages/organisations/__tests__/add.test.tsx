@@ -11,7 +11,7 @@ describe('AddOrganisationPage', () => {
     it('should render the page component', () => {
     const label = screen.getByText('Data management');
     expect(label).toBeInTheDocument();
-    const testid = screen.getByTestId('add-organisation-page');
+    const testid = screen.getByTestId('xxadd-organisation-page');
     expect(testid).toBeInTheDocument();
   });
 
