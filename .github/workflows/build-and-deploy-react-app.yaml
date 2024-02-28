@@ -36,8 +36,9 @@ jobs:
         run: npm run lint
         working-directory: src/frontend
 
-      # - name: Run Unit Tests
-      #   uses: ./.github/workflows/npm-unit-test.yaml
+      - name: Run Unit Tests
+        run: |
+          /bin/bash ./scripts/npm-unit-tests.sh
 
       - name: Build React app
         run: npm run build
