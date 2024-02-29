@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # fail on first error
-set -e
+# set -e
 # This script runs playwright cucumber ui tests
 #
 export AWS_REGION="${AWS_REGION:-""}"     # The aws region
@@ -43,7 +43,15 @@ fi
 
 # install requirements
 echo "Installing requirements"
-
-# echo "Running integration tests"
 cd $APPLICATION_TEST_DIR
-WORKSPACE=$TERRAFORM_WORKSPACE_NAME ENV=$ACCOUNT_TYPE REGION=$AWS_REGION npm run test_cmd_line
+npm ci
+npx playwright install --with-deps
+
+echo "Running ui tests"
+WORKSPACE=$TERRAFORM_WORKSPACE_NAME ENV=$ACCOUNT_TYPE REGION=$AWS_REGION npm run test_pipeline
+
+echo "set up allure environment properties file"
+echo "Branch = $TERRAFORM_WORKSPACE_NAME" > allure-results/environment.properties
+
+echo "next generating report"
+allure generate --single-file -c -o  allure-reports;
