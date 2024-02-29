@@ -29,13 +29,12 @@ AfterStep(async function ({pickle, result}) {
   //run Axe for end of every step
   const timestamp = new Date().toISOString().replace(/:/g, '-');
   await acccessibility.runAxeCheck(pickle.name+'-'+timestamp);
-  //screenshot for end of every step
-  // const img = await pageFixture.page.screenshot({path: `reports/screenshots/${pickle.name}.png`, type: "png"});
-  // await this.attach(img, "image/png");
+  //screenshot for end of every step because we can't correctly capture a failed scenario
+  const img = await pageFixture.page.screenshot({path: `reports/screenshots/${pickle.name}.png`, type: "png"});
+  await this.attach(img, "image/png");
 })
 
 After(async function ({pickle, result}) {
-    console.log(result?.status);
     const timestamp = new Date().toISOString().replace(/:/g, '-');
     //screenshot for every failure
     if(result?.status == Status.FAILED) {

@@ -12,7 +12,6 @@ Given('I navigate to the cloudfront endpoint', async function () {
   const distribution = getCloudFrontUrl(region,env, workspace);
   const url = JSON.parse(distribution);
   await pageFixture.page.goto("https://"+url.DomainName)
-
 });
 
 Given('I navigate to the organisations page', async function () {
