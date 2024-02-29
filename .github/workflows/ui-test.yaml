@@ -41,14 +41,6 @@ jobs:
 
       - name: set up node
         uses: actions/setup-node@v3
-      - name: Install Allure command-line tool
-        continue-on-error: true
-        run: |
-          sudo apt-get install default-jre
-          wget https://github.com/allure-framework/allure2/releases/download/2.25.0/allure_2.25.0-1_all.deb
-          sudo dpkg -i allure_2.25.0-1_all.deb
-          export PATH="$PATH:$(pwd)/allure_2.25.0-1/bin"
-          allure --version
 
       - name: Run ui test script
         run: |

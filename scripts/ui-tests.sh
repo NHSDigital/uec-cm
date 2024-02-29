@@ -46,6 +46,7 @@ echo "Installing requirements"
 cd $APPLICATION_TEST_DIR
 npm ci
 npx playwright install --with-deps
+npm install --save-dev allure-commandline
 
 echo "Running ui tests"
 
