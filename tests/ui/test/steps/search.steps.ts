@@ -3,7 +3,6 @@ import { pageFixture } from "../../src/hooks/pageFixture";
 import SearchPage from "../../src/pages/search-page";
 import { getCloudFrontUrl } from "../../src/utilities/cloudFront";
 import { expect } from "playwright/test";
-
 const searchPage: SearchPage = new SearchPage(pageFixture.page);
 
 Given('I navigate to the cloudfront endpoint', async function () {
@@ -11,8 +10,9 @@ Given('I navigate to the cloudfront endpoint', async function () {
   const env = process.env.ENV as string;
   const region = process.env.REGION as string;
   const distribution = getCloudFrontUrl(region,env, workspace);
-  const url = JSON.parse(distribution)
+  const url = JSON.parse(distribution);
   await pageFixture.page.goto("https://"+url.DomainName)
+
 });
 
 Given('I navigate to the organisations page', async function () {
