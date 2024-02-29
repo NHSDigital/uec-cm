@@ -1,11 +1,11 @@
 import  { BeforeAll, Before, AfterAll, After, Status, AfterStep} from "@cucumber/cucumber";
 import {chromium, Browser, Page, BrowserContext} from "@playwright/test"
 import { pageFixture } from "./pageFixture";
-import {getEnv} from "../config/env"
+import {getEnv} from "../config/env";
 import Accessibility from "../utilities/accessibility";
 
 let browser: Browser;
-let context: BrowserContext
+let context: BrowserContext;
 let acccessibility: Accessibility;
 
 BeforeAll(async  function() {
@@ -15,7 +15,7 @@ BeforeAll(async  function() {
   else
     {process.env.WORKSPACE = ""};
 
-  browser = await chromium.launch({ headless: false});
+  browser = await chromium.launch({ headless: true});
 });
 
 Before(async  function() {
@@ -29,18 +29,17 @@ AfterStep(async function ({pickle, result}) {
   //run Axe for end of every step
   const timestamp = new Date().toISOString().replace(/:/g, '-');
   await acccessibility.runAxeCheck(pickle.name+'-'+timestamp);
-  //screenshot for end of every step
-  const img = await pageFixture.page.screenshot({path: `reports/screenshots/${pickle.name}.png`, type: "png"})
-  await this.attach(img, "image/png")
+  //screenshot for end of every step because we can't correctly capture a failed scenario
+  const img = await pageFixture.page.screenshot({path: `reports/screenshots/${pickle.name}.png`, type: "png"});
+  await this.attach(img, "image/png");
 })
 
 After(async function ({pickle, result}) {
-    console.log(result?.status);
     const timestamp = new Date().toISOString().replace(/:/g, '-');
     //screenshot for every failure
     if(result?.status == Status.FAILED) {
-    const img = await pageFixture.page.screenshot({path: `reports/screenshots/${pickle.name+'-'+timestamp}.png`, type: "png"})
-    await this.attach(img, "image/png")}
+    const img = await pageFixture.page.screenshot({path: `reports/screenshots/${pickle.name+'-'+timestamp}.png`, type: "png"});
+    await this.attach(img, "image/png")};
     //close page and context
     await pageFixture.page.close();
     await context.close();

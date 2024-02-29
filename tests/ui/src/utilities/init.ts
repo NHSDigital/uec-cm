@@ -1,4 +1,4 @@
-import fs from "fs-extra";
+const fs = require("fs-extra");
 
 try {;
   fs.ensureDir("reports");
