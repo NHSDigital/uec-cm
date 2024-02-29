@@ -41,9 +41,6 @@ if [ $EXPORTS_SET = 1 ] ; then
   exit 1
 fi
 
-echo "set up allure environment properties file"
-echo "Branch = $TERRAFORM_WORKSPACE_NAME" > allure-results/environment.properties
-
 # install requirements
 echo "Installing requirements"
 cd $APPLICATION_TEST_DIR
