@@ -46,7 +46,6 @@ echo "Installing requirements"
 cd $APPLICATION_TEST_DIR
 npm ci
 npx playwright install --with-deps
-npm install --save-dev allure-commandline
 
 echo "Running ui tests"
 
@@ -54,6 +53,9 @@ WORKSPACE=$TERRAFORM_WORKSPACE_NAME ENV=$ACCOUNT_TYPE REGION=$AWS_REGION npm run
 
 echo "set up allure environment properties file"
 echo "Branch = $TERRAFORM_WORKSPACE_NAME" > allure-results/environment.properties
+
+echo "installing allure command line"
+npm install --save-dev allure-commandline
 
 echo "next generating report"
 allure generate --single-file -c -o  allure-reports;
