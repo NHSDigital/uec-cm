@@ -84,5 +84,5 @@ jobs:
     uses: ./.github/workflows/ui-test.yaml
     with:
       github_environment: test
-      DEPLOYMENT_WORKSPACE: ${{ needs.derive-deployment-workspace.outputs.deployment_workspace }}
+      deployment_workspace: ${{ needs.derive-deployment-workspace.outputs.deployment_workspace }}
     secrets: inherit
