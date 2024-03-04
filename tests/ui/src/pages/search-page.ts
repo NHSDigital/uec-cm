@@ -9,14 +9,20 @@ export default class SearchPage extends Accessibility {
     pageFixture.page = page;
   }
 
-  async headerIsReturned(searchResultsHeader: string) {
+  // Getters
+  headerIsReturned(searchResultsHeader: string): Locator {
     return pageFixture.page.getByRole('heading', { name: searchResultsHeader });
   }
 
-  async textIsReturned(searchResultsText: string): Promise<Locator> {
+  textIsReturned(searchResultsText: string): Locator {
     return pageFixture.page.getByText(searchResultsText, { exact: true });
   }
 
+  linkIsReturned(searchResultsLink: string): Locator {
+    return pageFixture.page.getByRole("link" , { name: searchResultsLink } );
+  }
+
+  // Methods
   async runAxeCheck(testId: string) {
     return super.runAxeCheck(testId);
   }
@@ -24,9 +30,5 @@ export default class SearchPage extends Accessibility {
   async expectAccessibilityCheckFails(partFileName: string) {
     const fileCount = await countFilesInDirectory("./accessibility-reports/artifacts",partFileName);
     return fileCount
-  }
-
-  async linkIsReturned(searchResultsLink: string): Promise<Locator> {
-    return pageFixture.page.getByRole("link" , { name: searchResultsLink } );
   }
 }
