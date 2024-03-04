@@ -3,19 +3,16 @@ import { render, screen } from '@testing-library/react';
 import Banner from '..';
 
 describe('Banner', () => {
-  it('renders the heading, text1, and text2', () => {
+  it('should render the heading and text', () => {
     const heading = 'Test Heading';
-    const text1 = 'Test Text 1';
-    const text2 = 'Test Text 2';
+    const text = 'Test Text';
 
-    render(<Banner heading={heading} text1={text1} text2={text2} />);
+    render(<Banner heading={heading} text={text} />);
 
-    const headingElement = screen.getByText(heading);
-    const text1Element = screen.getByText(text1);
-    const text2Element = screen.getByText(text2);
+    const headingElement = screen.getByTestId('banner_heading');
+    const textElement = screen.getByTestId('banner_text');
 
-    expect(headingElement).toBeInTheDocument();
-    expect(text1Element).toBeInTheDocument();
-    expect(text2Element).toBeInTheDocument();
+    expect(headingElement.textContent).toBe('Test Heading');
+    expect(textElement.textContent).toBe('Test Text');
   });
 });
