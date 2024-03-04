@@ -2,17 +2,14 @@ import React from 'react';
 import { Hero } from "nhsuk-react-components";
 import { BannerProps } from './interface';
 
-const Banner: React.FC<BannerProps> = ({ heading, text1, text2 }) => {
+const Banner: React.FC<BannerProps> = ({ heading, text }) => {
   return (
     <Hero>
-      <Hero.Text>
-        {text1}
-      </Hero.Text>
-      <Hero.Heading>
+      <Hero.Heading data-testid='banner_heading'>
         {heading}
       </Hero.Heading>
-      <Hero.Text>
-        {text2}
+      <Hero.Text data-testid='banner_text'>
+        {text}
       </Hero.Text>
     </Hero>
   );
