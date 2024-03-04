@@ -27,7 +27,7 @@ test.describe('As a user I want to be able to manage organisation data', () => {
 
   test('The search instructions are displayed on the page', async () => {
     await orgAddPage.searchInstructionsToBeVisible;
-    await orgAddPage.searchInstructionsToContainText('Search by either name, postcode or managing organisation.');
+    await orgAddPage.exactTextToExist('Search by either name, postcode or managing organisation.');
     });
 
   test('Search for an organisation that does not exist allows you to add a new organisation', async () => {
@@ -36,8 +36,21 @@ test.describe('As a user I want to be able to manage organisation data', () => {
       await orgAddPage.clickSearchBtn();
     });
     await test.step('Then I am given the option to add a new organisation', async () => {
-      await orgAddPage.textToExist('No results found');
+      await orgAddPage.exactTextToExist('No results found');
       await orgAddPage.addOrgOptionIsSelected();
+    });
+  });
+
+
+  test('Search for an existing organisation by name returns a list of matching results', {tag: '@Test'} , async () => {
+    await test.step('When I input an organisation that does exist', async () => {
+      await orgAddPage.inputTextInField('name','london');
+      await orgAddPage.clickSearchBtn();
+    });
+    await test.step('Then I am given a list of matching organisations and locations', async () => {
+      await orgAddPage.orgSearchResultsToBeVisible();
+      await orgAddPage.partialTextToExist('The following organisations or locations match your search.');
+
     });
   });
 

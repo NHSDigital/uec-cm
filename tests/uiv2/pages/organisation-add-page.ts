@@ -8,6 +8,7 @@ export default class OrgAddPage {
     readonly searchInstructions: Locator;
     readonly orgAddSearchBtn: Locator;
     readonly orgAddNewOption: Locator;
+    readonly orgSearchResultsList: Locator;
     readonly fieldError = (field: string)=>`#${field}-error-message` ;
     readonly orgErrorSummaryLink = (type: string) => `error-summary-${type}-link`
     readonly orgErrorSummary = (type: string) => `error-summary-${type}`
@@ -20,6 +21,7 @@ export default class OrgAddPage {
     this.searchInstructions = page.getByTestId('search-by');
     this.orgAddSearchBtn = page.getByTestId('search-button');
     this.orgAddNewOption = page.getByTestId('yes-radio');
+    this.orgSearchResultsList = page.getByTestId('search-results-list')
   }
 
 
@@ -74,21 +76,25 @@ export default class OrgAddPage {
     await expect (this.orgAddNewOption).toBeChecked;
   }
 
-  async searchInstructionsToContainText(text){
-    await expect ( this.page.getByText(text, { exact: true })).toContainText(text);
-    }
-
   async searchInstructionsToBeVisible(){
     await expect (this.searchInstructions).toBeVisible();
-    }
+  }
 
-  async textToExist(text){
+  async orgSearchResultsToBeVisible(){
+    await expect (this.orgSearchResultsList).toBeVisible();
+  }
+
+  async exactTextToExist(text){
     await expect (this.page.getByText(text, { exact: true })).toContainText(text);
-    }
+  }
+
+  async partialTextToExist(text){
+    await expect (this.page.getByText(text )).toContainText(text);
+  }
 
   async fieldErrorIsVisible(field){
     await expect (await this.getFieldError(field)).toBeVisible();
-    }
+  }
 
   async fieldErrorMessageIsVisible(text){
       await expect (await this.errorMessage(text)).toBeVisible();
