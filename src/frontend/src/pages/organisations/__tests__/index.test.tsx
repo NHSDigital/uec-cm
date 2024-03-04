@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import OrganisationsPage from '..';
-import { addUrl } from '../cards';
+import { searchUrl } from '../cards';
 
 beforeEach(() => {
   render(<OrganisationsPage />);
@@ -19,8 +19,8 @@ describe('Organisations page', () => {
     expect(cardGroup).toBeInTheDocument();
   });
 
-  it('should render the addUrl function', () => {
-    const addCardLink = screen.getByTestId('add-card-link');
-    expect(addCardLink).toHaveAttribute('href', addUrl);
+  it('should render the search card and searchUrl', () => {
+    const searchCardLink = screen.getByTestId('search-card-link');
+    expect(searchCardLink).toHaveAttribute('href', searchUrl);
   });
 });
