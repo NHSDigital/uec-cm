@@ -1,5 +1,5 @@
 
-import { expect, Locator, Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 import { pageFixture } from "../../src/hooks/pageFixture";
 
 export default class OrganisationsPage {
@@ -17,28 +17,36 @@ export default class OrganisationsPage {
   static readonly inputField = (field: string) => `${field}-input`
 
   // Getters
-  async getOrgErrorSummaryLink(type: string): Promise<Locator> {
+  getOrgErrorSummaryLink(type: string): Locator {
     return pageFixture.page.getByTestId(OrganisationsPage.orgErrorSummaryLink(type));
   }
 
-  async getOrgErrorSummary(type: string): Promise<Locator> {
+  getOrgErrorSummary(type: string): Locator {
     return pageFixture.page.getByTestId(OrganisationsPage.orgErrorSummary(type));
   }
 
-  async getOrgInputField(type: string): Promise<Locator> {
+  getOrgInputField(type: string): Locator {
     return pageFixture.page.getByTestId(OrganisationsPage.inputField(type));
   }
 
-  async getFieldErrorMessage(field: string): Promise<Locator> {
+  getFieldErrorMessage(field: string): Locator {
     return pageFixture.page.getByTestId(OrganisationsPage.fieldError(field));
   }
 
-  async getFieldError(field: string): Promise<Locator> {
+  getFieldError(field: string): Locator {
     return pageFixture.page.locator(OrganisationsPage.fieldError(field));
   }
 
-  async getSearchInstructions(): Promise<Locator> {
+  searchInstructionsAreReturned(): Locator {
     return pageFixture.page.getByTestId(OrganisationsPage.searchInstructions);
+  }
+
+  errorMessage(text: string): Locator {
+    return pageFixture.page.getByText(text);
+  }
+
+  addOrganisationOptionIsSelected(): Locator {
+    return pageFixture.page.getByTestId(OrganisationsPage.orgAddNewOption);
   }
 
   // Methods
@@ -54,15 +62,7 @@ export default class OrganisationsPage {
     await pageFixture.page.getByTestId(OrganisationsPage.inputField(field)).fill(text);
   }
 
-  async errorMessage(text: string): Promise<Locator> {
-    return pageFixture.page.getByText(text);
-  }
-
-  async addOrganisationOptionIsSelected(): Promise<Locator> {
-    return pageFixture.page.getByTestId(OrganisationsPage.orgAddNewOption);
-  }
-
   async clickOrgInputField(type: string) {
-    (await this.getOrgInputField(type)).click();
+    await this.getOrgInputField(type).click();
   }
 }

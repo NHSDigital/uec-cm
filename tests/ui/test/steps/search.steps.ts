@@ -33,11 +33,11 @@ Given('I navigate to the accessibility test page', async function () {
 });
 
 Then('{string} is displayed on the page', async function (searchResultsText) {
-  expect(await searchPage.textIsReturned(searchResultsText)).toBeVisible();
+  await expect(searchPage.textIsReturned(searchResultsText)).toBeVisible();
 });
 
 Then('{string} link is displayed on the page', async function (searchResultsLink) {
-  expect(await searchPage.linkIsReturned(searchResultsLink)).toBeVisible();
+  await expect(searchPage.linkIsReturned(searchResultsLink)).toBeVisible();
 });
 
 Then('the accessibility checks are passing', async function(reportName: string){
