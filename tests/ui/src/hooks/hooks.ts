@@ -1,7 +1,7 @@
 import  { BeforeAll, Before, AfterAll, After, Status, AfterStep} from "@cucumber/cucumber";
-import {chromium, Browser, Page, BrowserContext} from "@playwright/test"
+import { chromium, Browser, Page, BrowserContext } from "@playwright/test"
 import { pageFixture } from "./pageFixture";
-import {getEnv} from "../config/env";
+import { getEnv } from "../config/env";
 import Accessibility from "../utilities/accessibility";
 
 let browser: Browser;
