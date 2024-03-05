@@ -1,22 +1,33 @@
 import React from 'react';
-import { Card } from "nhsuk-react-components";
+import { Card, Col, ChevronRightIcon, Row } from "nhsuk-react-components";
 import { CardGroupProps } from "./interface";
 
 const CardGroup: React.FC<CardGroupProps> = ({ cards }) => {
   return (
     <Card.Group data-testid='card-group'>
       {cards.map((card, index) => (
-        <Card.GroupItem key={index} width="one-third">
+        <Card.GroupItem key={index} width={card.width}>
           <Card clickable>
             <Card.Content>
-              <Card.Heading className="nhsuk-heading-m">
-                <Card.Link href={card.href} data-testid={card.dataTestId}>
-                  {card.text}
-                </Card.Link>
-              </Card.Heading>
-              <Card.Description>
-                {card.description}
-              </Card.Description>
+              <Row>
+                <Col width="three-quarters">
+                  <Card.Heading className="nhsuk-heading-m">
+                  <Card.Link href={card.href} data-testid={card.dataTestId}>
+                    {card.text}
+                  </Card.Link>
+                </Card.Heading>
+                </Col>
+              </Row>
+              <Row>
+                <Col width="three-quarters">
+                <Card.Description>
+                  {card.description}
+                </Card.Description>
+                </Col>
+                <Col width="one-quarter">
+                  <ChevronRightIcon />
+                </Col>
+              </Row>
             </Card.Content>
           </Card>
         </Card.GroupItem>

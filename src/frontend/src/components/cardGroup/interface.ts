@@ -3,6 +3,7 @@ export interface CardInfo {
     text: string;
     description: string;
     dataTestId: string;
+    width: 'full' | 'three-quarters' | 'one-half' | 'two-thirds' | 'one-third' | 'one-quarter';
   }
 
   export interface CardGroupProps {
