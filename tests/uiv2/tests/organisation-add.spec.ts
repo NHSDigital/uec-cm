@@ -4,16 +4,24 @@ import { getCloudFrontUrl } from "../utilities/cloudFront";
 
 let orgAddPage: OrgAddPage;
 
+test.describe('As a user I want to be able to manage organisation data', () => {
+
 test.beforeEach(async ({page}) => {
   await test.step('Navigate to landing page', async () => {
-    // const workspace = process.env.WORKSPACE as string;
-    // const env = process.env.ENV as string;
-    // const region = process.env.REGION as string;
-    const workspace = ''
-    const env = 'dev'
-    const region = ''
+     console.log('Before tests');
+    const workspace = process.env.WORKSPACE as string;
+    const env = process.env.ENV as string;
+    const region = process.env.REGION as string;
+    console.log("env : "+env);
+    console.log ("workspace :" +workspace);
+    console.log ("region :" +region);
+    // const workspace = ''
+    // const env = 'dev'
+    // const region = ''
     const distribution = getCloudFrontUrl(region,env, workspace);
+    console.log(distribution);
     const url = JSON.parse(distribution);
+
     await page.goto("https://"+url.DomainName);
   });
   await test.step('Add an organisation', async () => {
@@ -23,7 +31,7 @@ test.beforeEach(async ({page}) => {
 });
 
 
-test.describe('As a user I want to be able to manage organisation data', () => {
+
 
   test('The search instructions are displayed on the page', async () => {
     await orgAddPage.searchInstructionsToBeVisible;
