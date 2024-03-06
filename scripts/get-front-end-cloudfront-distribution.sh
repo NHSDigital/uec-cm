@@ -25,7 +25,7 @@ fi
 if [ "$WORKSPACE" = "default" ]; then
   FRONT_END_DOMAIN="nhse-uec-cm-${ENVIRONMENT}-front-end.s3.${AWS_REGION}.amazonaws.com"
 else
-  FRONT_END_DOMAIN="nhse-uec-cm-${ENVIRONMENT}-front-end$-{WORKSPACE}.s3.${AWS_REGION}.amazonaws.com"
+  FRONT_END_DOMAIN="nhse-uec-cm-${ENVIRONMENT}-front-end-${WORKSPACE}.s3.${AWS_REGION}.amazonaws.com"
 fi
 
 echo "FRONT_END_DOMAIN: $FRONT_END_DOMAIN"

@@ -73,6 +73,11 @@ jobs:
         run: |
           echo "Bucket: ${BUCKET_NAME}"
 
+      - name: Deploy React App
+        run: |
+          aws s3 sync build/ s3://${{ env.BUCKET_NAME }}/
+        working-directory: src/frontend
+
       - name: Get CloudFront Distribution Id
         run: |
             /bin/bash ./scripts/get-front-end-cloudfront-distribution.sh
@@ -80,8 +85,3 @@ jobs:
       - name: Invalidate CloudFront Distribution
         run: |
             /bin/bash ./scripts/invalidate-cloudfront-cache.sh
-
-      - name: Deploy React App
-        run: |
-          aws s3 sync build/ s3://${{ env.BUCKET_NAME }}/
-        working-directory: src/frontend
