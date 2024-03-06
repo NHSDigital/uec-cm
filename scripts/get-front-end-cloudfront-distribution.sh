@@ -34,4 +34,4 @@ QUERY_COMMAND="DistributionList.Items[?Origins.Items[0].DomainName=='$FRONT_END_
 
 DISTRIBUTION_ID=$(aws cloudfront list-distributions --query "$QUERY_COMMAND")
 echo "DISTRIBUTION_ID: $DISTRIBUTION_ID"
-export $DISTRIBUTION_ID=$DISTRIBUTION_ID
+export DISTRIBUTION_ID=$DISTRIBUTION_ID
