@@ -9,5 +9,6 @@ if [ -z "$DISTRIBUTION_ID" ]; then
   echo "CloudFront cache will not be invalidated"
 else
   echo "Invalidating CloudFront cache"
-  aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*"
+  aws cloudfront list-distributions
+  aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*" --debug
 fi
