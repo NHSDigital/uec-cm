@@ -8,7 +8,7 @@ on:
         required: true
         type: string
       deployment_workspace:
-        description: 'Name of the terraform workspace to spin up the service infrastructure'
+        description: "Name of the terraform workspace to spin up the service infrastructure"
         required: false
         type: string
 
@@ -26,7 +26,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: "16"
 
       - name: Install dependencies
         run: npm ci
@@ -80,9 +80,9 @@ jobs:
 
       - name: Get CloudFront Distribution ID
         id: get_id
-        run: echo "::set-output name=distribution_id::$(./scripts/get-front-end-cloudfront-distribution.sh)"
+        run: echo "distribution_id=$(/bin/bash ./scripts/get-front-end-cloudfront-distribution.sh)" >> $GITHUB_ENV
 
       - name: Invalidate CloudFront Cache
-        run:  /bin/bash ./scripts/invalidate-cloudfront-cache.sh
+        run: /bin/bash ./scripts/invalidate-cloudfront-cache.sh
         env:
           DISTRIBUTION_ID: ${{ steps.get_id.outputs.distribution_id }}
