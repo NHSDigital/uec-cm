@@ -11,6 +11,6 @@ else
   echo "Invalidating CloudFront cache"
 
   DISTRIBUTION_ID=$(echo "$DISTRIBUTION_ID" | sed 's/"//g')
-  
+
   aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
 fi
