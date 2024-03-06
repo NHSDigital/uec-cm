@@ -1,14 +1,13 @@
 #! /bin/bash
 
-# This script invalidates the cloud front cache
-#
+# This script invalidates the CloudFront cache
 
 echo "DISTRIBUTION_ID: $DISTRIBUTION_ID"
 
 if [ -z "$DISTRIBUTION_ID" ]; then
   echo "DISTRIBUTION_ID is not set."
-  echo "Cloudfront cache will not be invalidated"
+  echo "CloudFront cache will not be invalidated"
 else
-  echo "Invalidating Cloudfront cache"
-  aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths /*
+  echo "Invalidating CloudFront cache"
+  aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*"
 fi
