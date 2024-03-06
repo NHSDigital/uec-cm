@@ -9,6 +9,10 @@ if [ -z "$DISTRIBUTION_ID" ]; then
   echo "CloudFront cache will not be invalidated"
 else
   echo "Invalidating CloudFront cache"
-  aws cloudfront get-distribution --id $DISTRIBUTION_ID
+
+  # Remove double quotes from DISTRIBUTION_ID if they exist
+  DISTRIBUTION_ID=$(echo "$DISTRIBUTION_ID" | sed 's/"//g')
+
+  aws cloudfront get-distribution --id $DISTRIBUTION_ID --debug
   aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*" --debug
 fi
