@@ -58,7 +58,6 @@ jobs:
           ENVIRONMENT=${{ inputs.github_environment }}
           WORKSPACE=${{ inputs.deployment_workspace }}
 
-          echo "REPO_NAME=${REPO_NAME}" >> $GITHUB_ENV
           echo "ENVIRONMENT=${ENVIRONMENT}" >> $GITHUB_ENV
           echo "WORKSPACE=${WORKSPACE}" >> $GITHUB_ENV
 

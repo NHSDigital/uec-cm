@@ -3,15 +3,9 @@
 # This script gets the cloud front distribution id for the front end
 #
 
-echo "REPO_NAME: $REPO_NAME"
 echo "ENVIRONMENT: $ENVIRONMENT"
 echo "WORKSPACE: $WORKSPACE"
 echo "AWS_REGION: $AWS_REGION"
-
-if [ -z "$REPO_NAME" ]; then
-  echo "Set the REPO_NAME environment variable"
-  exit 1;
-fi
 
 if [ -z "$ENVIRONMENT" ]; then
   echo "Set the ENVIRONMENT environment variable"
@@ -31,7 +25,7 @@ fi
 if [ "$WORKSPACE" = "default" ]; then
   FRONT_END_DOMAIN="nhse-uec-cm-${ENVIRONMENT}-front-end.s3.${AWS_REGION}.amazonaws.com"
 else
-  FRONT_END_DOMAIN="nhse-uec-cm-${ENVIRONMENT}-front-end${REPO_NAME}.s3.${AWS_REGION}.amazonaws.com"
+  FRONT_END_DOMAIN="nhse-uec-cm-${ENVIRONMENT}-front-end$-{WORKSPACE}.s3.${AWS_REGION}.amazonaws.com"
 fi
 
 echo "FRONT_END_DOMAIN: $FRONT_END_DOMAIN"
