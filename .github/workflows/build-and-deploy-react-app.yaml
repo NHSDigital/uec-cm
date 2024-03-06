@@ -78,6 +78,10 @@ jobs:
         run: |
             /bin/bash ./scripts/get-front-end-cloudfront-distribution.sh
 
+      - name: Invalidate CloudFront Distribution
+        run: |
+            /bin/bash ./scripts/invalidate-cloudfront-cache.sh
+
       - name: Deploy React App
         run: |
           aws s3 sync build/ s3://${{ env.BUCKET_NAME }}/
