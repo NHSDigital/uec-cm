@@ -80,8 +80,7 @@ jobs:
 
       - name: Get CloudFront Distribution Id
         run: |
-            DISTRIBUTION_ID=$(/bin/bash ./scripts/get-front-end-cloudfront-distribution.sh)
-            echo "DISTRIBUTION_ID =${DISTRIBUTION_ID}" >> $GITHUB_ENV
+            /bin/bash ./scripts/get-front-end-cloudfront-distribution.sh
 
       - name: Invalidate CloudFront Distribution
         run: |
