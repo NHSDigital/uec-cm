@@ -1,6 +1,5 @@
 
 import { expect, Locator, Page } from "@playwright/test";
-// import { pageFixture } from "../../src/hooks/pageFixture";
 
 export default class OrgAddPage {
     readonly page: Page;
