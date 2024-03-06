@@ -78,10 +78,11 @@ jobs:
           aws s3 sync build/ s3://${{ env.BUCKET_NAME }}/
         working-directory: src/frontend
 
-      - name: Get CloudFront Distribution Id
-        run: |
-            /bin/bash ./scripts/get-front-end-cloudfront-distribution.sh
+      - name: Get CloudFront Distribution ID
+        id: get_id
+        run: echo "::set-output name=distribution_id::$(./scripts/get-front-end-cloudfront-distribution.sh)"
 
-      - name: Invalidate CloudFront Distribution
-        run: |
-            /bin/bash ./scripts/invalidate-cloudfront-cache.sh
+      - name: Invalidate CloudFront Cache
+        run:  /bin/bash ./scripts/invalidate-cloudfront-cache.sh
+        env:
+          DISTRIBUTION_ID: ${{ steps.get_id.outputs.distribution_id }}
