@@ -6,9 +6,7 @@ import { testPlanFilter } from "allure-playwright/dist/testplan";
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
 require('dotenv').config({ path: `./config/.env.${process.env.test_env}`});
-console.log(process.env.test_env);
 
 /**
  * See https://playwright.dev/docs/test-configuration.

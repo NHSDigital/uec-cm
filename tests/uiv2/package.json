@@ -17,7 +17,6 @@
     "test": "npx playwright test",
     "test:debug": "npx playwright test --debug",
     "test:tagged": "npx cross-env test_env=dev    playwright test --grep @Test ",
-    "test:tagged1": "dotenvx run --env-file=.env. npx playwright test --grep @Test ",
     "allure": "allure generate --single-file -c -o  allure-reports",
     "pretest": "npx ts-node ./utilities/init.ts",
     "filecount": "npx ts-node ./utilities/fileCount.ts"

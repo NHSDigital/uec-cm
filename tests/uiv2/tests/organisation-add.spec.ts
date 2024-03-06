@@ -8,18 +8,11 @@ test.describe('As a user I want to be able to manage organisation data', () => {
 
 test.beforeEach(async ({page}) => {
   await test.step('Navigate to landing page', async () => {
-     console.log('Before tests');
+
     const workspace = process.env.WORKSPACE as string;
     const env = process.env.ENV as string;
     const region = process.env.REGION as string;
-    console.log("env : "+env);
-    console.log ("workspace :" +workspace);
-    console.log ("region :" +region);
-    // const workspace = ''
-    // const env = 'dev'
-    // const region = ''
     const distribution = getCloudFrontUrl(region,env, workspace);
-    console.log(distribution);
     const url = JSON.parse(distribution);
 
     await page.goto("https://"+url.DomainName);
@@ -38,7 +31,7 @@ test.beforeEach(async ({page}) => {
     await orgAddPage.exactTextToExist('Search by either name, postcode or managing organisation.');
     });
 
-  test('Search for an organisation that does not exist allows you to add a new organisation', async () => {
+  test.only('Search for an organisation that does not exist allows you to add a new organisation', async () => {
     await test.step('When I input an organisation that does not exist', async () => {
       await orgAddPage.inputTextInField('name','0');
       await orgAddPage.clickSearchBtn();
@@ -48,6 +41,16 @@ test.beforeEach(async ({page}) => {
       await orgAddPage.addOrgOptionIsSelected();
     });
   });
+
+  test.only('Search etet for an organisation that does not exist allows you to add a new organisation', async () => {
+
+      await orgAddPage.inputTextInField('name','0');
+      await orgAddPage.clickSearchBtn();
+      await orgAddPage.exactTextToExist('No results found');
+      await orgAddPage.addOrgOptionIsSelected();
+
+  });
+
 
 
   test('Search for an existing organisation by name returns a list of matching results', {tag: '@Test'} , async () => {
