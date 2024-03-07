@@ -1,6 +1,7 @@
 import React from 'react';
-import { Card, Col, ChevronRightIcon, Row } from "nhsuk-react-components";
+import { Card, Col, Row } from "nhsuk-react-components";
 import { CardGroupProps } from "./interface";
+import RightChevronIcon from '../images/rightchevron';
 
 const CardGroup: React.FC<CardGroupProps> = ({ cards }) => {
   return (
@@ -25,7 +26,7 @@ const CardGroup: React.FC<CardGroupProps> = ({ cards }) => {
                 </Card.Description>
                 </Col>
                 <Col width="one-quarter">
-                  <ChevronRightIcon />
+                  <RightChevronIcon />
                 </Col>
               </Row>
             </Card.Content>
