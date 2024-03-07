@@ -20,8 +20,8 @@ test.beforeEach(async ({page}) => {
   await test.step('Add an organisation', async () => {
     orgAddPage = new OrgAddPage(page);
     await orgAddPage.clickAddOrg()
-  });
-});
+});  });
+
 
 
 
@@ -31,7 +31,7 @@ test.beforeEach(async ({page}) => {
     await orgAddPage.exactTextToExist('Search by either name, postcode or managing organisation.');
     });
 
-  test.only('Search for an organisation that does not exist allows you to add a new organisation', async () => {
+  test('Search for an organisation that does not exist allows you to add a new organisation', async () => {
     await test.step('When I input an organisation that does not exist', async () => {
       await orgAddPage.inputTextInField('name','0');
       await orgAddPage.clickSearchBtn();
@@ -42,7 +42,7 @@ test.beforeEach(async ({page}) => {
     });
   });
 
-  test.only('Search etet for an organisation that does not exist allows you to add a new organisation', async () => {
+  test('Search etet for an organisation that does not exist allows you to add a new organisation', async () => {
 
       await orgAddPage.inputTextInField('name','0');
       await orgAddPage.clickSearchBtn();
@@ -53,7 +53,7 @@ test.beforeEach(async ({page}) => {
 
 
 
-  test('Search for an existing organisation by name returns a list of matching results', {tag: '@Test'} , async () => {
+  test('Search for an existing organisation by name returns a list of matching results' , async () => {
     await test.step('When I input an organisation that does exist', async () => {
       await orgAddPage.inputTextInField('name','london');
       await orgAddPage.clickSearchBtn();
