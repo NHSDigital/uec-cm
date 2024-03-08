@@ -58,6 +58,9 @@ jobs:
           ENVIRONMENT=${{ inputs.github_environment }}
           WORKSPACE=${{ inputs.deployment_workspace }}
 
+          echo "ENVIRONMENT=${ENVIRONMENT}" >> $GITHUB_ENV
+          echo "WORKSPACE=${WORKSPACE}" >> $GITHUB_ENV
+
           if [[ "${WORKSPACE}" == "default" ]]; then
             BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end"
           else
@@ -74,3 +77,11 @@ jobs:
         run: |
           aws s3 sync build/ s3://${{ env.BUCKET_NAME }}/
         working-directory: src/frontend
+
+      - name: Get CloudFront Distribution ID
+        run: |
+          echo "DISTRIBUTION_ID=$(/bin/bash ./scripts/get-front-end-cloudfront-distribution.sh)" >> $GITHUB_ENV
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          /bin/bash ./scripts/invalidate-cloudfront-cache.sh
