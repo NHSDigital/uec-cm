@@ -14,7 +14,7 @@ const getLocationsMock = (name: string, postcode: string, organisation: string):
 
         let counter = 1;
         const generateLocationData = (length: number) => Array.from({ length }, () =>
-            ({ ...singleLocationData, name: `Nhs Location ${counter++}` })
+            ({ ...singleLocationData, name: `Mock Location ${counter++}` })
         );
 
         if (nameNumber && nameNumber < 1000) {
