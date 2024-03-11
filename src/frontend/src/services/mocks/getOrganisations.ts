@@ -14,7 +14,7 @@ const getOrganisationsMock = (name: string, postcode: string, organisation: stri
 
         let counter = 1;
         const generateOrgData = (length: number) => Array.from({ length }, () =>
-            ({ ...singleOrgData, name: `Nhs Org ${counter++}` })
+            ({ ...singleOrgData, name: `Mock Organisation ${counter++}` })
         );
 
         if (nameNumber && nameNumber < 1000) {

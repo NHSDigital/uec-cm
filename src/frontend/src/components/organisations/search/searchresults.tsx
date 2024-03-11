@@ -1,9 +1,9 @@
 import React from 'react';
 import { Label } from 'nhsuk-react-components';
-import { Organisation } from '../../../services/api/interface';
+import { LocationOrganisation } from '../../../services/api/interface';
 
 export interface SearchResultsProps {
-    results: Organisation[];
+    results: LocationOrganisation[];
 }
 
 const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
