@@ -1,5 +1,6 @@
 import { getApi } from "../controller";
 import LocalMockApi from "../localmockapi";
+import RealApi from "../realapi";
 import RemoteMockApi from "../remotemockapi";
 
 describe('getApi', () => {
@@ -39,5 +40,11 @@ describe('getApi', () => {
     process.env.REACT_APP_API_MODE = 'REMOTEMOCK';
     const result = getApi();
     expect(result).toEqual(RemoteMockApi);
+  });
+
+  it('should return RealApi when URL parameter is "real"', () => {
+    window.location.href = 'http://localhost:3000?api=real';
+    const api = getApi();
+    expect(api).toBe(RealApi);
   });
 });

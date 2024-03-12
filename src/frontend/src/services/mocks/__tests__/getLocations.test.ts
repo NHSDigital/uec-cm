@@ -1,5 +1,6 @@
 import getLocationsMock from "../getLocations";
 import defaultLocationData from "../../../mockdata/getlocations/default.json";
+import royalLocationData from "../../../mockdata/getlocations/royal.json";
 import { Location } from "../../api/interface";
 
 describe('getLocationsMock', () => {
@@ -50,6 +51,16 @@ describe('getLocationsMock', () => {
 
     return getLocationsMock(name, postcode, organisation).then((result: Location[]) => {
       expect(result.length).toBe(500);
+    });
+  });
+
+  it('should return royalLocationData when name is "royal"', () => {
+    const name = "royal";
+    const postcode = "test";
+    const organisation = "test";
+
+    return getLocationsMock(name, postcode, organisation).then((result: Location[]) => {
+      expect(result).toEqual(royalLocationData);
     });
   });
 });

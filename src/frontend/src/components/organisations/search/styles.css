@@ -1,0 +1,39 @@
+.organisation-box, .location-box {
+    padding: 4px;
+    color: white;
+    width: 200px;
+    text-align: center;
+}
+
+.organisation-box {
+    background-color: #00a499;
+}
+
+.location-box {
+    background-color: #330072;
+}
+
+.white-on-blue {
+    color: white !important;
+    background-color: #005eb8 !important;
+}
+
+.underlined:hover {
+    text-decoration: underline;
+}
+
+.details {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.details:hover {
+    background-color: white;
+}
+
+.add-item-details {
+    display: flex;
+}

@@ -1,5 +1,6 @@
 import getOrganisationsMock from "../getOrganisations";
 import defaultOrganisationData from "../../../mockdata/getorganisations/default.json";
+import royalOrganisationData from "../../../mockdata/getorganisations/royal.json";
 import { Organisation } from "../../api/interface";
 
 describe('getOrganisationsMock', () => {
@@ -50,6 +51,16 @@ describe('getOrganisationsMock', () => {
 
     return getOrganisationsMock(name, postcode, organisation).then((result: Organisation[]) => {
       expect(result.length).toBe(500);
+    });
+  });
+
+  it('should return royalOrganisationData when name is "royal"', () => {
+    const name = "royal";
+    const postcode = "test";
+    const organisation = "test";
+
+    return getOrganisationsMock(name, postcode, organisation).then((result: Organisation[]) => {
+      expect(result).toEqual(royalOrganisationData);
     });
   });
 });

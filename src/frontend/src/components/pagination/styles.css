@@ -1,0 +1,31 @@
+.disabled {
+    color: #aeb7bd;
+}
+
+.centered-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination {
+    display: flex;
+    list-style-type: none;
+    width:"100%";
+    overflow:"hidden"
+}
+
+.pagination-item--previous {
+    flex: 1;
+    float: left;
+}
+
+.pagination-item--next {
+    flex: 1;
+    float: left;
+}
+
+.pagination-results {
+    flex: 1;
+    float: center;
+}

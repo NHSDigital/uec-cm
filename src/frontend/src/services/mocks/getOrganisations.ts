@@ -2,6 +2,7 @@ import { Organisation } from "../api/interface";
 import { getStringNumericValue } from "../utilities";
 import defaultOrgData from '../../mockdata/getorganisations/default.json';
 import singleOrgData from '../../mockdata/getorganisations/single.json';
+import royalOrgData from '../../mockdata/getorganisations/royal.json'
 
 const getOrganisationsMock = (name: string, postcode: string, organisation: string): Promise<Organisation[]> => {
     let results: Organisation[] = [];
@@ -21,6 +22,8 @@ const getOrganisationsMock = (name: string, postcode: string, organisation: stri
             results = generateOrgData(nameNumber);
         } else if (orgNumber && orgNumber < 1000) {
             results = generateOrgData(orgNumber);
+        } else if (name === "royal" || organisation === "royal" || postcode.toUpperCase() === "NG11 2BB") {
+            results = royalOrgData;
         } else {
             results = defaultOrgData;
         }
