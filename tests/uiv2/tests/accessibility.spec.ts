@@ -1,6 +1,5 @@
 import { test , expect} from '@playwright/test';
 import OrgAddPage from '../pages/organisation-add-page';
-import { getCloudFrontUrl } from "../utilities/cloudFront";
 import Accessibility from '../utilities/accessibility';
 
 let orgAddPage: OrgAddPage;
@@ -12,12 +11,7 @@ test.describe('As a user I want to be able to check the Organisation pages for a
   test.beforeEach(async ({page}, testInfo) => {
     await test.step('Navigate to the accessibility test page', async () => {
       accessibility = new Accessibility(page);
-      const workspace = process.env.WORKSPACE as string;
-      const env = process.env.ENV as string;
-      const region = process.env.REGION as string;
-      const distribution = getCloudFrontUrl(region,env, workspace);
-      const url = JSON.parse(distribution);
-      await page.goto("https://"+url.DomainName+"/test");
+      await page.goto('/test');
     });
   });
 

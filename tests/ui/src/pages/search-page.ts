@@ -27,7 +27,7 @@ export default class SearchPage extends Accessibility {
   }
 
   async expectAccessibilityCheckFails(partFileName: string) {
-    const fileCount = await countFilesInDirectory("./accessibility-reports/artifacts", partFileName);
+    const fileCount = await countFilesInDirectory("../../accessibility-reports", partFileName);
     return fileCount
   }
 }
