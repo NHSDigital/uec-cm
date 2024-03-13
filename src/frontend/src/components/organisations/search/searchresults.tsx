@@ -25,88 +25,98 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, handleRowSelecte
         handleNextPage,
     } = usePagination(results, itemsPerPage);
 
+    const handleKeyDown = (event: React.KeyboardEvent, row: LocationOrganisation) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            handleRowSelected(row.id, row.entityType);
+        }
+    };
+
     useEffect(() => {
         setFilteredResults(results.slice(firstItemShown - 1, lastItemShown));
     }, [results, firstItemShown, lastItemShown, setFilteredResults]);
 
-    const renderResults = () => {
-        return (
-            <div data-testid='search-results'>
-                <Label isPageHeading={true} size='l'>Search Results</Label>
-                <div className='nhsuk-caption-m nhsuk-u-margin-bottom-4' data-testid='search-results-list'>
-                    The following Organisations or Locations match your search.
+    const EntityTypeBox: React.FC<{ entityType: string | undefined, index: number }> = ({ entityType, index }) => (
+        <Table.Cell data-testid={`search-row-${index}-${entityType}`}>
+            {entityType === 'organisation' && (
+                <div className='organisation-box' data-testid={`search-row-${index}-organisation-box`}>
+                ORGANISATION
                 </div>
+            )}
+            {entityType === 'location' && (
+                <div className='location-box' data-testid={`search-row-${index}-location-box`}>
+                LOCATION
+                </div>
+            )}
+        </Table.Cell>
+    );
 
-                <Table responsive>
-                    <Table.Body data-testid='search-results-table-body'>
-                    {filteredResults.map((row, index) => (
-                        <Table.Row key={index} data-testid={`search-row-${index}`} aria-label={`View details for ${row.name}`}>
-                            <Table.Cell data-testid={`search-row-${index}-${row.entityType}`}>
-                                {row.entityType === 'organisation' && (
-                                    <div className='organisation-box' data-testid={`search-row-${index}-organisation-box`}>
-                                    ORGANISATION
-                                    </div>
-                                )}
-                                {row.entityType === 'location' && (
-                                    <div className='location-box' data-testid={`search-row-${index}-location-box`}>
-                                    LOCATION
-                                    </div>
-                                )}
-                            </Table.Cell>
-                            <Table.Cell data-testid={`search-row-${index}-name`}>
-                                <div
-                                    className="details nhsuk-u-padding-left-4"
-                                    onClick={() => handleRowSelected(row.id, row.entityType)}
-                                    onKeyDown={(event) => { if(event.key === 'Enter' || event.key === ' ') handleRowSelected(row.id, row.entityType); }}
-                                    tabIndex={0}
-                                    role="button"
-                                    aria-label={`Select ${row.name} for details`}
-                                    data-testid={`search-row-${index}-link`}
-                                    >
-                                    <span>
-                                        {row.entityType === 'organisation' && (
-                                            row.name
-                                        )}
+    const TableRow = ({ row, index }: { row: LocationOrganisation; index: number }) => (
+        <Table.Row key={index} data-testid={`search-row-${index}`} aria-label={`View details for ${row.name}`}>
+            <EntityTypeBox entityType={row.entityType} index={index} />
+            <Table.Cell data-testid={`search-row-${index}-name`}>
+                <div
+                    className="details nhsuk-u-padding-left-4"
+                    onClick={() => handleRowSelected(row.id, row.entityType)}
+                    onKeyDown={(event) => handleKeyDown(event, row)}
+                    tabIndex={0}
+                    role="button"
+                    aria-label={`Select ${row.name} for details`}
+                    data-testid={`search-row-${index}-link`}
+                >
+                    <span>
+                        {row.entityType === 'organisation' && (
+                            row.name
+                        )}
 
-                                        {row.entityType === 'location' && (
-                                            `${row.name} - ${row.Address[0].city} ${row.Address[0].postalCode}`
-                                        )}
-                                    </span>
-                                    <span className='nhsuk-u-margin-top-2 nhsuk-u-margin-right-4'>
-                                        <RightChevronIcon />
-                                    </span>
-                                  </div>
-                            </Table.Cell>
-                        </Table.Row>
-                    ))}
-                    </Table.Body>
-                </Table>
+                        {row.entityType === 'location' && (
+                            `${row.name} - ${row.Address[0].city} ${row.Address[0].postalCode}`
+                        )}
+                    </span>
+                    <span className='nhsuk-u-margin-top-2 nhsuk-u-margin-right-4'>
+                        <RightChevronIcon />
+                    </span>
+                </div>
+            </Table.Cell>
+        </Table.Row>
+    );
 
-                {showPagination && (
-                    <div className='nhsuk-u-padding-top-4'>
-                        <Pagination
-                            isFirstPage={isFirstPage}
-                            isLastPage={isLastPage}
-                            handlePreviousPage={handlePreviousPage}
-                            handleNextPage={handleNextPage}
-                            firstItemShown={firstItemShown}
-                            lastItemShown={lastItemShown}
-                            totalResults={results.length}
-                        />
-                    </div>
-                )}
+    return (
+        <div data-testid='search-results'>
+            <Label isPageHeading={true} size='l'>Search Results</Label>
+            <div className='nhsuk-caption-m nhsuk-u-margin-bottom-4' data-testid='search-results-list'>
+                The following Organisations or Locations match your search.
+            </div>
 
-                <div className='nhsuk-u-padding-bottom-8'>
-                    <div className='nhsuk-caption-m nhsuk-u-margin-top-2 nhsuk-u-padding-3 white-on-blue add-item-details'>
-                        <span className='nhsuk-u-padding-right-2'>If the organisation or location you are searching for is not shown, you can</span>
-                        <a href='/organisations/add' data-testid='add-new-item-link' className='nhsuk-caption-m white-on-blue underlined'>add a new item</a>
-                    </div>
+            <Table responsive>
+                <Table.Body data-testid='search-results-table-body'>
+                {filteredResults.map((row, index) => (
+                    <TableRow key={index} row={row} index={index} />
+                ))}
+                </Table.Body>
+            </Table>
+
+            {showPagination && (
+                <div className='nhsuk-u-padding-top-4'>
+                    <Pagination
+                        isFirstPage={isFirstPage}
+                        isLastPage={isLastPage}
+                        handlePreviousPage={handlePreviousPage}
+                        handleNextPage={handleNextPage}
+                        firstItemShown={firstItemShown}
+                        lastItemShown={lastItemShown}
+                        totalResults={results.length}
+                    />
+                </div>
+            )}
+
+            <div className='nhsuk-u-padding-bottom-8'>
+                <div className='nhsuk-caption-m nhsuk-u-margin-top-2 nhsuk-u-padding-3 white-on-blue add-item-details'>
+                    <span className='nhsuk-u-padding-right-2'>If the organisation or location you are searching for is not shown, you can</span>
+                    <a href='/organisations/add' data-testid='add-new-item-link' className='nhsuk-caption-m white-on-blue underlined'>add a new item</a>
                 </div>
             </div>
-        );
-    };
-
-    return renderResults();
+        </div>
+    );
 };
 
 export default SearchResults;
