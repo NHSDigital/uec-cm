@@ -36,15 +36,15 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, handleRowSelecte
     }, [results, firstItemShown, lastItemShown, setFilteredResults]);
 
     const EntityTypeBox: React.FC<{ entityType: string | undefined, index: number }> = ({ entityType, index }) => (
-        <Table.Cell data-testid={`search-row-${index}-${entityType}`}>
+        <Table.Cell data-testid={`search-row-${index}-${entityType}`} className='first-column'>
             {entityType === 'organisation' && (
                 <div className='organisation-box' data-testid={`search-row-${index}-organisation-box`}>
-                ORGANISATION
+                    ORGANISATION
                 </div>
             )}
             {entityType === 'location' && (
                 <div className='location-box' data-testid={`search-row-${index}-location-box`}>
-                LOCATION
+                    LOCATION
                 </div>
             )}
         </Table.Cell>
@@ -53,7 +53,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, handleRowSelecte
     const TableRow = ({ row, index }: { row: LocationOrganisation; index: number }) => (
         <Table.Row key={index} data-testid={`search-row-${index}`} aria-label={`View details for ${row.name}`}>
             <EntityTypeBox entityType={row.entityType} index={index} />
-            <Table.Cell data-testid={`search-row-${index}-name`}>
+            <Table.Cell data-testid={`search-row-${index}-name`} className='second-column'>
                 <div
                     className="details nhsuk-u-padding-left-4"
                     onClick={() => handleRowSelected(row.id, row.entityType)}

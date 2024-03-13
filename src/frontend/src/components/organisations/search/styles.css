@@ -1,7 +1,7 @@
 .organisation-box, .location-box {
     padding: 4px;
     color: white;
-    width: 200px;
+    width: 170px;
     text-align: center;
 }
 
@@ -26,7 +26,7 @@
     cursor: pointer;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
 }
 
@@ -36,4 +36,13 @@
 
 .add-item-details {
     display: flex;
+}
+
+.first-column {
+    white-space: nowrap;
+    padding: 8px;
+}
+.second-column {
+    width: 100%;
+    padding: 8px;
 }
