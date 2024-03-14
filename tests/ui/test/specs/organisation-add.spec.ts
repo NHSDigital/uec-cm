@@ -15,7 +15,7 @@ test.describe('As a user I want to be able to manage organisation data', async (
   });
 
 
-  test.only('Confirm on organisation page',async () => {
+  test('Confirm on organisation page',async () => {
     await expect(organisationsPage.searchInstructionsAreReturned()).toBeVisible();
     await expect(organisationsPage.searchInstructionsAreReturned()).toContainText('Search by either name, postcode or managing organisation.');
     await expect(organisationsPage.getText('Organisation search')).toBeVisible();
