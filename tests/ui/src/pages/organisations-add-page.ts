@@ -1,10 +1,9 @@
 
 import { Locator, Page } from "@playwright/test";
-import { pageFixture } from "../../src/hooks/pageFixture";
 
 export default class OrganisationsPage {
-  constructor(page: Page) {
-    pageFixture.page = page;
+  constructor(readonly page: Page) {
+    this.page = page;
   }
 
   static readonly add = 'add-card-link'
@@ -17,49 +16,54 @@ export default class OrganisationsPage {
   static readonly inputField = (field: string) => `${field}-input`
 
   // Getters
+
   getOrgErrorSummaryLink(type: string): Locator {
-    return pageFixture.page.getByTestId(OrganisationsPage.orgErrorSummaryLink(type));
+    return this.page.getByTestId(OrganisationsPage.orgErrorSummaryLink(type));
   }
 
   getOrgErrorSummary(type: string): Locator {
-    return pageFixture.page.getByTestId(OrganisationsPage.orgErrorSummary(type));
+    return this.page.getByTestId(OrganisationsPage.orgErrorSummary(type));
   }
 
   getOrgInputField(type: string): Locator {
-    return pageFixture.page.getByTestId(OrganisationsPage.inputField(type));
+    return this.page.getByTestId(OrganisationsPage.inputField(type));
   }
 
   getFieldErrorMessage(field: string): Locator {
-    return pageFixture.page.getByTestId(OrganisationsPage.fieldError(field));
+    return this.page.getByTestId(OrganisationsPage.fieldError(field));
   }
 
   getFieldError(field: string): Locator {
-    return pageFixture.page.locator(OrganisationsPage.fieldError(field));
+    return this.page.locator(OrganisationsPage.fieldError(field));
   }
 
   searchInstructionsAreReturned(): Locator {
-    return pageFixture.page.getByTestId(OrganisationsPage.searchInstructions);
+    return this.page.getByTestId(OrganisationsPage.searchInstructions);
   }
 
   errorMessage(text: string): Locator {
-    return pageFixture.page.getByText(text);
+    return this.page.getByText(text);
   }
 
   addOrganisationOptionIsSelected(): Locator {
-    return pageFixture.page.getByTestId(OrganisationsPage.orgAddNewOption);
+    return this.page.getByTestId(OrganisationsPage.orgAddNewOption);
+  }
+
+  getText(text: string): Locator {
+    return this.page.getByText(text);
   }
 
   // Methods
   async clickAdd() {
-    await pageFixture.page.getByTestId(OrganisationsPage.add).click();
+    await this.page.getByTestId(OrganisationsPage.add).click();
   }
 
   async clickOrgAddSearch() {
-    await pageFixture.page.getByTestId(OrganisationsPage.orgAddSearchBtn).click();
+    await this.page.getByTestId(OrganisationsPage.orgAddSearchBtn).click();
   }
 
   async inputTextInField(field: string, text: string) {
-    await pageFixture.page.getByTestId(OrganisationsPage.inputField(field)).fill(text);
+    await this.page.getByTestId(OrganisationsPage.inputField(field)).fill(text);
   }
 
   async clickOrgInputField(type: string) {

@@ -9,5 +9,5 @@ try {;
   fs.emptyDir("accessibility-reports");
 
 } catch (error) {
-  console.log("Folder not yet created!" +error);
+  console.log("Folder not yet created!" + error);
 }

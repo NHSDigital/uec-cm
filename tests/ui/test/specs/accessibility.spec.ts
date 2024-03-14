@@ -1,8 +1,9 @@
 import { test , expect} from '@playwright/test';
-import OrgAddPage from '../pages/organisation-add-page';
-import Accessibility from '../utilities/accessibility';
+import Accessibility from '../../src/utilities/accessibility';
+import OrganisationsPage from '../../src/pages/organisations-add-page';
+// import { setWorkspace } from '../../src/utilities/helper';
 
-let orgAddPage: OrgAddPage;
+let organisationsPage: OrganisationsPage;
 let accessibility: Accessibility;
 
 
@@ -15,8 +16,7 @@ test.describe('As a user I want to be able to check the Organisation pages for a
     });
   });
 
-  test('The accessibility tests run and the test page fails',{tag: "@Test"} , async ({page}, testInfo) => {
-
+  test('The accessibility tests run and the test page fails',  async ({page}, testInfo) => {
     await test.step('The search instructions are displayed on the page', async () => {
       await expect(page.getByRole('link', { name: 'Capacity management' })).toBeVisible;
         });
@@ -27,4 +27,5 @@ test.describe('As a user I want to be able to check the Organisation pages for a
       expect(reportCount).toBeGreaterThan(0);
     });
   });
+
 });

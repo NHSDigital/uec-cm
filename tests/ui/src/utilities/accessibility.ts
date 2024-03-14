@@ -1,17 +1,18 @@
 import { Page } from 'playwright';
-import {pageFixture} from "../../src/hooks/pageFixture";
+import countFilesInDirectory from "../utilities/fileCount"
 import { AxeBuilder } from '@axe-core/playwright';
 import { createHtmlReport }  from 'axe-html-reporter';
 
 export default class Accessibility {
+  protected page: Page;
 
-  constructor(page: Page) {
-    pageFixture.page = page;
+  constructor(page: Page){
+    this.page = page;
   }
 
   async runAxeCheck(testId: string, maxErrors = 0)
 
-  {const accessibilityScanResults = await new AxeBuilder({ page: pageFixture.page }
+  {const accessibilityScanResults = await new AxeBuilder({page: this.page }
   ).analyze();
 
 
@@ -37,4 +38,10 @@ export default class Accessibility {
     return accessibilityScanResults;
   }
 }
+
+async expectAccessibilityCheckFails(partFileName: string) {
+  const fileCount = await countFilesInDirectory("./accessibility-reports/artifacts",partFileName);
+  return fileCount
+}
+
 }

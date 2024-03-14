@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 import { testPlanFilter } from "allure-playwright/dist/testplan";
-
+import { getBaseURL } from './utilities/helper';
 
 /**
  * Read environment variables from file.
@@ -29,7 +29,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: '',
+    baseURL: `https://${getBaseURL().DomainName}`,
     //Capture screenshot after each test failure
     screenshot: 'only-on-failure',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
