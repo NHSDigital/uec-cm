@@ -16,6 +16,7 @@ export default class OrganisationsPage {
   static readonly inputField = (field: string) => `${field}-input`
 
   // Getters
+
   getOrgErrorSummaryLink(type: string): Locator {
     return this.page.getByTestId(OrganisationsPage.orgErrorSummaryLink(type));
   }
@@ -46,6 +47,10 @@ export default class OrganisationsPage {
 
   addOrganisationOptionIsSelected(): Locator {
     return this.page.getByTestId(OrganisationsPage.orgAddNewOption);
+  }
+
+  getText(text: string): Locator {
+    return this.page.getByText(text);
   }
 
   // Methods

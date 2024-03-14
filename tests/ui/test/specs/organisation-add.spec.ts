@@ -1,26 +1,26 @@
 import { test, expect } from '@playwright/test';
 import OrganisationsPage from '../../src/pages/organisations-add-page';
-import SearchPage from '../../src/pages/search-page';
 
 let organisationsPage: OrganisationsPage;
-let searchPage: SearchPage;
 
 test.describe('As a user I want to be able to manage organisation data', async () => {
   test.beforeEach(async ({ page }) => {
     await test.step('Navigate to landing page', async () => {
       await page.goto('/');
-
+    });
+    await test.step('Navigate to Add Organisations page', async () => {
       organisationsPage = new OrganisationsPage(page);
-      searchPage = new SearchPage(page);
       await organisationsPage.clickAdd();
     });
   });
 
-  test('Navigate to add organisation page', async () => {
-    await expect(organisationsPage.searchInstructionsAreReturned()).toContainText('Search by either name, postcode or managing organisation.');
+
+  test.only('Confirm on organisation page',async () => {
     await expect(organisationsPage.searchInstructionsAreReturned()).toBeVisible();
-    await expect(searchPage.textIsReturned('Organisation search')).toBeVisible();
+    await expect(organisationsPage.searchInstructionsAreReturned()).toContainText('Search by either name, postcode or managing organisation.');
+    await expect(organisationsPage.getText('Organisation search')).toBeVisible();
   });
+
 
   test('Search for an organisation name', async () => {
     await test.step('Given I enter "0" in the "name" field', async () => {

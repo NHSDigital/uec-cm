@@ -18,7 +18,9 @@
   "scripts": {
     "pretest": "npx ts-node src/utilities/init.ts",
     "test": "npx playwright test",
-    "test:debug": "npm run test -- --debug",
+    "test:debug": "npx playwright test --debug",
+    "test:tagged": "npx cross-env test_env=dev    playwright test --grep @Test ",
+    "test_pipeline": "npx playwright test",
     "allure": "allure generate --single-file -c -o  allure-reports",
     "filecount": "npx ts-node ./utilities/fileCount.ts",
     "axe_report": "cat ./accessibility-reports/artifacts/*.html >> ./accessibility-reports/artifacts/FinalAccessibilityReport.html"
