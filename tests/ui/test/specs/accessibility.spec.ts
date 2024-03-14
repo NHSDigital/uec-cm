@@ -1,9 +1,8 @@
 import { test , expect} from '@playwright/test';
 import Accessibility from '../../src/utilities/accessibility';
-import OrganisationsPage from '../../src/pages/organisations-add-page';
-// import { setWorkspace } from '../../src/utilities/helper';
+import OrgAddPage from '../../src/pages/organisation-add-page';
 
-let organisationsPage: OrganisationsPage;
+let orgAddPage: OrgAddPage;
 let accessibility: Accessibility;
 
 
