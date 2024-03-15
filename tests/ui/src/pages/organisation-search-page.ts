@@ -15,11 +15,14 @@ static readonly searchButton= 'search-button'
 static readonly nextResultsSet = 'next-link'
 static readonly previousResultsSet = 'previous-link'
 static readonly searchResultsText = 'search-results-list'
-static readonly searchResultsTable = 'search-results-table'
+static readonly searchResultsTable = 'search-results-table-body'
 static readonly searchResultsPaginationDisplay = 'results-info'
+static readonly pagination = 'pagination'
 static readonly addNewItemLink = 'add-new-item-link'
+static readonly orgAddNewOption = 'yes-radio'
 static readonly searchResultItem = (number: string) => `search-row-${number}-link`
 static readonly searchResultType = (number: string, type: string) => `search-row-${number}-${type}-box`
+
 
 // Getters
 
@@ -27,7 +30,7 @@ searchInputField(): Locator {
   return this.page.getByTestId(OrgSearchPage.searchInputField);
 }
 
-searchInputFieldError(): Locator {
+getSearchInputFieldError(): Locator {
   return this.page.getByTestId(OrgSearchPage.searchInputFieldError);
 }
 
@@ -42,6 +45,31 @@ getSearchResultItem(number: string): Locator {
 getSearchResultType(number: string, text: string): Locator {
   return this.page.getByTestId(OrgSearchPage.searchResultType(number, text));
 }
+
+getPagination(): Locator {
+  return this.page.getByTestId(OrgSearchPage.pagination);
+}
+
+getSearchResultsPaginationDisplay(): Locator {
+  return this.page.getByTestId(OrgSearchPage.searchResultsPaginationDisplay);
+}
+
+getNextResultsSet(): Locator {
+  return this.page.getByTestId(OrgSearchPage.nextResultsSet);
+}
+
+getPreviousResultsSet(): Locator {
+  return this.page.getByTestId(OrgSearchPage.previousResultsSet);
+}
+
+errorMessage(text: string): Locator {
+  return this.page.getByText(text);
+}
+
+addOrganisationOptionIsSelected(): Locator {
+  return this.page.getByTestId(OrgSearchPage.orgAddNewOption);
+}
+
 
 // Methods
 async clickSearch() {
@@ -60,4 +88,8 @@ async clickPrevious() {
   await this.page.getByTestId(OrgSearchPage.previousResultsSet).click();
   }
 
+  async getResultsTableRowCount() {
+    const table = await this.page.getByTestId(OrgSearchPage.searchResultsTable);
+    return await table.locator('tr').count();;
+    }
 }
