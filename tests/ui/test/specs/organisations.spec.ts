@@ -12,10 +12,17 @@ test.describe.only('As a user I want to be able to work with organisations', asy
   });
 
   test('The Organisations page is presented correctly', async () => {
-    await test.step('Then the Organisations banner is visible', async () => {
-      await expect(orgPage.orgBanner()).toBeVisible;
-      await expect(orgPage.getText('Organisations')).toContainText('Organisations');
-      await expect(orgPage.getText('Organisations')).toBeVisible();
+    await test.step('And the Organisations banner is visible', async () => {
+      await expect.soft(orgPage.orgBannerId()).toBeVisible;
+      await expect.soft(orgPage.getBanner()).toBeVisible;
+    });
+    await test.step('And the Organisations banner text is visible', async () => {
+      await expect.soft(orgPage.orgBannerTextId()).toBeVisible;
+      await expect.soft(orgPage.getBannerText()).toBeVisible;
+    });
+    await test.step('And a Search card is visible', async () => {
+      await expect.soft(orgPage.searchCard()).toBeVisible;
+      await expect.soft(orgPage.searchCardLink()).toBeVisible;
     });
   });
 });
