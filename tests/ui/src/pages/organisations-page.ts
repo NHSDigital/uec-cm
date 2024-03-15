@@ -42,7 +42,7 @@ export default class OrgPage {
 
 
   // Methods
-  async clickSearch() {
-  await this.page.getByTestId(OrgPage.search).click();
+  async clickGoToSearch() {
+  await this.page.getByTestId(OrgPage.searchCard).click();
   }
 }

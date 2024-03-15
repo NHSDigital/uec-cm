@@ -18,7 +18,7 @@
   "scripts": {
     "pretest": "npx ts-node src/utilities/init.ts",
     "test": "npx playwright test",
-    "test:debug": "npx playwright test --debug",
+    "test:debug": "npx cross-env test_env=dev npx playwright test --debug",
     "test:test_env": "npx cross-env test_env=dev playwright test",
     "test:tagged": "npx cross-env test_env=dev playwright test --grep @Test ",
     "test_pipeline": "npx playwright test",
