@@ -28,7 +28,7 @@ const Pagination: React.FC<PaginationProps> = (
     nextPageLabel = 'Next',
 }) => {
     return (
-        <nav role="navigation" aria-label="Pagination" data-testid='pagination'>
+        <nav aria-label="Search Results Pagination" data-testid='pagination'>
             <ul className='pagination'>
                 <li className="pagination-item--previous">
                     <PreviousPageLink

@@ -1,12 +1,12 @@
 .organisation-box, .location-box {
     padding: 4px;
     color: white;
-    width: 170px;
+    width: 190px;
     text-align: center;
 }
 
 .organisation-box {
-    background-color: #00a499;
+    background-color: #000000;
 }
 
 .location-box {
@@ -40,9 +40,12 @@
 
 .first-column {
     white-space: nowrap;
-    padding: 8px;
+    padding-top: 8px;
+    padding-bottom: 2px;
 }
+
 .second-column {
     width: 100%;
-    padding: 8px;
+    padding-top: 8px;
+    padding-bottom: 2px;
 }
