@@ -51,6 +51,7 @@ coverage.xml
 
 # Tests
 tests/*/reports/*
+tests/*/test-results/*
 tests/*/playwright-report/*
 tests/*/node_modules/
 tests/*/playwright/.cache/
