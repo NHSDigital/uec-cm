@@ -4,42 +4,34 @@ import royalLocationData from "../../../mockdata/getlocations/royal.json";
 import { Location } from "../../api/interface";
 
 describe('getLocationsMock', () => {
-  it('should return an empty array when name is "0"', () => {
-    const name = "0";
-    const postcode = "";
-    const organisation = "";
+  it('should return an empty array when name is "000"', () => {
+    const name = "000";
 
-    return getLocationsMock(name, postcode, organisation).then((result: Location[]) => {
+    return getLocationsMock(name, '', '').then((result: Location[]) => {
       expect(result).toEqual([]);
     });
   });
 
   it('should return an empty array when post code is NG11 1AA', () => {
-    const name = "";
-    const postcode = "NG11 1AA";
-    const organisation = "";
+    const name = "NG11 1AA";
 
-    return getLocationsMock(name, postcode, organisation).then((result: Location[]) => {
+    return getLocationsMock(name, '', '').then((result: Location[]) => {
       expect(result).toEqual([]);
     });
   });
 
-  it('should return defaultLocationData when name, organisation and postcode are not "0"', () => {
+  it('should return defaultLocationData when name, organisation and postcode are not "000"', () => {
     const name = "test";
-    const postcode = "test";
-    const organisation = "test";
 
-    return getLocationsMock(name, postcode, organisation).then((result: Location[]) => {
+    return getLocationsMock(name, '', '').then((result: Location[]) => {
       expect(result).toEqual(defaultLocationData);
     });
   });
 
   it('should return an array of Location objects with length equal to 400 when name is "400"', () => {
     const name = "400";
-    const postcode = "test";
-    const organisation = "test";
 
-    return getLocationsMock(name, postcode, organisation).then((result: Location[]) => {
+    return getLocationsMock(name, '', '').then((result: Location[]) => {
       expect(result.length).toBe(400);
     });
   });
