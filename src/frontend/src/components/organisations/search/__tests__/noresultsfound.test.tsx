@@ -42,4 +42,15 @@ describe('NoResultsFound', () => {
     expect(radioYes).not.toBeChecked();
     expect(radioNo).toBeChecked();
   });
+
+  it('should blur on next button click', () => {
+      const blurSpy = jest.spyOn(HTMLElement.prototype, 'blur');
+      const nextButton = screen.getByTestId('next-button');
+
+      userEvent.click(nextButton);
+
+      expect(blurSpy).toHaveBeenCalled();
+
+      blurSpy.mockRestore();
+  });
 });

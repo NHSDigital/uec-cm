@@ -1,0 +1,51 @@
+.organisation-box, .location-box {
+    padding: 4px;
+    color: white;
+    width: 190px;
+    text-align: center;
+}
+
+.organisation-box {
+    background-color: #000000;
+}
+
+.location-box {
+    background-color: #330072;
+}
+
+.white-on-blue {
+    color: white !important;
+    background-color: #005eb8 !important;
+}
+
+.underlined:hover {
+    text-decoration: underline;
+}
+
+.details {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.details:hover {
+    background-color: white;
+}
+
+.add-item-details {
+    display: flex;
+}
+
+.first-column {
+    white-space: nowrap;
+    padding-top: 8px;
+    padding-bottom: 2px;
+}
+
+.second-column {
+    width: 100%;
+    padding-top: 8px;
+    padding-bottom: 2px;
+}

@@ -2,6 +2,7 @@ import { Location } from "../api/interface";
 import { getStringNumericValue } from "../utilities";
 import defaultLocationData from '../../mockdata/getlocations/default.json'
 import singleLocationData from '../../mockdata/getlocations/single.json'
+import royalLocationData from '../../mockdata/getlocations/royal.json'
 
 const getLocationsMock = (name: string, postcode: string, organisation: string): Promise<Location[]> => {
     let results: Location[] = [];
@@ -21,6 +22,8 @@ const getLocationsMock = (name: string, postcode: string, organisation: string):
             results = generateLocationData(nameNumber);
         } else if (orgNumber && orgNumber < 1000) {
             results = generateLocationData(orgNumber);
+        } else if (name === "royal" || organisation === "royal" || postcode.toUpperCase() === "NG11 2BB") {
+            results = royalLocationData;
         } else {
             results = defaultLocationData;
         }

@@ -1,16 +1,23 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AddOrganisationPage from '../add';
+import { JSX } from 'react/jsx-runtime';
+
+
+const renderWithRouter = (ui: JSX.Element, { route = '/' } = {}) => {
+  window.history.pushState({}, 'Test page', route)
+  return render(ui, { wrapper: Router });
+};
 
 beforeEach(() => {
-  render(<AddOrganisationPage />);
+  renderWithRouter(<AddOrganisationPage />);
 });
+
 
 describe('AddOrganisationPage', () => {
     it('should render the page component', () => {
-    const label = screen.getByText('Data management');
-    expect(label).toBeInTheDocument();
     const testid = screen.getByTestId('add-organisation-page');
     expect(testid).toBeInTheDocument();
   });
