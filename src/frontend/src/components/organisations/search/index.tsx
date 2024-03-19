@@ -40,6 +40,7 @@ const OrganisationsSearch: React.FC<OrganisationsSearchProps> = ({ onSearch }) =
                 <Controller
                     name="searchField"
                     control={control}
+                    defaultValue=""
                     render={({ field }) => (
                         <ForwardRefInput
                             {...field}
