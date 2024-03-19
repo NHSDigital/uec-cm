@@ -8,7 +8,7 @@ let orgSearchPage: OrgSearchPage;
 test.describe('As a user I want to be able to search for an organisation', async () => {
   test.beforeEach(async ({ page }) => {
     await test.step('Navigate to landing page', async () => {
-      await page.goto('/organisations/add');
+      await page.goto('/organisations/search');
       orgPage = new OrgPage(page);
       orgSearchPage = new OrgSearchPage(page);
     });
@@ -41,7 +41,7 @@ test.describe('As a user I want to be able to search for an organisation', async
 
   test('The organisation search returns 12 records and displays 10 records on a page one', async () => {
     await test.step('When I search for an organisation that returns 12', async () => {
-      await orgSearchPage.inputSearchText('6');
+      await orgSearchPage.inputSearchText('006');
       await orgSearchPage.clickSearch();
     });
     await test.step('Then the results are paginated ', async () => {
@@ -62,9 +62,9 @@ test.describe('As a user I want to be able to search for an organisation', async
     });
   });
 
-  test.only('The organisation search returns 12 records and displays 2 records on a page two', async () => {
+  test('The organisation search returns 12 records and displays 2 records on a page two', async () => {
     await test.step('When I search for an organisation that returns 12 records', async () => {
-      await orgSearchPage.inputSearchText('6');
+      await orgSearchPage.inputSearchText('006');
       await orgSearchPage.clickSearch();
       await orgSearchPage.clickNext();
     });
@@ -88,7 +88,7 @@ test.describe('As a user I want to be able to search for an organisation', async
 
     test('The organisation search does not match a location or organisation', async () => {
       await test.step('When I search for an organisation that does not matches an organisation and location record', async () => {
-        await orgSearchPage.inputSearchText('0');
+        await orgSearchPage.inputSearchText('000');
         await orgSearchPage.clickSearch();
       });
       // These 2 steps will need to be rewritten when the code is released

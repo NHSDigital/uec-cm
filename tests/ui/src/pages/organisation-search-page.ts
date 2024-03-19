@@ -6,8 +6,7 @@ export default class OrgSearchPage {
   }
 
 // search page
-// static readonly searchInputField = 'search-field-input'
-static readonly searchInputField = 'name-input'
+static readonly searchInputField = 'search-field-input'
 static readonly searchInputFieldError= 'search-field-error-message'
 static readonly searchButton= 'search-button'
 
