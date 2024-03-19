@@ -91,7 +91,6 @@ test.describe('As a user I want to be able to search for an organisation', async
         await orgSearchPage.inputSearchText('000');
         await orgSearchPage.clickSearch();
       });
-      // These 2 steps will need to be rewritten when the code is released
       await test.step('Then "no results found" is displayed on the screen', async () => {
         await expect(orgSearchPage.errorMessage('no results found')).toBeVisible();
       });
@@ -100,15 +99,14 @@ test.describe('As a user I want to be able to search for an organisation', async
       });
     });
 
-    test('Search text of less than 3 characters will not be permitted', async () => {
+    test.only('Search text of less than 3 characters will not be permitted', async () => {
       await test.step('When I search for an organisation name of 2 characters ', async () => {
         await orgSearchPage.inputSearchText('NH');
         await orgSearchPage.clickSearch();
       });
-      // This steps will need to be rewritten when the code is released
-      await test.step('Then an error message stating that XXXXX is displayed on the screen', async () => {
-        // await expect(orgSearchPage.getSearchInputFieldError()).toContainText('XXX');
-        // await expect(orgSearchPage.getSearchInputFieldError()).toBeVisible();
+      await test.step('Then an error message stating that "Enter a minimum of 3 characters" is displayed on the screen', async () => {
+        await expect.soft(orgSearchPage.getSearchInputFieldError()).toContainText('Enter a minimum of 3 characters');
+        await expect.soft(orgSearchPage.getSearchInputFieldError()).toBeVisible();
       });
     });
 
