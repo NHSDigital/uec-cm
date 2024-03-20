@@ -1,7 +1,0 @@
-const organisation = {
-
-}
-
-export {
-  organisation
-}
