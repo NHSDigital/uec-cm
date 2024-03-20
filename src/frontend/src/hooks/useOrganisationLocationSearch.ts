@@ -16,8 +16,8 @@ const useOrganisationLocationSearch = () => {
     const [locationSearchResults, locationSearch] = useLocationSearch();
     const [searchResults, setSearchResults] = useState<LocationOrganisation[]>([]);
 
-    const handleSearch = (name : string, postcode : string, organisation : string) => {
-      Promise.all([organisationSearch(name, postcode, organisation), locationSearch(name, postcode, organisation)])
+    const handleSearch = (searchField : string) => {
+      Promise.all([organisationSearch(searchField, '', ''), locationSearch(searchField, '', '')])
         .then(() => {
           setStep(Step.Searching);
         })

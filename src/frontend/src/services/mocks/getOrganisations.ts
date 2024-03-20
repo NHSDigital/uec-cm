@@ -7,7 +7,7 @@ import royalOrgData from '../../mockdata/getorganisations/royal.json'
 const getOrganisationsMock = (name: string, postcode: string, organisation: string): Promise<Organisation[]> => {
     let results: Organisation[] = [];
 
-    const notZeroRows = name !== "0" && organisation !== "0" && postcode.toUpperCase() !== "NG11 1AA";
+    const notZeroRows = name !== "000" && name.toUpperCase() !== "NG11 1AA";
 
     if (notZeroRows) {
         const nameNumber = getStringNumericValue(name);
