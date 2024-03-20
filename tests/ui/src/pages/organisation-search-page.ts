@@ -19,18 +19,21 @@ static readonly searchResultsPaginationDisplay = 'results-info'
 static readonly pagination = 'pagination'
 static readonly addNewItemLink = 'add-new-item-link'
 static readonly orgAddNewOption = 'yes-radio'
+static readonly orgSearchLabel = 'Organisation search'
+static readonly orgSearchInputFieldLabel = 'search-field--label'
+static readonly orgSearchInputFieldLabelText = 'Organisation or Location or Postcode'
 static readonly searchResultItem = (number: string) => `search-row-${number}-link`
 static readonly searchResultType = (number: string, type: string) => `search-row-${number}-${type}-box`
 
 
 // Getters
 
-searchInputField(): Locator {
+getSearchInputField(): Locator {
   return this.page.getByTestId(OrgSearchPage.searchInputField);
 }
 
 getSearchInputFieldError(): Locator {
-  return this.page.getByTestId(OrgSearchPage.searchInputFieldError);
+  return this.page.locator('id='+ OrgSearchPage.searchInputFieldError);
 }
 
 searchButton(): Locator {
@@ -61,12 +64,28 @@ getPreviousResultsSet(): Locator {
   return this.page.getByTestId(OrgSearchPage.previousResultsSet);
 }
 
-errorMessage(text: string): Locator {
+getErrorMessage(text: string): Locator {
+  return this.page.getByText(text);
+}
+
+getOrgSearchPageText(text: string): Locator {
   return this.page.getByText(text);
 }
 
 addOrganisationOptionIsSelected(): Locator {
   return this.page.getByTestId(OrgSearchPage.orgAddNewOption);
+}
+
+getSearchLabel(): Locator {
+  return this.page.getByLabel(OrgSearchPage.orgSearchLabel);
+}
+
+getSearchInputFieldLabel(): Locator {
+  return this.page.getByLabel(OrgSearchPage.orgSearchInputFieldLabel);
+}
+
+getSearchInputFieldLabelText(): Locator {
+  return this.page.getByLabel(OrgSearchPage.orgSearchInputFieldLabelText);
 }
 
 

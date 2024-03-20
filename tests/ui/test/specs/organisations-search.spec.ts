@@ -5,21 +5,31 @@ import OrgSearchPage from '../../src/pages/organisation-search-page';
 let orgPage: OrgPage;
 let orgSearchPage: OrgSearchPage;
 
-test.describe('As a user I want to be able to search for an organisation', async () => {
+test.describe('As a user I want to be able to search for an organisation', {
+  tag: '@orgSearch',
+}, async () => {
   test.beforeEach(async ({ page }) => {
     await test.step('Navigate to landing page', async () => {
-      await page.goto('/organisations/search');
+      await page.goto('/');
       orgPage = new OrgPage(page);
       orgSearchPage = new OrgSearchPage(page);
+      await orgPage.clickGoToSearch();
     });
   });
 
   test('The organisation search page is presented correctly', async () => {
-    await test.step('The XXXXX is visible', async () => {
+    await test.step('The Organisation search label is visible', async () => {
+      await expect.soft(orgSearchPage.getSearchLabel()).toBeVisible;
     });
-    await test.step('And the search XXXX text is visible', async () => {
+    await test.step('And the search instructions text is visible', async () => {
+      await expect.soft(orgSearchPage.getOrgSearchPageText('Search by either organisation (e.g. Trust name) or location (e.g. Hospital name) or postcode')).toBeVisible;
     });
     await test.step('And a search box is visible', async () => {
+      await expect.soft(orgSearchPage.getSearchInputField()).toBeVisible;
+    });
+    await test.step('And a search box label is visible', async () => {
+      await expect.soft(orgSearchPage.getSearchInputFieldLabel()).toBeVisible;
+      await expect.soft(orgSearchPage.getSearchInputFieldLabelText()).toBeVisible
     });
   });
 
@@ -92,21 +102,21 @@ test.describe('As a user I want to be able to search for an organisation', async
         await orgSearchPage.clickSearch();
       });
       await test.step('Then "no results found" is displayed on the screen', async () => {
-        await expect(orgSearchPage.errorMessage('no results found')).toBeVisible();
+        await expect(orgSearchPage.getErrorMessage('no results found')).toBeVisible();
       });
       await test.step('And option to add a new organisation is selected by default', async () => {
         await expect(orgSearchPage.addOrganisationOptionIsSelected()).toBeChecked();
       });
     });
 
-    test.only('Search text of less than 3 characters will not be permitted', async () => {
+    test('Search text of less than 3 characters will not be permitted', async () => {
       await test.step('When I search for an organisation name of 2 characters ', async () => {
         await orgSearchPage.inputSearchText('NH');
         await orgSearchPage.clickSearch();
       });
       await test.step('Then an error message stating that "Enter a minimum of 3 characters" is displayed on the screen', async () => {
+        await expect(orgSearchPage.getErrorMessage('Enter a minimum of 3 characters')).toBeVisible();
         await expect.soft(orgSearchPage.getSearchInputFieldError()).toContainText('Enter a minimum of 3 characters');
-        await expect.soft(orgSearchPage.getSearchInputFieldError()).toBeVisible();
       });
     });
 

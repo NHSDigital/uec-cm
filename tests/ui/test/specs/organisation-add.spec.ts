@@ -3,14 +3,16 @@ import OrgAddPage from '../../src/pages/organisation-add-page';
 
 let orgAddPage: OrgAddPage;
 
-test.describe.skip('As a user I want to be able to manage organisation data', async () => {
+test.describe.skip('As a user I want to be able to manage organisation data', {
+  tag: '@orgAdd',
+}, async () => {
   test.beforeEach(async ({ page }) => {
     await test.step('Navigate to landing page', async () => {
-      await page.goto('/');
+      await page.goto('/organisations/add');
     });
     await test.step('Navigate to Add Organisations page', async () => {
       orgAddPage = new OrgAddPage(page);
-      await orgAddPage.clickAdd();
+      // await orgAddPage.clickAdd();
     });
   });
 
