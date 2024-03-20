@@ -1,7 +1,7 @@
 
 import { Locator, Page } from "@playwright/test";
 
-export default class OrganisationsPage {
+export default class OrgAddPage {
   constructor(readonly page: Page) {
     this.page = page;
   }
@@ -18,27 +18,27 @@ export default class OrganisationsPage {
   // Getters
 
   getOrgErrorSummaryLink(type: string): Locator {
-    return this.page.getByTestId(OrganisationsPage.orgErrorSummaryLink(type));
+    return this.page.getByTestId(OrgAddPage.orgErrorSummaryLink(type));
   }
 
   getOrgErrorSummary(type: string): Locator {
-    return this.page.getByTestId(OrganisationsPage.orgErrorSummary(type));
+    return this.page.getByTestId(OrgAddPage.orgErrorSummary(type));
   }
 
   getOrgInputField(type: string): Locator {
-    return this.page.getByTestId(OrganisationsPage.inputField(type));
+    return this.page.getByTestId(OrgAddPage.inputField(type));
   }
 
   getFieldErrorMessage(field: string): Locator {
-    return this.page.getByTestId(OrganisationsPage.fieldError(field));
+    return this.page.getByTestId(OrgAddPage.fieldError(field));
   }
 
   getFieldError(field: string): Locator {
-    return this.page.locator(OrganisationsPage.fieldError(field));
+    return this.page.locator(OrgAddPage.fieldError(field));
   }
 
   searchInstructionsAreReturned(): Locator {
-    return this.page.getByTestId(OrganisationsPage.searchInstructions);
+    return this.page.getByTestId(OrgAddPage.searchInstructions);
   }
 
   errorMessage(text: string): Locator {
@@ -46,7 +46,7 @@ export default class OrganisationsPage {
   }
 
   addOrganisationOptionIsSelected(): Locator {
-    return this.page.getByTestId(OrganisationsPage.orgAddNewOption);
+    return this.page.getByTestId(OrgAddPage.orgAddNewOption);
   }
 
   getText(text: string): Locator {
@@ -55,15 +55,15 @@ export default class OrganisationsPage {
 
   // Methods
   async clickAdd() {
-    await this.page.getByTestId(OrganisationsPage.add).click();
+    await this.page.getByTestId(OrgAddPage.add).click();
   }
 
   async clickOrgAddSearch() {
-    await this.page.getByTestId(OrganisationsPage.orgAddSearchBtn).click();
+    await this.page.getByTestId(OrgAddPage.orgAddSearchBtn).click();
   }
 
   async inputTextInField(field: string, text: string) {
-    await this.page.getByTestId(OrganisationsPage.inputField(field)).fill(text);
+    await this.page.getByTestId(OrgAddPage.inputField(field)).fill(text);
   }
 
   async clickOrgInputField(type: string) {
