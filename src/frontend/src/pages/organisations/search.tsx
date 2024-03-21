@@ -6,6 +6,8 @@ import useOrganisationLocationSearch, { Step } from '../../hooks/useOrganisation
 import { useNavigate } from 'react-router-dom';
 
 const SearchOrganisationPage: React.FC = () => {
+  const addOrganisationUrl = '/organisations/add';
+
   const { step, searchResults, handleSearch } = useOrganisationLocationSearch();
 
   const navigate = useNavigate();
@@ -15,14 +17,18 @@ const SearchOrganisationPage: React.FC = () => {
   };
 
   const handleAddOrganisation = () => {
-    navigate("/organisations/add");
+    navigate(addOrganisationUrl);
   };
 
   return (
     <div data-testid='organisation-search-page' className="nhsuk-width-container nhsuk-u-margin-top-4" >
       {step === Step.OrganisationsSearch && <OrganisationsSearch onSearch={handleSearch} />}
       {step === Step.NoResultsFound && <NoResultsFound onAddOrganisation={handleAddOrganisation} />}
-      {step === Step.SearchResults && <SearchResults results={searchResults} handleRowSelected={handleRowSelected} />}
+      {step === Step.SearchResults && <SearchResults
+                                        results={searchResults}
+                                        handleRowSelected={handleRowSelected}
+                                        addOrganisationUrl={addOrganisationUrl}
+                                      /> }
     </div>
   );
 };

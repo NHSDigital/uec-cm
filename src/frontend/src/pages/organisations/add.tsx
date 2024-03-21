@@ -12,9 +12,7 @@ const AddOrganisationPage: React.FC = () => {
   return (
     <div data-testid='add-organisation-page' className="nhsuk-width-container nhsuk-u-margin-top-4" >
       <Label isPageHeading={true} size='l'>Add a new organisation (e.g. Trust)</Label>
-
       <AddOrganisation onCreateOrganisation={handleCreateOrganisation} />
-
     </div>
   );
 };
