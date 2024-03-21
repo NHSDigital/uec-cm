@@ -17,7 +17,8 @@ export default class Accessibility {
 
 
 
-  if (accessibilityScanResults.violations.length > 0) {
+  if (accessibilityScanResults.violations.length > 0)
+  {
     const reportHTML = createHtmlReport({
       results: accessibilityScanResults,
       options: {
@@ -26,6 +27,8 @@ export default class Accessibility {
         reportFileName: testId +".html"
       },
     });
+
+
 
     // Check violations against the threshold
 
@@ -43,5 +46,6 @@ async expectAccessibilityCheckFails(partFileName: string) {
   const fileCount = await countFilesInDirectory("./accessibility-reports/artifacts",partFileName);
   return fileCount
 }
+
 
 }

@@ -1,282 +1,126 @@
 import { test, expect } from '@playwright/test';
+import OrgPage from '../../src/pages/organisations-page';
 import OrgAddPage from '../../src/pages/organisation-add-page';
+import OrgSearchPage from '../../src/pages/organisation-search-page';
 
+let orgPage: OrgPage;
 let orgAddPage: OrgAddPage;
+let orgSearchPage: OrgSearchPage;
 
-test.describe.skip('As a user I want to be able to manage organisation data', {
+test.describe('As a user I want to be able to add organisation data from no results found', {
   tag: '@orgAdd',
 }, async () => {
   test.beforeEach(async ({ page }) => {
-    await test.step('Navigate to landing page', async () => {
-      await page.goto('/organisations/add');
-    });
-    await test.step('Navigate to Add Organisations page', async () => {
+    await test.step('Navigate to organisation add page', async () => {
+      await page.goto('/');
+      orgPage = new OrgPage(page);
+      orgSearchPage = new OrgSearchPage(page);
       orgAddPage = new OrgAddPage(page);
-      // await orgAddPage.clickAdd();
+      await orgPage.clickGoToSearch();
+      await orgSearchPage.inputSearchText('000');
+      await orgSearchPage.clickSearch();
+      await orgSearchPage.clickNextBtn();
     });
   });
 
-
-  test('Confirm on organisation page',async () => {
-    await expect(orgAddPage.searchInstructionsAreReturned()).toBeVisible();
-    await expect(orgAddPage.searchInstructionsAreReturned()).toContainText('Search by either name, postcode or managing organisation.');
-    await expect(orgAddPage.getText('Organisation search')).toBeVisible();
+  test('The organisation add page is presented correctly', async () => {
+    await test.step('The organisation add label is visible', async () => {
+      await expect.soft(orgAddPage.getOrgAddLabel()).toBeVisible;
+    });
+    await test.step('And the add instructions text is visible', async () => {
+      await expect.soft(orgAddPage.getOrgAddInstructions()).toBeVisible;
+      await expect.soft(orgAddPage.getOrgAddPageText('Please add the following mandatory information')).toBeVisible;
+    });
+    await test.step('And a org name input box is visible', async () => {
+      await expect.soft(orgAddPage.getAddOrgInputField('name')).toBeVisible;
+    });
+    await test.step('And a org type dropdown box is visible', async () => {
+      await expect.soft(orgAddPage.getAddOrgInputField('type')).toBeVisible;
+    });
+    // await test.step('And a search box label is visible', async () => {
+    //   await expect.soft(orgSearchPage.getSearchInputFieldLabel()).toBeVisible;
+    //   await expect.soft(orgSearchPage.getSearchInputFieldLabelText()).toBeVisible
+    // });
   });
 
-
-  test('Search for an organisation name', async () => {
-    await test.step('Given I enter "0" in the "name" field', async () => {
-      await orgAddPage.inputTextInField('name', '0');
+  // TODO: test will need expanding once the functionality has been created
+  test('I can add successfully add an organisation', async () => {
+    await test.step('When I add an organisation name of NHS Trust', async () => {
+      await orgAddPage.inputTextInField('name','NHS Trust');
     });
-    await test.step('And I submit the search', async () => {
-      await orgAddPage.clickOrgAddSearch();
-    });
-
-    await test.step('Then "no results found" is displayed on the screen', async () => {
-      await expect(orgAddPage.errorMessage('no results found')).toBeVisible();
-    });
-
-    await test.step('And option to add a new organisation is selected by default', async () => {
-      await expect(orgAddPage.addOrganisationOptionIsSelected()).toBeChecked();
-    });
-  });
-
-  test('Search for an invalid length in organisation name', async () => {
-    await test.step('Given I enter "This is a name of more than 100 characters. This name is 101 characters. This name is 101 characters." in the "name" field', async () => {
-      await orgAddPage.inputTextInField(
-        'name',
-        'This is a name of more than 100 characters. This name is 101 characters. This name is 101 characters.'
-      );
-    });
-    await test.step('And I submit the search', async () => {
-      await orgAddPage.clickOrgAddSearch();
-    });
-    await test.step('Then a "name" field error message "Enter a valid name" is displayed on the page', async () => {
-      await expect(orgAddPage.getFieldError('name')).toContainText('Enter a valid name');
-      await expect(orgAddPage.errorMessage('Enter a valid name')).toBeVisible();
+    await test.step('And select an organisation type of Mock NHS Trust', async () => {
+      await orgAddPage.selectFromDropdown('type','Mock NHS Trust')
+      await orgAddPage.clickNext();
     });
   });
 
-  test('Search for an invalid characters in organisation name', async () => {
-    await test.step('Given I enter "^This is a name of with invalid characters £" in the "name" field', async () => {
-      await orgAddPage.inputTextInField(
-        'name',
-        '^This is a name of with invalid characters £'
-      );
+  test('Adding org name of less than 3 characters will not be permitted', async () => {
+    await test.step('When I add an organisation name of 2 characters ', async () => {
+      await orgAddPage.inputTextInField('name','NH');
+      await orgAddPage.selectFromDropdown('type','Mock Operational Delivery Network')
+      await orgAddPage.clickNext();
     });
-    await test.step('And I submit the search', async () => {
-      await orgAddPage.clickOrgAddSearch();
-    });
-    await test.step('Then a "name" field error message "Enter a valid name" is displayed on the page', async () => {
-      await expect(orgAddPage.getFieldError('name')).toContainText('Enter a valid name');
-      await expect(orgAddPage.errorMessage('Enter a valid name')).toBeVisible();
+    await test.step('Then an error message stating that "Enter a minimum of 3 characters" is displayed on the screen', async () => {
+      await expect(orgAddPage.getErrorMessage('Enter a minimum of 3 characters')).toBeVisible();
+      await expect.soft(orgAddPage.getFieldError('name')).toContainText('Enter a minimum of 3 characters');
     });
   });
 
-  test('Search for an organisation postcode', async () => {
-    await test.step('Given I enter "BD1 1AW" in the "postcode" field', async () => {
-      await orgAddPage.inputTextInField(
-        'postcode',
-        'BD1 1AW'
-      );
+  test('Adding org name of less than 3 characters and not selecting an organisation type will not be permitted', async () => {
+    await test.step('When I add an organisation name of 2 characters ', async () => {
+      await orgAddPage.inputTextInField('name','NH');
     });
-    await test.step('And I submit the search', async () => {
-      await orgAddPage.clickOrgAddSearch();
+    await test.step('When I do not select an organisation type', async () => {
+      await orgAddPage.selectFromDropdown('type','')
+      await orgAddPage.clickNext();
     });
-    await test.step('Then a "postcode" error is not displayed on the page', async () => {
-      await expect(orgAddPage.getFieldError('postcode')).toBeHidden();
+    await test.step('Then an error message stating that "Enter a minimum of 3 characters" is displayed on the screen', async () => {
+      await expect(orgAddPage.getErrorMessage('Enter a minimum of 3 characters')).toBeVisible();
+      await expect.soft(orgAddPage.getFieldError('name')).toContainText('Enter a minimum of 3 characters');
     });
-  });
-
-  test('Search for an invalid organisation postcode', async () => {
-    await test.step('Given I enter "BD1 1AWW" in the "postcode" field', async () => {
-      await orgAddPage.inputTextInField(
-        'postcode',
-        'BD1 1AWW'
-      );
-    });
-    await test.step('And I submit the search', async () => {
-      await orgAddPage.clickOrgAddSearch();
-    });
-    await test.step('Then a "postcode" field error message "Enter a valid postcode" is displayed on the page', async () => {
-      await expect(orgAddPage.getFieldError('postcode')).toContainText('Enter a valid postcode');
-      await expect(orgAddPage.errorMessage('Enter a valid postcode')).toBeVisible();
+    await test.step('Then an error message stating that "Please select an Organisation type" is displayed on the screen', async () => {
+      await expect(orgAddPage.getErrorMessage('Please select an Organisation type')).toBeVisible();
+      await expect.soft(orgAddPage.getFieldError('type')).toContainText('Please select an Organisation type');
     });
   });
 
-  test('Search for a managing organisation', async () => {
-    await test.step('Given I enter "0" in the "managing organisation" field', async () => {
-      await orgAddPage.inputTextInField('name', '0');
+  test('Not selecting an organisation type will not be permitted', async () => {
+    await test.step('When I do not select an organisation type', async () => {
+      await orgAddPage.inputTextInField('name','Royal');
+      await orgAddPage.selectFromDropdown('type','')
+      await orgAddPage.clickNext();
     });
-    await test.step('And I submit the search', async () => {
-      await orgAddPage.clickOrgAddSearch();
-    });
-
-    await test.step('Then "no results found" is displayed on the screen', async () => {
-      await expect(orgAddPage.errorMessage('no results found')).toBeVisible();
-    });
-
-    await test.step('And option to add a new organisation is selected by default', async () => {
-      await expect(orgAddPage.addOrganisationOptionIsSelected()).toBeChecked();
+    await test.step('Then an error message stating that "Please select an Organisation type" is displayed on the screen', async () => {
+      await expect(orgAddPage.getErrorMessage('Please select an Organisation type')).toBeVisible();
+      await expect.soft(orgAddPage.getFieldError('type')).toContainText('Please select an Organisation type');
     });
   });
 
-  test('Search for an invalid length in managing organisation', async () => {
-    await test.step('Given I enter "This is a name of more than 100 characters. This name is 101 characters. This name is 101 characters." in the "managing-organisation" field', async () => {
-      await orgAddPage.inputTextInField(
-        'managing-organisation',
-        'This is a name of more than 100 characters. This name is 101 characters. This name is 101 characters.'
-      );
+  test.describe('As a user I want to be able to add organisation data from the search results screen', {
+    tag: '@orgAdd',
+  }, async () => {
+    test.beforeEach(async ({ page }) => {
+      await test.step('Navigate to organisation add page', async () => {
+        await page.goto('/');
+        orgPage = new OrgPage(page);
+        orgSearchPage = new OrgSearchPage(page);
+        orgAddPage = new OrgAddPage(page);
+        await orgPage.clickGoToSearch();
+        await orgSearchPage.inputSearchText('Royal');
+        await orgSearchPage.clickSearch();
+        await orgSearchPage.clickNewItemLink();
+      });
     });
-    await test.step('And I submit the search', async () => {
-      await orgAddPage.clickOrgAddSearch();
-    });
-    await test.step('Then a "managing organisation" field error message "Enter a valid managing organisation" is displayed on the page', async () => {
-      await expect(orgAddPage.getFieldError('organisation')).toContainText('Enter a valid managing organisation');
-      await expect(orgAddPage.errorMessage('Enter a valid managing organisation')).toBeVisible();
-    });
-  });
-
-  test('Search for an invalid characters in managing organisation', async () => {
-    await test.step('Given I enter "^This is a name of with invalid characters £" in the "managing-organisation" field', async () => {
-      await orgAddPage.inputTextInField(
-        'managing-organisation',
-        '^This is a name of with invalid characters £'
-      );
-    });
-    await test.step('And I submit the search', async () => {
-      await orgAddPage.clickOrgAddSearch();
-    });
-    await test.step('Then a "managing organisation" field error message "Enter a valid managing organisation" is displayed on the page', async () => {
-      await expect(orgAddPage.getFieldError('organisation')).toContainText('Enter a valid managing organisation');
-      await expect(orgAddPage.errorMessage('Enter a valid managing organisation')).toBeVisible();
-    });
-  });
-
-  test('Search for invalid characters in all search fields', async () => {
-    await test.step('Given I enter "!123$£" in the "name" field', async () => {
-      await orgAddPage.inputTextInField(
-        'name',
-        '!123$£'
-      );
-    });
-    await test.step('And I enter "1AA W22" in the "postcode" field', async () => {
-      await orgAddPage.inputTextInField(
-        'postcode',
-        '1AA W22'
-      );
-    });
-    await test.step('And I enter "!123\ £" in the "managing-organisation" field', async () => {
-      await orgAddPage.inputTextInField(
-        'managing-organisation',
-        '!123\ £'
-      );
-    });
-    await test.step('And I submit the search', async () => {
-      await orgAddPage.clickOrgAddSearch();
-    });
-    await test.step('Then all field level validation errors are displayed on the page', async () => {
-      await expect(orgAddPage.getFieldError('name')).toBeVisible();
-      await expect(orgAddPage.getFieldError('postcode')).toBeVisible();
-      await expect(orgAddPage.getFieldError('organisation')).toBeVisible();
-    });
-  });
-
-  test('No results found displayed with non existent organisation name', async () => {
-    await test.step('Given I enter "0" in the "name" field', async () => {
-      await orgAddPage.inputTextInField(
-        'name',
-        '0'
-      );
-    });
-    await test.step('And I submit the search', async () => {
-      await orgAddPage.clickOrgAddSearch();
-    });
-    await test.step('Then "no results found" is displayed on the screen', async () => {
-      await expect(orgAddPage.errorMessage('no results found')).toBeVisible();
+    // TODO: test will need expanding once the functionality has been created
+    test('I can add successfully add an organisation', async () => {
+      await test.step('When I add an organisation name of NHS Trust', async () => {
+        await orgAddPage.inputTextInField('name','NHS Trust');
+      });
+      await test.step('And select an organisation type of Mock NHS Trust', async () => {
+        await orgAddPage.selectFromDropdown('type','Mock NHS Trust')
+        await orgAddPage.clickNext();
+      });
     });
 
-    await test.step('And option to add a new organisation is selected by default', async () => {
-      await expect(orgAddPage.addOrganisationOptionIsSelected()).toBeChecked();
-    });
-  });
-
-  test('No results found displayed with non existent managing organisation', async () => {
-    await test.step('Given I enter "0" in the "managing organisation" field', async () => {
-      await orgAddPage.inputTextInField('managing-organisation', '0');
-    });
-    await test.step('And I submit the search', async () => {
-      await orgAddPage.clickOrgAddSearch();
-    });
-
-    await test.step('Then "no results found" is displayed on the screen', async () => {
-      await expect(orgAddPage.errorMessage('no results found')).toBeVisible();
-    });
-
-    await test.step('And option to add a new organisation is selected by default', async () => {
-      await expect(orgAddPage.addOrganisationOptionIsSelected()).toBeChecked();
-    });
-  });
-
-  test('Search for valid characters in all search fields', async () => {
-    await test.step('Given I enter "Test Organisation" in the "name" field', async () => {
-      await orgAddPage.inputTextInField(
-        'name',
-        'Test Organisation'
-      );
-    });
-    await test.step('And I enter "BD1 1AW" in the "postcode" field', async () => {
-      await orgAddPage.inputTextInField(
-        'postcode',
-        'BD1 1AW'
-      );
-    });
-    await test.step('And I enter "TAD" in the "managing organisation" field', async () => {
-      await orgAddPage.inputTextInField(
-        'managing-organisation',
-        'TAD'
-      );
-    });
-    await test.step('And I submit the search', async () => {
-      await orgAddPage.clickOrgAddSearch();
-    });
-    await test.step('Then no field level validation errors are displayed on the page', async () => {
-      await expect(orgAddPage.getFieldError('name')).toBeHidden();
-      await expect(orgAddPage.getFieldError('postcode')).toBeHidden();
-      await expect(orgAddPage.getFieldError('managing-organisation')).toBeHidden();
-    });
-    await test.step('But a summary "title" error message: "There is a problem" is displayed on the page', async () => {
-      await expect(orgAddPage.getOrgErrorSummary('title')).toContainText('There is a problem');
-    });
-    await test.step('And a summary "message" error message: "Search by either" is displayed on the page', async () => {
-      await expect(orgAddPage.getOrgErrorSummary('message')).toContainText('Search by either');
-    });
-    await test.step('And a summary "name" error link text: "name" is displayed on the page', async () => {
-      await expect(orgAddPage.getOrgErrorSummaryLink('name')).toContainText('name');
-    });
-    await test.step('And a summary "postcode" error link text: "postcode" is displayed on the page', async () => {
-      await expect(orgAddPage.getOrgErrorSummaryLink('postcode')).toContainText('postcode');
-    });
-    await test.step('And a summary "organisation" error link text: "managing organisation" is displayed on the page', async () => {
-      await expect(orgAddPage.getOrgErrorSummaryLink('organisation')).toContainText('managing organisation');
-    });
-    await test.step('When I click the summary "name" error link text', async () => {
-      await orgAddPage.clickOrgInputField('name');
-    });
-    await test.step('Then the organisation "name" field is focused', async () => {
-      await expect(orgAddPage.getOrgInputField('name')).toBeFocused();
-    });
-    await test.step('When I click the summary "postcode" error link text', async () => {
-      await orgAddPage.clickOrgInputField('postcode');
-    });
-    await test.step('Then the organisation "postcode" field is focused', async () => {
-      await expect(orgAddPage.getOrgInputField('postcode')).toBeFocused();
-    });
-    await test.step('When I click the summary "managing-organisation" error link text', async () => {
-      await orgAddPage.clickOrgInputField('managing-organisation');
-    });
-    await test.step('Then the organisation "managing organisation" field is focused', async () => {
-      await expect(orgAddPage.getOrgInputField('managing-organisation')).toBeFocused();
-    });
   });
 });
