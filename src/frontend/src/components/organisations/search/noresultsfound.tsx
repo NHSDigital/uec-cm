@@ -1,11 +1,20 @@
 import React, { FormEvent, useState } from 'react';
 import { Button, Label, Radios } from 'nhsuk-react-components';
 
-const NoResultsFound: React.FC = () => {
+interface NoResultsFoundProps {
+    onAddOrganisation: () => void;
+}
+
+const NoResultsFound: React.FC<NoResultsFoundProps> = ({ onAddOrganisation }) => {
+
     const [selectedOption, setSelectedOption] = useState('yes');
 
     const handleNext = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.currentTarget.blur();
+
+        if (selectedOption === 'yes') {
+            onAddOrganisation();
+        }
     }
 
     function handleOptionChange(e: FormEvent<HTMLInputElement>): void {

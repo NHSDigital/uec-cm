@@ -14,10 +14,14 @@ const SearchOrganisationPage: React.FC = () => {
     navigate(`/${entityType}/${id}`);
   };
 
+  const handleAddOrganisation = () => {
+    navigate("/organisations/add");
+  };
+
   return (
     <div data-testid='organisation-search-page' className="nhsuk-width-container nhsuk-u-margin-top-4" >
       {step === Step.OrganisationsSearch && <OrganisationsSearch onSearch={handleSearch} />}
-      {step === Step.NoResultsFound && <NoResultsFound />}
+      {step === Step.NoResultsFound && <NoResultsFound onAddOrganisation={handleAddOrganisation} />}
       {step === Step.SearchResults && <SearchResults results={searchResults} handleRowSelected={handleRowSelected} />}
     </div>
   );

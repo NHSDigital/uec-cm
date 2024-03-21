@@ -7,8 +7,8 @@ beforeEach(() => {
 });
 
 describe('AddOrganisationPage', () => {
-    it('should render the page component', () => {
-    const testid = screen.getByTestId('add-organisation-page');
-    expect(testid).toBeInTheDocument();
+  it('should render the page', () => {
+      const testid = screen.getByTestId('add-organisation-page');
+      expect(testid).toBeInTheDocument();
   });
 });
