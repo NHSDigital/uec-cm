@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, useNavigate } from 'react-router-dom';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { JSX } from 'react/jsx-runtime';
@@ -9,6 +9,16 @@ const renderWithRouter = (ui: JSX.Element, { route = '/' } = {}) => {
   window.history.pushState({}, 'Test page', route)
   return render(ui, { wrapper: Router });
 };
+
+jest.mock('react-router-dom', () => {
+  const originalModule = jest.requireActual('react-router-dom');
+  const useNavigateMock = jest.fn();
+
+  return {
+    ...originalModule,
+    useNavigate: () => useNavigateMock,
+  };
+});
 
 beforeEach(() => {
   renderWithRouter(<SearchOrganisationPage />);
@@ -52,4 +62,41 @@ describe('SearchOrganisationPage', () => {
       expect(searchResults).toBeInTheDocument();
     });
   });
+
+  it('should navigate to the organisation add page', async() => {
+    const navigateMock = useNavigate();
+
+    act(() => {
+      const input = screen.getByTestId('search-field-input');
+      userEvent.type(input, '000');
+      const searchButton = screen.getByTestId('search-button');
+      userEvent.click(searchButton);
+    });
+
+    await waitFor(() => {
+      const nextButton = screen.getByTestId('next-button');
+      userEvent.click(nextButton);
+    });
+
+    expect(navigateMock).toHaveBeenCalledWith('/organisations/add');
+  });
+
+  it('should navigate to the organisation add page', async() => {
+    const navigateMock = useNavigate();
+
+    act(() => {
+      const input = screen.getByTestId('search-field-input');
+      userEvent.type(input, '000');
+      const searchButton = screen.getByTestId('search-button');
+      userEvent.click(searchButton);
+    });
+
+    await waitFor(() => {
+      const nextButton = screen.getByTestId('next-button');
+      userEvent.click(nextButton);
+    });
+
+    expect(navigateMock).toHaveBeenCalledWith('/organisations/add');
+  });
 });
+
