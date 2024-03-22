@@ -25,22 +25,28 @@ test.describe('As a user I want to be able to add organisation data from no resu
 
   test('The organisation add page is presented correctly', async () => {
     await test.step('The organisation add label is visible', async () => {
-      await expect.soft(orgAddPage.getOrgAddLabel()).toBeVisible;
+      await expect(orgAddPage.getOrgAddPageLabel()).toBeVisible;
     });
     await test.step('And the add instructions text is visible', async () => {
       await expect.soft(orgAddPage.getOrgAddInstructions()).toBeVisible;
       await expect.soft(orgAddPage.getOrgAddPageText('Please add the following mandatory information')).toBeVisible;
     });
     await test.step('And a org name input box is visible', async () => {
-      await expect.soft(orgAddPage.getAddOrgInputField('name')).toBeVisible;
+      await expect(orgAddPage.getAddOrgInputField('name')).toBeVisible;
+    });
+    await test.step('And a org name input box has focus when the label is clicked', async () => {
+      await expect.soft(orgAddPage.getOrgAddLabel('name')).toContainText('Organisation name');
+      await orgAddPage.clickLabel('name');
+      await expect.soft(orgAddPage.getAddOrgInputField('name')).toBeFocused;
     });
     await test.step('And a org type dropdown box is visible', async () => {
-      await expect.soft(orgAddPage.getAddOrgInputField('type')).toBeVisible;
+      await expect(orgAddPage.getAddOrgInputField('type')).toBeVisible;
     });
-    // await test.step('And a search box label is visible', async () => {
-    //   await expect.soft(orgSearchPage.getSearchInputFieldLabel()).toBeVisible;
-    //   await expect.soft(orgSearchPage.getSearchInputFieldLabelText()).toBeVisible
-    // });
+    await test.step('And a org type dropdown box has focus when the label is clicked', async () => {
+      await expect.soft(orgAddPage.getOrgAddLabel('type')).toContainText('Organisation type');
+      await orgAddPage.clickLabel('type');
+      await expect.soft(orgAddPage.getAddOrgInputField('type')).toBeFocused;
+    });
   });
 
   // TODO: test will need expanding once the functionality has been created
@@ -62,7 +68,7 @@ test.describe('As a user I want to be able to add organisation data from no resu
     });
     await test.step('Then an error message stating that "Enter a minimum of 3 characters" is displayed on the screen', async () => {
       await expect(orgAddPage.getErrorMessage('Enter a minimum of 3 characters')).toBeVisible();
-      await expect.soft(orgAddPage.getFieldError('name')).toContainText('Enter a minimum of 3 characters');
+      await expect(orgAddPage.getFieldError('name')).toContainText('Enter a minimum of 3 characters');
     });
   });
 
@@ -76,11 +82,11 @@ test.describe('As a user I want to be able to add organisation data from no resu
     });
     await test.step('Then an error message stating that "Enter a minimum of 3 characters" is displayed on the screen', async () => {
       await expect(orgAddPage.getErrorMessage('Enter a minimum of 3 characters')).toBeVisible();
-      await expect.soft(orgAddPage.getFieldError('name')).toContainText('Enter a minimum of 3 characters');
+      await expect(orgAddPage.getFieldError('name')).toContainText('Enter a minimum of 3 characters');
     });
     await test.step('Then an error message stating that "Please select an Organisation type" is displayed on the screen', async () => {
       await expect(orgAddPage.getErrorMessage('Please select an Organisation type')).toBeVisible();
-      await expect.soft(orgAddPage.getFieldError('type')).toContainText('Please select an Organisation type');
+      await expect(orgAddPage.getFieldError('type')).toContainText('Please select an Organisation type');
     });
   });
 
@@ -92,7 +98,7 @@ test.describe('As a user I want to be able to add organisation data from no resu
     });
     await test.step('Then an error message stating that "Please select an Organisation type" is displayed on the screen', async () => {
       await expect(orgAddPage.getErrorMessage('Please select an Organisation type')).toBeVisible();
-      await expect.soft(orgAddPage.getFieldError('type')).toContainText('Please select an Organisation type');
+      await expect(orgAddPage.getFieldError('type')).toContainText('Please select an Organisation type');
     });
   });
 

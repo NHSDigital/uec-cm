@@ -26,6 +26,7 @@ export default defineConfig({
     baseURL: `https://${process.env.baseUrl}`,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
+    video: 'on-first-retry',
   },
 
   projects: [

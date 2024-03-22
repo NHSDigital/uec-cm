@@ -8,16 +8,20 @@ export default class OrgAddPage {
 
   static readonly orgAddLabel = 'Add a new organisation (e.g. Trust)'
   static readonly orgAddInstructions = 'search-by'
-  static readonly orgSearchInputFieldLabelText = 'Organisation or Location or Postcode'
   static readonly inputField = (field: string) => `organisation-${field}-input`
+  static readonly inputFieldLabel = (field: string) => `organisation-${field}--label`
   static readonly fieldError = (field: string) => `#organisation-${field}-error-message`
   static readonly orgAddNextBtn = 'next-button'
 
 
   // Getters
 
-  getOrgAddLabel(): Locator {
+  getOrgAddPageLabel(): Locator {
     return this.page.getByLabel(OrgAddPage.orgAddLabel);
+  }
+
+  getOrgAddLabel(type: string): Locator {
+    return this.page.locator('id='+ OrgAddPage.inputFieldLabel(type));
   }
 
   getOrgAddInstructions(): Locator {
@@ -43,6 +47,10 @@ export default class OrgAddPage {
     // Methods
   async clickNext() {
     await this.page.getByTestId(OrgAddPage.orgAddNextBtn).click();
+  }
+
+  async clickLabel(type: string) {
+    await this.page.locator('id='+ OrgAddPage.inputFieldLabel(type)).click();
   }
 
   getErrorMessage(text: string): Locator {

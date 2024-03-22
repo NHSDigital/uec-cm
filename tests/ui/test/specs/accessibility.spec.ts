@@ -54,7 +54,6 @@ test.describe('As a user I want to be able to check the Organisation pages for a
       await test.step('The accessibility tests do not fail', async () => {
         const timestamp = new Date().toISOString().replace(/:/g, '-');
         await accessibility.runAxeCheck(testInfo.title+'-'+timestamp);
-        console.log(testInfo.title);
         let reportCount = await accessibility.expectAccessibilityCheckFails(testInfo.title);
         expect(reportCount).toBe(0);
       });
@@ -68,7 +67,6 @@ test.describe('As a user I want to be able to check the Organisation pages for a
     await test.step('The accessibility tests do not fail', async () => {
       const timestamp = new Date().toISOString().replace(/:/g, '-');
       await accessibility.runAxeCheck(testInfo.title+'-'+timestamp);
-      console.log(testInfo.title);
       let reportCount = await accessibility.expectAccessibilityCheckFails(testInfo.title);
       expect(reportCount).toBe(0);
     });
@@ -84,7 +82,6 @@ test.describe('As a user I want to be able to check the Organisation pages for a
       await test.step('The accessibility tests do not fail', async () => {
         const timestamp = new Date().toISOString().replace(/:/g, '-');
         await accessibility.runAxeCheck(testInfo.title+'-'+timestamp);
-        console.log(testInfo.title);
         let reportCount = await accessibility.expectAccessibilityCheckFails(testInfo.title);
         expect(reportCount).toBe(0);
       });
@@ -101,7 +98,6 @@ test.describe('As a user I want to be able to check the Organisation pages for a
     await test.step('The accessibility tests do not fail', async () => {
       const timestamp = new Date().toISOString().replace(/:/g, '-');
       await accessibility.runAxeCheck(testInfo.title+'-'+timestamp);
-      console.log(testInfo.title);
       let reportCount = await accessibility.expectAccessibilityCheckFails(testInfo.title);
       expect(reportCount).toBe(0);
     });
