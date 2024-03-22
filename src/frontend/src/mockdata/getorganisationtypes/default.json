@@ -1,0 +1,12 @@
+[
+    { "text": "Please select", "value": "" },
+    { "text": "Mock Government", "value": "Mock Government" },
+    { "text": "Mock Integrated Care System", "value": "Mock Integrated Care System" },
+    { "text": "Mock NHS England (Region)", "value": "Mock NHS England (Region)" },
+    { "text": "Mock NHS Trust", "value": "Mock NHS Trust" },
+    { "text": "Mock Northern Ireland Health and Social Care Trust", "value": "Mock Northern Ireland Health and Social Care Trust" },
+    { "text": "Mock Operational Delivery Network", "value": "Mock Operational Delivery Network" },
+    { "text": "Mock Regional Health Board", "value": "Mock Regional Health Board" },
+    { "text": "Mock Scottish Regional Office", "value": "Mock Scottish Regional Office" },
+    { "text": "Mock Welsh Regional Health Board", "value": "Mock Welsh Regional Health Board" }
+]

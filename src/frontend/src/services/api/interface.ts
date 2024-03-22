@@ -41,7 +41,13 @@ export interface Location extends LocationOrganisation {
     position: Position
 }
 
+export interface Type {
+    value: string
+    text: string
+}
+
 export interface ApiInterface {
     getOrganisations(name: string, postcode: string, organisation: string): Promise<Organisation[]>;
     getLocations(name: string, postcode: string, organisation: string): Promise<Location[]>;
+    getOrganisationTypes(): Promise<Type[]>;
 }

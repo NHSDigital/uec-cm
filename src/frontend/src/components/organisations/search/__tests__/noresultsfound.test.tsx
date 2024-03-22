@@ -3,8 +3,10 @@ import { act, render, screen } from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
 import NoResultsFound from '../noresultsfound';
 
+const mockAddOrganisation = jest.fn();
+
 beforeEach(() => {
-  render(<NoResultsFound />);
+  render(<NoResultsFound onAddOrganisation={mockAddOrganisation} />);
 });
 
 describe('NoResultsFound', () => {
@@ -52,5 +54,19 @@ describe('NoResultsFound', () => {
       expect(blurSpy).toHaveBeenCalled();
 
       blurSpy.mockRestore();
+  });
+
+  it('should call onAddOrganisation', () => {
+    const radioYes = screen.getByTestId('yes-radio') as HTMLOptionElement;
+
+    act(() => {
+      userEvent.click(radioYes);
+    });
+
+    const nextButton = screen.getByTestId('next-button');
+
+    userEvent.click(nextButton);
+
+    expect(mockAddOrganisation).toHaveBeenCalled();
   });
 });

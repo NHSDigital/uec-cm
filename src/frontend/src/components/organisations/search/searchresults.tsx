@@ -9,9 +9,10 @@ import './styles.css';
 export interface SearchResultsProps {
     results: LocationOrganisation[];
     handleRowSelected: (id: string, entityType: string | undefined) => void;
+    addOrganisationUrl: string;
 }
 
-const SearchResults: React.FC<SearchResultsProps> = ({ results, handleRowSelected }) => {
+const SearchResults: React.FC<SearchResultsProps> = ({ results, handleRowSelected, addOrganisationUrl }) => {
     const showPagination = results.length > 10;
     const itemsPerPage = 10;
     const {
@@ -112,7 +113,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, handleRowSelecte
             <div className='nhsuk-u-padding-bottom-8'>
                 <div className='nhsuk-caption-m nhsuk-u-margin-top-2 nhsuk-u-padding-3 white-on-blue add-item-details'>
                     <span className='nhsuk-u-padding-right-2'>If the organisation or location you are searching for is not shown, you can</span>
-                    <a href='/organisations/add' data-testid='add-new-item-link' className='nhsuk-caption-m white-on-blue underlined'>add a new item</a>
+                    <a href={addOrganisationUrl} data-testid='add-new-item-link' className='nhsuk-caption-m white-on-blue underlined'>add a new item</a>
                 </div>
             </div>
         </div>

@@ -4,7 +4,11 @@ export const isPostcodeValid = (postcode: string): boolean => {
     return postcodeRegex.test(trimmedPostcode);
 }
 
-export const isNameValid = (name: string): boolean => {
+export const isNameValid = (name: string | undefined): boolean => {
+    if (!name) {
+        return false;
+    }
+
     const nameRegex = /^[a-zA-Z0-9.,&'\-+()[\] ]{1,100}$/
-    return nameRegex.test(name);
+        return nameRegex.test(name);
 }
