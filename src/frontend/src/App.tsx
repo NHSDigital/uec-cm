@@ -10,7 +10,7 @@ import buildConfig from './buildconfig.json';
 import './styles/global.css';
 
 function App() {
-  const { version, buildDate } = buildConfig;
+  const { buildDate, commitHash } = buildConfig;
 
   return (
     <>
@@ -24,7 +24,7 @@ function App() {
           </Routes>
         </div>
         <div role='contentinfo' className='app-footer'>
-            <Footer buildVersion={version} buildDate={buildDate} />
+            <Footer buildDate={buildDate} commitHash={commitHash.substring(0,7)} />
         </div>
     </>
   );

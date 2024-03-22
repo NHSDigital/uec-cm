@@ -4,12 +4,12 @@ import Footer from '..';
 
 describe('Footer', () => {
   it('should render footer component with build version and date', () => {
-    const buildVersion = "1.0.0";
     const buildDate = "2022-01-01";
+    const commitHash = "xxxxxxxxxxxxxxxxxx";
 
-    render(<Footer buildVersion={buildVersion} buildDate={buildDate} />);
+    render(<Footer buildDate={buildDate} commitHash={commitHash} />);
 
     expect(screen.getByTestId('footer')).toBeInTheDocument();
-    expect(screen.getByTestId('build-details')).toHaveTextContent(`Version ${buildVersion} - ${buildDate}`);
+    expect(screen.getByTestId('build-details')).toHaveTextContent(`Version ${commitHash} - ${buildDate}`);
   });
 });

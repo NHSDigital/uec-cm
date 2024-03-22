@@ -1,20 +1,18 @@
 const fs = require('fs');
 const path = require('path');
+const child_process = require('child_process');
 
 const buildConfigPath = path.join(__dirname, 'src/buildconfig.json');
 
 const buildJson = JSON.parse(fs.readFileSync(buildConfigPath, 'utf8'));
 
-const versionParts = buildJson.version.split('.');
-versionParts[2] = parseInt(versionParts[2], 10) + 1;
-const newVersion = versionParts.join('.');
-
 const now = new Date();
 const options = { month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' };
 const buildDate = getOrdinalSuffix(now.getDate()) + ' ' + now.toLocaleDateString('en-GB', options);
+const commitHash = child_process.execSync('git rev-parse HEAD').toString().trim();
 
-buildJson.version = newVersion;
 buildJson.buildDate = buildDate.replace(/,/g, '');
+buildJson.commitHash = commitHash;
 
 fs.writeFileSync(buildConfigPath, JSON.stringify(buildJson, null, 2) + '\n');
 
