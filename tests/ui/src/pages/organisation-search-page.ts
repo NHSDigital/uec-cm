@@ -21,9 +21,12 @@ static readonly addNewItemLink = 'add-new-item-link'
 static readonly orgAddNewOption = 'yes-radio'
 static readonly orgSearchLabel = 'Organisation search'
 static readonly orgSearchInputFieldLabel = 'search-field--label'
+static readonly orgSearchNextBtn = 'next-button'
 static readonly orgSearchInputFieldLabelText = 'Organisation or Location or Postcode'
 static readonly searchResultItem = (number: string) => `search-row-${number}-link`
 static readonly searchResultType = (number: string, type: string) => `search-row-${number}-${type}-box`
+
+
 
 
 // Getters
@@ -93,6 +96,16 @@ getSearchInputFieldLabelText(): Locator {
 async clickSearch() {
   await this.page.getByTestId(OrgSearchPage.searchButton).click();
   }
+
+async clickNextBtn() {
+  await this.page.getByTestId(OrgSearchPage.orgSearchNextBtn).click();
+  }
+
+async clickNewItemLink() {
+  await this.page.getByTestId(OrgSearchPage.addNewItemLink).click();
+  }
+
+
 
 async inputSearchText(text: string) {
   await this.page.getByTestId(OrgSearchPage.searchInputField).fill(text);

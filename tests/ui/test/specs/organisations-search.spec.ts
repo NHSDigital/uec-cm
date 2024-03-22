@@ -19,13 +19,13 @@ test.describe('As a user I want to be able to search for an organisation', {
 
   test('The organisation search page is presented correctly', async () => {
     await test.step('The Organisation search label is visible', async () => {
-      await expect.soft(orgSearchPage.getSearchLabel()).toBeVisible;
+      await expect(orgSearchPage.getSearchLabel()).toBeVisible;
     });
     await test.step('And the search instructions text is visible', async () => {
-      await expect.soft(orgSearchPage.getOrgSearchPageText('Search by either organisation (e.g. Trust name) or location (e.g. Hospital name) or postcode')).toBeVisible;
+      await expect(orgSearchPage.getOrgSearchPageText('Search by either organisation (e.g. Trust name) or location (e.g. Hospital name) or postcode')).toBeVisible;
     });
     await test.step('And a search box is visible', async () => {
-      await expect.soft(orgSearchPage.getSearchInputField()).toBeVisible;
+      await expect(orgSearchPage.getSearchInputField()).toBeVisible;
     });
     await test.step('And a search box label is visible', async () => {
       await expect.soft(orgSearchPage.getSearchInputFieldLabel()).toBeVisible;
@@ -55,20 +55,20 @@ test.describe('As a user I want to be able to search for an organisation', {
       await orgSearchPage.clickSearch();
     });
     await test.step('Then the results are paginated ', async () => {
-      await expect.soft(orgSearchPage.getPagination()).toBeVisible;
+      await expect(orgSearchPage.getPagination()).toBeVisible;
     });
     await test.step('And the message "Showing 1 to 10 of 12 results" is displayed ', async () => {
       await expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toBeVisible;
       await expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toContainText('Showing 1 to 10 of 12 results');
     });
     await test.step('And there are 10 rows displayed ', async () => {
-      await expect.soft(await orgSearchPage.getResultsTableRowCount()).toEqual(10);
+      await expect(await orgSearchPage.getResultsTableRowCount()).toEqual(10);
     });
     await test.step('And the Next Page link is enabled', async () => {
-      await expect.soft(orgSearchPage.getNextResultsSet()).toBeVisible;
+      await expect(orgSearchPage.getNextResultsSet()).toBeVisible;
     });
     await test.step('And the Previous Page link is disabled', async () => {
-      await expect.soft(orgSearchPage.getPreviousResultsSet()).toBeDisabled;
+      await expect(orgSearchPage.getPreviousResultsSet()).toBeDisabled;
     });
   });
 
@@ -79,20 +79,20 @@ test.describe('As a user I want to be able to search for an organisation', {
       await orgSearchPage.clickNext();
     });
     await test.step('Then the results are paginated ', async () => {
-      await  expect.soft(orgSearchPage.getPagination()).toBeVisible;
+      await  expect(orgSearchPage.getPagination()).toBeVisible;
     });
     await test.step('And the message "Showing 11 to 12 of 12 results" is displayed ', async () => {
       await expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toBeVisible;
       await expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toContainText('Showing 11 to 12 of 12 results');
     });
     await test.step('And there are 2 rows displayed ', async () => {
-      await expect.soft(await orgSearchPage.getResultsTableRowCount()).toEqual(2);
+      await expect(await orgSearchPage.getResultsTableRowCount()).toEqual(2);
     });
     await test.step('And the Next Page link is disabled', async () => {
-      await expect.soft(orgSearchPage.getNextResultsSet()).toBeDisabled;
+      await expect(orgSearchPage.getNextResultsSet()).toBeDisabled;
     });
     await test.step('And the Previous Page link is enabled', async () => {
-      await expect.soft(orgSearchPage.getPreviousResultsSet()).toBeVisible;
+      await expect(orgSearchPage.getPreviousResultsSet()).toBeVisible;
     });
   });
 
@@ -116,7 +116,7 @@ test.describe('As a user I want to be able to search for an organisation', {
       });
       await test.step('Then an error message stating that "Enter a minimum of 3 characters" is displayed on the screen', async () => {
         await expect(orgSearchPage.getErrorMessage('Enter a minimum of 3 characters')).toBeVisible();
-        await expect.soft(orgSearchPage.getSearchInputFieldError()).toContainText('Enter a minimum of 3 characters');
+        await expect(orgSearchPage.getSearchInputFieldError()).toContainText('Enter a minimum of 3 characters');
       });
     });
 

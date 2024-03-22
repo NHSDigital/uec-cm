@@ -6,26 +6,29 @@ export default class OrgAddPage {
     this.page = page;
   }
 
-  static readonly add = 'add-card-link'
-  static readonly searchInstructions = 'search-by'
-  static readonly fieldError = (field: string) => `#${field}-error-message`
-  static readonly orgAddSearchBtn = 'search-button'
-  static readonly orgAddNewOption = 'yes-radio'
-  static readonly orgErrorSummaryLink = (type: string) => `error-summary-${type}-link`
-  static readonly orgErrorSummary = (type: string) => `error-summary-${type}`
-  static readonly inputField = (field: string) => `${field}-input`
+  static readonly orgAddLabel = 'Add a new organisation (e.g. Trust)'
+  static readonly orgAddInstructions = 'search-by'
+  static readonly inputField = (field: string) => `organisation-${field}-input`
+  static readonly inputFieldLabel = (field: string) => `organisation-${field}--label`
+  static readonly fieldError = (field: string) => `#organisation-${field}-error-message`
+  static readonly orgAddNextBtn = 'next-button'
+
 
   // Getters
 
-  getOrgErrorSummaryLink(type: string): Locator {
-    return this.page.getByTestId(OrgAddPage.orgErrorSummaryLink(type));
+  getOrgAddPageLabel(): Locator {
+    return this.page.getByLabel(OrgAddPage.orgAddLabel);
   }
 
-  getOrgErrorSummary(type: string): Locator {
-    return this.page.getByTestId(OrgAddPage.orgErrorSummary(type));
+  getOrgAddLabel(type: string): Locator {
+    return this.page.locator('id='+ OrgAddPage.inputFieldLabel(type));
   }
 
-  getOrgInputField(type: string): Locator {
+  getOrgAddInstructions(): Locator {
+    return this.page.getByTestId(OrgAddPage.orgAddInstructions);
+  }
+
+  getAddOrgInputField(type: string): Locator {
     return this.page.getByTestId(OrgAddPage.inputField(type));
   }
 
@@ -37,36 +40,29 @@ export default class OrgAddPage {
     return this.page.locator(OrgAddPage.fieldError(field));
   }
 
-  searchInstructionsAreReturned(): Locator {
-    return this.page.getByTestId(OrgAddPage.searchInstructions);
-  }
-
-  errorMessage(text: string): Locator {
+  getOrgAddPageText(text: string): Locator {
     return this.page.getByText(text);
   }
 
-  addOrganisationOptionIsSelected(): Locator {
-    return this.page.getByTestId(OrgAddPage.orgAddNewOption);
+    // Methods
+  async clickNext() {
+    await this.page.getByTestId(OrgAddPage.orgAddNextBtn).click();
   }
 
-  getText(text: string): Locator {
+  async clickLabel(type: string) {
+    await this.page.locator('id='+ OrgAddPage.inputFieldLabel(type)).click();
+  }
+
+  getErrorMessage(text: string): Locator {
     return this.page.getByText(text);
-  }
-
-  // Methods
-  async clickAdd() {
-    await this.page.getByTestId(OrgAddPage.add).click();
-  }
-
-  async clickOrgAddSearch() {
-    await this.page.getByTestId(OrgAddPage.orgAddSearchBtn).click();
   }
 
   async inputTextInField(field: string, text: string) {
     await this.page.getByTestId(OrgAddPage.inputField(field)).fill(text);
   }
 
-  async clickOrgInputField(type: string) {
-    await this.getOrgInputField(type).click();
+  async selectFromDropdown(field: string, text: string) {
+    await this.page.getByTestId(OrgAddPage.inputField(field)).selectOption(text);
   }
+
 }
