@@ -25,6 +25,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "node increment-version.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:ci": "npm run test -- --coverage --watchAll=false",

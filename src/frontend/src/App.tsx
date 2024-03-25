@@ -5,9 +5,13 @@ import AddOrganisationPage from './pages/organisations/add';
 import OrganisationsPage from './pages/organisations';
 import TestPage from './pages/test';
 import SearchOrganisationPage from './pages/organisations/search';
+import Footer from './components/footer';
+import buildConfig from './buildconfig.json';
 import './styles/global.css';
 
 function App() {
+  const { buildDate, commitHash } = buildConfig;
+
   return (
     <>
         <Header />
@@ -18,6 +22,9 @@ function App() {
               <Route path="/test" element={<TestPage />} />
               <Route path="*" element={<OrganisationsPage />} />
           </Routes>
+        </div>
+        <div role='contentinfo' className='app-footer'>
+            <Footer buildDate={buildDate} commitHash={commitHash.substring(0,7)} />
         </div>
     </>
   );
