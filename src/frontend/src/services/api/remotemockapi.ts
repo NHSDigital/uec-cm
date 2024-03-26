@@ -3,7 +3,12 @@ import { ApiInterface, Location, Organisation, Type } from './interface';
 
 const RemoteMockApi: ApiInterface = {
     getOrganisations: async (name: string, postcode: string, organisation: string): Promise<Organisation[]> => {
-        const fileName = [name, postcode, organisation].filter(Boolean).join("+");
+        let fileName = [name, postcode, organisation].filter(Boolean).join("+");
+
+        if (fileName.length === 0) {
+            fileName = "all";
+        }
+
         return getMockApiData(getTestFolder("getorganisations"), fileName);
     },
     getLocations: async (name: string, postcode: string, organisation: string): Promise<Location[]> => {

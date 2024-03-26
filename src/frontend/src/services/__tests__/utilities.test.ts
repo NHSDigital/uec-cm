@@ -4,7 +4,7 @@ import {
   getMockApiData,
   getStringNumericValue,
   getTestFolder,
-  getUrlWithApiParam}
+  getUrlWithApiParams}
   from "../utilities";
 
 describe('getStringNumericValue', () => {
@@ -133,14 +133,21 @@ describe('getMockApiData', () => {
 
   it('should return the same path when no "api" parameter is present in the URL', () => {
     const path = "/example/path";
-    const result = getUrlWithApiParam(path);
+    const result = getUrlWithApiParams(path);
     expect(result).toBe(path);
   });
 
   it('should append the "api" parameter to the path when it is present in the URL', () => {
     const path = "/example/path";
     window.location.search = "?api=123";
-    const result = getUrlWithApiParam(path);
+    const result = getUrlWithApiParams(path);
     expect(result).toBe(`${path}?api=123`);
+  });
+
+  it('should append the "api" and "branch" parameters to the path when it is present in the URL', () => {
+    const path = "/example/path";
+    window.location.search = "?api=123&branch=test";
+    const result = getUrlWithApiParams(path);
+    expect(result).toBe(`${path}?api=123&branch=test`);
   });
 });

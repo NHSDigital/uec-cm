@@ -5,11 +5,11 @@ import NoResultsFound from '../../components/organisations/search/noresultsfound
 import SearchResults from '../../components/organisations/search/searchresults';
 import useOrganisationLocationSearch, { Step } from '../../hooks/useOrganisationLocationSearch';
 import { LocationOrganisation } from '../../services/api/interface';
-import { getUrlWithApiParam } from '../../services/utilities';
+import { getUrlWithApiParams } from '../../services/utilities';
 
 const SearchOrganisationPage: React.FC = () => {
   const viewOrganisationUrl = '/organisations/view';
-  const addOrganisationUrl = getUrlWithApiParam('/organisations/add');
+  const addOrganisationUrl = getUrlWithApiParams('/organisations/add');
 
   const { step, searchResults, handleSearch, getOrganisation } = useOrganisationLocationSearch();
 
@@ -19,7 +19,7 @@ const SearchOrganisationPage: React.FC = () => {
     const organisation = getOrganisation(row.organisationId);
 
     if (organisation) {
-      navigate(getUrlWithApiParam(`${viewOrganisationUrl}/${organisation.id}`), { state: { organisation } });
+      navigate(getUrlWithApiParams(`${viewOrganisationUrl}/${organisation.id}`), { state: { organisation } });
     }
   };
 
