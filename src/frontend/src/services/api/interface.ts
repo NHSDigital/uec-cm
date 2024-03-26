@@ -27,6 +27,7 @@ export interface LocationOrganisation {
     modifiedDateTime: string
     name: string
     entityType?: 'location' | 'organisation'
+    organisationId?: string
 }
 
 export interface Organisation extends LocationOrganisation {

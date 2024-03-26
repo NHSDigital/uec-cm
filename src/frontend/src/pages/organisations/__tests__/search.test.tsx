@@ -98,5 +98,52 @@ describe('SearchOrganisationPage', () => {
 
     expect(navigateMock).toHaveBeenCalledWith('/organisations/add');
   });
-});
 
+  it('should navigate to view organisation page when row is selected and organisation exists in organisationSearchResult', async () => {
+    const navigateMock = useNavigate();
+
+    act(() => {
+      const input = screen.getByTestId('search-field-input');
+      userEvent.type(input, 'royal');
+      const searchButton = screen.getByTestId('search-button');
+      userEvent.click(searchButton);
+    });
+
+    await waitFor(() => {
+      const rowLink = screen.getByTestId('search-row-1-link');
+      userEvent.click(rowLink);
+    });
+
+    expect(navigateMock).toHaveBeenCalledWith(
+      expect.stringContaining('/organisations/view/3182237100353408'),
+      expect.objectContaining({
+        state: {
+          organisation: expect.objectContaining({
+            Address: expect.arrayContaining([
+              expect.objectContaining({
+                city: "London",
+                country: "England",
+                line: expect.arrayContaining(["Part 2S", "Nottingham", "NHS Technology Park"]),
+                postalCode: "XX11 1XX"
+              })
+            ]),
+            active: "true",
+            createdBy: "Admin",
+            createdDateTime: "06-02-2024 11:23:32",
+            id: "3182237100353408",
+            identifier: expect.objectContaining({
+              type: "ODS",
+              use: "secondary",
+              value: "QT6"
+            }),
+            modifiedBy: "Admin",
+            modifiedDateTime: "06-02-2024 11:23:32",
+            name: "Mock Chesterfield Royal Hospital NHS Foundation Trust",
+            resourceType: "Organization",
+            type: "Strategic Partnership"
+          })
+        }
+      })
+    );
+  });
+});
