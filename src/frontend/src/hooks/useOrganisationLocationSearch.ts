@@ -15,22 +15,37 @@ const useOrganisationLocationSearch = () => {
     const [organisationSearchResult, organisationSearch] = useOrganisationSearch();
     const [locationSearchResults, locationSearch] = useLocationSearch();
     const [searchResults, setSearchResults] = useState<LocationOrganisation[]>([]);
+    const [allOrganisationSearchResult, allOrganisationSearch] = useOrganisationSearch();
 
     const handleSearch = (searchField : string) => {
       Promise.all([organisationSearch(searchField, '', ''), locationSearch(searchField, '', '')])
         .then(() => {
           setStep(Step.Searching);
         })
+
+        allOrganisationSearch('', '', '');
+    };
+
+    const getOrganisation = (organisationId?: string) : Organisation | undefined => {
+      const organisation = organisationSearchResult.find(org => org.id === organisationId);
+
+      if (organisation) {
+        return organisation;
+      }
+
+      return allOrganisationSearchResult.find(org => org.id === organisationId);
     };
 
     const addLocationEntityType = (results: Location[]) => results.map(result => ({
       ...result,
-      entityType : "location" as const
+      entityType : "location" as const,
+      organisationId: result.managingOrganization
     }));
 
     const addOrganisationEntityType = (results: Organisation[]) => results.map(result => ({
       ...result,
-      entityType : "organisation" as const
+      entityType : "organisation" as const,
+      organisationId: result.id
     }));
 
     const combineAndSortResults = (organisationResults: Organisation[], locationResults: Location[]) => {
@@ -51,7 +66,7 @@ const useOrganisationLocationSearch = () => {
       }
     }, [step, organisationSearchResult, locationSearchResults]);
 
-    return { step, searchResults, handleSearch };
+    return { step, searchResults, organisationSearchResult, handleSearch, getOrganisation };
 }
 
 export default useOrganisationLocationSearch;

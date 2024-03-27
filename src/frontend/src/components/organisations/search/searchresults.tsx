@@ -8,7 +8,7 @@ import './styles.css';
 
 export interface SearchResultsProps {
     results: LocationOrganisation[];
-    handleRowSelected: (id: string, entityType: string | undefined) => void;
+    handleRowSelected: (row: LocationOrganisation) => void;
     addOrganisationUrl: string;
 }
 
@@ -28,7 +28,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, handleRowSelecte
 
     const handleKeyDown = (event: React.KeyboardEvent, row: LocationOrganisation) => {
         if (event.key === 'Enter' || event.key === ' ') {
-            handleRowSelected(row.id, row.entityType);
+            handleRowSelected(row);
         }
     };
 
@@ -57,7 +57,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, handleRowSelecte
             <Table.Cell data-testid={`search-row-${index}-name`} className='second-column'>
                 <div
                     className="details nhsuk-u-padding-left-4"
-                    onClick={() => handleRowSelected(row.id, row.entityType)}
+                    onClick={() => handleRowSelected(row)}
                     onKeyDown={(event) => handleKeyDown(event, row)}
                     tabIndex={0}
                     role="button"

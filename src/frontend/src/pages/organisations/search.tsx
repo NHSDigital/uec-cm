@@ -1,19 +1,26 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import OrganisationsSearch from '../../components/organisations/search';
 import NoResultsFound from '../../components/organisations/search/noresultsfound';
 import SearchResults from '../../components/organisations/search/searchresults';
 import useOrganisationLocationSearch, { Step } from '../../hooks/useOrganisationLocationSearch';
-import { useNavigate } from 'react-router-dom';
+import { LocationOrganisation } from '../../services/api/interface';
+import { getUrlWithApiParams } from '../../services/utilities';
 
 const SearchOrganisationPage: React.FC = () => {
-  const addOrganisationUrl = '/organisations/add';
+  const viewOrganisationUrl = '/organisations/view';
+  const addOrganisationUrl = getUrlWithApiParams('/organisations/add');
 
-  const { step, searchResults, handleSearch } = useOrganisationLocationSearch();
+  const { step, searchResults, handleSearch, getOrganisation } = useOrganisationLocationSearch();
 
   const navigate = useNavigate();
 
-  const handleRowSelected = (id: string, entityType: string | undefined) => {
-    navigate(`/${entityType}/${id}`);
+  const handleRowSelected = (row: LocationOrganisation) => {
+    const organisation = getOrganisation(row.organisationId);
+
+    if (organisation) {
+      navigate(getUrlWithApiParams(`${viewOrganisationUrl}/${organisation.id}`), { state: { organisation } });
+    }
   };
 
   const handleAddOrganisation = () => {

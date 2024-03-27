@@ -38,3 +38,19 @@ export const getMockApiData = async (url: string, fileName: string): Promise<any
 
     return response.json();
 }
+
+export const getUrlWithApiParams = (path: string) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const apiParam = searchParams.get('api');
+    const branchParam = searchParams.get('branch');
+    let newPath = path;
+
+    if (apiParam) {
+      newPath = `${newPath}?api=${apiParam}`;
+
+      if (branchParam) {
+        newPath += `&branch=${branchParam}`;
+      }
+    }
+    return newPath;
+}
