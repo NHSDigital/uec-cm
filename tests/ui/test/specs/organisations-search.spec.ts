@@ -1,9 +1,11 @@
 import { test, expect } from '@playwright/test';
 import OrgPage from '../../src/pages/organisations-page';
 import OrgSearchPage from '../../src/pages/organisation-search-page';
+import OrgSummaryPage from '../../src/pages/organisation-summary-page';
 
 let orgPage: OrgPage;
 let orgSearchPage: OrgSearchPage;
+let orgSummaryPage: OrgSummaryPage;
 
 test.describe('As a user I want to be able to search for an organisation', {
   tag: '@orgSearch',
@@ -13,6 +15,7 @@ test.describe('As a user I want to be able to search for an organisation', {
       await page.goto('/');
       orgPage = new OrgPage(page);
       orgSearchPage = new OrgSearchPage(page);
+      orgSummaryPage = new OrgSummaryPage(page);
       await orgPage.clickGoToSearch();
     });
   });
@@ -41,11 +44,11 @@ test.describe('As a user I want to be able to search for an organisation', {
     });
     await test.step('Then a location record is returned', async () => {
       await expect.soft(orgSearchPage.getSearchResultType('0', 'location')).toHaveText('LOCATION' )
-      await expect.soft(orgSearchPage.getSearchResultItem('0')).toHaveText('Default Mock Location 1 - Nottingham XX1 1XX' )
+      await expect.soft(orgSearchPage.getSearchResultItemByPosition('0')).toHaveText('Default Mock Location 1 - Nottingham XX1 1XX' )
     });
     await test.step('And an organisation record is returned', async () => {
       await expect.soft(orgSearchPage.getSearchResultType('3', 'organisation')).toHaveText('ORGANISATION' )
-      await expect.soft(orgSearchPage.getSearchResultItem('3')).toHaveText('Default Mock Organisation 1' )
+      await expect.soft(orgSearchPage.getSearchResultItemByPosition('3')).toHaveText('Default Mock Organisation 1' )
     });
   });
 
@@ -55,7 +58,7 @@ test.describe('As a user I want to be able to search for an organisation', {
       await orgSearchPage.clickSearch();
     });
     await test.step('Then the results are paginated ', async () => {
-      await expect(orgSearchPage.getPagination()).toBeVisible;
+    await expect(orgSearchPage.getPagination()).toBeVisible;
     });
     await test.step('And the message "Showing 1 to 10 of 12 results" is displayed ', async () => {
       await expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toBeVisible;
@@ -79,7 +82,7 @@ test.describe('As a user I want to be able to search for an organisation', {
       await orgSearchPage.clickNext();
     });
     await test.step('Then the results are paginated ', async () => {
-      await  expect(orgSearchPage.getPagination()).toBeVisible;
+      await expect(orgSearchPage.getPagination()).toBeVisible;
     });
     await test.step('And the message "Showing 11 to 12 of 12 results" is displayed ', async () => {
       await expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toBeVisible;
@@ -120,4 +123,36 @@ test.describe('As a user I want to be able to search for an organisation', {
       });
     });
 
+    test('Organisation search result summary correctly displayed', async () => {
+      const organisation = 'Default Mock Organisation 1';
+      await test.step('When I search for an organisation using London', async () => {
+        await orgSearchPage.inputSearchText('London');
+        await orgSearchPage.clickSearch();
+      });
+      await test.step(`When I select ${organisation} from search results`, async () => {
+        await orgSearchPage.selectResultItemByName(`${organisation}`);
+      });
+      await test.step('Then the organisation summary is correctly displayed', async () => {
+        await expect.soft(orgSummaryPage.getOrganisationName()).toContainText(`${organisation}`);
+        await expect.soft(orgSummaryPage.getPageLabel('Summary')).toBeVisible();
+        await expect.soft(orgSummaryPage.getPageLabel('Organisation')).toBeVisible();
+      });
+    });
+
+    test('Location search result summary correctly displayed', async () => {
+      const location = 'Default Mock Location 1 - Nottingham XX1 1XX';
+      const organisation = 'Default Mock Organisation 1';
+      await test.step('When I search for an organisation using London', async () => {
+        await orgSearchPage.inputSearchText('London');
+        await orgSearchPage.clickSearch();
+      });
+      await test.step(`When I select ${location} from search results`, async () => {
+        await orgSearchPage.selectResultItemByName(`${location}`);
+      });
+      await test.step('Then the organisation summary is correctly displayed', async () => {
+        await expect.soft(orgSummaryPage.getOrganisationName()).toContainText(organisation);
+        await expect.soft(orgSummaryPage.getPageLabel('Summary')).toBeVisible();
+        await expect.soft(orgSummaryPage.getPageLabel('Organisation')).toBeVisible();
+      });
+    });
 });
