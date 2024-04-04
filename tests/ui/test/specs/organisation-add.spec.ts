@@ -103,6 +103,8 @@ test.describe('As a user I want to be able to add organisation data from no resu
       await expect(orgAddPage.getFieldError('type')).toContainText(`${orgErrorMsg}`);
     });
   });
+});
+
 
   test.describe('As a user I want to be able to add organisation data from the search results screen', {
     tag: '@orgAdd',
@@ -129,6 +131,4 @@ test.describe('As a user I want to be able to add organisation data from no resu
         await orgAddPage.clickNext();
       });
     });
-
   });
-});
