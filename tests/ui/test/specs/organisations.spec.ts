@@ -1,10 +1,14 @@
 import { test, expect } from '@playwright/test';
+import { allure } from "allure-playwright";
 import OrgPage from '../../src/pages/organisations-page';
 
 let orgPage: OrgPage;
 
 test.describe('As a user I want to be able to work with organisations', async () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({page}, testInfo) => {
+    await allure.parentSuite(testInfo.project.name);
+    await allure.suite("Tests for organisation journeys");
+    await allure.subSuite("Tests for organisation landing page");
     await test.step('Navigate to landing page', async () => {
       await page.goto('/');
       orgPage = new OrgPage(page);

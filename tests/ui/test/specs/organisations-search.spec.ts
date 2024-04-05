@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { allure } from "allure-playwright";
 import OrgPage from '../../src/pages/organisations-page';
 import OrgSearchPage from '../../src/pages/organisation-search-page';
 import OrgSummaryPage from '../../src/pages/organisation-summary-page';
@@ -13,7 +14,11 @@ const organisation = 'Default Mock Organisation 1';
 test.describe('As a user I want to be able to search for an organisation', {
   tag: '@orgSearch',
 }, async () => {
-  test.beforeEach(async ({ page }) => {
+
+  test.beforeEach(async ({page}, testInfo) => {
+    await allure.parentSuite(testInfo.project.name);
+    await allure.suite("Tests for organisation journeys");
+    await allure.subSuite("Tests for searching for organisations");
     await test.step('Navigate to landing page', async () => {
       await page.goto('/');
       orgPage = new OrgPage(page);

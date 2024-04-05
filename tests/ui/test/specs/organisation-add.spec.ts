@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { allure } from "allure-playwright";
 import OrgPage from '../../src/pages/organisations-page';
 import OrgAddPage from '../../src/pages/organisation-add-page';
 import OrgSearchPage from '../../src/pages/organisation-search-page';
@@ -12,7 +13,10 @@ const searchLengthErrorMsg = 'Enter a minimum of 3 characters';
 test.describe('As a user I want to be able to add organisation data from no results found', {
   tag: '@orgAdd',
 }, async () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({page}, testInfo) => {
+    await allure.parentSuite(testInfo.project.name);
+    await allure.suite("Tests for organisation journeys");
+    await allure.subSuite("Tests for adding organisations");
     await test.step('Navigate to organisation add page', async () => {
       await page.goto('/');
       orgPage = new OrgPage(page);
@@ -109,7 +113,10 @@ test.describe('As a user I want to be able to add organisation data from no resu
   test.describe('As a user I want to be able to add organisation data from the search results screen', {
     tag: '@orgAdd',
   }, async () => {
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({page}, testInfo) => {
+      await allure.parentSuite(testInfo.project.name);
+      await allure.suite("Tests for organisation journeys");
+      await allure.subSuite("Tests for adding organisations");
       await test.step('Navigate to organisation add page', async () => {
         await page.goto('/');
         orgPage = new OrgPage(page);
