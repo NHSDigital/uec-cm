@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { allure } from "allure-playwright";
 import OrgPage from '../../src/pages/organisations-page';
 import OrgSearchPage from '../../src/pages/organisation-search-page';
 import OrgSummaryPage from '../../src/pages/organisation-summary-page';
@@ -7,10 +8,17 @@ let orgPage: OrgPage;
 let orgSearchPage: OrgSearchPage;
 let orgSummaryPage: OrgSummaryPage;
 
+const location = 'Default Mock Location 1 - Nottingham XX1 1XX';
+const organisation = 'Default Mock Organisation 1';
+
 test.describe('As a user I want to be able to search for an organisation', {
   tag: '@orgSearch',
 }, async () => {
-  test.beforeEach(async ({ page }) => {
+
+  test.beforeEach(async ({page}, testInfo) => {
+    await allure.parentSuite(testInfo.project.name);
+    await allure.suite("Tests for organisation journeys");
+    await allure.subSuite("Tests for searching for organisations");
     await test.step('Navigate to landing page', async () => {
       await page.goto('/');
       orgPage = new OrgPage(page);
@@ -44,11 +52,11 @@ test.describe('As a user I want to be able to search for an organisation', {
     });
     await test.step('Then a location record is returned', async () => {
       await expect.soft(orgSearchPage.getSearchResultType('0', 'location')).toHaveText('LOCATION' )
-      await expect.soft(orgSearchPage.getSearchResultItemByPosition('0')).toHaveText('Default Mock Location 1 - Nottingham XX1 1XX' )
+      await expect.soft(orgSearchPage.getSearchResultItemByPosition('0')).toHaveText(`${location}`)
     });
     await test.step('And an organisation record is returned', async () => {
       await expect.soft(orgSearchPage.getSearchResultType('3', 'organisation')).toHaveText('ORGANISATION' )
-      await expect.soft(orgSearchPage.getSearchResultItemByPosition('3')).toHaveText('Default Mock Organisation 1' )
+      await expect.soft(orgSearchPage.getSearchResultItemByPosition('3')).toHaveText(`${organisation}`)
     });
   });
 
@@ -58,7 +66,7 @@ test.describe('As a user I want to be able to search for an organisation', {
       await orgSearchPage.clickSearch();
     });
     await test.step('Then the results are paginated ', async () => {
-    await expect(orgSearchPage.getPagination()).toBeVisible;
+      await expect(orgSearchPage.getPagination()).toBeVisible;
     });
     await test.step('And the message "Showing 1 to 10 of 12 results" is displayed ', async () => {
       await expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toBeVisible;
@@ -124,7 +132,7 @@ test.describe('As a user I want to be able to search for an organisation', {
     });
 
     test('Organisation search result summary correctly displayed', async () => {
-      const organisation = 'Default Mock Organisation 1';
+
       await test.step('When I search for an organisation using London', async () => {
         await orgSearchPage.inputSearchText('London');
         await orgSearchPage.clickSearch();
@@ -140,8 +148,7 @@ test.describe('As a user I want to be able to search for an organisation', {
     });
 
     test('Location search result summary correctly displayed', async () => {
-      const location = 'Default Mock Location 1 - Nottingham XX1 1XX';
-      const organisation = 'Default Mock Organisation 1';
+
       await test.step('When I search for an organisation using London', async () => {
         await orgSearchPage.inputSearchText('London');
         await orgSearchPage.clickSearch();

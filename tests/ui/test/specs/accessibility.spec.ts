@@ -1,4 +1,5 @@
 import { test , expect} from '@playwright/test';
+import { allure } from "allure-playwright";
 import Accessibility from '../../src/utilities/accessibility';
 import OrgPage from '../../src/pages/organisations-page';
 import OrgSearchPage from '../../src/pages/organisation-search-page';
@@ -14,6 +15,9 @@ test.describe('As a user I want to be able to check the Test pages for accessibi
 }, async () => {
 
   test.beforeEach(async ({page}, testInfo) => {
+    await allure.parentSuite(testInfo.project.name);
+    await allure.suite("Tests for accessibility journeys");
+    await allure.subSuite("Tests for to confirm that Axe tests  run");
     await test.step('Navigate to the accessibility test page', async () => {
       accessibility = new Accessibility(page);
       await page.goto('/test');
@@ -27,7 +31,7 @@ test.describe('As a user I want to be able to check the Test pages for accessibi
     await test.step('The accessibility tests fail', async () => {
       const timestamp = new Date().toISOString().replace(/:/g, '-');
       await accessibility.runAxeCheck(testInfo.title+'-'+timestamp);
-      let reportCount = await accessibility.expectAccessibilityCheckFails(testInfo.title);
+      let reportCount = await accessibility.expectAccessibilityCheckFails(testInfo.title+'-'+timestamp);
       expect(reportCount).toBeGreaterThan(0);
     });
   });
@@ -39,6 +43,9 @@ test.describe('As a user I want to be able to check the Organisation pages for a
 }, async () => {
 
   test.beforeEach(async ({ page }, testInfo) => {
+    await allure.parentSuite(testInfo.project.name);
+    await allure.suite("Tests for accessibility journeys");
+    await allure.subSuite("Tests for each page");
     await test.step('Set up page objects', async () => {
       accessibility = new Accessibility(page);
       orgPage = new OrgPage(page);
@@ -54,7 +61,7 @@ test.describe('As a user I want to be able to check the Organisation pages for a
       await test.step('The accessibility tests do not fail', async () => {
         const timestamp = new Date().toISOString().replace(/:/g, '-');
         await accessibility.runAxeCheck(testInfo.title+'-'+timestamp);
-        let reportCount = await accessibility.expectAccessibilityCheckFails(testInfo.title);
+        let reportCount = await accessibility.expectAccessibilityCheckFails(testInfo.title+'-'+timestamp);
         expect(reportCount).toBe(0);
       });
     });
@@ -67,7 +74,7 @@ test.describe('As a user I want to be able to check the Organisation pages for a
     await test.step('The accessibility tests do not fail', async () => {
       const timestamp = new Date().toISOString().replace(/:/g, '-');
       await accessibility.runAxeCheck(testInfo.title+'-'+timestamp);
-      let reportCount = await accessibility.expectAccessibilityCheckFails(testInfo.title);
+      let reportCount = await accessibility.expectAccessibilityCheckFails(testInfo.title+'-'+timestamp);
       expect(reportCount).toBe(0);
     });
   });
@@ -82,7 +89,7 @@ test.describe('As a user I want to be able to check the Organisation pages for a
       await test.step('The accessibility tests do not fail', async () => {
         const timestamp = new Date().toISOString().replace(/:/g, '-');
         await accessibility.runAxeCheck(testInfo.title+'-'+timestamp);
-        let reportCount = await accessibility.expectAccessibilityCheckFails(testInfo.title);
+        let reportCount = await accessibility.expectAccessibilityCheckFails(testInfo.title+'-'+timestamp);
         expect(reportCount).toBe(0);
       });
     });
@@ -97,8 +104,9 @@ test.describe('As a user I want to be able to check the Organisation pages for a
         });
     await test.step('The accessibility tests do not fail', async () => {
       const timestamp = new Date().toISOString().replace(/:/g, '-');
+      console.log(testInfo.title+'-'+timestamp);
       await accessibility.runAxeCheck(testInfo.title+'-'+timestamp);
-      let reportCount = await accessibility.expectAccessibilityCheckFails(testInfo.title);
+      let reportCount = await accessibility.expectAccessibilityCheckFails(testInfo.title+'-'+timestamp);
       expect(reportCount).toBe(0);
     });
   });
