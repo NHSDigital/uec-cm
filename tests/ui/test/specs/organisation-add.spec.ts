@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { allure } from "allure-playwright";
 import OrgPage from '../../src/pages/organisations-page';
 import OrgAddPage from '../../src/pages/organisation-add-page';
 import OrgSearchPage from '../../src/pages/organisation-search-page';
@@ -6,11 +7,16 @@ import OrgSearchPage from '../../src/pages/organisation-search-page';
 let orgPage: OrgPage;
 let orgAddPage: OrgAddPage;
 let orgSearchPage: OrgSearchPage;
+const orgErrorMsg = 'Please select an Organisation type';
+const searchLengthErrorMsg = 'Enter a minimum of 3 characters';
 
 test.describe('As a user I want to be able to add organisation data from no results found', {
   tag: '@orgAdd',
 }, async () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({page}, testInfo) => {
+    await allure.parentSuite(testInfo.project.name);
+    await allure.suite("Tests for organisation journeys");
+    await allure.subSuite("Tests for adding organisations");
     await test.step('Navigate to organisation add page', async () => {
       await page.goto('/');
       orgPage = new OrgPage(page);
@@ -28,24 +34,24 @@ test.describe('As a user I want to be able to add organisation data from no resu
       await expect(orgAddPage.getOrgAddPageLabel()).toBeVisible;
     });
     await test.step('And the add instructions text is visible', async () => {
-      await expect.soft(orgAddPage.getOrgAddInstructions()).toBeVisible;
-      await expect.soft(orgAddPage.getOrgAddPageText('Please add the following mandatory information')).toBeVisible;
+      expect.soft(orgAddPage.getOrgAddInstructions()).toBeVisible;
+      expect.soft(orgAddPage.getOrgAddPageText('Please add the following mandatory information')).toBeVisible;
     });
     await test.step('And a org name input box is visible', async () => {
       await expect(orgAddPage.getAddOrgInputField('name')).toBeVisible;
     });
     await test.step('And a org name input box has focus when the label is clicked', async () => {
-      await expect.soft(orgAddPage.getOrgAddLabel('name')).toContainText('Organisation name');
+      expect.soft(orgAddPage.getOrgAddLabel('name')).toContainText('Organisation name');
       await orgAddPage.clickLabel('name');
-      await expect.soft(orgAddPage.getAddOrgInputField('name')).toBeFocused;
+      expect.soft(orgAddPage.getAddOrgInputField('name')).toBeFocused;
     });
     await test.step('And a org type dropdown box is visible', async () => {
       await expect(orgAddPage.getAddOrgInputField('type')).toBeVisible;
     });
     await test.step('And a org type dropdown box has focus when the label is clicked', async () => {
-      await expect.soft(orgAddPage.getOrgAddLabel('type')).toContainText('Organisation type');
+      expect.soft(orgAddPage.getOrgAddLabel('type')).toContainText('Organisation type');
       await orgAddPage.clickLabel('type');
-      await expect.soft(orgAddPage.getAddOrgInputField('type')).toBeFocused;
+      expect.soft(orgAddPage.getAddOrgInputField('type')).toBeFocused;
     });
   });
 
@@ -66,9 +72,9 @@ test.describe('As a user I want to be able to add organisation data from no resu
       await orgAddPage.selectFromDropdown('type','Mock Operational Delivery Network')
       await orgAddPage.clickNext();
     });
-    await test.step('Then an error message stating that "Enter a minimum of 3 characters" is displayed on the screen', async () => {
-      await expect(orgAddPage.getErrorMessage('Enter a minimum of 3 characters')).toBeVisible();
-      await expect(orgAddPage.getFieldError('name')).toContainText('Enter a minimum of 3 characters');
+    await test.step(`Then an error message stating that ${searchLengthErrorMsg} is displayed on the screen`, async () => {
+      await expect(orgAddPage.getErrorMessage(`${searchLengthErrorMsg}`)).toBeVisible();
+      await expect(orgAddPage.getFieldError('name')).toContainText(`${searchLengthErrorMsg}`);
     });
   });
 
@@ -80,13 +86,13 @@ test.describe('As a user I want to be able to add organisation data from no resu
       await orgAddPage.selectFromDropdown('type','')
       await orgAddPage.clickNext();
     });
-    await test.step('Then an error message stating that "Enter a minimum of 3 characters" is displayed on the screen', async () => {
-      await expect(orgAddPage.getErrorMessage('Enter a minimum of 3 characters')).toBeVisible();
-      await expect(orgAddPage.getFieldError('name')).toContainText('Enter a minimum of 3 characters');
+    await test.step(`Then an error message stating that ${searchLengthErrorMsg} is displayed on the screen`, async () => {
+      await expect(orgAddPage.getErrorMessage(`${searchLengthErrorMsg}`)).toBeVisible();
+      await expect(orgAddPage.getFieldError('name')).toContainText(`${searchLengthErrorMsg}`);
     });
-    await test.step('Then an error message stating that "Please select an Organisation type" is displayed on the screen', async () => {
-      await expect(orgAddPage.getErrorMessage('Please select an Organisation type')).toBeVisible();
-      await expect(orgAddPage.getFieldError('type')).toContainText('Please select an Organisation type');
+    await test.step(`Then an error message stating that ${orgErrorMsg} is displayed on the screen`, async () => {
+      await expect(orgAddPage.getErrorMessage(`${orgErrorMsg}`)).toBeVisible();
+      await expect(orgAddPage.getFieldError('type')).toContainText(`${orgErrorMsg}`);
     });
   });
 
@@ -96,16 +102,20 @@ test.describe('As a user I want to be able to add organisation data from no resu
       await orgAddPage.selectFromDropdown('type','')
       await orgAddPage.clickNext();
     });
-    await test.step('Then an error message stating that "Please select an Organisation type" is displayed on the screen', async () => {
-      await expect(orgAddPage.getErrorMessage('Please select an Organisation type')).toBeVisible();
-      await expect(orgAddPage.getFieldError('type')).toContainText('Please select an Organisation type');
+    await test.step(`Then an error message stating that ${orgErrorMsg} is displayed on the screen`, async () => {
+      await expect(orgAddPage.getErrorMessage(`${orgErrorMsg}`)).toBeVisible();
+      await expect(orgAddPage.getFieldError('type')).toContainText(`${orgErrorMsg}`);
     });
   });
+});
 
   test.describe('As a user I want to be able to add organisation data from the search results screen', {
     tag: '@orgAdd',
   }, async () => {
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({page}, testInfo) => {
+      await allure.parentSuite(testInfo.project.name);
+      await allure.suite("Tests for organisation journeys");
+      await allure.subSuite("Tests for adding organisations");
       await test.step('Navigate to organisation add page', async () => {
         await page.goto('/');
         orgPage = new OrgPage(page);
@@ -127,6 +137,4 @@ test.describe('As a user I want to be able to add organisation data from no resu
         await orgAddPage.clickNext();
       });
     });
-
   });
-});

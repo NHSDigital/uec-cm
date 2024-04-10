@@ -21,9 +21,9 @@ export default class OrgSearchPage {
   static readonly orgAddNewOption = 'yes-radio'
   static readonly orgSearchLabel = 'Organisation search'
   static readonly orgSearchInputFieldLabel = 'search-field--label'
+  static readonly orgSearchInputFieldLabelText = 'Organisation or Location or Postcode'
   static readonly orgSearchNextBtn = 'next-button'
   static readonly searchResultItem = `div[role='button']`
-  static readonly orgSearchInputFieldLabelText = 'Organisation or Location or Postcode'
   static readonly searchResultItemByPosition = (number: string) => `search-row-${number}-link`
   static readonly searchResultType = (number: string, type: string) => `search-row-${number}-${type}-box`
 
@@ -79,7 +79,7 @@ export default class OrgSearchPage {
     return this.page.getByText(text);
   }
 
-  addOrganisationOptionIsSelected(): Locator {
+  getAddOrganisationOption(): Locator {
     return this.page.getByTestId(OrgSearchPage.orgAddNewOption);
   }
 
@@ -95,6 +95,9 @@ export default class OrgSearchPage {
     return this.page.getByLabel(OrgSearchPage.orgSearchInputFieldLabelText);
   }
 
+  getPageLabelByText(text: string): Locator {
+    return this.page.locator('label', { has: this.page.locator(`text=${text}`)});
+  }
 
   // Methods
   async clickSearch() {
