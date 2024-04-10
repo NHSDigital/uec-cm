@@ -33,7 +33,7 @@ test.describe('As a user I want to be able to search for an organisation', {
       expect(orgSearchPage.getSearchLabel()).toBeVisible;
     });
     await test.step('And the search instructions text is visible', async () => {
-      expect(orgSearchPage.getOrgSearchPageText('XXXSearch by either organisation (e.g. Trust name) or location (e.g. Hospital name) or postcode')).toBeVisible;
+      expect(orgSearchPage.getOrgSearchPageText('Search by either organisation (e.g. Trust name) or location (e.g. Hospital name) or postcode')).toBeVisible;
     });
     await test.step('And a search box is visible', async () => {
       expect(orgSearchPage.getSearchInputField()).toBeVisible;

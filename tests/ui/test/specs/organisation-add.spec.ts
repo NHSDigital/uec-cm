@@ -49,7 +49,7 @@ test.describe('As a user I want to be able to add organisation data from no resu
       await expect(orgAddPage.getAddOrgInputField('type')).toBeVisible;
     });
     await test.step('And a org type dropdown box has focus when the label is clicked', async () => {
-      expect.soft(orgAddPage.getOrgAddLabel('type')).toContainText('eeOrganisation type');
+      expect.soft(orgAddPage.getOrgAddLabel('type')).toContainText('Organisation type');
       await orgAddPage.clickLabel('type');
       expect.soft(orgAddPage.getAddOrgInputField('type')).toBeFocused;
     });
