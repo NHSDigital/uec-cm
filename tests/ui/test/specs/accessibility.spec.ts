@@ -53,7 +53,6 @@ test.describe('As a user I want to be able to check the Organisation pages for a
       orgAddPage = new OrgAddPage(page);
       orgSearchPage = new OrgSearchPage(page);
     });
-
   });
 
   test('The Organisation landing pages has no accessibility issues',  async ({page}, testInfo) => {

@@ -12,10 +12,10 @@ export default class Accessibility {
 
   async runAxeCheck(testId: string, maxErrors = 0)
 
+
+
   {const accessibilityScanResults = await new AxeBuilder({page: this.page }
   ).analyze();
-
-
 
   if (accessibilityScanResults.violations.length > 0)
   {

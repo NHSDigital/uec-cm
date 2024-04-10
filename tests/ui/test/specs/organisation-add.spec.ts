@@ -109,7 +109,6 @@ test.describe('As a user I want to be able to add organisation data from no resu
   });
 });
 
-
   test.describe('As a user I want to be able to add organisation data from the search results screen', {
     tag: '@orgAdd',
   }, async () => {

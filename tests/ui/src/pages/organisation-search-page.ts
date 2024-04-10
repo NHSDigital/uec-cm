@@ -24,7 +24,6 @@ export default class OrgSearchPage {
   static readonly orgSearchInputFieldLabelText = 'Organisation or Location or Postcode'
   static readonly orgSearchNextBtn = 'next-button'
   static readonly searchResultItem = `div[role='button']`
-
   static readonly searchResultItemByPosition = (number: string) => `search-row-${number}-link`
   static readonly searchResultType = (number: string, type: string) => `search-row-${number}-${type}-box`
 

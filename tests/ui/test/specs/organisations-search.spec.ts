@@ -132,7 +132,6 @@ test.describe('As a user I want to be able to search for an organisation', {
     });
 
     test('Organisation search result summary correctly displayed', async () => {
-
       await test.step('When I search for an organisation using London', async () => {
         await orgSearchPage.inputSearchText('London');
         await orgSearchPage.clickSearch();
@@ -148,7 +147,6 @@ test.describe('As a user I want to be able to search for an organisation', {
     });
 
     test('Location search result summary correctly displayed', async () => {
-
       await test.step('When I search for an organisation using London', async () => {
         await orgSearchPage.inputSearchText('London');
         await orgSearchPage.clickSearch();

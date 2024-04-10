@@ -1,5 +1,4 @@
 #! /bin/bash
-trap handle_error ERR
 # This script runs playwright cucumber ui tests
 #
 export AWS_REGION="${AWS_REGION:-""}"     # The aws region
