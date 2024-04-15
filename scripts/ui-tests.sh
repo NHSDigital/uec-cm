@@ -57,7 +57,7 @@ allure generate --single-file -c -o  allure-reports;
 
 if [ $TEST_RESULTS -ne 0 ] ; then
   echo "UI Tests have failed"
-  exit 1
+  exit $TEST_RESULTS
 else
   echo "UI Unit Tests have passed"
   exit 0

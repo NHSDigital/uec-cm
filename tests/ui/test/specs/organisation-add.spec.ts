@@ -35,7 +35,7 @@ test.describe('As a user I want to be able to add organisation data from no resu
     });
     await test.step('And the add instructions text is visible', async () => {
       expect.soft(orgAddPage.getOrgAddInstructions()).toBeVisible;
-      expect.soft(orgAddPage.getOrgAddPageText('Please add the following mandatory information')).toBeVisible;
+      expect.soft(orgAddPage.getOrgAddPageText('WWWWWPlease add the following mandatory information')).toBeVisible;
     });
     await test.step('And a org name input box is visible', async () => {
       await expect(orgAddPage.getAddOrgInputField('name')).toBeVisible;
@@ -130,7 +130,7 @@ test.describe('As a user I want to be able to add organisation data from no resu
     // TODO: test will need expanding once the functionality has been created
     test('I can add successfully add an organisation', async () => {
       await test.step('When I add an organisation name of NHS Trust', async () => {
-        await orgAddPage.inputTextInField('name','zNHS Trust');
+        await orgAddPage.inputTextInField('name','NHS Trust');
       });
       await test.step('And select an organisation type of Mock NHS Trust', async () => {
         await orgAddPage.selectFromDropdown('type','Mock NHS Trust')
