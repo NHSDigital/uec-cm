@@ -1,6 +1,7 @@
 #! /bin/bash
 # This script runs playwright cucumber ui tests
 #
+
 export AWS_REGION="${AWS_REGION:-""}"     # The aws region
 export ACCOUNT_TYPE="${ACCOUNT_TYPE:-""}"     # The type of account being used - dev test
 
@@ -55,6 +56,7 @@ echo "Branch = $TERRAFORM_WORKSPACE_NAME" > allure-results/environment.propertie
 echo "next generating report"
 allure generate --single-file -c -o  allure-reports;
 
+echo $TEST_RESULTS
 if [ $TEST_RESULTS -ne 0 ] ; then
   echo "UI Tests have failed"
   exit $TEST_RESULTS
@@ -62,3 +64,6 @@ else
   echo "UI Unit Tests have passed"
   exit 0
 fi
+
+echo "here"
+
