@@ -130,7 +130,7 @@ test.describe('As a user I want to be able to add organisation data from no resu
     // TODO: test will need expanding once the functionality has been created
     test('I can add successfully add an organisation', async () => {
       await test.step('When I add an organisation name of NHS Trust', async () => {
-        await orgAddPage.inputTextInField('name','NHS Trust');
+        await orgAddPage.inputTextInField('name','zNHS Trust');
       });
       await test.step('And select an organisation type of Mock NHS Trust', async () => {
         await orgAddPage.selectFromDropdown('type','Mock NHS Trust')
