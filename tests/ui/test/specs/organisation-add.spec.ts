@@ -35,7 +35,7 @@ test.describe('As a user I want to be able to add organisation data from no resu
     });
     await test.step('And the add instructions text is visible', async () => {
       expect.soft(orgAddPage.getOrgAddInstructions()).toBeVisible;
-      expect.soft(orgAddPage.getOrgAddPageText('Please add the following mandatory information')).toBeVisible;
+      expect.soft(orgAddPage.getOrgAddPageText('WWWWWPlease add the following mandatory information')).toBeVisible;
     });
     await test.step('And a org name input box is visible', async () => {
       await expect(orgAddPage.getAddOrgInputField('name')).toBeVisible;
