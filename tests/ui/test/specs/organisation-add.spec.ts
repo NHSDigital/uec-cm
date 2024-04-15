@@ -11,7 +11,7 @@ const orgErrorMsg = 'Please select an Organisation type';
 const searchLengthErrorMsg = 'Enter a minimum of 3 characters';
 
 test.describe('As a user I want to be able to add organisation data from no results found', {
-  tag: '@orgAdd',
+  tag: '@Test',
 }, async () => {
   test.beforeEach(async ({page}, testInfo) => {
     await allure.parentSuite(testInfo.project.name);
@@ -35,13 +35,13 @@ test.describe('As a user I want to be able to add organisation data from no resu
     });
     await test.step('And the add instructions text is visible', async () => {
       expect.soft(orgAddPage.getOrgAddInstructions()).toBeVisible;
-      expect.soft(orgAddPage.getOrgAddPageText('Please add the following mandatory information')).toBeVisible;
+      expect.soft(orgAddPage.getOrgAddPageText('WWWWWPlease WWWEadRd the following mandatory information')).toBeVisible;
     });
     await test.step('And a org name input box is visible', async () => {
       await expect(orgAddPage.getAddOrgInputField('name')).toBeVisible;
     });
     await test.step('And a org name input box has focus when the label is clicked', async () => {
-      expect.soft(orgAddPage.getOrgAddLabel('name')).toContainText('Organisation name');
+      expect.soft(orgAddPage.getOrgAddLabel('name')).toContainText('WEOrganisation name');
       await orgAddPage.clickLabel('name');
       expect.soft(orgAddPage.getAddOrgInputField('name')).toBeFocused;
     });
