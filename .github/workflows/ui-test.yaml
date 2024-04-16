@@ -50,6 +50,7 @@ jobs:
           allure --version
 
       - name: Run ui test script
+        id: run-ui-tests-step
         run: |
           export BUILD_DATETIME="${{ inputs.build_datetime }}"
           export BUILD_TIMESTAMP="${{ inputs.build_timestamp }}"
@@ -76,3 +77,6 @@ jobs:
           name: axe-report
           path: tests/ui/accessibility-reports/artifacts/*.html
           retention-days: 10
+      - name: Check on failures
+        if: steps.run-ui-tests-step.outcome != 'success'
+        run: exit 1
