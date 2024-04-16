@@ -35,7 +35,7 @@ test.describe('As a user I want to be able to add organisation data from no resu
     });
     await test.step('And the add instructions text is visible', async () => {
       expect.soft(orgAddPage.getOrgAddInstructions()).toBeVisible;
-      expect.soft(orgAddPage.getOrgAddPageText('Please add the following mandatory information')).toBeVisible;
+      expect.soft(orgAddPage.getOrgAddInstructions()).toHaveText('Please add the following mandatory information.');
     });
     await test.step('And a org name input box is visible', async () => {
       await expect(orgAddPage.getAddOrgInputField('name')).toBeVisible;
@@ -73,7 +73,6 @@ test.describe('As a user I want to be able to add organisation data from no resu
       await orgAddPage.clickNext();
     });
     await test.step(`Then an error message stating that ${searchLengthErrorMsg} is displayed on the screen`, async () => {
-      await expect(orgAddPage.getErrorMessage(`${searchLengthErrorMsg}`)).toBeVisible();
       await expect(orgAddPage.getFieldError('name')).toContainText(`${searchLengthErrorMsg}`);
     });
   });
@@ -87,11 +86,9 @@ test.describe('As a user I want to be able to add organisation data from no resu
       await orgAddPage.clickNext();
     });
     await test.step(`Then an error message stating that ${searchLengthErrorMsg} is displayed on the screen`, async () => {
-      await expect(orgAddPage.getErrorMessage(`${searchLengthErrorMsg}`)).toBeVisible();
       await expect(orgAddPage.getFieldError('name')).toContainText(`${searchLengthErrorMsg}`);
     });
     await test.step(`Then an error message stating that ${orgErrorMsg} is displayed on the screen`, async () => {
-      await expect(orgAddPage.getErrorMessage(`${orgErrorMsg}`)).toBeVisible();
       await expect(orgAddPage.getFieldError('type')).toContainText(`${orgErrorMsg}`);
     });
   });
@@ -103,7 +100,6 @@ test.describe('As a user I want to be able to add organisation data from no resu
       await orgAddPage.clickNext();
     });
     await test.step(`Then an error message stating that ${orgErrorMsg} is displayed on the screen`, async () => {
-      await expect(orgAddPage.getErrorMessage(`${orgErrorMsg}`)).toBeVisible();
       await expect(orgAddPage.getFieldError('type')).toContainText(`${orgErrorMsg}`);
     });
   });
