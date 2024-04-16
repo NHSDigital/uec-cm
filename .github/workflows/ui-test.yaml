@@ -61,6 +61,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload test results
+        if: always()
         uses: actions/upload-artifact@v4
         id: test-artifact-upload-step
         with:
@@ -68,6 +69,7 @@ jobs:
           path: tests/ui/allure-reports/index.html
           retention-days: 10
       - name: Upload accessibiity results
+        if: always()
         uses: actions/upload-artifact@v4
         id: accessibiity-artifact-upload-step
         with:
