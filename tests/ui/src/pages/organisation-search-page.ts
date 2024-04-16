@@ -9,8 +9,10 @@ export default class OrgSearchPage {
   static readonly searchInputField = 'search-field-input'
   static readonly searchInputFieldError = 'search-field-error-message'
   static readonly searchButton = 'search-button'
+  static readonly searchInstructions = 'search-by'
 
   // results page
+  static readonly noResultsFound = 'no-results-found'
   static readonly nextResultsSet = 'next-link'
   static readonly previousResultsSet = 'previous-link'
   static readonly searchResultsText = 'search-results-list'
@@ -33,6 +35,10 @@ export default class OrgSearchPage {
   // Getters
   getSearchInputField(): Locator {
     return this.page.getByTestId(OrgSearchPage.searchInputField);
+  }
+
+  getSearchInstructions(): Locator {
+    return this.page.getByTestId(OrgSearchPage.searchInstructions);
   }
 
   getResultItemByName(name: string): Locator {
@@ -71,12 +77,8 @@ export default class OrgSearchPage {
     return this.page.getByTestId(OrgSearchPage.previousResultsSet);
   }
 
-  getErrorMessage(text: string): Locator {
-    return this.page.getByText(text);
-  }
-
-  getOrgSearchPageText(text: string): Locator {
-    return this.page.getByText(text);
+  getPageLabel(text: string): Locator {
+    return this.page.locator('label', { has: this.page.locator(`text=${text}`)});
   }
 
   getAddOrganisationOption(): Locator {
