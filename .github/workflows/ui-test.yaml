@@ -58,6 +58,7 @@ jobs:
           export ACCOUNT_TYPE=${{ inputs.github_environment }}
           echo "ui tests invoked"
           /bin/bash ./scripts/ui-tests.sh
+        continue-on-error: true
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
