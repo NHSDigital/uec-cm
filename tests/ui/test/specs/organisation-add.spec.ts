@@ -8,7 +8,7 @@ let orgPage: OrgPage;
 let orgAddPage: OrgAddPage;
 let orgSearchPage: OrgSearchPage;
 const orgErrorMsg = 'Please select an Organisation type';
-const searchLengthErrorMsg = 'Enter a minimum of 3 characters';
+const searchLengthErrorMsg = 'oEnter a minimum of 3 characters';
 
 test.describe('As a user I want to be able to add organisation data from no results found', {
   tag: '@orgAdd',
