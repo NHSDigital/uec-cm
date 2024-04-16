@@ -5,18 +5,18 @@ export default class OrgSummaryPage {
     this.page = page;
   }
 
-  static readonly pageHeading = 'Summary'
-  static readonly pageSubheading = 'Organisation'
-  static readonly organisationSummary = 'organisation-summary'
+  // static readonly pageHeading = 'Summary'
+  // static readonly pageSubheading = 'Organisation'
+  // static readonly organisationSummary = 'organisation-summary'
   static readonly organisationName = 'organisation-name'
 
   getPageLabel(text: string): Locator {
     return this.page.locator('label', { has: this.page.locator(`text=${text}`)});
   }
 
-  getPageSubHeading(): Locator {
-    return this.page.getByLabel(OrgSummaryPage.pageSubheading);
-  }
+  // getPageSubHeading(): Locator {
+  //   return this.page.getByLabel(OrgSummaryPage.pageSubheading);
+  // }
 
   getOrganisationName(): Locator {
     return this.page.getByTestId(OrgSummaryPage.organisationName);
