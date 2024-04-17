@@ -33,7 +33,8 @@ test.describe('As a user I want to be able to search for an organisation', {
       expect(orgSearchPage.getSearchLabel()).toBeVisible;
     });
     await test.step('And the search instructions text is visible', async () => {
-      expect(orgSearchPage.getOrgSearchPageText('Search by either organisation (e.g. Trust name) or location (e.g. Hospital name) or postcode')).toBeVisible;
+      expect.soft(orgSearchPage.getSearchInstructions()).toBeVisible;
+      expect.soft(orgSearchPage.getSearchInstructions()).toHaveText('Search by eitherorganisation (e.g. Trust name)or location (e.g. Hospital name) or postcode');
     });
     await test.step('And a search box is visible', async () => {
       expect(orgSearchPage.getSearchInputField()).toBeVisible;
@@ -113,7 +114,7 @@ test.describe('As a user I want to be able to search for an organisation', {
         await orgSearchPage.clickSearch();
       });
       await test.step('Then "no results found" is displayed on the screen', async () => {
-        await expect(orgSearchPage.getErrorMessage('no results found')).toBeVisible();
+        await expect(orgSearchPage.getPageLabel('no results found')).toBeVisible();
       });
       await test.step('And option to add a new organisation is selected by default', async () => {
         await expect(orgSearchPage.getAddOrganisationOption()).toBeChecked();
@@ -126,7 +127,6 @@ test.describe('As a user I want to be able to search for an organisation', {
         await orgSearchPage.clickSearch();
       });
       await test.step('Then an error message stating that "Enter a minimum of 3 characters" is displayed on the screen', async () => {
-        await expect(orgSearchPage.getErrorMessage('Enter a minimum of 3 characters')).toBeVisible();
         await expect(orgSearchPage.getSearchInputFieldError()).toContainText('Enter a minimum of 3 characters');
       });
     });
