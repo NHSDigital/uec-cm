@@ -50,6 +50,7 @@ jobs:
           allure --version
 
       - name: Run ui test script
+        id: run-ui-tests-step
         run: |
           export BUILD_DATETIME="${{ inputs.build_datetime }}"
           export BUILD_TIMESTAMP="${{ inputs.build_timestamp }}"
@@ -58,8 +59,10 @@ jobs:
           export ACCOUNT_TYPE=${{ inputs.github_environment }}
           echo "ui tests invoked"
           /bin/bash ./scripts/ui-tests.sh
+        # continue-on-error: true
 
       - name: Upload test results
+        if: always()
         uses: actions/upload-artifact@v4
         id: test-artifact-upload-step
         with:
@@ -67,9 +70,13 @@ jobs:
           path: tests/ui/allure-reports/index.html
           retention-days: 10
       - name: Upload accessibiity results
+        if: always()
         uses: actions/upload-artifact@v4
         id: accessibiity-artifact-upload-step
         with:
           name: axe-report
           path: tests/ui/accessibility-reports/artifacts/*.html
           retention-days: 10
+      - name: Check on failures
+        if: steps.run-ui-tests-step.outcome != 'success'
+        run: exit 1
