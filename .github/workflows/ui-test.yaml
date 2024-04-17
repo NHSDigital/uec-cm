@@ -59,7 +59,6 @@ jobs:
           export ACCOUNT_TYPE=${{ inputs.github_environment }}
           echo "ui tests invoked"
           /bin/bash ./scripts/ui-tests.sh
-        # continue-on-error: true
 
       - name: Upload test results
         if: always()
@@ -77,6 +76,6 @@ jobs:
           name: axe-report
           path: tests/ui/accessibility-reports/artifacts/*.html
           retention-days: 10
-      - name: Check on failures
-        if: steps.run-ui-tests-step.outcome != 'success'
-        run: exit 1
+      # - name: Check on failures
+      #   if: steps.run-ui-tests-step.outcome != 'success'
+      #   run: exit 1
