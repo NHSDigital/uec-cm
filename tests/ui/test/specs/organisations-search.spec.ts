@@ -95,7 +95,7 @@ test.describe('As a user I want to be able to search for an organisation', {
     });
     await test.step('And the message "Showing 11 to 12 of 12 results" is displayed ', async () => {
       expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toBeVisible;
-      expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toContainText('wShowing 11 to 12 of 12 results');
+      expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toContainText('Showing 11 to 12 of 12 results');
     });
     await test.step('And there are 2 rows displayed ', async () => {
       expect(await orgSearchPage.getResultsTableRowCount()).toEqual(2);
