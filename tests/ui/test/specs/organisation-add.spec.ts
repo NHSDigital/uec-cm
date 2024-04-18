@@ -34,24 +34,24 @@ test.describe('As a user I want to be able to add organisation data from no resu
       await expect(orgAddPage.getOrgAddPageLabel()).toBeVisible;
     });
     await test.step('And the add instructions text is visible', async () => {
-      expect.soft(orgAddPage.getOrgAddInstructions()).toBeVisible;
-      expect.soft(orgAddPage.getOrgAddInstructions()).toHaveText('Please add the following mandatory information.');
+      await expect.soft(orgAddPage.getOrgAddInstructions()).toBeVisible;
+      await expect.soft(orgAddPage.getOrgAddInstructions()).toHaveText('Please add the following mandatory information.');
     });
     await test.step('And a org name input box is visible', async () => {
       await expect(orgAddPage.getAddOrgInputField('name')).toBeVisible;
     });
     await test.step('And a org name input box has focus when the label is clicked', async () => {
-      expect.soft(orgAddPage.getOrgAddLabel('name')).toContainText('Organisation name');
+      await expect.soft(orgAddPage.getOrgAddLabel('name')).toContainText('Organisation name');
       await orgAddPage.clickLabel('name');
-      expect.soft(orgAddPage.getAddOrgInputField('name')).toBeFocused;
+      await expect.soft(orgAddPage.getAddOrgInputField('name')).toBeFocused;
     });
     await test.step('And a org type dropdown box is visible', async () => {
       await expect(orgAddPage.getAddOrgInputField('type')).toBeVisible;
     });
     await test.step('And a org type dropdown box has focus when the label is clicked', async () => {
-      expect.soft(orgAddPage.getOrgAddLabel('type')).toContainText('Organisation type');
+      await expect.soft(orgAddPage.getOrgAddLabel('type')).toContainText('Organisation type');
       await orgAddPage.clickLabel('type');
-      expect.soft(orgAddPage.getAddOrgInputField('type')).toBeFocused;
+      await expect.soft(orgAddPage.getAddOrgInputField('type')).toBeFocused;
     });
   });
 
