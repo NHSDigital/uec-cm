@@ -33,14 +33,15 @@ test.describe('As a user I want to be able to search for an organisation', {
       expect(orgSearchPage.getSearchLabel()).toBeVisible;
     });
     await test.step('And the search instructions text is visible', async () => {
-      expect(orgSearchPage.getOrgSearchPageText('Search by either organisation (e.g. Trust name) or location (e.g. Hospital name) or postcode')).toBeVisible;
+      await expect.soft(orgSearchPage.getSearchInstructions()).toBeVisible;
+      await expect.soft(orgSearchPage.getSearchInstructions()).toHaveText('Search by eitherorganisation (e.g. Trust name)or location (e.g. Hospital name) or postcode');
     });
     await test.step('And a search box is visible', async () => {
-      expect(orgSearchPage.getSearchInputField()).toBeVisible;
+      await expect(orgSearchPage.getSearchInputField()).toBeVisible;
     });
     await test.step('And a search box label is visible', async () => {
-      expect.soft(orgSearchPage.getSearchInputFieldLabel()).toBeVisible;
-      expect.soft(orgSearchPage.getSearchInputFieldLabelText()).toBeVisible
+      await expect.soft(orgSearchPage.getSearchInputFieldLabel()).toBeVisible;
+      await expect.soft(orgSearchPage.getSearchInputFieldLabelText()).toBeVisible
     });
   });
 
@@ -51,12 +52,12 @@ test.describe('As a user I want to be able to search for an organisation', {
       await orgSearchPage.clickSearch();
     });
     await test.step('Then a location record is returned', async () => {
-      expect.soft(orgSearchPage.getSearchResultType('0', 'location')).toHaveText('LOCATION' )
-      expect.soft(orgSearchPage.getSearchResultItemByPosition('0')).toHaveText(`${location}`)
+      await expect.soft(orgSearchPage.getSearchResultType('0', 'location')).toHaveText('LOCATION' )
+      await expect.soft(orgSearchPage.getSearchResultItemByPosition('0')).toHaveText(`${location}`)
     });
     await test.step('And an organisation record is returned', async () => {
-      expect.soft(orgSearchPage.getSearchResultType('3', 'organisation')).toHaveText('ORGANISATION' )
-      expect.soft(orgSearchPage.getSearchResultItemByPosition('3')).toHaveText(`${organisation}`)
+      await expect.soft(orgSearchPage.getSearchResultType('3', 'organisation')).toHaveText('ORGANISATION' )
+      await expect.soft(orgSearchPage.getSearchResultItemByPosition('3')).toHaveText(`${organisation}`)
     });
   });
 
@@ -66,20 +67,20 @@ test.describe('As a user I want to be able to search for an organisation', {
       await orgSearchPage.clickSearch();
     });
     await test.step('Then the results are paginated ', async () => {
-      expect(orgSearchPage.getPagination()).toBeVisible;
+      await expect(orgSearchPage.getPagination()).toBeVisible;
     });
     await test.step('And the message "Showing 1 to 10 of 12 results" is displayed ', async () => {
-      expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toBeVisible;
-      expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toContainText('Showing 1 to 10 of 12 results');
+      await expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toBeVisible;
+      await expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toContainText('Showing 1 to 10 of 12 results');
     });
     await test.step('And there are 10 rows displayed ', async () => {
-      expect(await orgSearchPage.getResultsTableRowCount()).toEqual(10);
+      await expect(await orgSearchPage.getResultsTableRowCount()).toEqual(10);
     });
     await test.step('And the Next Page link is enabled', async () => {
-      expect(orgSearchPage.getNextResultsSet()).toBeVisible;
+      await expect(orgSearchPage.getNextResultsSet()).toBeVisible;
     });
     await test.step('And the Previous Page link is disabled', async () => {
-      expect(orgSearchPage.getPreviousResultsSet()).toBeDisabled;
+      await expect(orgSearchPage.getPreviousResultsSet()).toBeDisabled;
     });
   });
 
@@ -90,20 +91,20 @@ test.describe('As a user I want to be able to search for an organisation', {
       await orgSearchPage.clickNext();
     });
     await test.step('Then the results are paginated ', async () => {
-      expect(orgSearchPage.getPagination()).toBeVisible;
+      await expect(orgSearchPage.getPagination()).toBeVisible;
     });
     await test.step('And the message "Showing 11 to 12 of 12 results" is displayed ', async () => {
-      expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toBeVisible;
-      expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toContainText('Showing 11 to 12 of 12 results');
+      await expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toBeVisible;
+      await expect.soft(orgSearchPage.getSearchResultsPaginationDisplay()).toContainText('Showing 11 to 12 of 12 results');
     });
     await test.step('And there are 2 rows displayed ', async () => {
-      expect(await orgSearchPage.getResultsTableRowCount()).toEqual(2);
+      await expect(await orgSearchPage.getResultsTableRowCount()).toEqual(2);
     });
     await test.step('And the Next Page link is disabled', async () => {
-      expect(orgSearchPage.getNextResultsSet()).toBeDisabled;
+      await expect(orgSearchPage.getNextResultsSet()).toBeDisabled;
     });
     await test.step('And the Previous Page link is enabled', async () => {
-      expect(orgSearchPage.getPreviousResultsSet()).toBeVisible;
+      await expect(orgSearchPage.getPreviousResultsSet()).toBeVisible;
     });
   });
 
@@ -113,7 +114,7 @@ test.describe('As a user I want to be able to search for an organisation', {
         await orgSearchPage.clickSearch();
       });
       await test.step('Then "no results found" is displayed on the screen', async () => {
-        await expect(orgSearchPage.getErrorMessage('no results found')).toBeVisible();
+        await expect(orgSearchPage.getPageLabel('no results found')).toBeVisible();
       });
       await test.step('And option to add a new organisation is selected by default', async () => {
         await expect(orgSearchPage.getAddOrganisationOption()).toBeChecked();
@@ -126,7 +127,6 @@ test.describe('As a user I want to be able to search for an organisation', {
         await orgSearchPage.clickSearch();
       });
       await test.step('Then an error message stating that "Enter a minimum of 3 characters" is displayed on the screen', async () => {
-        await expect(orgSearchPage.getErrorMessage('Enter a minimum of 3 characters')).toBeVisible();
         await expect(orgSearchPage.getSearchInputFieldError()).toContainText('Enter a minimum of 3 characters');
       });
     });
@@ -140,9 +140,9 @@ test.describe('As a user I want to be able to search for an organisation', {
         await orgSearchPage.selectResultItemByName(`${organisation}`);
       });
       await test.step('Then the organisation summary is correctly displayed', async () => {
-        expect.soft(orgSummaryPage.getOrganisationName()).toContainText(`${organisation}`);
-        expect.soft(orgSummaryPage.getPageLabel('Summary')).toBeVisible();
-        expect.soft(orgSummaryPage.getPageLabel('Organisation')).toBeVisible();
+        await expect.soft(orgSummaryPage.getOrganisationName()).toContainText(`${organisation}`);
+        await expect.soft(orgSummaryPage.getPageLabel('Summary')).toBeVisible();
+        await expect.soft(orgSummaryPage.getPageLabel('Organisation')).toBeVisible();
       });
     });
 
@@ -155,9 +155,9 @@ test.describe('As a user I want to be able to search for an organisation', {
         await orgSearchPage.selectResultItemByName(`${location}`);
       });
       await test.step('Then the organisation summary is correctly displayed', async () => {
-        expect.soft(orgSummaryPage.getOrganisationName()).toContainText(organisation);
-        expect.soft(orgSummaryPage.getPageLabel('Summary')).toBeVisible();
-        expect.soft(orgSummaryPage.getPageLabel('Organisation')).toBeVisible();
+        await expect.soft(orgSummaryPage.getOrganisationName()).toContainText(organisation);
+        await expect.soft(orgSummaryPage.getPageLabel('Summary')).toBeVisible();
+        await expect.soft(orgSummaryPage.getPageLabel('Organisation')).toBeVisible();
       });
     });
 });

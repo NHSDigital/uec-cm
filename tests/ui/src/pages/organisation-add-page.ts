@@ -40,9 +40,6 @@ export default class OrgAddPage {
     return this.page.locator(OrgAddPage.fieldError(field));
   }
 
-  getOrgAddPageText(text: string): Locator {
-    return this.page.getByText(text);
-  }
 
     // Methods
   async clickNext() {
@@ -51,10 +48,6 @@ export default class OrgAddPage {
 
   async clickLabel(type: string) {
     await this.page.locator('id='+ OrgAddPage.inputFieldLabel(type)).click();
-  }
-
-  getErrorMessage(text: string): Locator {
-    return this.page.getByText(text);
   }
 
   async inputTextInField(field: string, text: string) {
