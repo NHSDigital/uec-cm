@@ -6,149 +6,73 @@ on:
       - main
       - 'task/*'
 jobs:
-  derive-tf-versions:
-    name: Derive terraform version
-    uses: ./.github/workflows/derive-tf-version.yaml
+  metadata:
+    name: "Get Metadata"
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.15
+  quality-check:
+    name: "Quality Check"
+    uses: NHSDigital/uec-dos-management/.github/workflows/quality-checks.yaml@v0.15
+    needs:
+      [
+        metadata,
+      ]
     with:
-      git_ref: ${{ inputs.git_tag }}
-  get-metadata:
-    name: Get metadata
-    runs-on: ubuntu-latest
-    outputs:
-      build_datetime: ${{ steps.metadata.outputs.build_datetime }}
-      build_timestamp: ${{ steps.metadata.outputs.build_timestamp }}
-      build_epoch: ${{ steps.metadata.outputs.build_epoch }}
-    steps:
-      - id: metadata
-        run: |
-          datetime=$(date -u +'%Y-%m-%dT%H:%M:%S%z')
-          echo "build_datetime=$datetime" >> $GITHUB_OUTPUT
-          echo "build_timestamp=$(date --date=$datetime -u +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
-          echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
-          echo "triggering action: ${{ github.event_name }}"
-          echo "ref type: ${{ github.ref_type }}"
-          echo "triggering reference: ${{ github.ref_name }}"
-          echo "triggering git reference: ${{ github.ref_name }}"
-          echo "deploying from git tag ${{ inputs.git_tag }}"
-  scan-secrets:
-    name: Scan code for secrets
-    uses: ./.github/workflows/scan-secrets.yaml
-  check-file-format:
-    name: Check general formatting
-    uses: ./.github/workflows/check-file-format.yaml
-  check-markdown-format:
-    name: Check format of markdown files
-    uses: ./.github/workflows/check-markdown-format.yaml
-  check-terraform-format:
-    name: Check format of terraform code
-    uses: ./.github/workflows/check-terraform-format.yaml
-  validate-terraform:
-    name: Validate terraform code
-    uses: ./.github/workflows/validate-terraform.yaml
-    needs: derive-tf-versions
-    with:
-      ENV: dev
-      tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
+      environment: dev
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      stacks: '["github-runner", "terraform_management", "application"]'
     secrets: inherit
-  check-python-black-format:
-    name: Check format of python code (black)
-    uses: ./.github/workflows/check-python-black-format.yaml
-  check-python-flake-rules:
-    name: Check python code quality (flake)
-    uses: ./.github/workflows/check-python-flake-rules.yaml
-  cloc-repository:
-    name: Count lines of code
-    uses: ./.github/workflows/cloc-repository.yaml
   unit-tests:
+    name: Unit Test
     needs:
       [
-        get-metadata,
-        scan-secrets,
-        check-file-format,
-        check-markdown-format,
-        check-terraform-format,
-        check-python-black-format,
-        check-python-flake-rules,
-        cloc-repository,
+        metadata,
+        quality-check,
       ]
-    name: Run unit test
-    uses: ./.github/workflows/unit-test.yaml
+    uses: NHSDigital/uec-dos-management/.github/workflows/unit-test.yaml@v0.15
     with:
-      github_environment: dev
+      env: dev
     secrets: inherit
-  derive-workspace-from-branch-name:
-    runs-on: ubuntu-latest
-    outputs:
-      workspace: ${{ steps.derive-workspace.outputs.workspace }}
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Derive Workspace
-        id: derive-workspace
-        run: |
-          export BRANCH_NAME=${{ github.ref_name }}
-          echo "Branch name is:"
-          echo $BRANCH_NAME
-          workspace=$(/bin/bash ./scripts/branch-name-workspace.sh)
-          echo "Setting workspace to $workspace"
-          echo "workspace=$workspace" >> $GITHUB_OUTPUT
   deploy-application-infrastructure:
-    name: Deploy application infrastructure
-    needs:
-      [
-        get-metadata,
-        scan-secrets,
-        check-file-format,
-        check-markdown-format,
-        check-terraform-format,
-        check-python-black-format,
-        check-python-flake-rules,
-        cloc-repository,
-        derive-tf-versions,
-        derive-workspace-from-branch-name,
-      ]
-    uses: ./.github/workflows/action-infrastructure-stack.yaml
-    with:
-      github_environment: dev
-      deployment_workspace: ${{needs.derive-workspace-from-branch-name.outputs.workspace}}
-      stack: application
-      action: apply
-      tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
-      git_ref: ${{ inputs.git_tag }}
-    secrets: inherit
+      needs:
+        [
+          quality-check,
+          metadata,
+        ]
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.15
+      with:
+        environment: dev
+        domain: "uec-cm"
+        workspace: ${{ needs.metadata.outputs.workspace }}
+        stacks: '["application"]'
+        action: apply
+      secrets: inherit
+
   build-and-deploy-react-app-to-s3-bucket:
     name: Build and deploy react app to S3 bucket
     needs: [
-      get-metadata,
-      scan-secrets,
-      check-file-format,
-      check-markdown-format,
-      check-terraform-format,
-      check-python-black-format,
-      check-python-flake-rules,
-      cloc-repository,
-      derive-tf-versions,
-      derive-workspace-from-branch-name,
+      metadata,
       deploy-application-infrastructure,
     ]
-    uses: ./.github/workflows/build-and-deploy-react-app.yaml
+    uses: NHSDigital/uec-dos-management/.github/workflows/build-and-deploy-react-app.yaml@v0.15
     with:
-      github_environment: dev
-      deployment_workspace: ${{needs.derive-workspace-from-branch-name.outputs.workspace}}
+      environment: dev
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: uec-cm
     permissions:
       id-token: write
       contents: read
     secrets: inherit
   slack-notifications:
+    name: Send notification to slack
     needs: [
+      metadata,
+      quality-check,
+      unit-tests,
       deploy-application-infrastructure,
       build-and-deploy-react-app-to-s3-bucket,
-      unit-tests,
     ]
     if: always()
-    uses: ./.github/workflows/slack-notifications.yaml
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.15
     with:
       env: dev
     secrets: inherit
