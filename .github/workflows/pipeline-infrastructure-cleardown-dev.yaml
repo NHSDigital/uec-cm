@@ -19,6 +19,7 @@ jobs:
     with:
       environment: dev
       workspace: ${{ needs.metadata.outputs.workspace }}
+      project: cm
       domain: "uec-cm"
       stacks: '["application"]'
     secrets: inherit
