@@ -19,6 +19,7 @@ jobs:
       with:
         environment: dev
         domain: "uec-cm"
+        project: cm
         workspace: ${{ needs.metadata.outputs.workspace }}
         stacks: '["terraform_management", "github-runner"]'
         action: apply
@@ -33,6 +34,7 @@ jobs:
       with:
         environment: test
         domain: "uec-cm"
+        project: cm
         workspace: ${{ needs.metadata.outputs.workspace }}
         stacks: '["terraform_management", "github-runner"]'
         action: apply

@@ -20,6 +20,7 @@ jobs:
       environment: test
       workspace: ${{ inputs.workspace }}
       domain: "uec-cm"
+      project: cm
       stacks: "['application']"
       tag: ${{ inputs.tag }}
       action: apply
