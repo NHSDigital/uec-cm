@@ -8,10 +8,10 @@ on:
 jobs:
   metadata:
     name: "Get Metadata"
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.15
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.16
   quality-check:
     name: "Quality Check"
-    uses: NHSDigital/uec-dos-management/.github/workflows/quality-checks.yaml@v0.15
+    uses: NHSDigital/uec-dos-management/.github/workflows/quality-checks.yaml@v0.16
     needs:
       [
         metadata,
@@ -28,10 +28,11 @@ jobs:
           quality-check,
           metadata,
         ]
-      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.15
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.16
       with:
         environment: dev
         domain: "uec-cm"
+        project: cm
         workspace: ${{ needs.metadata.outputs.workspace }}
         stacks: '["application"]'
         action: apply
@@ -43,7 +44,7 @@ jobs:
       metadata,
       deploy-application-infrastructure,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/build-and-deploy-react-app.yaml@v0.15
+    uses: NHSDigital/uec-dos-management/.github/workflows/build-and-deploy-react-app.yaml@v0.16
     with:
       environment: dev
       workspace: ${{ needs.metadata.outputs.workspace }}
@@ -61,7 +62,7 @@ jobs:
       build-and-deploy-react-app-to-s3-bucket,
     ]
     if: always()
-    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.15
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.16
     with:
       env: dev
     secrets: inherit
