@@ -1,4 +1,4 @@
-name: Manually deploy tagged code to test
+name: Manually deploy tagged code to test environment
 on:
   workflow_dispatch:
     inputs:
