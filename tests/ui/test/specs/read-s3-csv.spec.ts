@@ -24,11 +24,11 @@ test.describe('As a user I want to be able to read downloaded csv files from s3 
     });
   });
 
-  test.only('The s3data.csv file exists', async () => {
+  test('The s3data.csv file exists', async () => {
     expect(isFileExists(filePath)).toBeTruthy;
   });
 
-  test.only('The s3data.csv file has correct headers', async () => {
+  test('The s3data.csv file has correct headers', async () => {
       expect(getColumnHeaders(filePath)).toEqual([
         "test_case_id",
         "some_value_input",
@@ -36,15 +36,15 @@ test.describe('As a user I want to be able to read downloaded csv files from s3 
       ]);
   });
 
-  test.only('The s3data.csv file has correct row count', async () => {
+  test('The s3data.csv file has correct row count', async () => {
     expect(getRowCount(filePath)).toEqual(4);
   });
 
-  test.only(`The s3data.csv file has correct value in row 2 of 'some_value_input' column`, async () => {
+  test(`The s3data.csv file has correct value in row 2 of 'some_value_input' column`, async () => {
     expect(getCellValue(filePath, 'some_value_input', 2)).toEqual('value 20');
   });
 
-  test.only('The s3data.csv file has correct column count', async () => {
+  test('The s3data.csv file has correct column count', async () => {
     expect(getColumnCount(filePath)).toEqual(3);
   });
 });
