@@ -1,26 +1,27 @@
 import { test, expect } from '@playwright/test';
 import path from 'path';
-import { allure } from "allure-playwright";
-import { getS3BucketObject } from '../../src/utilities/getS3bucketObject';
+import { allure } from 'allure-playwright';
+import { addObject, getObject, deleteObject } from '../../src/utilities/s3Helper';
 import { getRowCount, getColumnHeaders, getCellValue, isFileExists, getColumnCount } from '../../src/utilities/csvHelper';
 
 let filePath: string;
+const fileName: string = 's3data.csv';
 
-test.describe('As a user I want to be able to read downloaded csv files from s3 bucket', {
+test.describe('As a user I want to be able to read csv files downloaded from s3 bucket', {
   tag: '@orgSearchDownload',
 }, async () => {
 
-  test.beforeAll(async () => {
-    getS3BucketObject('s3data.csv');
-    filePath = path.join(__dirname, `../../downloads/s3data.csv`);
+  test.beforeAll('Add, then get object from s3 bucket', async () => {
+    filePath = path.join(__dirname, `../../downloads/${fileName}`);
+    addObject(filePath, fileName);
+    getObject(fileName);
   });
 
   test.beforeEach(async ({ page }, testInfo) => {
     await allure.parentSuite(testInfo.project.name);
-    await allure.suite("Tests downloaded files");
-    await allure.subSuite("Tests csv files");
+    await allure.suite('Tests downloaded files');
+    await allure.subSuite('Tests csv files');
     await test.step('Navigate to landing page', async () => {
-      await page.goto('/');
     });
   });
 
@@ -30,9 +31,9 @@ test.describe('As a user I want to be able to read downloaded csv files from s3 
 
   test('The s3data.csv file has correct headers', async () => {
       expect(getColumnHeaders(filePath)).toEqual([
-        "test_case_id",
-        "some_value_input",
-        "some_other_value_input"
+        'test_case_id',
+        'some_value_input',
+        'some_other_value_input'
       ]);
   });
 
@@ -46,5 +47,9 @@ test.describe('As a user I want to be able to read downloaded csv files from s3 
 
   test('The s3data.csv file has correct column count', async () => {
     expect(getColumnCount(filePath)).toEqual(3);
+  });
+
+  test.afterAll('Delete object from s3 bucket', async () => {
+    deleteObject(fileName);
   });
 });
