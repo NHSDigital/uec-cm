@@ -18,5 +18,4 @@ async function globalSetup(config: FullConfig) {
     process.env.baseUrl = baseUrl;
   }
 
-
 export default globalSetup;
