@@ -1,6 +1,5 @@
 
-const workspace = (process.env.WORKSPACE === 'default') ? '' : process.env.WORKSPACE;
-const bucket = `nhse-uec-cm-test-bucket${workspace}`;
+const bucket = `nhse-uec-cm-test-bucket${process.env.WORKSPACE}`;
 
 export function addObject(sourceFilePath: string, targetFile: string) {
   return require('child_process').execSync(
