@@ -1,1 +1,3 @@
-s3_bucket_name = "nhse-uec-cm-test-bucket"
+environment         = "dev"
+force_destroy       = true
+data_classification = "3"
