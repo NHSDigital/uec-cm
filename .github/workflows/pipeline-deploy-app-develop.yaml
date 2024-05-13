@@ -19,7 +19,7 @@ jobs:
     with:
       environment: dev
       workspace: ${{ needs.metadata.outputs.workspace }}
-      stacks: '["github-runner", "terraform_management", "application", "test"]'
+      stacks: '["github-runner", "terraform_management", "application", "ui_test"]'
     secrets: inherit
 
   deploy-application-infrastructure:
@@ -34,7 +34,7 @@ jobs:
         domain: "uec-cm"
         project: cm
         workspace: ${{ needs.metadata.outputs.workspace }}
-        stacks: '["application", "test"]'
+        stacks: '["application", "ui_test"]'
         action: apply
       secrets: inherit
 
