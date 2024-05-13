@@ -22,7 +22,7 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
       project: cm
       domain: "uec-cm"
-      stacks: '["application", "ui_test"]'
+      stacks: '["application", "ui-test"]'
     secrets: inherit
 
   summarise:
