@@ -21,7 +21,7 @@ jobs:
       workspace: ${{ inputs.workspace }}
       domain: "uec-cm"
       project: cm
-      stacks: "['application', 'test']"
+      stacks: "['application', 'ui-test']"
       tag: ${{ inputs.tag }}
       action: apply
     secrets: inherit
