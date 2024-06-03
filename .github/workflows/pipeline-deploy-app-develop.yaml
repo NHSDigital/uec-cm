@@ -38,8 +38,8 @@ jobs:
         action: apply
       secrets: inherit
 
-  build-react-app-to-s3-bucket:
-    name: Build react app to S3 bucket
+  build-and-push-react-artefacts:
+    name: Build react app and push built artefact to s3 bucket
     needs: [
       metadata,
       deploy-application-infrastructure,
@@ -56,12 +56,12 @@ jobs:
       contents: read
     secrets: inherit
 
-  deploy-react-app-to-s3-bucket:
-    name: Deploy react app to S3 bucket
+  deploy-react-app:
+    name: Retrieve built artefact and deploy to front end s3 bucket
     needs: [
       metadata,
       deploy-application-infrastructure,
-      build-react-app-to-s3-bucket,
+      build-and-push-react-artefacts,
     ]
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@v0.23
     with:
@@ -81,8 +81,8 @@ jobs:
       metadata,
       quality-check,
       deploy-application-infrastructure,
-      build-react-app-to-s3-bucket,
-      deploy-react-app-to-s3-bucket,
+      build-and-push-react-artefacts,
+      deploy-react-app,
     ]
     if: always()
     uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.23
