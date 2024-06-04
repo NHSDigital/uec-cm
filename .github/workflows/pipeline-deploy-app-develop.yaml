@@ -8,10 +8,10 @@ on:
 jobs:
   metadata:
     name: "Get Metadata"
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.18
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.24
   quality-check:
     name: "Quality Check"
-    uses: NHSDigital/uec-dos-management/.github/workflows/quality-checks.yaml@v0.18
+    uses: NHSDigital/uec-dos-management/.github/workflows/quality-checks.yaml@v0.24
     needs:
       [
         metadata,
@@ -28,7 +28,7 @@ jobs:
           quality-check,
           metadata,
         ]
-      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.18
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.24
       with:
         environment: dev
         domain: "uec-cm"
@@ -38,31 +38,54 @@ jobs:
         action: apply
       secrets: inherit
 
-  build-and-deploy-react-app-to-s3-bucket:
-    name: Build and deploy react app to S3 bucket
+  build-and-push-react-artefacts:
+    name: Build react app and push built artefact to s3 bucket
     needs: [
       metadata,
       deploy-application-infrastructure,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/build-and-deploy-react-app.yaml@v0.18
+    uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@v0.24
     with:
       environment: dev
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: uec-cm
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     permissions:
       id-token: write
       contents: read
     secrets: inherit
+
+  deploy-react-app:
+    name: Retrieve built artefact and deploy to front end s3 bucket
+    needs: [
+      metadata,
+      deploy-application-infrastructure,
+      build-and-push-react-artefacts,
+    ]
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@v0.24
+    with:
+      environment: dev
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: uec-cm
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+    permissions:
+      id-token: write
+      contents: read
+    secrets: inherit
+
   slack-notifications:
     name: Send notification to slack
     needs: [
       metadata,
       quality-check,
       deploy-application-infrastructure,
-      build-and-deploy-react-app-to-s3-bucket,
+      build-and-push-react-artefacts,
+      deploy-react-app,
     ]
     if: always()
-    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.18
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.24
     with:
       env: dev
     secrets: inherit
