@@ -8,10 +8,10 @@ jobs:
   metadata:
     if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
     name: "Get Metadata"
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.24
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.23
   destroy:
     if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
-    uses: NHSDigital/uec-dos-management/.github/workflows/infrastructure-cleardown.yaml@v0.24
+    uses: NHSDigital/uec-dos-management/.github/workflows/infrastructure-cleardown.yaml@v0.23
     needs:
       [
         metadata,
@@ -19,7 +19,6 @@ jobs:
     with:
       environment: dev
       workspace: ${{ needs.metadata.outputs.workspace }}
-      artefact_bucket_name: ${{needs.metadata.outputs.artefact_bucket_name}}
       project: cm
       domain: "uec-cm"
       stacks: '["application", "ui-test"]'
@@ -41,7 +40,7 @@ jobs:
       summarise,
     ]
     if: always()
-    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.24
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.23
     with:
       env: dev
     secrets: inherit
