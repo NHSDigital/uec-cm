@@ -21,6 +21,7 @@ jobs:
       environment: test
       workspace: ${{ needs.metadata.outputs.workspace }}
       project: cm
+      artefact_bucket_name: ${{needs.metadata.outputs.artefact_bucket_name}}
       domain: "uec-cm"
       stacks: '["application", "ui-test"]'
     secrets: inherit
