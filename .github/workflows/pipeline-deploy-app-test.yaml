@@ -45,8 +45,8 @@ jobs:
       workspace: ${{ inputs.workspace }}
       domain: uec-cm
       tag: ${{ inputs.tag }}
-      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
-      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+      commit_hash: ${{ inputs.commit_hash }}
+      artefact_bucket_name: ${{ inputs.artefact_bucket_name }}
     permissions:
       id-token: write
       contents: read
