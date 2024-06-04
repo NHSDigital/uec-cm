@@ -19,6 +19,7 @@ jobs:
     with:
       environment: dev
       workspace: ${{ needs.metadata.outputs.workspace }}
+      artefact_bucket_name: ${{needs.metadata.outputs.artefact_bucket_name}}
       project: cm
       domain: "uec-cm"
       stacks: '["application", "ui-test"]'
