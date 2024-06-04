@@ -1,5 +1,5 @@
 
-const bucket = `nhse-uec-cm-testing-bucket-${process.env.ENV}${process.env.WORKSPACE}`;
+const bucket = `nhse-uec-cm-ui-test-bucket-${process.env.ENV}${process.env.WORKSPACE}`;
 
 export function addObject(sourceFilePath: string, targetFile: string) {
   return require('child_process').execSync(
