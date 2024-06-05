@@ -11,11 +11,19 @@ on:
         description: "Defines the tag to be used for deployment"
         required: true
         type: string
+      commit_hash:
+        description: "The commit hash to identify the version of artefacts"
+        required: true
+        type: string
+      artefact_bucket_name:
+        description: "The name of domain repository for artefacts"
+        required: true
+        type: string
 
 jobs:
   deploy-application-infrastructure:
     name: Deploy application infrastructure
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.24
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.23
     with:
       environment: test
       workspace: ${{ inputs.workspace }}
@@ -26,29 +34,32 @@ jobs:
       action: apply
     secrets: inherit
 
-  build-and-deploy-react-app-to-s3-bucket:
-    name: Build and deploy react app to S3 bucket
+  deploy-react-app:
+    name: Retrieve built artefact and deploy to front end s3 bucket
     needs: [
       deploy-application-infrastructure,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/build-and-deploy-react-app.yaml@v0.24
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@v0.23
     with:
       environment: test
       workspace: ${{ inputs.workspace }}
       domain: uec-cm
       tag: ${{ inputs.tag }}
+      commit_hash: ${{ inputs.commit_hash }}
+      artefact_bucket_name: ${{ inputs.artefact_bucket_name }}
     permissions:
       id-token: write
       contents: read
     secrets: inherit
+
   ui-test:
     needs:
       [
         deploy-application-infrastructure,
-        build-and-deploy-react-app-to-s3-bucket,
+        deploy-react-app,
       ]
     name: Run ui tests
-    uses: NHSDigital/uec-dos-management/.github/workflows/ui-test.yaml@v0.24
+    uses: NHSDigital/uec-dos-management/.github/workflows/ui-test.yaml@v0.23
     with:
       environment: test
       workspace: ${{ inputs.workspace }}
