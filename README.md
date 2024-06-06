@@ -57,7 +57,7 @@ To ensure consistency and turn on the required githooks contributors must run th
 
 /bin/bash scripts/git/git-config-set-up.sh
 
-Describe or link templates on how to raise an issue, feature request or make a contribution to the codebase. Reference the other documentation files, like
+Describe and/or link templates on how to raise an issue, feature request or make a contribution to the codebase. Reference the other documentation files, like
 
 - Environment setup for contribution, i.e. `CONTRIBUTING.md`
 - Coding standards, branching, linting, practices for development and testing
