@@ -8,10 +8,10 @@ jobs:
   metadata:
     if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
     name: "Get Metadata"
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.23
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.25
   destroy:
     if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
-    uses: NHSDigital/uec-dos-management/.github/workflows/infrastructure-cleardown.yaml@v0.23
+    uses: NHSDigital/uec-dos-management/.github/workflows/infrastructure-cleardown.yaml@v0.25
     needs:
       [
         metadata,
@@ -23,7 +23,20 @@ jobs:
       domain: "uec-cm"
       stacks: '["application", "ui-test"]'
     secrets: inherit
-
+  cleardown-artefacts:
+    if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
+    name: "Cleardown Artefacts"
+    needs:
+      [
+        metadata,
+        destroy,
+      ]
+    uses: NHSDigital/uec-dos-management/.github/workflows/artefacts-cleardown.yaml@v0.25
+    with:
+      environment: dev
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      artefact_bucket_name: ${{needs.metadata.outputs.artefact_bucket_name}}
+    secrets: inherit
   summarise:
     if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
     runs-on: ubuntu-latest
@@ -40,7 +53,7 @@ jobs:
       summarise,
     ]
     if: always()
-    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.23
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.25
     with:
       env: dev
     secrets: inherit
