@@ -45,7 +45,6 @@ jobs:
         run: |
           echo "${{ github.actor }} deleted a task branch..."
           echo "triggering cleardown of infra in dev account relating to ${{ github.ref_type }}: ${{ github.event_ref }}"
-
   slack-notifications:
     name: Send notification to slack
     needs: [
