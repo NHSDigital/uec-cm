@@ -1,0 +1,24 @@
+name: Tag and deploy code to test account
+on:
+  pull_request:
+    types: [ labeled ]
+
+jobs:
+  metadata:
+    name: "Get Metadata"
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.33
+
+  build-full-application:
+    name: Build full application
+    needs:
+      [
+        metadata,
+      ]
+    uses: NHSDigital/uec-dos-management//.github/workflows/build-full-application.yaml@v0.33
+    with:
+      environment: int
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      triggering_repo: 'uec-cm'
+      triggering_repo_commit_hash: ${{ needs.metadata.outputs.artefact_commit_hash }}
+      multi_domain: 'true'
+    secrets: inherit
