@@ -23,7 +23,7 @@ on:
 jobs:
   deploy-application-infrastructure:
     name: Deploy application infrastructure
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.35
     with:
       environment: test
       workspace: ${{ inputs.workspace }}
@@ -39,11 +39,13 @@ jobs:
     needs: [
       deploy-application-infrastructure,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@v0.35
     with:
       environment: test
       workspace: ${{ inputs.workspace }}
       domain: uec-cm
+      artefact_sub_dir: ${{ needs.metadata.outputs.workspace }}
+      multi_domain: "false"
       tag: ${{ inputs.tag }}
       commit_hash: ${{ inputs.commit_hash }}
       artefact_bucket_name: ${{ inputs.artefact_bucket_name }}
@@ -59,7 +61,7 @@ jobs:
         deploy-react-app,
       ]
     name: Run ui tests
-    uses: NHSDigital/uec-dos-management/.github/workflows/ui-test.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/ui-test.yaml@v0.35
     with:
       environment: test
       workspace: ${{ inputs.workspace }}
