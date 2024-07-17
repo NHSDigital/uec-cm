@@ -1,4 +1,4 @@
-name: Tag and deploy code to intergration account
+name: Tag and deploy code to integration account
 on:
   pull_request:
     types: [ labeled ]
