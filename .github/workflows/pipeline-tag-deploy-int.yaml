@@ -1,4 +1,4 @@
-name: Tag and deploy code to int account
+name: Tag and deploy code to intergration account
 on:
   pull_request:
     types: [ labeled ]
@@ -6,15 +6,15 @@ on:
 jobs:
   metadata:
     name: "Get Metadata"
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.33
+    if: ${{ github.event.label.name == 'Int Ready' && startswith(github.head_ref, 'task/') }}
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.35
   generate-tag-name:
     name: "Generate Tag Name"
-    if: ${{ github.event.label.name == 'Int Ready' }} && startswith(github.head_ref, 'task/')
     needs:
       [
         metadata,
       ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/generate-tag-name.yaml@v0.33
+    uses: NHSDigital/uec-dos-management/.github/workflows/generate-tag-name.yaml@v0.35
     with:
       workspace: ${{ needs.metadata.outputs.workspace }}
       tag_type: int
@@ -27,23 +27,32 @@ jobs:
         metadata,
         generate-tag-name,
       ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/tag-repository.yaml@v0.33
+    uses: NHSDigital/uec-dos-management/.github/workflows/tag-repository.yaml@v0.35
     with:
       tag_to_push: ${{ needs.generate-tag-name.outputs.tag_name }}
       tag_overwrite: "yes"
-  build-full-application:
-    name: Build full application
-    needs:
-      [
-        metadata,
-        generate-tag-name,
-        tag-repository,
-      ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/build-full-application.yaml@v0.33
+  deploy-to-int:
+    name: Deploy to integration
+    needs: [
+      metadata,
+      generate-tag-name,
+      tag-repository,
+    ]
+    uses: ./.github/workflows/pipeline-deploy-app-int.yaml
     with:
-      environment: int
       workspace: ${{ needs.metadata.outputs.workspace }}
-      triggering_repo: 'uec-cm'
-      triggering_repo_commit_hash: ${{ needs.metadata.outputs.artefact_commit_hash }}
-      multi_domain: 'true'
+      commit_hash: ${{ needs.metadata.outputs.artefact_commit_hash }}
+    secrets: inherit
+  slack-notifications:
+    name: Send notification to slack
+    needs: [
+      metadata,
+      generate-tag-name,
+      tag-repository,
+      deploy-to-int
+    ]
+    if: always()
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.35
+    with:
+      env: int
     secrets: inherit
