@@ -21,6 +21,6 @@ jobs:
       environment: int
       workspace: ${{ inputs.workspace }}
       triggering_repo: uec-cm
-      triggering_repo_commit_hash: ${{ ninputs.commit_hash }}
+      triggering_repo_commit_hash: ${{ inputs.commit_hash }}
       multi_domain: 'true'
     secrets: inherit
