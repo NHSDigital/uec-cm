@@ -15,16 +15,19 @@ on:
       #   description: "Defines the tag to be used for deployment"
       #   required: true
       #   type: string
-      commit_hash:
-        description: "The commit hash to identify the version of artefacts"
-        required: true
-        type: string
-      artefact_bucket_name:
-        description: "The name of domain repository for artefacts"
-        required: true
-        type: string
+      # commit_hash:
+      #   description: "The commit hash to identify the version of artefacts"
+      #   required: true
+      #   type: string
+      # artefact_bucket_name:
+      #   description: "The name of domain repository for artefacts"
+      #   required: true
+      #   type: string
 
 jobs:
+  metadata:
+    name: "Get Metadata"
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.35
   deploy-application-infrastructure:
     name: Deploy application infrastructure
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.35
@@ -41,16 +44,16 @@ jobs:
   build-and-push-react-artefacts:
     name: Build react app and push built artefact to s3 bucket
     needs: [
-      # metadata,
+      metadata,
       deploy-application-infrastructure,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@v0.35
     with:
       environment: ${{ inputs.environment }}
       workspace:  ${{ inputs.workspace }}
       domain: uec-cm
-      commit_hash: ${{ inputs.commit_hash }}
-      artefact_bucket_name: ${{ inputs.artefact_bucket_name }}
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     permissions:
       id-token: write
       contents: read
@@ -59,6 +62,7 @@ jobs:
   deploy-react-app:
     name: Retrieve built artefact and deploy to front end s3 bucket
     needs: [
+      metadata,
       deploy-application-infrastructure,
     ]
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@v0.35
@@ -66,11 +70,11 @@ jobs:
       environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
       domain: uec-cm
-      # artefact_sub_dir:
+      artefact_sub_dir: ${{ inputs.workspace }}
       # code_directory:
       # tag: ${{ inputs.tag }}
-      commit_hash: ${{ inputs.commit_hash }}
-      artefact_bucket_name: ${{ inputs.artefact_bucket_name }}
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     permissions:
       id-token: write
       contents: read

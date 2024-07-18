@@ -22,14 +22,12 @@ on:
       - 'task/DR-1048_Prototype_delivery_flow'
 
 jobs:
-  metadata:
-    name: "Get Metadata"
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.35
+
   orchestrate-react-application-deployment:
     name: Orchestrate full deployment to prototype workspace
-    needs: [
-      metadata,
-    ]
+    # needs: [
+    #   metadata,
+    # ]
     uses: ./.github/workflows/pipeline-deploy-app.yaml
     with:
       environment: prototype
@@ -42,7 +40,6 @@ jobs:
   slack-notifications:
     name: Send notification to slack
     needs: [
-      metadata,
       orchestrate-react-application-deployment,
     ]
     if: always()
