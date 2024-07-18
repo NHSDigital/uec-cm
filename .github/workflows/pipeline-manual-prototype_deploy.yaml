@@ -33,8 +33,8 @@ jobs:
       environment: prototype
       workspace: prototype
       # tag: ${{ inputs.tag }}
-      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
-      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+      # commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      # artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     secrets: inherit
 
   slack-notifications:
