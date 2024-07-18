@@ -1,0 +1,52 @@
+name: Manually deploy code to prototype environment
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       # branch:
+#       #   description: "Specify the tag to be used for deployment"
+#       #   required: false
+#       #   default: main
+#       #   type: string
+#       tag:
+#         description: "Specify the tag to be used for deployment"
+#         required: true
+#         type: string
+#       artefact_commit_hash:
+#         description: "The commit hash to drive deployment"
+#         required: true
+#         type: string
+# TODO to help test before merge to main triggered on push to feature branch only
+on:
+  push:
+    branches:
+      - 'task/DR-1048_Prototype_delivery_flow'
+
+jobs:
+  metadata:
+    name: "Get Metadata"
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.35
+  orchestrate-react-application-deployment:
+    name: Orchestrate full deployment to prototype workspace
+    needs: [
+      metadata,
+    ]
+    uses: ./.github/workflows/pipeline-deploy-app.yaml
+    with:
+      environment: prototype
+      workspace: prototype
+      # tag: ${{ inputs.tag }}
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+    secrets: inherit
+
+  slack-notifications:
+    name: Send notification to slack
+    needs: [
+      metadata,
+      orchestrate-react-application-deployment,
+    ]
+    if: always()
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
+    with:
+      env: dev
+    secrets: inherit
