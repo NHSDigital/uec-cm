@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+// import jsPDF from "jspdf";
+// import html2canvas from "html2canvas";
 import "./css/prototype.css";
 import { hospitals } from "./data/mockDataService";
 
@@ -9,20 +9,20 @@ const HospitalList: React.FC = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const showConfirmation = queryParams.get("changesConfirmed") === "true";
-  const generatePDF = () => {
-    const input = document.getElementById("hospital-list");
-    if (input) {
-      html2canvas(input).then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF();
-        const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-        pdf.save("hospital-list.pdf");
-      });
-    }
-  };
+  // const generatePDF = () => {
+  //   const input = document.getElementById("hospital-list");
+  //   if (input) {
+  //     html2canvas(input).then((canvas) => {
+  //       const imgData = canvas.toDataURL("image/png");
+  //       const pdf = new jsPDF();
+  //       const imgProps = pdf.getImageProperties(imgData);
+  //       const pdfWidth = pdf.internal.pageSize.getWidth();
+  //       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+  //       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+  //       pdf.save("hospital-list.pdf");
+  //     });
+  //   }
+  // };
 
   return (
     <div className="nhsuk-u-padding-top-8">
@@ -64,9 +64,9 @@ const HospitalList: React.FC = () => {
               You can download a report of all the capacity management
               information you have access to via this link.
             </p>
-            <button onClick={generatePDF} className="nhsuk-button">
+            {/* <button onClick={generatePDF} className="nhsuk-button">
               Download Report
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
