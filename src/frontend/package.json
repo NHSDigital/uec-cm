@@ -64,7 +64,11 @@
       "!src/index.tsx",
       "!src/pages/test.tsx",
       "!src/reportWebVitals.ts",
-      "!<rootDir>/node_modules/"
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/src/prototype/**"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/prototype/"
     ],
     "coverageThreshold": {
       "global": {
