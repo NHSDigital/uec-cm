@@ -1,0 +1,164 @@
+.nhsuk-action-link__link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  padding-left: 0;
+  border-bottom: 1px solid #d8d8d8;
+  text-decoration: none;
+}
+
+.nhsuk-action-link__link:hover {
+  background-color: #f3f3f3;
+}
+
+.nhsuk-action-link__text {
+  font-size: 1.25rem;
+  color: #005eb8;
+  text-decoration: none;
+}
+
+.nhsuk-icon__arrow-right-circle {
+  background-color: #005eb8;
+  border-radius: 50%;
+  padding: 5px;
+  flex-shrink: 0;
+}
+
+ul.nhsuk-list--border {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+ul.nhsuk-list--border li {
+  margin-bottom: 0;
+  border-bottom: none;
+  padding: 0;
+}
+.nhsuk-action-link__link .nhsuk-icon__arrow-right-circle {
+  position: relative;
+}
+.circle-arrow {
+  display: inline-block;
+  width: 38px;
+  height: 38px;
+  background-color: #005eb8;
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 36px;
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.nhsuk-table .circle-arrow {
+  width: 30px;
+  height: 30px;
+  line-height: 26px;
+  font-size: 20px;
+}
+tbody .nhsuk-action-link__link {
+  border-bottom: none;
+  padding: 5px;
+}
+/* Admin pages css */
+.nhsuk-grid-row {
+  margin-bottom: 50px;
+}
+.nhsuk-back-link.no-underline {
+  text-decoration: none;
+}
+
+.services-list {
+  background-color: white;
+  padding: 16px;
+  margin-bottom: 40px;
+}
+
+.services-list li {
+  list-style-type: none;
+  padding: 8px 0 0 20px;
+}
+
+.services-list li a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  color: #005eb8; /* NHS Blue */
+  padding: 12px;
+  border-radius: 4px;
+  background-color: white;
+  transition: background-color 0.3s ease;
+}
+
+.services-list li a:hover {
+  background-color: #f3f4f6;
+}
+.services-list hr {
+  margin: 0 20px 0 20px;
+}
+.services-list li .arrow {
+  font-size: 30px;
+  color: #005eb8; /* NHS Blue */
+}
+.services-list li .nhsuk-action-link__link {
+  border-bottom: none;
+}
+.services-list li .nhsuk-action-link__text {
+  font-size: 1.5rem;
+}
+.services-list li a:hover .arrow {
+  color: #003078; /* Darker NHS Blue */
+}
+.searchResultBanner {
+  color: #fff;
+  background-color: #005eb8;
+  text-align: center;
+  font-size: 1rem;
+  padding: 5px;
+}
+.searchResultBanner a {
+  color: #fff;
+}
+
+.nhsuk-pagination {
+  display: flex;
+  justify-content: center;
+  padding: 20px 20px;
+}
+
+.nhsuk-pagination__list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.nhsuk-pagination-item--previous,
+.nhsuk-pagination-item--next {
+  margin: 0 20px;
+}
+.nhsuk-pagination__list li {
+  padding-left: 20px;
+}
+.nhsuk-pagination__link {
+  text-decoration: none;
+  color: #005eb8;
+}
+.nhsuk-pagination__link .nhsuk-pagination__title {
+  font-size: 1.25rem;
+}
+.nhsuk-pagination__link:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.nhsuk-pagination__item--current .nhsuk-pagination__link,
+.nhsuk-pagination__item--current .nhsuk-pagination__link:focus {
+  background-color: #005eb8;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
