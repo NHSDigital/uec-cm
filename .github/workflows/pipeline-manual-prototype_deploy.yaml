@@ -1,0 +1,24 @@
+name: Manually deploy code to prototype environment
+on:
+  workflow_dispatch:
+
+jobs:
+
+  orchestrate-react-application-deployment:
+    name: Orchestrate full deployment to prototype workspace
+    uses: ./.github/workflows/pipeline-deploy-app.yaml
+    with:
+      environment: prototype
+      workspace: prototype
+    secrets: inherit
+
+  slack-notifications:
+    name: Send notification to slack
+    needs: [
+      orchestrate-react-application-deployment,
+    ]
+    if: always()
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
+    with:
+      env: dev
+    secrets: inherit
