@@ -11,18 +11,6 @@ on:
         description: "The workspace to deploy the service into"
         required: true
         type: string
-      # tag:
-      #   description: "Defines the tag to be used for deployment"
-      #   required: true
-      #   type: string
-      # commit_hash:
-      #   description: "The commit hash to identify the version of artefacts"
-      #   required: true
-      #   type: string
-      # artefact_bucket_name:
-      #   description: "The name of domain repository for artefacts"
-      #   required: true
-      #   type: string
 
 jobs:
   metadata:
@@ -37,7 +25,6 @@ jobs:
       project: cm
       workspace: ${{ inputs.workspace }}
       stacks: "['application']"
-      # tag: ${{ inputs.tag }}
       action: apply
       workflow_timeout: 10
     secrets: inherit
@@ -73,8 +60,6 @@ jobs:
       workspace: ${{ inputs.workspace }}
       domain: uec-cm
       artefact_sub_dir: ${{ inputs.workspace }}
-      # code_directory:
-      # tag: ${{ inputs.tag }}
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     permissions:

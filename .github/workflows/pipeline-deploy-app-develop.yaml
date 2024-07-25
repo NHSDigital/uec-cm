@@ -1,5 +1,4 @@
 name: Pipeline Deployment Application Development Environment
-# TODO restore
 on:
   push:
     branches:
@@ -9,84 +8,84 @@ jobs:
   metadata:
     name: "Get Metadata"
     uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.36
-  # quality-check:
-  #   name: "Quality Check"
-  #   uses: NHSDigital/uec-dos-management/.github/workflows/quality-checks.yaml@v0.36
-  #   needs:
-  #     [
-  #       metadata,
-  #     ]
-  #   with:
-  #     environment: dev
-  #     workspace: ${{ needs.metadata.outputs.workspace }}
-  #     stacks: '["github-runner", "terraform_management", "application", "ui-test"]'
-  #   secrets: inherit
+  quality-check:
+    name: "Quality Check"
+    uses: NHSDigital/uec-dos-management/.github/workflows/quality-checks.yaml@v0.36
+    needs:
+      [
+        metadata,
+      ]
+    with:
+      environment: dev
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      stacks: '["github-runner", "terraform_management", "application", "ui-test"]'
+    secrets: inherit
 
-  # deploy-application-infrastructure:
-  #     needs:
-  #       [
-  #         quality-check,
-  #         metadata,
-  #       ]
-  #     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.36
-  #     with:
-  #       environment: dev
-  #       domain: "uec-cm"
-  #       project: cm
-  #       workspace: ${{ needs.metadata.outputs.workspace }}
-  #       stacks: '["application", "ui-test"]'
-  #       action: apply
-  #     secrets: inherit
+  deploy-application-infrastructure:
+      needs:
+        [
+          quality-check,
+          metadata,
+        ]
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.36
+      with:
+        environment: dev
+        domain: "uec-cm"
+        project: cm
+        workspace: ${{ needs.metadata.outputs.workspace }}
+        stacks: '["application", "ui-test"]'
+        action: apply
+      secrets: inherit
 
-  # build-and-push-react-artefacts:
-  #   name: Build react app and push built artefact to s3 bucket
-  #   needs: [
-  #     metadata,
-  #     deploy-application-infrastructure,
-  #   ]
-  #   uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@v0.36
-  #   with:
-  #     environment: dev
-  #     workspace: ${{ needs.metadata.outputs.workspace }}
-  #     domain: uec-cm
-  #     commit_hash: ${{ needs.metadata.outputs.commit_hash }}
-  #     artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
-  #   permissions:
-  #     id-token: write
-  #     contents: read
-  #   secrets: inherit
+  build-and-push-react-artefacts:
+    name: Build react app and push built artefact to s3 bucket
+    needs: [
+      metadata,
+      deploy-application-infrastructure,
+    ]
+    uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@v0.36
+    with:
+      environment: dev
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: uec-cm
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+    permissions:
+      id-token: write
+      contents: read
+    secrets: inherit
 
-  # deploy-react-app:
-  #   name: Retrieve built artefact and deploy to front end s3 bucket
-  #   needs: [
-  #     metadata,
-  #     deploy-application-infrastructure,
-  #     build-and-push-react-artefacts,
-  #   ]
-  #   uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@v0.36
-  #   with:
-  #     environment: dev
-  #     workspace: ${{ needs.metadata.outputs.workspace }}
-  #     domain: uec-cm
-  #     artefact_sub_dir: ${{ needs.metadata.outputs.workspace }}
-  #     commit_hash: ${{ needs.metadata.outputs.commit_hash }}
-  #     artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
-  #   permissions:
-  #     id-token: write
-  #     contents: read
-  #   secrets: inherit
+  deploy-react-app:
+    name: Retrieve built artefact and deploy to front end s3 bucket
+    needs: [
+      metadata,
+      deploy-application-infrastructure,
+      build-and-push-react-artefacts,
+    ]
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@v0.36
+    with:
+      environment: dev
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: uec-cm
+      artefact_sub_dir: ${{ needs.metadata.outputs.workspace }}
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+    permissions:
+      id-token: write
+      contents: read
+    secrets: inherit
 
-  # slack-notifications:
-  #   name: Send notification to slack
-  #   needs: [
-  #     metadata,
-  #     quality-check,
-  #     deploy-application-infrastructure,
-  #     build-and-push-react-artefacts,
-  #     deploy-react-app,
-  #   ]
-  #   if: always()
-  #   uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.36
-  #   with:
-  #     env: dev
-  #   secrets: inherit
+  slack-notifications:
+    name: Send notification to slack
+    needs: [
+      metadata,
+      quality-check,
+      deploy-application-infrastructure,
+      build-and-push-react-artefacts,
+      deploy-react-app,
+    ]
+    if: always()
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.36
+    with:
+      env: dev
+    secrets: inherit
