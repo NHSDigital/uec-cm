@@ -11,7 +11,7 @@ const PrototypePage: React.FC = () => {
 
   const handleContinue = () => {
     if (userId === "admin") {
-      navigate("/prototype/");
+      navigate("/prototype/admin");
     } else {
       navigate("/prototype/hospitalList");
     }
