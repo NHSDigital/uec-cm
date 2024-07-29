@@ -1,17 +1,3 @@
-variable "front-end-s3-bucket-name" {
-  description = "CM Front End"
-}
-
-variable "website_map" {
-  description = "Map of static website hosting"
-}
-
-variable "force_destroy" {
-  description = "Whether to forcefully destroy the bucket when it contains objects"
-  type        = bool
-  default     = true
-}
-
 # Waf related
 variable "waf_dashboard_name" {
   description = "Name of cloudwatch dashboard for wafv2"
@@ -37,3 +23,14 @@ variable "generate_waf_logs" {
   description = "Boolean value to determine whether or not we generate WAF logging"
 }
 
+variable "waf_reputation_rule_name" {
+  description = "Reputation rule name "
+}
+
+variable "waf_acl_metric_name" {
+  description = "Name of primary web acl metric"
+}
+
+variable "aws_region" {
+  description = "AWS region"
+}
