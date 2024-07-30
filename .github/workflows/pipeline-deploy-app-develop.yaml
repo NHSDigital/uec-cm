@@ -21,11 +21,27 @@ jobs:
       stacks: '["github-runner", "terraform_management", "application", "ui-test"]'
     secrets: inherit
 
+  deploy-firewall:
+    needs:
+      [
+        quality-check,
+        metadata,
+      ]
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.36
+    with:
+      environment: dev
+      domain: "uec-cm"
+      project: cm
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      stacks: '["firewall"]'
+      action: apply
+    secrets: inherit
   deploy-application-infrastructure:
       needs:
         [
           quality-check,
           metadata,
+          deploy-firewall,
         ]
       uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.36
       with:
