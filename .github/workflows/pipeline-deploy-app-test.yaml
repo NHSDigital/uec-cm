@@ -45,6 +45,7 @@ jobs:
       stacks: "['application', 'ui-test']"
       tag: ${{ inputs.tag }}
       action: apply
+      workflow_timeout: 10
     secrets: inherit
 
   deploy-react-app:

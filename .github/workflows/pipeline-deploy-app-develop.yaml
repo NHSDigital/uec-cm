@@ -51,6 +51,7 @@ jobs:
         workspace: ${{ needs.metadata.outputs.workspace }}
         stacks: '["application", "ui-test"]'
         action: apply
+        workflow_timeout: 10
       secrets: inherit
 
   build-and-push-react-artefacts:
