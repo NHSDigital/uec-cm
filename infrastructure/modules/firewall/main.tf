@@ -17,12 +17,12 @@ resource "aws_wafv2_web_acl" "waf_acl" {
   rule {
     name     = "${var.waf_reputation_rule_name}${local.workspace_suffix}"
     priority = 30
-    action {
-      block {}
-    }
-    # override_action {
-    #   count {}
+    # action {
+    #   block {}
     # }
+    override_action {
+      none {}
+    }
 
     statement {
       managed_rule_group_statement {
