@@ -78,7 +78,7 @@ resource "aws_wafv2_web_acl_logging_configuration" "waf_acl_lc" {
 #  Cloudwatch dashboards
 
 resource "aws_cloudwatch_dashboard" "wafv2_dashboard" {
-  dashboard_name = var.waf_dashboard_name
+  dashboard_name = "${var.waf_dashboard_name}${local.workspace_suffix}"
   dashboard_body = <<EOF
     {
       "widgets": [
