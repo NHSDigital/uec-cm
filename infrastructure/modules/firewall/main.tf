@@ -1,7 +1,7 @@
 resource "aws_wafv2_web_acl" "waf_acl" {
   name        = "${var.waf_name}${local.workspace_suffix}"
   description = "CM Frontend WAF"
-  scope       = "REGIONAL"
+  scope       = "CLOUDFRONT"
 
   default_action {
     allow {}
