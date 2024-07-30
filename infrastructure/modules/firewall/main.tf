@@ -4,7 +4,7 @@ resource "aws_wafv2_web_acl" "waf_acl" {
   scope       = "CLOUDFRONT"
 
   default_action {
-    allow {}
+    block {}
   }
 
   # Primary Web ACL metric
@@ -17,10 +17,12 @@ resource "aws_wafv2_web_acl" "waf_acl" {
   rule {
     name     = "${var.waf_reputation_rule_name}${local.workspace_suffix}"
     priority = 30
-
-    override_action {
-      count {}
+    action {
+      block {}
     }
+    # override_action {
+    #   count {}
+    # }
 
     statement {
       managed_rule_group_statement {
@@ -41,7 +43,7 @@ resource "aws_wafv2_web_acl" "waf_acl" {
     name     = "${var.non_gb_rule_metric_name}${local.workspace_suffix}"
     priority = 1
     action {
-      count {}
+      block {}
     }
     statement {
       not_statement {
