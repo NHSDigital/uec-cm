@@ -46,5 +46,4 @@ variable "custom_rate_limited_metric_name" {
 
 variable "rate_based_limit" {
   description = "Threshold for rate based rule"
-  default     = 5000
 }

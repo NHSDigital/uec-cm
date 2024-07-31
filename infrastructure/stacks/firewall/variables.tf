@@ -38,3 +38,7 @@ variable "custom_rate_limited_rule_name" {
 variable "custom_rate_limited_metric_name" {
   description = "Name of metric for customised rate limiting rule"
 }
+
+variable "rate_based_limit" {
+  description = "The number of requests per 5 min that will trigger rule to block requests"
+}
