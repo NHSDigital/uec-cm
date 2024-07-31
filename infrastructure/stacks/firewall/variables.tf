@@ -30,3 +30,11 @@ variable "aws_ip_reputation_rule_name" {
 variable "acl_metric_name" {
   description = "Name of metric"
 }
+
+variable "custom_rate_limited_rule_name" {
+  description = "Name of custom limiting rule"
+}
+
+variable "custom_rate_limited_metric_name" {
+  description = "Name of metric for customised rate limiting rule"
+}

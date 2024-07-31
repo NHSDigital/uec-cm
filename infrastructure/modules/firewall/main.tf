@@ -17,9 +17,9 @@ resource "aws_wafv2_web_acl" "waf_acl" {
   rule {
     name     = "${var.waf_reputation_rule_name}${local.workspace_suffix}"
     priority = 30
-    # action {
-    #   block {}
-    # }
+    action {
+      block {}
+    }
     override_action {
       none {}
     }
@@ -43,7 +43,10 @@ resource "aws_wafv2_web_acl" "waf_acl" {
     name     = "${var.non_gb_rule_metric_name}${local.workspace_suffix}"
     priority = 1
     action {
-      block {}
+      count {}
+    }
+    override_action {
+      none {}
     }
     statement {
       not_statement {
@@ -56,8 +59,29 @@ resource "aws_wafv2_web_acl" "waf_acl" {
     }
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = var.non_gb_rule_metric_name
+      metric_name                = "${var.non_gb_rule_metric_name}${local.workspace_suffix}"
       sampled_requests_enabled   = true
+    }
+  }
+  rule {
+    name     = "${var.custom_rate_limited_rule_name}${local.workspace_suffix}"
+    priority = 2
+    action {
+      block {}
+    }
+    override_action {
+      none {}
+    }
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "${var.custom_rate_limited_metric_name}${local.workspace_suffix}"
+      sampled_requests_enabled   = true
+    }
+    statement {
+      rate_based_statement {
+        limit              = var.rate_based_limit
+        aggregate_key_type = "IP"
+      }
     }
   }
 

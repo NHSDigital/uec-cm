@@ -21,6 +21,7 @@ variable "ip_reputation_list_metric_name" {
 
 variable "generate_waf_logs" {
   description = "Boolean value to determine whether or not we generate WAF logging"
+  default     = false
 }
 
 variable "waf_reputation_rule_name" {
@@ -33,4 +34,17 @@ variable "waf_acl_metric_name" {
 
 variable "aws_region" {
   description = "AWS region"
+}
+
+variable "custom_rate_limited_rule_name" {
+  description = "Name of custom limiting rule"
+}
+
+variable "custom_rate_limited_metric_name" {
+  description = "Name of metric for customised rate limiting rule"
+}
+
+variable "rate_based_limit" {
+  description = "Threshold for rate based rule"
+  default     = 1000
 }
