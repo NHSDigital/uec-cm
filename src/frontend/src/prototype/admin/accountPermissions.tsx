@@ -1,12 +1,17 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import "../css/prototype.css";
 import { users } from "../data/mockDataService";
 
 const AccountPermissions: React.FC = () => {
+  const navigate = useNavigate();
+
   const { id } = useParams<{ id: string }>();
   const userId = id ? parseInt(id, 10) : null;
   const user = users.find((h) => h.id === userId);
+  const handleCancel = () => {
+    navigate(`/prototype/hospitalList`);
+  };
 
   return (
     <div className="nhsuk-u-padding-top-8">
@@ -188,6 +193,7 @@ const AccountPermissions: React.FC = () => {
                 type="button"
                 className="nhsuk-button nhsuk-button--secondary "
                 style={{ marginLeft: "40px" }}
+                onClick={handleCancel}
               >
                 Cancel
               </button>

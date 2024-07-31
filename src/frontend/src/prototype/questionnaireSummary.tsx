@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import {
   hospitals,
@@ -10,8 +10,8 @@ import "./css/prototype.css";
 
 const QuestionnaireSummary: React.FC = () => {
   const navigate = useNavigate();
-
   const location = useLocation();
+
   const { formData, editedFields } = location.state || {};
 
   const { id } = useParams<{ id: string }>();
@@ -23,12 +23,17 @@ const QuestionnaireSummary: React.FC = () => {
     (d) => d.hospitalUnitId === hospitalUnitId
   );
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (!hospital || !data || !formData || !editedFields) {
     return <div>Hospital not found</div>;
   }
 
   const handleSave = () => {
-    navigate(`/prototype/hospitalList?changesConfirmed=true`);
+    const hasEdited = editedEntries.length > 0;
+    navigate(`/prototype/hospitalList?changesConfirmed=${hasEdited}`);
   };
   const handleCancel = () => {
     navigate(`/prototype/hospitalQuestionnaire/${hospitalUnitId}`);
@@ -94,7 +99,7 @@ const QuestionnaireSummary: React.FC = () => {
                       <td className="nhsuk-table__value">{value}</td>
                       <td className="nhsuk-table__edit">
                         <Link
-                          to={`/prototype/hospitalQuestionnaire/${hospitalUnitId}`}
+                          to={`/prototype/hospitalQuestionnaire/${hospitalUnitId}?editKeyId=${key}`}
                         >
                           Edit
                         </Link>
@@ -119,7 +124,7 @@ const QuestionnaireSummary: React.FC = () => {
                     <td className="nhsuk-table__value">{value}</td>
                     <td className="nhsuk-table__edit">
                       <Link
-                        to={`/prototype/hospitalQuestionnaire/${hospitalUnitId}`}
+                        to={`/prototype/hospitalQuestionnaire/${hospitalUnitId}?editKeyId=${key}`}
                       >
                         Edit
                       </Link>

@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 // import jsPDF from "jspdf";
 // import html2canvas from "html2canvas";
 import "./css/prototype.css";
-import { hospitals } from "./data/mockDataService";
+import { hospitals, hospitalUnits } from "./data/mockDataService";
 
 const HospitalList: React.FC = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const showConfirmation = queryParams.get("changesConfirmed") === "true";
+  const changesConfirmed = queryParams.get("changesConfirmed");
   // const generatePDF = () => {
   //   const input = document.getElementById("hospital-list");
   //   if (input) {
@@ -24,10 +24,26 @@ const HospitalList: React.FC = () => {
   //   }
   // };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Function to check if a hospital has only one unit
+  const getHospitalLink = (hospitalId: number) => {
+    const units = hospitalUnits.filter(
+      (unit) => unit.hospitalId === hospitalId
+    );
+    if (units.length === 1) {
+      return `/prototype/hospitalQuestionnaire/${units[0].id}`;
+    } else {
+      return `/prototype/hospitalUnits/${hospitalId}`;
+    }
+  };
+
   return (
     <div className="nhsuk-u-padding-top-8">
       <div className="nhsuk-width-container">
-        {showConfirmation && (
+        {changesConfirmed && (
           <div
             className="nhsuk-inset-text"
             style={{
@@ -36,7 +52,11 @@ const HospitalList: React.FC = () => {
             }}
           >
             <span className="nhsuk-u-visually-hidden">Confirmation: </span>
-            <p>You have successfully saved and confirmed your updates.</p>
+            {changesConfirmed === "true" ? (
+              <p>You have successfully saved and confirmed your updates.</p>
+            ) : (
+              <p>You have made no updates and confirmed the data is correct.</p>
+            )}
           </div>
         )}
         <div className="nhsuk-grid-row">
@@ -49,7 +69,7 @@ const HospitalList: React.FC = () => {
                   <Link
                     className="nhsuk-action-link__link"
                     // to={`/prototype/hospitalQuestionnaire/${hospital.id}`}
-                    to={`/prototype/hospitalUnits/${hospital.id}`}
+                    to={getHospitalLink(hospital.id)}
                   >
                     <span className="nhsuk-action-link__text">
                       {hospital.name}

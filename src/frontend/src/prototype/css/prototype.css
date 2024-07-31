@@ -162,3 +162,8 @@ tbody .nhsuk-action-link__link {
   padding: 8px 12px;
   border-radius: 4px;
 }
+
+.highlight {
+  background-color: yellow; /* Highlight color */
+  outline: 2px solid orange; /* Optional: outline to make it more prominent */
+}

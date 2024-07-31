@@ -39,12 +39,9 @@ const AdminLandingPage: React.FC = () => {
               </li>
               <hr />
               <li>
-                <Link
-                  className="nhsuk-action-link__link"
-                  to="/prototype/admin/manageAccountSearch"
-                >
+                <Link className="nhsuk-action-link__link" to="/prototype/admin">
                   <span className="nhsuk-action-link__text">
-                    Add a new user account
+                    Update questionnaire
                   </span>
                   <span className="arrow">&gt;</span>
                 </Link>
