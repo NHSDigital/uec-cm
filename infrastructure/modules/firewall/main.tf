@@ -17,11 +17,9 @@ resource "aws_wafv2_web_acl" "waf_acl" {
   rule {
     name     = "${var.waf_reputation_rule_name}${local.workspace_suffix}"
     priority = 30
-    action {
-      block {}
-    }
+
     override_action {
-      none {}
+      count {}
     }
 
     statement {
@@ -45,9 +43,6 @@ resource "aws_wafv2_web_acl" "waf_acl" {
     action {
       count {}
     }
-    override_action {
-      none {}
-    }
     statement {
       not_statement {
         statement {
@@ -68,9 +63,6 @@ resource "aws_wafv2_web_acl" "waf_acl" {
     priority = 2
     action {
       block {}
-    }
-    override_action {
-      none {}
     }
     visibility_config {
       cloudwatch_metrics_enabled = true
