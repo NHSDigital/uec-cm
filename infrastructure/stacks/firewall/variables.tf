@@ -22,3 +22,11 @@ variable "ip_reputation_list_metric_name" {
 variable "generate_waf_logs" {
   description = "Boolean value to determine whether or not we generate WAF logging"
 }
+
+variable "aws_ip_reputation_rule_name" {
+  description = "Name of aws managed ip reputation rule"
+}
+
+variable "acl_metric_name" {
+  description = "Name of metric"
+}

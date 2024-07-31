@@ -16,6 +16,7 @@ jobs:
   metadata:
     name: "Get Metadata"
     uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.36
+
   deploy-firewall:
     name: Deploy firewall infrastructure
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.36
@@ -31,6 +32,10 @@ jobs:
 
   deploy-application-infrastructure:
     name: Deploy application infrastructure
+    needs: [
+      metadata,
+      deploy-firewall,
+    ]
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.36
     with:
       environment: ${{ inputs.environment }}

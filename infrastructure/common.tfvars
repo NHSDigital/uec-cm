@@ -9,4 +9,4 @@ service_category = "platinum"
 on_off_pattern   = "alwaysOn"
 
 # required by two different stacks
-waf_name = "${var.project}-waf-acl"
+waf_name = "waf-acl"
