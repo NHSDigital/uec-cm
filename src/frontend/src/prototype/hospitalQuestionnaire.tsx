@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import {
   hospitals,
   hospitalQuestionnaireData,
@@ -9,6 +9,7 @@ import "./css/prototype.css";
 
 const HospitalQuestionnaire: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { id } = useParams<{ id: string }>();
   const hospitalUnitId = id ? parseInt(id, 10) : null;
@@ -48,6 +49,19 @@ const HospitalQuestionnaire: React.FC = () => {
   );
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const queryParams = new URLSearchParams(location.search);
+  const editKeyId: string | null = queryParams.get("editKeyId");
+
+  useEffect(() => {
+    // Highlight and focus the field to edit
+    if (editKeyId) {
+      const fieldElement = document.getElementById(editKeyId);
+      if (fieldElement) {
+        fieldElement.focus();
+        fieldElement.classList.add("highlight");
+      }
+    }
+  }, [editKeyId]);
 
   if (!hospital || !data) {
     return <div>Hospital not found</div>;

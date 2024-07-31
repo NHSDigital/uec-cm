@@ -27,7 +27,10 @@ const AdminLandingPage: React.FC = () => {
             <h3 className="nhsuk-u-margin-bottom-4">Available services</h3>
             <ul className="nhsuk-list nhsuk-list--border services-list">
               <li>
-                <Link className="nhsuk-action-link__link" to="/prototype/admin">
+                <Link
+                  className="nhsuk-action-link__link"
+                  to="/prototype/admin/manageAccountSearch"
+                >
                   <span className="nhsuk-action-link__text">
                     Manage user accounts
                   </span>
@@ -38,7 +41,7 @@ const AdminLandingPage: React.FC = () => {
               <li>
                 <Link className="nhsuk-action-link__link" to="/prototype/admin">
                   <span className="nhsuk-action-link__text">
-                    Add a new user account
+                    Update questionnaire
                   </span>
                   <span className="arrow">&gt;</span>
                 </Link>
