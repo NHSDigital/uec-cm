@@ -21,6 +21,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   is_ipv6_enabled     = true
   comment             = var.comment
   default_root_object = var.default_root_object
+  web_acl_id          = var.web_acl_id
 
   default_cache_behavior {
     allowed_methods  = var.allowed_methods
