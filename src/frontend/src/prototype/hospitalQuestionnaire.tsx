@@ -7,6 +7,24 @@ import {
 } from "./data/mockDataService";
 import "./css/prototype.css";
 
+type FormData = {
+  bedsideStaff: string;
+  requiredStaffRatioMeeting: string;
+  bedsUnplannedAdmissions: string;
+  totalPatients: string;
+  ecmoPatients: string;
+  invasivelyVentilatedPatients: string;
+  nonInvasivelyVentilatedPatients: string;
+  bedsOccupiedUnder1Year: string;
+  bedsOccupiedBy12To17: string;
+  bedsOccupiedBy18Plus: string;
+  dischargesOrDeathExpectedNumberIn12Hours: string;
+  yesterdaySurgeryCancellations: string;
+  yesterdayRefusedUnplannedAdmissions: string;
+  notDischargedPatientsForNonClenicalReasons: string;
+  patientsOfPimsTs: string;
+};
+
 const HospitalQuestionnaire: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,7 +38,7 @@ const HospitalQuestionnaire: React.FC = () => {
     (d) => d.hospitalUnitId === hospitalUnitId
   );
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     bedsideStaff: data?.bedsideStaff.toString() || "",
     requiredStaffRatioMeeting: data?.requiredStaffRatioMeeting ? "Yes" : "No",
     bedsUnplannedAdmissions: data?.bedsUnplannedAdmissions.toString() || "",
@@ -44,9 +62,29 @@ const HospitalQuestionnaire: React.FC = () => {
     patientsOfPimsTs: data?.patientsOfPimsTs.toString() || "",
   });
 
-  const [editedFields, setEditedFields] = useState<{ [key: string]: boolean }>(
-    {}
-  );
+  const [initialValues] = useState<FormData>({
+    bedsideStaff: data?.bedsideStaff.toString() || "",
+    requiredStaffRatioMeeting: data?.requiredStaffRatioMeeting ? "Yes" : "No",
+    bedsUnplannedAdmissions: data?.bedsUnplannedAdmissions.toString() || "",
+    totalPatients: data?.totalPatients?.toString() || "",
+    ecmoPatients: data?.ecmoPatients.toString() || "",
+    invasivelyVentilatedPatients:
+      data?.invasivelyVentilatedPatients.toString() || "",
+    nonInvasivelyVentilatedPatients:
+      data?.nonInvasivelyVentilatedPatients?.toString() || "",
+    bedsOccupiedUnder1Year: data?.bedsOccupiedUnder1Year?.toString() || "",
+    bedsOccupiedBy12To17: data?.bedsOccupiedBy12To17.toString() || "",
+    bedsOccupiedBy18Plus: data?.bedsOccupiedBy18Plus.toString() || "",
+    dischargesOrDeathExpectedNumberIn12Hours:
+      data?.dischargesOrDeathExpectedNumberIn12Hours.toString() || "",
+    yesterdaySurgeryCancellations:
+      data?.yesterdaySurgeryCancellations.toString() || "",
+    yesterdayRefusedUnplannedAdmissions:
+      data?.yesterdayRefusedUnplannedAdmissions.toString() || "",
+    notDischargedPatientsForNonClenicalReasons:
+      data?.notDischargedPatientsForNonClenicalReasons.toString() || "",
+    patientsOfPimsTs: data?.patientsOfPimsTs.toString() || "",
+  });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const queryParams = new URLSearchParams(location.search);
@@ -61,7 +99,15 @@ const HospitalQuestionnaire: React.FC = () => {
         fieldElement.classList.add("highlight");
       }
     }
-  }, [editKeyId]);
+
+    // Scroll to the top if there are errors
+    if (Object.keys(errors).length > 0) {
+      const summaryElement = document.getElementById("validation-summary");
+      if (summaryElement) {
+        summaryElement.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [editKeyId, errors]);
 
   if (!hospital || !data) {
     return <div>Hospital not found</div>;
@@ -72,10 +118,6 @@ const HospitalQuestionnaire: React.FC = () => {
     setFormData((prevData) => ({
       ...prevData,
       [id]: value,
-    }));
-    setEditedFields((prevEdited) => ({
-      ...prevEdited,
-      [id]: true,
     }));
   };
 
@@ -180,8 +222,17 @@ const HospitalQuestionnaire: React.FC = () => {
 
   const handleContinue = () => {
     if (validateForm()) {
+      const changes: Partial<FormData> = {};
+      Object.keys(formData).forEach((key) => {
+        if (
+          formData[key as keyof FormData] !==
+          initialValues[key as keyof FormData]
+        ) {
+          changes[key as keyof FormData] = formData[key as keyof FormData];
+        }
+      });
       navigate(`/prototype/questionnaireSummary/${hospitalUnitId}`, {
-        state: { formData, editedFields },
+        state: { formData, editedFields: changes },
       });
     }
   };
@@ -216,6 +267,7 @@ const HospitalQuestionnaire: React.FC = () => {
                 aria-labelledby="error-summary-title"
                 role="alert"
                 tabIndex={-1}
+                id="validation-summary"
               >
                 <h2
                   className="nhsuk-error-summary__title"
