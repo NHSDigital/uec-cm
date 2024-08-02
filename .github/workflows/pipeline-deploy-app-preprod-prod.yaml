@@ -1,4 +1,4 @@
-name: Pipeline Deployment Application Production Environment
+name: Pipeline Deployment Application preproduction Environment
 on:
   push:
     branches:
@@ -16,7 +16,7 @@ jobs:
         metadata,
       ]
     with:
-      environment: prod
+      environment: preprod
       workspace: ${{ needs.metadata.outputs.workspace }}
       stacks: '["github-runner", "terraform_management", "application", "ui-test"]'
     secrets: inherit
@@ -29,7 +29,7 @@ jobs:
       ]
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.36
     with:
-      environment: prod
+      environment: preprod
       domain: "uec-cm"
       project: cm
       workspace: ${{ needs.metadata.outputs.workspace }}
@@ -45,7 +45,7 @@ jobs:
         ]
       uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.36
       with:
-        environment: prod
+        environment: preprod
         domain: "uec-cm"
         project: cm
         workspace: ${{ needs.metadata.outputs.workspace }}
@@ -62,7 +62,7 @@ jobs:
     ]
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@v0.36
     with:
-      environment: prod
+      environment: preprod
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: uec-cm
       artefact_sub_dir: ${{ needs.metadata.outputs.workspace }}
@@ -84,5 +84,5 @@ jobs:
     if: always()
     uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.36
     with:
-      env: prod
+      env: preprod
     secrets: inherit
