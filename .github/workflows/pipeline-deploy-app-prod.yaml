@@ -59,7 +59,6 @@ jobs:
     needs: [
       metadata,
       deploy-application-infrastructure,
-      build-and-push-react-artefacts,
     ]
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@v0.36
     with:
@@ -80,7 +79,6 @@ jobs:
       metadata,
       quality-check,
       deploy-application-infrastructure,
-      build-and-push-react-artefacts,
       deploy-react-app,
     ]
     if: always()
