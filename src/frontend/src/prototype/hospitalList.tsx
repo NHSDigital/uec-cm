@@ -87,6 +87,7 @@ const HospitalList: React.FC = () => {
             {/* <button onClick={generatePDF} className="nhsuk-button">
               Download Report
             </button> */}
+            <button className="nhsuk-button">Download Report</button>
           </div>
         </div>
       </div>
