@@ -11,7 +11,7 @@ jobs:
     uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.36
   destroy:
     if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
-    uses: NHSDigital/uec-dos-management/.github/workflows/infrastructure-cleardown.yaml@48c88d5fe2646ad609df9aa6e930b5a89d40bf23
+    uses: NHSDigital/uec-dos-management/.github/workflows/infrastructure-cleardown.yaml@v0.36
     needs:
       [
         metadata,
@@ -22,6 +22,7 @@ jobs:
       project: cm
       domain: "uec-cm"
       stacks: '["application", "ui-test"]'
+      workflow_timeout: 10
     secrets: inherit
   cleardown-artefacts:
     if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
@@ -31,11 +32,12 @@ jobs:
         metadata,
         destroy,
       ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/artefacts-cleardown.yaml@48c88d5fe2646ad609df9aa6e930b5a89d40bf23
+    uses: NHSDigital/uec-dos-management/.github/workflows/artefacts-cleardown.yaml@v0.36
     with:
       environment: dev
       workspace: ${{ needs.metadata.outputs.workspace }}
       artefact_bucket_name: ${{needs.metadata.outputs.artefact_bucket_name}}
+      workflow_timeout: 10
     secrets: inherit
   summarise:
     if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
