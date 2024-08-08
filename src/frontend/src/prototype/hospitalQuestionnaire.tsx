@@ -90,6 +90,8 @@ const HospitalQuestionnaire: React.FC = () => {
   const queryParams = new URLSearchParams(location.search);
   const editKeyId: string | null = queryParams.get("editKeyId");
 
+  const prevEditedFields = location.state?.editedFields || {};
+
   useEffect(() => {
     // Highlight and focus the field to edit
     if (editKeyId) {
@@ -222,7 +224,7 @@ const HospitalQuestionnaire: React.FC = () => {
 
   const handleContinue = () => {
     if (validateForm()) {
-      const changes: Partial<FormData> = {};
+      const changes: Partial<FormData> = { ...prevEditedFields };
       Object.keys(formData).forEach((key) => {
         if (
           formData[key as keyof FormData] !==
