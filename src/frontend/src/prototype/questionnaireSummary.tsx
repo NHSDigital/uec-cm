@@ -36,7 +36,9 @@ const QuestionnaireSummary: React.FC = () => {
     navigate(`/prototype/hospitalList?changesConfirmed=${hasEdited}`);
   };
   const handleCancel = () => {
-    navigate(`/prototype/hospitalQuestionnaire/${hospitalUnitId}`);
+    navigate(`/prototype/hospitalQuestionnaire/${hospitalUnitId}`, {
+      state: { formData, editedFields },
+    });
   };
 
   const editedEntries = Object.entries(formData).filter(
@@ -100,6 +102,7 @@ const QuestionnaireSummary: React.FC = () => {
                       <td className="nhsuk-table__edit">
                         <Link
                           to={`/prototype/hospitalQuestionnaire/${hospitalUnitId}?editKeyId=${key}`}
+                          state={{ formData, editedFields }}
                         >
                           Edit
                         </Link>
@@ -125,6 +128,7 @@ const QuestionnaireSummary: React.FC = () => {
                     <td className="nhsuk-table__edit">
                       <Link
                         to={`/prototype/hospitalQuestionnaire/${hospitalUnitId}?editKeyId=${key}`}
+                        state={{ formData, editedFields }}
                       >
                         Edit
                       </Link>
