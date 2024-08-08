@@ -92,7 +92,6 @@ const HospitalQuestionnaire: React.FC = () => {
 
 
   const prevEditedFields = location.state?.editedFields || {};
-  
   useEffect(() => {
     // Highlight and focus the field to edit
     if (editKeyId) {
