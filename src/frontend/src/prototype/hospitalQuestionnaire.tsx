@@ -90,8 +90,9 @@ const HospitalQuestionnaire: React.FC = () => {
   const queryParams = new URLSearchParams(location.search);
   const editKeyId: string | null = queryParams.get("editKeyId");
 
-  const prevEditedFields = location.state?.editedFields || {};
 
+  const prevEditedFields = location.state?.editedFields || {};
+  
   useEffect(() => {
     // Highlight and focus the field to edit
     if (editKeyId) {

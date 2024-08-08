@@ -44,3 +44,7 @@ variable "max_ttl" {
 variable "cloud_front_name" {
   description = "Name of the cloudfront instance"
 }
+
+variable "web_acl_id" {
+  description = "Id of the WAFv2 firewall"
+}

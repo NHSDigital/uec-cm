@@ -10,6 +10,8 @@ module "front_end_cloudfront" {
   s3_bucket_id                   = module.front_end_bucket.s3_bucket_id
   s3_bucket_regional_domain_name = module.front_end_bucket.s3_bucket_bucket_regional_domain_name
   cloud_front_name               = "${var.project}-${var.environment}-${var.front-end-s3-bucket-name}${local.workspace_suffix}"
+  web_acl_id                     = data.aws_wafv2_web_acl.waf_acl.arn
+
 }
 
 resource "aws_s3_bucket_policy" "allow_access_from_cloudfront" {
