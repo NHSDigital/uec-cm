@@ -22,7 +22,7 @@ on:
 
 jobs:
   deploy-firewall:
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.36
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
     with:
       environment: dev
       domain: "uec-cm"
@@ -33,7 +33,7 @@ jobs:
     secrets: inherit
   deploy-application-infrastructure:
     name: Deploy application infrastructure
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.36
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
     needs: [
       deploy-firewall
     ]
@@ -53,7 +53,7 @@ jobs:
     needs: [
       deploy-application-infrastructure,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@v0.36
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@latest
     with:
       environment: test
       workspace: ${{ inputs.workspace }}
@@ -75,7 +75,7 @@ jobs:
         deploy-react-app,
       ]
     name: Run ui tests
-    uses: NHSDigital/uec-dos-management/.github/workflows/ui-test.yaml@v0.36
+    uses: NHSDigital/uec-dos-management/.github/workflows/ui-test.yaml@latest
     with:
       environment: test
       workspace: ${{ inputs.workspace }}
