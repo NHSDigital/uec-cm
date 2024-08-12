@@ -15,11 +15,11 @@ on:
 jobs:
   metadata:
     name: "Get Metadata"
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.36
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
 
   deploy-firewall:
     name: Deploy firewall infrastructure
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.36
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
     with:
       environment: ${{ inputs.environment }}
       domain: "uec-cm"
@@ -36,7 +36,7 @@ jobs:
       metadata,
       deploy-firewall,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.36
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
     with:
       environment: ${{ inputs.environment }}
       domain: "uec-cm"
@@ -53,7 +53,7 @@ jobs:
       metadata,
       deploy-application-infrastructure,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@v0.36
+    uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@latest
     with:
       environment: ${{ inputs.environment }}
       workspace:  ${{ inputs.workspace }}
@@ -72,7 +72,7 @@ jobs:
       deploy-application-infrastructure,
       build-and-push-react-artefacts,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@v0.36
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@latest
     with:
       environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
