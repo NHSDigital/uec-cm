@@ -24,7 +24,7 @@ jobs:
   deploy-firewall:
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
     with:
-      environment: dev
+      environment: test
       domain: "uec-cm"
       project: cm
       workspace: ${{ inputs.workspace }}
