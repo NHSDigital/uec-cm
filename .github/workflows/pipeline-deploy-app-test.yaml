@@ -27,7 +27,7 @@ jobs:
       environment: dev
       domain: "uec-cm"
       project: cm
-      workspace: ${{ needs.metadata.outputs.workspace }}
+      workspace: ${{ inputs.workspace }}
       stacks: '["firewall"]'
       action: apply
     secrets: inherit
