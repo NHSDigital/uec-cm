@@ -24,10 +24,10 @@ jobs:
   deploy-firewall:
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
     with:
-      environment: dev
+      environment: test
       domain: "uec-cm"
       project: cm
-      workspace: ${{ needs.metadata.outputs.workspace }}
+      workspace: ${{ inputs.workspace }}
       stacks: '["firewall"]'
       action: apply
     secrets: inherit
