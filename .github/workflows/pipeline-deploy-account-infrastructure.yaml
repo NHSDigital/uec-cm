@@ -39,6 +39,51 @@ jobs:
         stacks: '["terraform_management", "github-runner"]'
         action: apply
       secrets: inherit
+    deploy-account-infrastructure-apply-int:
+      name: "Deploy Account Level Infrastructure to integration account"
+      needs:
+        [
+          metadata,
+        ]
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+      with:
+        environment: int
+        domain: "uec-cm"
+        project: cm
+        workspace: ${{ needs.metadata.outputs.workspace }}
+        stacks: '["terraform_management", "github-runner"]'
+        action: apply
+      secrets: inherit
+    deploy-account-infrastructure-apply-preprod:
+      name: "Deploy Account Level Infrastructure to preprod account"
+      needs:
+        [
+          metadata,
+        ]
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+      with:
+        environment: preprod
+        domain: "uec-cm"
+        project: cm
+        workspace: ${{ needs.metadata.outputs.workspace }}
+        stacks: '["terraform_management", "github-runner"]'
+        action: apply
+      secrets: inherit
+    deploy-account-infrastructure-apply-prod:
+      name: "Deploy Account Level Infrastructure to prod account"
+      needs:
+        [
+          metadata,
+        ]
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+      with:
+        environment: prod
+        domain: "uec-cm"
+        project: cm
+        workspace: ${{ needs.metadata.outputs.workspace }}
+        stacks: '["terraform_management", "github-runner"]'
+        action: apply
+      secrets: inherit
     slack-notifications:
       name: Send notification to slack
       needs: [
