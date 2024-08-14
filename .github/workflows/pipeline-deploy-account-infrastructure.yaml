@@ -21,7 +21,7 @@ jobs:
         domain: "uec-cm"
         project: cm
         workspace: ${{ needs.metadata.outputs.workspace }}
-        stacks: '["terraform_management", "github-runner", "firewall"]'
+        stacks: '["terraform_management", "github-runner"]'
         action: apply
       secrets: inherit
     deploy-account-infrastructure-apply-test:
@@ -36,7 +36,7 @@ jobs:
         domain: "uec-cm"
         project: cm
         workspace: ${{ needs.metadata.outputs.workspace }}
-        stacks: '["terraform_management", "github-runner", "firewall"]'
+        stacks: '["terraform_management", "github-runner"]'
         action: apply
       secrets: inherit
     deploy-account-infrastructure-apply-int:
@@ -51,7 +51,7 @@ jobs:
         domain: "uec-cm"
         project: cm
         workspace: ${{ needs.metadata.outputs.workspace }}
-        stacks: '["terraform_management", "github-runner", "firewall"]'
+        stacks: '["terraform_management", "github-runner"]'
         action: apply
       secrets: inherit
     deploy-account-infrastructure-apply-preprod:
@@ -66,7 +66,7 @@ jobs:
         domain: "uec-cm"
         project: cm
         workspace: ${{ needs.metadata.outputs.workspace }}
-        stacks: '["terraform_management", "github-runner", "firewall"]'
+        stacks: '["terraform_management", "github-runner"]'
         action: apply
       secrets: inherit
     deploy-account-infrastructure-apply-prod:
@@ -81,7 +81,7 @@ jobs:
         domain: "uec-cm"
         project: cm
         workspace: ${{ needs.metadata.outputs.workspace }}
-        stacks: '["terraform_management", "github-runner", "firewall"]'
+        stacks: '["terraform_management", "github-runner"]'
         action: apply
       secrets: inherit
     slack-notifications:
