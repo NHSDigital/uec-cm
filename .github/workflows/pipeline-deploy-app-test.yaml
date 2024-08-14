@@ -58,7 +58,7 @@ jobs:
       environment: test
       workspace: ${{ inputs.workspace }}
       domain: uec-cm
-      artefact_sub_dir: ${{ needs.metadata.outputs.workspace }}
+      artefact_sub_dir: ${{ inputs.workspace }}
       multi_domain: "false"
       tag: ${{ inputs.tag }}
       commit_hash: ${{ inputs.commit_hash }}
