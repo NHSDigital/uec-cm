@@ -95,20 +95,22 @@ const QuestionnaireSummary: React.FC = () => {
               </button>
             </div>
             <h1 className="nhsuk-heading-l">Check your answers</h1>
-            <p>
-              <strong>
-                {hospital.name} - {hospital.street}, {hospital.city},{" "}
-                {hospital.postcode}
-              </strong>
-            </p>
+            <h2 className="nhsuk-heading-m">
+              {hospital.name} - {hospital.street}, {hospital.city},{" "}
+              {hospital.postcode}
+            </h2>
             <p>
               <strong>Service category:</strong> {hospitalUnit?.serviceCategory}
             </p>
             <p>
               <strong>Service type:</strong> {hospitalUnit?.serviceType}
             </p>
-            <p>Last updated: {data.lastUpdated}</p>
-            <p>Updated by: {data.updatedByUserId}</p>
+            <p>
+              <strong>Last updated:</strong> {data.lastUpdated}
+            </p>
+            <p>
+              <strong>Updated by:</strong> {data.updatedByUserId}
+            </p>
 
             <h1 className="nhsuk-heading-l">Summary</h1>
 
