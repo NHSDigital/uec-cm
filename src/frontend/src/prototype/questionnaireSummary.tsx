@@ -46,7 +46,7 @@ const QuestionnaireSummary: React.FC = () => {
   // };
 
   const handleCancel = () => {
-    navigate(`/prototype/hospitalList?changesConfirmed=false`, {
+    navigate(`/prototype/hospitalList`, {
       state: { userId },
     });
   };
