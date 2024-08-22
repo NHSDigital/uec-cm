@@ -1,62 +1,70 @@
 import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-// import jsPDF from "jspdf";
-// import html2canvas from "html2canvas";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./css/prototype.css";
 import { hospitals, hospitalUnits } from "./data/mockDataService";
 
 const HospitalList: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { userId } = location.state || {};
   const queryParams = new URLSearchParams(location.search);
   const changesConfirmed = queryParams.get("changesConfirmed");
-  // const generatePDF = () => {
-  //   const input = document.getElementById("hospital-list");
-  //   if (input) {
-  //     html2canvas(input).then((canvas) => {
-  //       const imgData = canvas.toDataURL("image/png");
-  //       const pdf = new jsPDF();
-  //       const imgProps = pdf.getImageProperties(imgData);
-  //       const pdfWidth = pdf.internal.pageSize.getWidth();
-  //       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-  //       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-  //       pdf.save("hospital-list.pdf");
-  //     });
-  //   }
-  // };
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    if (!userId) {
+      navigate("/prototype/hospitallist", { state: { userId } });
+    }
+  }, [userId, navigate, location.pathname]);
 
-  // Function to check if a hospital has only one unit
-  const getHospitalLink = (hospitalId: number) => {
+  // Function to navigate to the correct page based on the number of units
+  const handleHospitalClick = (hospitalId: number, event: React.MouseEvent) => {
+    event.preventDefault(); // Prevent the default link behavior
+
     const units = hospitalUnits.filter(
       (unit) => unit.hospitalId === hospitalId
     );
+
     if (units.length === 1) {
-      return `/prototype/hospitalQuestionnaire/${units[0].id}`;
+      navigate(`/prototype/hospitalQuestionnaire/${units[0].id}`, {
+        state: { userId },
+      });
     } else {
-      return `/prototype/hospitalUnits/${hospitalId}`;
+      navigate(`/prototype/hospitalUnits/${hospitalId}`, { state: { userId } });
     }
   };
+
+  console.log("this is hospital list");
+  console.log(userId);
+
+  // Filter hospitals based on userId
+  const displayedHospitals =
+    userId === "user 1" ? [hospitals[0], hospitals[3]] : hospitals;
 
   return (
     <div className="nhsuk-u-padding-top-8">
       <div className="nhsuk-width-container">
         {changesConfirmed && (
           <div
-            className="nhsuk-inset-text"
+            className="nhsuk-do-dont-list"
             style={{
-              borderColor: "#007f3b", // NHS green color
+              borderColor: "#007f3b",
               backgroundColor: "#fff",
             }}
           >
-            <span className="nhsuk-u-visually-hidden">Confirmation: </span>
-            {changesConfirmed === "true" ? (
-              <p>You have successfully saved and confirmed your updates.</p>
-            ) : (
-              <p>You have made no updates and confirmed the data is correct.</p>
-            )}
+            <h3 className="nhsuk-do-dont-list__label nhsuk-do-dont-list__label--do">
+              Done
+            </h3>
+            <div className="nhsuk-do-dont-list__content">
+              <span className="nhsuk-u-visually-hidden">Confirmation: </span>
+              {changesConfirmed === "true" ? (
+                <p>You have successfully saved and confirmed your updates.</p>
+              ) : (
+                <p>
+                  You have made no updates and confirmed the data is correct.
+                </p>
+              )}
+            </div>
           </div>
         )}
         <div className="nhsuk-grid-row">
@@ -64,12 +72,12 @@ const HospitalList: React.FC = () => {
             <h1 className="nhsuk-heading-l">My Capacity Management</h1>
             <h2 className="nhsuk-heading-m">My locations</h2>
             <ul className="nhsuk-list nhsuk-list--border" id="hospital-list">
-              {hospitals.map((hospital) => (
+              {displayedHospitals.map((hospital) => (
                 <li key={hospital.id}>
                   <Link
                     className="nhsuk-action-link__link"
-                    // to={`/prototype/hospitalQuestionnaire/${hospital.id}`}
-                    to={getHospitalLink(hospital.id)}
+                    to="#"
+                    onClick={(event) => handleHospitalClick(hospital.id, event)}
                   >
                     <span className="nhsuk-action-link__text">
                       {hospital.name}
@@ -84,9 +92,6 @@ const HospitalList: React.FC = () => {
               You can download a report of all the capacity management
               information you have access to via this link.
             </p>
-            {/* <button onClick={generatePDF} className="nhsuk-button">
-              Download Report
-            </button> */}
             <button className="nhsuk-button">Download Report</button>
           </div>
         </div>

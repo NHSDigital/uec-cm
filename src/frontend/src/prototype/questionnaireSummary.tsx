@@ -17,6 +17,8 @@ const QuestionnaireSummary: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const hospitalUnitId = id ? parseInt(id, 10) : null;
 
+  const { userId } = location.state || {};
+
   const hospitalUnit = hospitalUnits.find((h) => h.id === hospitalUnitId);
   const hospital = hospitals.find((h) => h.id === hospitalUnit?.hospitalId);
   const data = hospitalQuestionnaireData.find(
@@ -33,12 +35,28 @@ const QuestionnaireSummary: React.FC = () => {
 
   const handleSave = () => {
     const hasEdited = editedEntries.length > 0;
-    navigate(`/prototype/hospitalList?changesConfirmed=${hasEdited}`);
-  };
-  const handleCancel = () => {
-    navigate(`/prototype/hospitalQuestionnaire/${hospitalUnitId}`, {
-      state: { formData, editedFields },
+    navigate(`/prototype/hospitalList?changesConfirmed=${hasEdited}`, {
+      state: { userId },
     });
+  };
+  // const handleCancel = () => {
+  //   navigate(`/prototype/hospitalQuestionnaire/${hospitalUnitId}`, {
+  //     state: { formData, editedFields, userId },
+  //   });
+  // };
+
+  const handleCancel = () => {
+    navigate(`/prototype/hospitalList?changesConfirmed=false`, {
+      state: { userId },
+    });
+  };
+
+  const handleEditClick = (editKeyId: string, event: React.MouseEvent) => {
+    event.preventDefault(); // Prevent the default link behavior
+    navigate(
+      `/prototype/hospitalQuestionnaire/${hospitalUnitId}?editKeyId=${editKeyId}`,
+      { state: { formData, editedFields, userId } }
+    );
   };
 
   const editedEntries = Object.entries(formData).filter(
@@ -53,25 +71,15 @@ const QuestionnaireSummary: React.FC = () => {
       <div className="nhsuk-width-container">
         <div className="nhsuk-grid-row">
           <div className="nhsuk-grid-column-full">
-            <h1 className="nhsuk-heading-l">{hospitalUnit?.name}</h1>
-            <p>
-              <strong>
-                {hospital.name} - {hospital.address}
-              </strong>
-            </p>
-            <p>
-              <strong>Service category:</strong> {hospitalUnit?.serviceCategory}
-            </p>
-            <p>
-              <strong>Service type:</strong> {hospitalUnit?.serviceType}
-            </p>
-            <p>Last updated: {data.lastUpdated}</p>
-            <p>Updated by: {data.updatedByUserId}</p>
-
-            <div className="nhsuk-back-link">
-              <a
+            <div className="nhsuk-back-link mb-4">
+              <button
                 className="nhsuk-back-link__link"
-                href={`/prototype/hospitalQuestionnaire/${hospitalUnitId}`}
+                onClick={() =>
+                  navigate(
+                    `/prototype/hospitalQuestionnaire/${hospitalUnitId}`,
+                    { state: { userId } }
+                  )
+                }
               >
                 <svg
                   className="nhsuk-icon nhsuk-icon__chevron-left"
@@ -84,8 +92,23 @@ const QuestionnaireSummary: React.FC = () => {
                   <path d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"></path>
                 </svg>
                 Go back
-              </a>
+              </button>
             </div>
+            <h1 className="nhsuk-heading-l">Check your answers</h1>
+            <p>
+              <strong>
+                {hospital.name} - {hospital.street}, {hospital.city},{" "}
+                {hospital.postcode}
+              </strong>
+            </p>
+            <p>
+              <strong>Service category:</strong> {hospitalUnit?.serviceCategory}
+            </p>
+            <p>
+              <strong>Service type:</strong> {hospitalUnit?.serviceType}
+            </p>
+            <p>Last updated: {data.lastUpdated}</p>
+            <p>Updated by: {data.updatedByUserId}</p>
 
             <h1 className="nhsuk-heading-l">Summary</h1>
 
@@ -101,8 +124,10 @@ const QuestionnaireSummary: React.FC = () => {
                       <td className="nhsuk-table__value">{value}</td>
                       <td className="nhsuk-table__edit">
                         <Link
-                          to={`/prototype/hospitalQuestionnaire/${hospitalUnitId}?editKeyId=${key}`}
-                          state={{ formData, editedFields }}
+                          // to={`/prototype/hospitalQuestionnaire/${hospitalUnitId}?editKeyId=${key}`}
+                          // state={{ formData, editedFields }}
+                          onClick={(event) => handleEditClick(key, event)}
+                          to="#"
                         >
                           Edit
                         </Link>
@@ -127,8 +152,10 @@ const QuestionnaireSummary: React.FC = () => {
                     <td className="nhsuk-table__value">{value}</td>
                     <td className="nhsuk-table__edit">
                       <Link
-                        to={`/prototype/hospitalQuestionnaire/${hospitalUnitId}?editKeyId=${key}`}
-                        state={{ formData, editedFields }}
+                        // to={`/prototype/hospitalQuestionnaire/${hospitalUnitId}?editKeyId=${key}`}
+                        // state={{ formData, editedFields }}
+                        onClick={(event) => handleEditClick(key, event)}
+                        to="#"
                       >
                         Edit
                       </Link>
@@ -151,7 +178,7 @@ const QuestionnaireSummary: React.FC = () => {
                 type="button"
                 onClick={handleCancel}
               >
-                Cancel
+                Exit without saving
               </button>
             </div>
           </div>
