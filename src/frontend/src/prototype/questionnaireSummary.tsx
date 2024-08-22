@@ -126,8 +126,6 @@ const QuestionnaireSummary: React.FC = () => {
                       <td className="nhsuk-table__value">{value}</td>
                       <td className="nhsuk-table__edit">
                         <Link
-                          // to={`/prototype/hospitalQuestionnaire/${hospitalUnitId}?editKeyId=${key}`}
-                          // state={{ formData, editedFields }}
                           onClick={(event) => handleEditClick(key, event)}
                           to="#"
                         >
@@ -154,8 +152,6 @@ const QuestionnaireSummary: React.FC = () => {
                     <td className="nhsuk-table__value">{value}</td>
                     <td className="nhsuk-table__edit">
                       <Link
-                        // to={`/prototype/hospitalQuestionnaire/${hospitalUnitId}?editKeyId=${key}`}
-                        // state={{ formData, editedFields }}
                         onClick={(event) => handleEditClick(key, event)}
                         to="#"
                       >
