@@ -52,10 +52,12 @@ const QuestionnaireSummary: React.FC = () => {
   };
 
   const handleEditClick = (editKeyId: string, event: React.MouseEvent) => {
-    event.preventDefault(); // Prevent the default link behavior
+    event.preventDefault();
     navigate(
       `/prototype/hospitalQuestionnaire/${hospitalUnitId}?editKeyId=${editKeyId}`,
-      { state: { formData, editedFields, userId } }
+      {
+        state: { formData, editedFields, userId },
+      }
     );
   };
 

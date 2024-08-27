@@ -93,7 +93,13 @@ const HospitalQuestionnaire: React.FC = () => {
   const editKeyId: string | null = queryParams.get("editKeyId");
 
   const prevEditedFields = location.state?.editedFields || {};
+
   useEffect(() => {
+    // Initialize formData from location state if available
+    if (location.state?.formData) {
+      setFormData(location.state.formData);
+    }
+
     // Highlight and focus the field to edit
     if (editKeyId) {
       const fieldElement = document.getElementById(editKeyId);
@@ -110,7 +116,7 @@ const HospitalQuestionnaire: React.FC = () => {
         summaryElement.scrollIntoView({ behavior: "smooth" });
       }
     }
-  }, [editKeyId, errors]);
+  }, [location.state, editKeyId, errors]);
 
   if (!hospital || !data) {
     return <div>Hospital not found</div>;
