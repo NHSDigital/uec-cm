@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+  }
+}
+
 resource "aws_wafv2_web_acl" "waf_acl" {
   name        = "${var.waf_name}${local.workspace_suffix}"
   description = "CM Frontend WAF"
@@ -108,7 +116,7 @@ resource "aws_cloudwatch_dashboard" "wafv2_dashboard" {
             "type": "log",
             "properties": {
                 "query": "SOURCE '${var.waf_log_group_name}' | fields httpRequest.uri, action, nonTerminatingMatchingRules.0.action, nonTerminatingMatchingRules.0.ruleId, ruleGroupList.0.excludedRules.0.exclusionType,ruleGroupList.0.excludedRules.0.ruleId | stats count(*) as requestCount by httpRequest.uri, action, nonTerminatingMatchingRules.0.action, nonTerminatingMatchingRules.0.ruleId,ruleGroupList.0.excludedRules.0.exclusionType,ruleGroupList.0.excludedRules.0.ruleId",
-                "region": "${var.aws_region}",
+                "region": "${var.aws_waf_region}",
                 "stacked": false,
                 "title": "Log group: ${var.waf_log_group_name}",
                 "view": "table"
@@ -122,14 +130,14 @@ resource "aws_cloudwatch_dashboard" "wafv2_dashboard" {
             "type": "metric",
             "properties": {
                 "metrics": [
-                    [ "AWS/WAFV2", "CountedRequests", "WebACL", "${var.waf_name}", "Region", "${var.aws_region}", "Rule", "CrossSiteScripting_BODY" ],
+                    [ "AWS/WAFV2", "CountedRequests", "WebACL", "${var.waf_name}", "Region", "${var.aws_waf_region}", "Rule", "CrossSiteScripting_BODY" ],
                     [ "...", "${var.non_gb_rule_metric_name}" ],
                     [ "...", "${var.ip_reputation_list_metric_name}" ],
                     [ ".", "AllowedRequests", ".", ".", ".", ".", ".", "ALL" ]
                 ],
                 "view": "timeSeries",
                 "stacked": false,
-                "region": "${var.aws_region}",
+                "region": "${var.aws_waf_region}",
                 "period": 10,
                 "setPeriodToTimeRange": true,
                 "stat": "Minimum"
