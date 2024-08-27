@@ -17,24 +17,10 @@ jobs:
     name: "Get Metadata"
     uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
 
-  deploy-firewall:
-    name: Deploy firewall infrastructure
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
-    with:
-      environment: ${{ inputs.environment }}
-      domain: "uec-cm"
-      project: cm
-      workspace: ${{ inputs.workspace }}
-      stacks: "['firewall']"
-      action: apply
-      workflow_timeout: 10
-    secrets: inherit
-
   deploy-application-infrastructure:
     name: Deploy application infrastructure
     needs: [
       metadata,
-      deploy-firewall,
     ]
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
     with:

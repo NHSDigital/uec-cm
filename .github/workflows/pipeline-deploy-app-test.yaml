@@ -21,22 +21,9 @@ on:
         type: string
 
 jobs:
-  deploy-firewall:
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
-    with:
-      environment: test
-      domain: "uec-cm"
-      project: cm
-      workspace: ${{ inputs.workspace }}
-      stacks: '["firewall"]'
-      action: apply
-    secrets: inherit
   deploy-application-infrastructure:
     name: Deploy application infrastructure
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
-    needs: [
-      deploy-firewall
-    ]
     with:
       environment: test
       workspace: ${{ inputs.workspace }}
