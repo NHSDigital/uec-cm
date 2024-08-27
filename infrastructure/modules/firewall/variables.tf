@@ -32,7 +32,7 @@ variable "waf_acl_metric_name" {
   description = "Name of primary web acl metric"
 }
 
-variable "aws_region" {
+variable "aws_waf_region" {
   description = "AWS region"
 }
 
