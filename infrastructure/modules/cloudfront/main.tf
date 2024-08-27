@@ -1,10 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source = "hashicorp/aws"
-    }
-  }
-}
 resource "aws_cloudfront_origin_access_control" "frontend" {
   name                              = var.cloud_front_name
   description                       = "Access Policy for the Frontend Bucket"
