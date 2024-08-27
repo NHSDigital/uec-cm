@@ -32,8 +32,8 @@ variable "waf_acl_metric_name" {
   description = "Name of primary web acl metric"
 }
 
-variable "aws_region" {
-  description = "AWS region"
+variable "aws_waf_region" {
+  description = "AWS region used for cloudfront wafv2 - eg us-east-1"
 }
 
 variable "custom_rate_limited_rule_name" {

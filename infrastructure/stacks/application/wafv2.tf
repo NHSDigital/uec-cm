@@ -10,7 +10,10 @@ module "front_end_waf" {
   custom_rate_limited_rule_name   = "${var.project}-${var.custom_rate_limited_rule_name}"
   custom_rate_limited_metric_name = "${var.project}-${var.custom_rate_limited_metric_name}"
   generate_waf_logs               = var.generate_waf_logs
-  aws_region                      = var.aws_region
+  aws_waf_region                  = var.aws_waf_region
   rate_based_limit                = var.rate_based_limit
 
+  providers = {
+    aws = aws.provider-us-east-1
+  }
 }
