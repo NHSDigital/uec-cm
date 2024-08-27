@@ -1,4 +1,4 @@
-name: Pipeline Deployment Application Test Environment
+name: Pipeline Deployment Application Prototype Environment
 
 on:
   workflow_call:

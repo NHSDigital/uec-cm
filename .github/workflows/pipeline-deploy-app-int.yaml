@@ -23,4 +23,5 @@ jobs:
       triggering_repo: uec-cm
       triggering_repo_commit_hash: ${{ inputs.commit_hash }}
       multi_domain: 'true'
+      workflow_timeout: 10
     secrets: inherit
