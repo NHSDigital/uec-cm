@@ -17,7 +17,7 @@ const HospitalList: React.FC = () => {
     }
   }, [userId, navigate, location.pathname]);
 
-  // Function to navigate to the correct page based on the number of units
+  // Function to navigate to the correct page based on the number of units test
   const handleHospitalClick = (hospitalId: number, event: React.MouseEvent) => {
     event.preventDefault(); // Prevent the default link behavior
 
