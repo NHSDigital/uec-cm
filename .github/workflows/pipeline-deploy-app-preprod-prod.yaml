@@ -17,11 +17,11 @@ on:
 jobs:
   metadata:
     name: "Get Metadata"
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.42
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
 
   derive-artefact-address:
     name: "Get artefact location"
-    uses: NHSDigital/uec-dos-management/.github/workflows/derive-artefact-address.yaml@v0.42
+    uses: NHSDigital/uec-dos-management/.github/workflows/derive-artefact-address.yaml@latest
     with:
       tag: ${{ inputs.tag }}
 
@@ -30,7 +30,7 @@ jobs:
         [
           metadata,
         ]
-      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.42
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
       with:
         environment: ${{ inputs.environment }}
         domain: "uec-cm"
@@ -49,7 +49,7 @@ jobs:
       deploy-application-infrastructure,
       derive-artefact-address,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@v0.42
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@latest
     with:
       environment: ${{ inputs.environment }}
       workspace: default
@@ -71,7 +71,7 @@ jobs:
       deploy-react-app,
     ]
     if: always()
-    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.42
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
     with:
       env: ${{ inputs.environment }}
     secrets: inherit
