@@ -1,0 +1,77 @@
+name: Pipeline Deployment Application production & pre-production Environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Select the Tag to deploy artefact from"
+        required: true
+        type: string
+      environment:
+        description: "Select the deployment environment"
+        required: true
+        type: string
+        options:
+          - preprod
+          - prod
+jobs:
+  metadata:
+    name: "Get Metadata"
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.42
+
+  derive-artefact-address:
+    name: "Get artefact location"
+    uses: NHSDigital/uec-dos-management/.github/workflows/derive-artefact-address.yaml@v0.42
+    with:
+      tag: ${{ inputs.tag }}
+
+  deploy-application-infrastructure:
+      needs:
+        [
+          metadata,
+        ]
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.42
+      with:
+        environment: ${{ inputs.environment }}
+        domain: "uec-cm"
+        project: cm
+        workspace: default
+        stacks: '["application", "ui-test"]'
+        action: apply
+        workflow_timeout: 10
+        tag: ${{ inputs.tag }}
+      secrets: inherit
+
+  deploy-react-app:
+    name: Retrieve built artefact and deploy to front end s3 bucket
+    needs: [
+      metadata,
+      deploy-application-infrastructure,
+      derive-artefact-address,
+    ]
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@v0.42
+    with:
+      environment: ${{ inputs.environment }}
+      workspace: default
+      domain: uec-cm
+      artefact_sub_dir: ${{ needs.derive-artefact-address.outputs.artefact_sub_dir }}
+      commit_hash: ${{ needs.derive-artefact-address.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+      tag: ${{ inputs.tag }}
+    permissions:
+      id-token: write
+      contents: read
+    secrets: inherit
+
+  slack-notifications:
+    name: Send notification to slack
+    needs: [
+      metadata,
+      deploy-application-infrastructure,
+      deploy-react-app,
+    ]
+    if: always()
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.42
+    with:
+      env: ${{ inputs.environment }}
+    secrets: inherit
