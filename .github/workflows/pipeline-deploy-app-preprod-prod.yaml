@@ -36,7 +36,7 @@ jobs:
         domain: "uec-cm"
         project: cm
         workspace: default
-        stacks: '["application", "ui-test"]'
+        stacks: '["application"]'
         action: apply
         workflow_timeout: 10
         tag: ${{ inputs.tag }}
