@@ -8,10 +8,10 @@ Improving the way that the data can be viewed and analysed/disseminated, so that
 
 There is an expectation that each file of this repository template is concise and self-documented.
 
-## Table of Contents
+## Table of Contentss
 
 - [uec cm](#uec-cm)
-  - [Table of Contents](#table-of-contents)
+  - [Table of Contentss](#table-of-contentss)
   - [Installation](#installation)
     - [Prerequisites](#prerequisites)
   - [Usage](#usage)
