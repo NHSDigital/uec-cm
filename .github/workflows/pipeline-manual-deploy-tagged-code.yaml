@@ -10,7 +10,7 @@ on:
 jobs:
   metadata:
     name: "Get Metadata"
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-644_Truncate_action_history
   deploy-to-test:
     name: Deploy tagged code to test
     needs: [
