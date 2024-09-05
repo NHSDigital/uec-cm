@@ -18,7 +18,7 @@ jobs:
       orchestrate-react-application-deployment,
     ]
     if: always()
-    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@task/DR-644_Truncate_action_history
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.45
     with:
       env: dev
     secrets: inherit

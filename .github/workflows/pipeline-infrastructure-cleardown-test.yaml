@@ -9,10 +9,10 @@ jobs:
   metadata:
     if: github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
     name: "Get Metadata"
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-644_Truncate_action_history
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.45
   destroy:
     if: github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
-    uses: NHSDigital/uec-dos-management/.github/workflows/infrastructure-cleardown.yaml@task/DR-644_Truncate_action_history
+    uses: NHSDigital/uec-dos-management/.github/workflows/infrastructure-cleardown.yaml@v0.45
     needs:
       [
         metadata,
@@ -41,7 +41,7 @@ jobs:
       summarise,
     ]
     if: always()
-    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@task/DR-644_Truncate_action_history
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.45
     with:
       env: test
     secrets: inherit

@@ -15,14 +15,14 @@ on:
 jobs:
   metadata:
     name: "Get Metadata"
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-644_Truncate_action_history
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.45
 
   deploy-application-infrastructure:
     name: Deploy application infrastructure
     needs: [
       metadata,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@task/DR-644_Truncate_action_history
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.45
     with:
       environment: ${{ inputs.environment }}
       domain: "uec-cm"
@@ -39,7 +39,7 @@ jobs:
       metadata,
       deploy-application-infrastructure,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@task/DR-644_Truncate_action_history
+    uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@v0.45
     with:
       environment: ${{ inputs.environment }}
       workspace:  ${{ inputs.workspace }}
@@ -58,7 +58,7 @@ jobs:
       deploy-application-infrastructure,
       build-and-push-react-artefacts,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@task/DR-644_Truncate_action_history
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@v0.45
     with:
       environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
