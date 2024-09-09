@@ -16,7 +16,7 @@ jobs:
 
   deploy-to-integration:
     name: Build full application
-    uses: NHSDigital/uec-dos-management/.github/workflows/build-full-application.yaml@v0.45
+    uses: NHSDigital/uec-dos-management/.github/workflows/build-full-application.yaml@latest
     with:
       environment: int
       workspace: ${{ inputs.workspace }}
