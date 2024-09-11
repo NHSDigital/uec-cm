@@ -7,14 +7,14 @@ jobs:
   metadata:
     name: "Get Metadata"
     if: ${{ github.event.label.name == 'Int Ready' && startswith(github.head_ref, 'task/') }}
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-800_Dependabot_pull_requests
   generate-tag-name:
     name: "Generate Tag Name"
     needs:
       [
         metadata,
       ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/generate-tag-name.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/generate-tag-name.yaml@task/DR-800_Dependabot_pull_requests
     with:
       workspace: ${{ needs.metadata.outputs.workspace }}
       tag_type: int
@@ -27,7 +27,7 @@ jobs:
         metadata,
         generate-tag-name,
       ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/tag-repository.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/tag-repository.yaml@task/DR-800_Dependabot_pull_requests
     with:
       tag_to_push: ${{ needs.generate-tag-name.outputs.tag_name }}
       tag_overwrite: "yes"
@@ -52,7 +52,7 @@ jobs:
       deploy-to-int
     ]
     if: always()
-    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@task/DR-800_Dependabot_pull_requests
     with:
       env: int
     secrets: inherit

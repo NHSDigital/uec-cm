@@ -23,7 +23,7 @@ on:
 jobs:
   deploy-application-infrastructure:
     name: Deploy application infrastructure
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@task/DR-800_Dependabot_pull_requests
     with:
       environment: test
       workspace: ${{ inputs.workspace }}
@@ -40,7 +40,7 @@ jobs:
     needs: [
       deploy-application-infrastructure,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@task/DR-800_Dependabot_pull_requests
     with:
       environment: test
       workspace: ${{ inputs.workspace }}
@@ -62,7 +62,7 @@ jobs:
         deploy-react-app,
       ]
     name: Run ui tests
-    uses: NHSDigital/uec-dos-management/.github/workflows/ui-test.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/ui-test.yaml@task/DR-800_Dependabot_pull_requests
     with:
       environment: test
       workspace: ${{ inputs.workspace }}
