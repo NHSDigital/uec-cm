@@ -16,7 +16,7 @@ jobs:
 
   deploy-to-integration:
     name: Build full application
-    uses: NHSDigital/uec-dos-management/.github/workflows/build-full-application.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/build-full-application.yaml@task/DR-800_Dependabot_pull_requests
     with:
       environment: int
       workspace: ${{ inputs.workspace }}

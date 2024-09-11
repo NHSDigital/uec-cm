@@ -12,7 +12,7 @@ jobs:
       actions: write
       id-token: write
       contents: read
-    uses: NHSDigital/uec-dos-management/.github/workflows/truncate-workflow-history.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/truncate-workflow-history.yaml@task/DR-800_Dependabot_pull_requests
     with:
       domain: "uec-cm"
     secrets: inherit
@@ -22,7 +22,7 @@ jobs:
       delete_past_runs,
     ]
     if: always()
-    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@task/DR-800_Dependabot_pull_requests
     with:
       env: dev
     secrets: inherit

@@ -8,14 +8,14 @@ on:
 jobs:
     metadata:
       name: "Get Metadata"
-      uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
+      uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-800_Dependabot_pull_requests
     deploy-account-infrastructure-apply-dev:
       name: "Deploy Account Level Infrastructure to dev account"
       needs:
         [
           metadata,
         ]
-      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@task/DR-800_Dependabot_pull_requests
       with:
         environment: dev
         domain: "uec-cm"
@@ -30,7 +30,7 @@ jobs:
         [
           metadata,
         ]
-      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@task/DR-800_Dependabot_pull_requests
       with:
         environment: test
         domain: "uec-cm"
@@ -45,7 +45,7 @@ jobs:
         [
           metadata,
         ]
-      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@task/DR-800_Dependabot_pull_requests
       with:
         environment: int
         domain: "uec-cm"
@@ -60,7 +60,7 @@ jobs:
         [
           metadata,
         ]
-      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@task/DR-800_Dependabot_pull_requests
       with:
         environment: preprod
         domain: "uec-cm"
@@ -75,7 +75,7 @@ jobs:
         [
           metadata,
         ]
-      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@task/DR-800_Dependabot_pull_requests
       with:
         environment: prod
         domain: "uec-cm"
@@ -92,7 +92,7 @@ jobs:
         deploy-account-infrastructure-apply-test,
       ]
       if: always()
-      uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
+      uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@task/DR-800_Dependabot_pull_requests
       with:
         env: dev
       secrets: inherit

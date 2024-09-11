@@ -7,10 +7,10 @@ on:
 jobs:
   metadata:
     name: "Get Metadata"
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-800_Dependabot_pull_requests
   quality-check:
     name: "Quality Check"
-    uses: NHSDigital/uec-dos-management/.github/workflows/quality-checks.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/quality-checks.yaml@task/DR-800_Dependabot_pull_requests
     needs:
       [
         metadata,
@@ -27,7 +27,7 @@ jobs:
           quality-check,
           metadata,
         ]
-      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@task/DR-800_Dependabot_pull_requests
       with:
         environment: dev
         domain: "uec-cm"
@@ -44,7 +44,7 @@ jobs:
       metadata,
       deploy-application-infrastructure,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@task/DR-800_Dependabot_pull_requests
     with:
       environment: dev
       workspace: ${{ needs.metadata.outputs.workspace }}
@@ -63,7 +63,7 @@ jobs:
       deploy-application-infrastructure,
       build-and-push-react-artefacts,
     ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@task/DR-800_Dependabot_pull_requests
     with:
       environment: dev
       workspace: ${{ needs.metadata.outputs.workspace }}
@@ -86,7 +86,7 @@ jobs:
       deploy-react-app,
     ]
     if: always()
-    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@task/DR-800_Dependabot_pull_requests
     with:
       env: dev
     secrets: inherit
