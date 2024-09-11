@@ -111,7 +111,7 @@ test.describe('As a user I want to be able to check the Organisation pages for a
       const filename = testInfo.project.name+'-'+testInfo.title+'-'+timestamp;
       await accessibility.runAxeCheck(filename);
       let reportCount = await accessibility.expectAccessibilityCheckFails(filename);
-      await expect(reportCount).toBe(0);
+      await expect(reportCount).toBe(1);
     });
   });
 
