@@ -39,14 +39,16 @@ test.describe('As a user I want to be able to read downloaded csv files', {
   [
     { row: 2, column: 'some_value', expected: 'value 22'  },
   ].forEach(({ row, column, expected }) => {
-  test(`The data.csv file has correct value of ${expected} in row ${row} of 'some_value' ${column}`,{tag:'@Test'}, async () => {
+  test(`The data.csv file has correct value of ${expected} in row ${row} of 'some_value' ${column}`, async () => {
     expect(getCellValue(filePath, (column), (row))).toEqual((expected));
   });
-
+  });
 [
   { row: 3, column: 'test_case', expected: '3' }
 ].forEach(({ row, column, expected }) => {
 test(`The data.csv file has correct column of 3  ${expected} in row ${row} of 'test_case' ${column}`,{tag:'@Test'}, async () => {
   expect(getCellValue(filePath, (column), (row))).toEqual((expected));
 });
-})});
+});
+
+
