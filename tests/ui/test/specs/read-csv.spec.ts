@@ -27,15 +27,26 @@ test.describe('As a user I want to be able to read downloaded csv files', {
       expect(getColumnHeaders(filePath)).toEqual(["test_case", "some_value", "some_other_value"]);
   });
 
-  test('The data.csv file has correct row count', async () => {
-    expect(getRowCount(filePath)).toEqual(4);
+  [
+  { row: 4, column: 'test_case', expected: '4'  },
+  ].forEach(({ row, column, expected }) => {
+  test(`The data.csv file has correct value of ${expected} in row ${row} of 'test_case' ${column}`,{tag:'@Test'}, async () => {
+    expect(getCellValue(filePath, (column), (row))).toEqual((expected));
+  });
   });
 
-  test(`The data.csv file has correct value in row 2 of 'some_value' column`, async () => {
-    expect(getCellValue(filePath, 'some_value', 2)).toEqual('value 22');
+  [
+    { row: 2, column: 'some_value', expected: 'value 22'  },
+  ].forEach(({ row, column, expected }) => {
+  test(`The data.csv file has correct value of ${expected} in row ${row} of 'some_value' ${column}`, async () => {
+    expect(getCellValue(filePath, (column), (row))).toEqual((expected));
   });
-
-  test('The data.csv file has correct column count', async () => {
-    expect(getColumnCount(filePath)).toEqual(3);
   });
+[
+  { row: 3, column: 'test_case', expected: '3' }
+].forEach(({ row, column, expected }) => {
+test(`The data.csv file has correct column of 3  ${expected} in row ${row} of 'test_case' ${column}`,{tag:'@Test'}, async () => {
+  expect(getCellValue(filePath, (column), (row))).toEqual((expected));
+});
+});
 });
