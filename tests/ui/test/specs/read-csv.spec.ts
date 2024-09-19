@@ -30,23 +30,24 @@ test.describe('As a user I want to be able to read downloaded csv files', {
   [
   { row: 4, column: 'test_case', expected: '4'  },
   ].forEach(({ row, column, expected }) => {
-  test(`The data.csv file has correct value of ${expected} in row ${row} of 'test_case' ${column}`,{tag:'@Test'}, () => {
-    expect(getCellValue(filePath, (column), (row))).toEqual((expected));
-  });
+    test(`The data.csv file has correct value of ${expected} in row ${row} of 'test_case' ${column}`,{tag:'@Test'}, async () => {
+      expect(getCellValue(filePath, (column), (row))).toEqual((expected));
+    });
   });
 
   [
-    { row: 2, column: 'some_value', expected: 'value 22'  },
+  { row: 2, column: 'some_value', expected: 'value 22'  },
   ].forEach(({ row, column, expected }) => {
-  test(`The data.csv file has correct value of ${expected} in row ${row} of 'some_value' ${column}`,  () => {
-    expect(getCellValue(filePath, (column), (row))).toEqual((expected));
+    test(`The data.csv file has correct value of ${expected} in row ${row} of 'some_value' ${column}`,  () => {
+      expect(getCellValue(filePath, (column), (row))).toEqual((expected));
+    });
   });
-  });
-[
+
+  [
   { row: 3, column: 'test_case', expected: '3' }
-].forEach(({ row, column, expected }) => {
-test(`The data.csv file has correct column of 3  ${expected} in row ${row} of 'test_case' ${column}`,{tag:'@Test'},  () => {
-  expect(getCellValue(filePath, (column), (row))).toEqual((expected));
-});
-});
+  ].forEach(({ row, column, expected }) => {
+    test(`The data.csv file has correct column of 3  ${expected} in row ${row} of 'test_case' ${column}`,{tag:'@Test'},  () => {
+      expect(getCellValue(filePath, (column), (row))).toEqual((expected));
+    });
+  });
 });
