@@ -16,9 +16,9 @@ test.describe('As a user I want to be able to search for an organisation', {
 }, async () => {
 
   test.beforeEach(async ({page}, testInfo) => {
-    await allure.parentSuite(testInfo.project.name);
-    await allure.suite("Tests for organisation journeys");
-    await allure.subSuite("Tests for searching for organisations");
+    allure.parentSuite(testInfo.project.name);
+    allure.suite("Tests for organisation journeys");
+    allure.subSuite("Tests for searching for organisations");
     await test.step('Navigate to landing page', async () => {
       await page.goto('/');
       orgPage = new OrgPage(page);
