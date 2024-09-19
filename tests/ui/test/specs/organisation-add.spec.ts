@@ -14,9 +14,9 @@ test.describe('As a user I want to be able to add organisation data from no resu
   tag: '@orgAdd',
 }, async () => {
   test.beforeEach(async ({page}, testInfo) => {
-    await allure.parentSuite(testInfo.project.name);
-    await allure.suite("Tests for organisation journeys");
-    await allure.subSuite("Tests for adding organisations");
+    allure.parentSuite(testInfo.project.name);
+    allure.suite("Tests for organisation journeys");
+    allure.subSuite("Tests for adding organisations");
     await test.step('Navigate to organisation add page', async () => {
       await page.goto('/');
       orgPage = new OrgPage(page);
@@ -109,9 +109,9 @@ test.describe('As a user I want to be able to add organisation data from no resu
     tag: '@orgAdd',
   }, async () => {
     test.beforeEach(async ({page}, testInfo) => {
-      await allure.parentSuite(testInfo.project.name);
-      await allure.suite("Tests for organisation journeys");
-      await allure.subSuite("Tests for adding organisations");
+      allure.parentSuite(testInfo.project.name);
+      allure.suite("Tests for organisation journeys");
+      allure.subSuite("Tests for adding organisations");
       await test.step('Navigate to organisation add page', async () => {
         await page.goto('/');
         orgPage = new OrgPage(page);
