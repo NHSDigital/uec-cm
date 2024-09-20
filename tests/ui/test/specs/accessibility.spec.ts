@@ -15,9 +15,9 @@ test.describe('As a user I want to be able to check the Test pages for accessibi
 }, async () => {
 
   test.beforeEach(async ({page}, testInfo) => {
-    await allure.parentSuite(testInfo.project.name);
-    await allure.suite("Tests for accessibility journeys");
-    await allure.subSuite("Tests for to confirm that Axe tests  run");
+    allure.parentSuite(testInfo.project.name);
+    allure.suite("Tests for accessibility journeys");
+    allure.subSuite("Tests for to confirm that Axe tests  run");
     await test.step('Navigate to the accessibility test page', async () => {
       accessibility = new Accessibility(page);
       await page.goto('/test');
