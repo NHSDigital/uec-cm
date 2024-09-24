@@ -1,32 +1,54 @@
 name: Pipeline Deployment Application Prototype Environment
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       environment:
         description: "The name of the environment to build into"
         required: true
+        default: 'prototype'
         type: string
       workspace:
         description: "The workspace to deploy the service into"
         required: true
+        default: 'prototype'
         type: string
 
+env:
+  DOMAIN: uec-cm
+  PROJECT: cm
+
 jobs:
+  set-environment-vars:
+    name: "Set Environment Variables"
+    runs-on: ubuntu-latest
+    outputs:
+      domain: ${{ env.DOMAIN }}
+      project: ${{ env.PROJECT }}
+    steps:
+      - name: "Set Environment Variables"
+        id: set-env
+        run: echo "Set Environment Variables"
+
   metadata:
     name: "Get Metadata"
+    needs:
+      [
+        set-environment-vars,
+      ]
     uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
 
   deploy-application-infrastructure:
-    name: Deploy application infrastructure
+    name: "Deploy Application Infrastructure"
     needs: [
       metadata,
+      set-environment-vars,
     ]
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
     with:
       environment: ${{ inputs.environment }}
-      domain: "uec-cm"
-      project: cm
+      domain: ${{ needs.set-environment-vars.outputs.domain }}
+      project: ${{ needs.set-environment-vars.outputs.project }}
       workspace: ${{ inputs.workspace }}
       stacks: "['application']"
       action: apply
@@ -34,8 +56,9 @@ jobs:
     secrets: inherit
 
   build-and-push-react-artefacts:
-    name: Build react app and push built artefact to s3 bucket
+    name: "Build React Application and Push Artefact to S3 Bucket"
     needs: [
+      set-environment-vars,
       metadata,
       deploy-application-infrastructure,
     ]
@@ -43,7 +66,7 @@ jobs:
     with:
       environment: ${{ inputs.environment }}
       workspace:  ${{ inputs.workspace }}
-      domain: uec-cm
+      domain: ${{ needs.set-environment-vars.outputs.domain }}
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     permissions:
@@ -52,8 +75,9 @@ jobs:
     secrets: inherit
 
   deploy-react-app:
-    name: Retrieve built artefact and deploy to front end s3 bucket
+    name: "Deploy React Application"
     needs: [
+      set-environment-vars,
       metadata,
       deploy-application-infrastructure,
       build-and-push-react-artefacts,
@@ -62,7 +86,7 @@ jobs:
     with:
       environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
-      domain: uec-cm
+      domain: ${{ needs.set-environment-vars.outputs.domain }}
       artefact_sub_dir: ${{ inputs.workspace }}
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
