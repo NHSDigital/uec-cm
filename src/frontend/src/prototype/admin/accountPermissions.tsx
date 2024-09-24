@@ -87,7 +87,46 @@ const AccountPermissions: React.FC = () => {
                     </span>
                   </summary>
                   <div className="nhsuk-details__text">
-                    {/* Add any additional permissions information here */}
+                    <strong>Data Inputter</strong>
+                    <ul>
+                      <li>Respond to and save changes for questionnaires</li>
+                    </ul>
+
+                    <strong>Questionnaire / Summary Data Viewer</strong>
+                    <p>As Data Inputter, plus:</p>
+                    <ul>
+                      <li>Search for and view summary questionnaire data</li>
+                      <li>Download questionnaire reports</li>
+                    </ul>
+
+                    <strong>User Administrator</strong>
+                    <p>As Questionnaire / Summary Data Viewer, plus:</p>
+                    <ul>
+                      <li>Accept and reject new user requests</li>
+                      <li>Manage user permissions</li>
+                    </ul>
+
+                    <strong>Questionnaire Manager</strong>
+                    <p>As User Administrator, plus:</p>
+                    <ul>
+                      <li>Create new questionnaires</li>
+                      <li>Update existing questionnaires</li>
+                      <li>
+                        Cascade changes to services linked to questionnaires
+                      </li>
+                    </ul>
+
+                    <strong>Data Manager</strong>
+                    <p>As Questionnaire Manager, plus:</p>
+                    <ul>
+                      <li>Search, edit, and add organisation records</li>
+                      <li>Search, edit, and add location records</li>
+                      <li>Search, edit and add service records</li>
+                      <li>Link questionnaires to service records</li>
+                    </ul>
+
+                    <strong>Administrator</strong>
+                    <p>As Data Manager, plus no data restrictions</p>
                   </div>
                 </details>
                 <div className="nhsuk-radios">
