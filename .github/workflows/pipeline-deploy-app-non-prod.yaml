@@ -115,7 +115,7 @@ jobs:
         set-environment-vars,
         metadata,
         quality-check,
-        tag-repository, 
+        tag-repository,
       ]
     if: always() && !cancelled() && (needs.quality-check.result == 'success' || needs.quality-check.result == 'skipped') && (needs.tag-repository.result == 'success' || needs.tag-repository.result == 'skipped')
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
@@ -197,7 +197,7 @@ jobs:
       deploy-application-infrastructure,
       build-and-push-react-artefacts,
       deploy-react-app,
-      ui-tests,
+      ui-test,
     ]
     if: always()
     uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
