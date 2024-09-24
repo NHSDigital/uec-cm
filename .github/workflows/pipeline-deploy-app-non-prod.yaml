@@ -109,7 +109,7 @@ jobs:
     secrets: inherit
 
   deploy-application-infrastructure:
-    name: "Deploy Application Infrastructure"
+    name: "Deploy Application Infrastructure to ${{ needs.set-environment-vars.outputs.environment }} Environment"
     needs:
       [
         set-environment-vars,
@@ -150,13 +150,14 @@ jobs:
     secrets: inherit
 
   deploy-react-app:
-    name: "Deploy React Application"
+    name: "Deploy React Application to ${{ needs.set-environment-vars.outputs.environment }} Environment"
     needs: [
       set-environment-vars,
       metadata,
       deploy-application-infrastructure,
       build-and-push-react-artefacts,
     ]
+    if: always() && !cancelled() && (needs.build-and-push-react-artefacts.result == 'success' || needs.build-and-push-react-artefacts.result == 'skipped')
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@latest
     with:
       environment: ${{ needs.set-environment-vars.outputs.environment }}
@@ -172,7 +173,7 @@ jobs:
     secrets: inherit
 
   ui-test:
-    name: "Run UI tests"
+    name: "Run UI Tests on ${{ needs.set-environment-vars.outputs.environment }} Environment"
     needs:
       [
         set-environment-vars,
