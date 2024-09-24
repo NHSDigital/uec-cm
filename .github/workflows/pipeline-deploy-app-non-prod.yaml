@@ -124,7 +124,7 @@ jobs:
       project: ${{ needs.set-environment-vars.outputs.project }}
       workspace: ${{ needs.metadata.outputs.workspace }}
       stacks: '["application", "ui-test"]'
-      tag: ${{ inputs.tag }}
+      tag: ${{ needs.generate-tag-name.outputs.tag_name != '' && needs.generate-tag-name.outputs.tag_name || inputs.tag }}
       action: apply
       workflow_timeout: 10
     secrets: inherit
@@ -166,7 +166,7 @@ jobs:
       artefact_sub_dir: ${{ needs.metadata.outputs.workspace }}
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
-      tag: ${{ inputs.tag }}
+      tag: ${{ needs.generate-tag-name.outputs.tag_name != '' && needs.generate-tag-name.outputs.tag_name || inputs.tag }}
     permissions:
       id-token: write
       contents: read
@@ -185,7 +185,7 @@ jobs:
     with:
       environment: ${{ needs.set-environment-vars.outputs.environment }}
       workspace: ${{ inputs.workspace }}
-      tag: ${{ inputs.tag }}
+      tag: ${{ needs.generate-tag-name.outputs.tag_name != '' && needs.generate-tag-name.outputs.tag_name || inputs.tag }}
     secrets: inherit
 
   slack-notifications:
