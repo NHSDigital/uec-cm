@@ -44,7 +44,7 @@ jobs:
     uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
 
   destroy:
-    name: "Destroy Infrastructure"
+    name: "Destroy Infrastructure on ${{ needs.set-environment-vars.outputs.environment }} Environment"
     if: github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
     uses: NHSDigital/uec-dos-management/.github/workflows/infrastructure-cleardown.yaml@latest
     needs:

@@ -178,6 +178,7 @@ jobs:
     name: "Run UI Tests on ${{ needs.set-environment-vars.outputs.environment }} Environment"
     needs:
       [
+        metadata,
         set-environment-vars,
         generate-tag-name,
         deploy-application-infrastructure,
@@ -187,7 +188,7 @@ jobs:
     uses: NHSDigital/uec-dos-management/.github/workflows/ui-test.yaml@latest
     with:
       environment: ${{ needs.set-environment-vars.outputs.environment }}
-      workspace: ${{ inputs.workspace }}
+      workspace: ${{ needs.metadata.outputs.workspace != '' && needs.metadata.outputs.workspace || inputs.workspace }}
       tag: ${{ needs.generate-tag-name.outputs.tag_name != '' && needs.generate-tag-name.outputs.tag_name || inputs.tag }}
     secrets: inherit
 
@@ -197,8 +198,10 @@ jobs:
       set-environment-vars,
       metadata,
       quality-check,
-      deploy-application-infrastructure,
+      generate-tag-name,
+      tag-repository,
       build-and-push-react-artefacts,
+      deploy-application-infrastructure,
       deploy-react-app,
       ui-test,
     ]
