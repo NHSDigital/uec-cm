@@ -95,13 +95,13 @@ jobs:
 
   quality-check:
     name: "Quality Check"
-    if: ${{ needs.set-environment-vars.outputs.environment == 'dev' }}
-    uses: NHSDigital/uec-dos-management/.github/workflows/quality-checks.yaml@latest
     needs:
       [
         set-environment-vars,
         metadata,
       ]
+    if: ${{ needs.set-environment-vars.outputs.environment == 'dev' }}
+    uses: NHSDigital/uec-dos-management/.github/workflows/quality-checks.yaml@latest
     with:
       environment: ${{ needs.set-environment-vars.outputs.environment }}
       workspace: ${{ needs.metadata.outputs.workspace }}
