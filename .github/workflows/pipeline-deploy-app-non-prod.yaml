@@ -108,34 +108,12 @@ jobs:
       stacks: '["github-runner", "terraform_management", "application", "ui-test"]'
     secrets: inherit
 
-  deploy-application-infrastructure:
-    name: "Deploy Application Infrastructure to ${{ needs.set-environment-vars.outputs.environment }} Environment"
-    needs:
-      [
-        set-environment-vars,
-        metadata,
-        generate-tag-name,
-        quality-check,
-      ]
-    if: always() && !cancelled() && (needs.quality-check.result == 'success' || needs.quality-check.result == 'skipped')
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
-    with:
-      environment: ${{ needs.set-environment-vars.outputs.environment }}
-      domain: ${{ needs.set-environment-vars.outputs.domain }}
-      project: ${{ needs.set-environment-vars.outputs.project }}
-      workspace: ${{ needs.metadata.outputs.workspace }}
-      stacks: '["application", "ui-test"]'
-      tag: ${{ needs.generate-tag-name.outputs.tag_name != '' && needs.generate-tag-name.outputs.tag_name || inputs.tag }}
-      action: apply
-      workflow_timeout: 10
-    secrets: inherit
-
   build-and-push-react-artefacts:
     name: "Build React Application and Push Artefact to S3 Bucket"
     needs: [
       set-environment-vars,
       metadata,
-      # deploy-application-infrastructure,
+      quality-check,
     ]
     if: ${{ needs.set-environment-vars.outputs.environment == 'dev' }}
     uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@latest
@@ -150,14 +128,36 @@ jobs:
       contents: read
     secrets: inherit
 
+  deploy-application-infrastructure:
+    name: "Deploy Application Infrastructure to ${{ needs.set-environment-vars.outputs.environment }} Environment"
+    needs:
+      [
+        set-environment-vars,
+        metadata,
+        generate-tag-name,
+        build-and-push-react-artefacts,
+      ]
+    if: always() && !cancelled() && (needs.build-and-push-react-artefacts.result == 'success' || needs.build-and-push-react-artefacts.result == 'skipped')
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+    with:
+      environment: ${{ needs.set-environment-vars.outputs.environment }}
+      domain: ${{ needs.set-environment-vars.outputs.domain }}
+      project: ${{ needs.set-environment-vars.outputs.project }}
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      stacks: '["application", "ui-test"]'
+      tag: ${{ needs.generate-tag-name.outputs.tag_name != '' && needs.generate-tag-name.outputs.tag_name || inputs.tag }}
+      action: apply
+      workflow_timeout: 10
+    secrets: inherit
+
   deploy-react-app:
     name: "Deploy React Application to ${{ needs.set-environment-vars.outputs.environment }} Environment"
     needs: [
       set-environment-vars,
       metadata,
       generate-tag-name,
-      deploy-application-infrastructure,
       build-and-push-react-artefacts,
+      deploy-application-infrastructure,
     ]
     if: always() && !cancelled() && (needs.build-and-push-react-artefacts.result == 'success' || needs.build-and-push-react-artefacts.result == 'skipped')
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@latest
