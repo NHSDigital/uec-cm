@@ -117,7 +117,7 @@ jobs:
         tag-repository,
         quality-check,
       ]
-    if: always() && !cancelled() && (needs.tag-repository.result == 'success' || needs.tag-repository.result == 'skipped') && (needs.quality-check.result == 'success' || needs.quality-check.result == 'skipped')
+    if: always()
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
     with:
       environment: ${{ needs.set-environment-vars.outputs.environment }}
@@ -137,7 +137,7 @@ jobs:
       metadata,
       deploy-application-infrastructure,
     ]
-    #if: ${{ needs.set-environment-vars.outputs.environment == 'dev' }}
+    if: ${{ needs.set-environment-vars.outputs.environment == 'dev' }}
     uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@latest
     with:
       environment: ${{ needs.set-environment-vars.outputs.environment }}
