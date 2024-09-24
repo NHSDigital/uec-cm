@@ -1,0 +1,209 @@
+name: Pipeline Deployment Application
+
+on:
+  push:
+    branches:
+      - main
+      - 'task/*'
+  pull_request:
+    types:
+      - labeled
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Specify the tag to be used for deployment"
+        required: true
+        type: string
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - test
+          - int
+
+env:
+  DOMAIN: uec-cm
+  PROJECT: cm
+
+jobs:
+  set-environment-vars:
+    name: "Set Environment Variables"
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.set-env.outputs.environment }}
+      domain: ${{ env.DOMAIN }}
+      project: ${{ env.PROJECT }}
+    steps:
+      - name: "Determine Environment"
+        id: set-env
+        run: |
+          if [[ "${{ github.event.inputs.environment }}" != "" ]]; then
+            echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+            echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event.label.name }}" == "Test Ready" ]]; then
+            echo "environment=test" >> $GITHUB_ENV
+            echo "environment=test" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event.label.name }}" == "Int Ready" ]]; then
+            echo "environment=int" >> $GITHUB_ENV
+            echo "environment=int" >> $GITHUB_OUTPUT
+          else
+            echo "environment=dev" >> $GITHUB_ENV  # Default to dev if no label or condition doesn't match
+            echo "environment=dev" >> $GITHUB_OUTPUT
+          fi
+
+          echo "The determined environment is: $(cat $GITHUB_ENV | grep environment | cut -d '=' -f2)"
+
+  metadata:
+    name: "Get Metadata"
+    needs:
+      [
+        set-environment-vars,
+      ]
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
+
+  generate-tag-name:
+    name: "Generate Tag Name"
+    needs:
+      [
+        set-environment-vars,
+        metadata,
+      ]
+    if: ${{ (needs.set-environment-vars.outputs.environment == 'test' || needs.set-environment-vars.outputs.environment == 'int') && github.event.action == 'labeled' }}
+    uses: NHSDigital/uec-dos-management/.github/workflows/generate-tag-name.yaml@latest
+    with:
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      tag_type: ${{ needs.set-environment-vars.outputs.environment }}
+      use_commit_hash: "yes"
+      commit_hash: ${{ needs.metadata.outputs.artefact_commit_hash }}
+
+  tag-repository:
+    name: "Tag Repository"
+    needs:
+      [
+        set-environment-vars,
+        metadata,
+        generate-tag-name,
+      ]
+    if: ${{ needs.set-environment-vars.outputs.environment == 'test' || needs.set-environment-vars.outputs.environment == 'int' }} && ${{ github.event.action == 'labeled' }}
+    uses: NHSDigital/uec-dos-management/.github/workflows/tag-repository.yaml@latest
+    with:
+      tag_to_push: ${{ needs.generate-tag-name.outputs.tag_name }}
+      tag_overwrite: "yes"
+
+  quality-check:
+    name: "Quality Check"
+    needs:
+      [
+        set-environment-vars,
+        metadata,
+      ]
+    if: ${{ needs.set-environment-vars.outputs.environment == 'dev' }}
+    uses: NHSDigital/uec-dos-management/.github/workflows/quality-checks.yaml@latest
+    with:
+      environment: ${{ needs.set-environment-vars.outputs.environment }}
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      stacks: '["github-runner", "terraform_management", "application", "ui-test"]'
+    secrets: inherit
+
+  build-and-push-react-artefacts:
+    name: "Build React Application and Push Artefact to S3 Bucket"
+    needs: [
+      set-environment-vars,
+      metadata,
+      quality-check,
+    ]
+    if: ${{ needs.set-environment-vars.outputs.environment == 'dev' }}
+    uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@latest
+    with:
+      environment: ${{ needs.set-environment-vars.outputs.environment }}
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: ${{ needs.set-environment-vars.outputs.domain }}
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+    permissions:
+      id-token: write
+      contents: read
+    secrets: inherit
+
+  deploy-application-infrastructure:
+    name: "Deploy Application Infrastructure to ${{ needs.set-environment-vars.outputs.environment }} Environment"
+    needs:
+      [
+        set-environment-vars,
+        metadata,
+        generate-tag-name,
+        build-and-push-react-artefacts,
+      ]
+    if: always() && !cancelled() && (needs.build-and-push-react-artefacts.result == 'success' || needs.build-and-push-react-artefacts.result == 'skipped')
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+    with:
+      environment: ${{ needs.set-environment-vars.outputs.environment }}
+      domain: ${{ needs.set-environment-vars.outputs.domain }}
+      project: ${{ needs.set-environment-vars.outputs.project }}
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      stacks: '["application", "ui-test"]'
+      tag: ${{ needs.generate-tag-name.outputs.tag_name != '' && needs.generate-tag-name.outputs.tag_name || inputs.tag }}
+      action: apply
+      workflow_timeout: 10
+    secrets: inherit
+
+  deploy-react-app:
+    name: "Deploy React Application to ${{ needs.set-environment-vars.outputs.environment }} Environment"
+    needs: [
+      set-environment-vars,
+      metadata,
+      generate-tag-name,
+      build-and-push-react-artefacts,
+      deploy-application-infrastructure,
+    ]
+    if: always() && !cancelled() && (needs.build-and-push-react-artefacts.result == 'success' || needs.build-and-push-react-artefacts.result == 'skipped')
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@latest
+    with:
+      environment: ${{ needs.set-environment-vars.outputs.environment }}
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: ${{ needs.set-environment-vars.outputs.domain }}
+      artefact_sub_dir: ${{ needs.metadata.outputs.workspace }}
+      commit_hash: ${{ needs.metadata.outputs.artefact_commit_hash != '' && needs.metadata.outputs.artefact_commit_hash || needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+      tag: ${{ needs.generate-tag-name.outputs.tag_name != '' && needs.generate-tag-name.outputs.tag_name || inputs.tag }}
+    permissions:
+      id-token: write
+      contents: read
+    secrets: inherit
+
+  ui-test:
+    name: "Run UI Tests on ${{ needs.set-environment-vars.outputs.environment }} Environment"
+    needs:
+      [
+        set-environment-vars,
+        generate-tag-name,
+        deploy-application-infrastructure,
+        deploy-react-app,
+      ]
+    if: always() && !cancelled() && (needs.set-environment-vars.outputs.environment == 'test')
+    uses: NHSDigital/uec-dos-management/.github/workflows/ui-test.yaml@latest
+    with:
+      environment: ${{ needs.set-environment-vars.outputs.environment }}
+      workspace: ${{ inputs.workspace }}
+      tag: ${{ needs.generate-tag-name.outputs.tag_name != '' && needs.generate-tag-name.outputs.tag_name || inputs.tag }}
+    secrets: inherit
+
+  slack-notifications:
+    name: "Send Notification to Slack"
+    needs: [
+      set-environment-vars,
+      metadata,
+      quality-check,
+      deploy-application-infrastructure,
+      build-and-push-react-artefacts,
+      deploy-react-app,
+      ui-test,
+    ]
+    if: always()
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
+    with:
+      env: ${{ needs.set-environment-vars.outputs.environment }}
+    secrets: inherit
