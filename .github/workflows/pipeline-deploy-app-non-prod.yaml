@@ -116,7 +116,7 @@ jobs:
         metadata,
         tag-repository,
         quality-check,
-      ] 
+      ]
     if: always() && !cancelled() && (needs.tag-repository.result == 'success' || needs.tag-repository.result == 'skipped') && (needs.quality-check.result == 'success' || needs.quality-check.result == 'skipped')
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
     with:
