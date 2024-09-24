@@ -164,7 +164,7 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: ${{ needs.set-environment-vars.outputs.domain }}
       artefact_sub_dir: ${{ needs.metadata.outputs.workspace }}
-      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      commit_hash: ${{ needs.metadata.outputs.artefact_commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
       tag: ${{ needs.generate-tag-name.outputs.tag_name != '' && needs.generate-tag-name.outputs.tag_name || inputs.tag }}
     permissions:
