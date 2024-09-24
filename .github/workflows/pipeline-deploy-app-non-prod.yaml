@@ -135,7 +135,7 @@ jobs:
     needs: [
       set-environment-vars,
       metadata,
-      deploy-application-infrastructure,
+      # deploy-application-infrastructure,
     ]
     if: ${{ needs.set-environment-vars.outputs.environment == 'dev' }}
     uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@latest
