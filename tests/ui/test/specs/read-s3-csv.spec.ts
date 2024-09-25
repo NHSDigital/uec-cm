@@ -18,18 +18,18 @@ test.describe('As a user I want to be able to read csv files downloaded from s3 
   });
 
   test.beforeEach(async ({ page }, testInfo) => {
-    await allure.parentSuite(testInfo.project.name);
-    await allure.suite('Tests downloaded files');
-    await allure.subSuite('Tests csv files');
+    allure.parentSuite(testInfo.project.name);
+    allure.suite('Tests downloaded files');
+    allure.subSuite('Tests csv files');
     await test.step('Navigate to landing page', async () => {
     });
   });
 
-  test('The s3data.csv file exists', async () => {
+  test('The s3data.csv file exists',  () => {
     expect(isFileExists(filePath)).toBeTruthy;
   });
 
-  test('The s3data.csv file has correct headers', async () => {
+  test('The s3data.csv file has correct headers',  () => {
       expect(getColumnHeaders(filePath)).toEqual([
         'test_case_id',
         'some_value_input',
@@ -37,19 +37,20 @@ test.describe('As a user I want to be able to read csv files downloaded from s3 
       ]);
   });
 
-  test('The s3data.csv file has correct row count', async () => {
+  test('The s3data.csv file has correct row count',  () => {
     expect(getRowCount(filePath)).toEqual(4);
   });
 
-  test(`The s3data.csv file has correct value in row 2 of 'some_value_input' column`, async () => {
+  test(`The s3data.csv file has correct value in row 2 of 'some_value_input' column`,  () => {
     expect(getCellValue(filePath, 'some_value_input', 2)).toEqual('value 20');
   });
 
-  test('The s3data.csv file has correct column count', async () => {
+  test('The s3data.csv file has correct column count',  () => {
     expect(getColumnCount(filePath)).toEqual(3);
   });
 
-  test.afterAll('Delete object from s3 bucket', async () => {
+  test.afterAll('Delete object from s3 bucket',  () => {
     deleteObject(fileName);
   });
 });
+
