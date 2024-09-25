@@ -1,0 +1,87 @@
+name: Pipeline Cleardown Application
+
+on:
+  delete:
+    branches:
+      - 'task/*'
+  pull_request:
+    types:
+      - closed
+
+env:
+  DOMAIN: 'uec-cm'
+  PROJECT: 'cm'
+
+jobs:
+  set-environment-vars:
+    name: "Set Environment Variables"
+    uses: NHSDigital/uec-dos-management/.github/workflows/set-env-variables.yaml@task/DR-1119_Refactor_github_workflows
+    with:
+      environment: ${{ github.event.inputs.environment }}
+      domain: uec-cm
+      project: cm
+
+  metadata:
+    name: "Get Metadata"
+    needs:
+      [
+        set-environment-vars,
+      ]
+    if: github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
+
+  destroy:
+    name: "Destroy Infrastructure on ${{ needs.set-environment-vars.outputs.environment }} Environment"
+    if: github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
+    uses: NHSDigital/uec-dos-management/.github/workflows/infrastructure-cleardown.yaml@latest
+    needs:
+      [
+        set-environment-vars,
+        metadata,
+      ]
+    with:
+      environment: ${{ needs.set-environment-vars.outputs.environment }}
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: ${{ needs.set-environment-vars.outputs.domain }}
+      project: ${{ needs.set-environment-vars.outputs.project }}
+      stacks: '["application", "ui-test"]'
+    secrets: inherit
+
+  cleardown-artefacts:
+    name: "Cleardown Artefacts"
+    if: ${{ needs.set-environment-vars.outputs.environment }} == 'dev' && github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
+    needs:
+      [
+        set-environment-vars,
+        metadata,
+        destroy,
+      ]
+    uses: NHSDigital/uec-dos-management/.github/workflows/artefacts-cleardown.yaml@latest
+    with:
+      environment: ${{ needs.set-environment-vars.outputs.environment }}
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      artefact_bucket_name: ${{needs.metadata.outputs.artefact_bucket_name}}
+    secrets: inherit
+
+  summarise:
+    name: "Summarise Cleardown"
+    if: github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summary
+        run: |
+          echo "${{ github.actor }} deleted a task branch..."
+          echo "triggering cleardown of infra in dev account relating to ${{ github.ref_type }}: ${{ github.event_ref }}"
+
+  slack-notifications:
+    name: "Send Notification to Slack"
+    needs: [
+      set-environment-vars,
+      destroy,
+      summarise,
+    ]
+    if: always()
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
+    with:
+      env: ${{ needs.set-environment-vars.outputs.environment }}
+    secrets: inherit

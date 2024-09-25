@@ -1,49 +1,47 @@
 name: Pipeline Deployment Application Prototype Environment
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       environment:
         description: "The name of the environment to build into"
         required: true
+        default: 'prototype'
         type: string
       workspace:
         description: "The workspace to deploy the service into"
         required: true
+        default: 'prototype'
         type: string
 
 jobs:
-  metadata:
-    name: "Get Metadata"
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
-
-  deploy-application-infrastructure:
-    name: Deploy application infrastructure
-    needs: [
-      metadata,
-    ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+  set-environment-vars:
+    name: "Set Environment Variables"
+    uses: NHSDigital/uec-dos-management/.github/workflows/set-env-variables.yaml@task/DR-1119_Refactor_github_workflows
     with:
       environment: ${{ inputs.environment }}
-      domain: "uec-cm"
+      domain: uec-cm
       project: cm
-      workspace: ${{ inputs.workspace }}
-      stacks: "['application']"
-      action: apply
-      workflow_timeout: 10
-    secrets: inherit
+
+  metadata:
+    name: "Get Metadata"
+    needs:
+      [
+        set-environment-vars,
+      ]
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
 
   build-and-push-react-artefacts:
-    name: Build react app and push built artefact to s3 bucket
+    name: "Build React Application and Push Artefact to S3 Bucket"
     needs: [
+      set-environment-vars,
       metadata,
-      deploy-application-infrastructure,
     ]
     uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@latest
     with:
       environment: ${{ inputs.environment }}
       workspace:  ${{ inputs.workspace }}
-      domain: uec-cm
+      domain: ${{ needs.set-environment-vars.outputs.domain }}
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     permissions:
@@ -51,9 +49,28 @@ jobs:
       contents: read
     secrets: inherit
 
-  deploy-react-app:
-    name: Retrieve built artefact and deploy to front end s3 bucket
+  deploy-application-infrastructure:
+    name: "Deploy Application Infrastructure to ${{ needs.set-environment-vars.outputs.environment }} Environment"
     needs: [
+      metadata,
+      set-environment-vars,
+      deploy-application-infrastructure,
+    ]
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+    with:
+      environment: ${{ inputs.environment }}
+      domain: ${{ needs.set-environment-vars.outputs.domain }}
+      project: ${{ needs.set-environment-vars.outputs.project }}
+      workspace: ${{ inputs.workspace }}
+      stacks: "['application']"
+      action: apply
+      workflow_timeout: 10
+    secrets: inherit
+
+  deploy-react-app:
+    name: "Deploy React Application to ${{ needs.set-environment-vars.outputs.environment }} Environment"
+    needs: [
+      set-environment-vars,
       metadata,
       deploy-application-infrastructure,
       build-and-push-react-artefacts,
@@ -62,7 +79,7 @@ jobs:
     with:
       environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
-      domain: uec-cm
+      domain: ${{ needs.set-environment-vars.outputs.domain }}
       artefact_sub_dir: ${{ inputs.workspace }}
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
