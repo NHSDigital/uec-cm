@@ -10,11 +10,9 @@ const PrototypePage: React.FC = () => {
   };
 
   const handleContinue = () => {
-    if (userId === "admin") {
-      navigate("/prototype/admin");
-    } else {
-      navigate("/prototype/hospitalList");
-    }
+    const targetPath =
+      userId === "admin" ? "/prototype/admin" : "/prototype/hospitalList";
+    navigate(targetPath, { state: { userId } });
   };
 
   return (
