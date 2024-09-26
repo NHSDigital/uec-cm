@@ -11,7 +11,7 @@ There is an expectation that each file of this repository template is concise an
 This repo contains the following:
 - `docs/adr` Contains the ADR 'decisions'
 - `infrastructure/` Contains infrastructure related Terraform templates for deploying the app.
-- `scripts/` Utilities helpful to developers of this specification.
+- `scripts/` Various scripts including githooks, functions etc.
 - `tests/` Contains tests related to the app
 
 ## Table of Contents
