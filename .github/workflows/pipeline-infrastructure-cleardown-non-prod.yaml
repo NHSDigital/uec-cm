@@ -69,8 +69,13 @@ jobs:
     steps:
       - name: Summary
         run: |
-          echo "${{ github.actor }} deleted a task branch..."
-          echo "Triggering cleardown of infrastructure in ${{ needs.set-environment-vars.outputs.environment }} account relating to ${{ github.ref_type }}: ${{ github.head_ref }}"
+          if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.event.action }}" == "closed" ]]; then
+            echo "${{ github.actor }} closed a pull request..."
+          elif [[ "${{ github.event_name }}" == "delete" && "${{ github.ref_type }}" == "branch" ]]; then
+            echo "${{ github.actor }} deleted a task branch..."
+          fi
+
+          echo "Triggering cleardown of infrastructure in ${{ needs.set-environment-vars.outputs.environment }} environment relating to ${{ github.ref_type }}: ${{ github.head_ref }}"
 
   slack-notifications:
     name: "Send Notification to Slack"
