@@ -8,13 +8,16 @@ Improving the way that the data can be viewed and analysed/disseminated, so that
 
 There is an expectation that each file of this repository template is concise and self-documented.
 
+This repo contains the following:
+- `docs/adr` Contains the ADR 'decisions'
+- `infrastructure/` Contains infrastructure related Terraform templates for deploying the app.
+- `scripts/` Utilities helpful to developers of this specification.
+- `tests/` Contains tests related to the app
+
 ## Table of Contents
 
 - [uec cm](#uec-cm)
   - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-    - [Prerequisites](#prerequisites)
-  - [Usage](#usage)
   - [Architecture](#architecture)
     - [Diagrams](#diagrams)
     - [Configuration](#configuration)
@@ -22,30 +25,11 @@ There is an expectation that each file of this repository template is concise an
   - [Contacts](#contacts)
   - [Licence](#licence)
 
-## Installation
-
-By including preferably a one-liner or if necessary a set of clear CLI instructions we improve user experience. This should be a frictionless installation process that works on various operating systems (macOS, Linux, Windows WSL) and handles all the dependencies.
-
-```shell
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/org/repo/branch/install.sh)"
-```
-
-### Prerequisites
-
-The following software packages or their equivalents are expected to be installed
-
-- [GNU make](https://www.gnu.org/software/make/)
-- [Docker](https://www.docker.com/)
-
-## Usage
-
-After a successful installation, provide an informative example of how this project can be used. Additional code snippets, screenshots and demos work well in this space. You may also link to the other documentation resources, e.g. the [User Guide](./docs/user-guide.md) to demonstrate more use cases and to show more features.
-
 ## Architecture
 
 ### Diagrams
 
-The [C4 model](https://c4model.com/) is a simple and intuitive way to create software architecture diagrams that are clear, consistent, scalable and most importantly collaborative. This should result in documenting all the system interfaces, external dependencies and integration points.
+TODO
 
 ### Configuration
 
