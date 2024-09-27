@@ -29,8 +29,10 @@ test.describe("As a user I want to be able to view the locations", () => {
       await test.step(" My locations label is visible", async () => {
         await expect.soft(viewLcPage.getMyLocationsLabel()).toHaveText("My locations");
       });
-      await test.step(" Reports and Download report button is visible", async () => {
+      await test.step(" The Reports section is visible", async () => {
         await expect(viewLcPage.getReportsLabel()).toBeVisible();
+      });
+      await test.step(" The Download Report button is visible", async () => {
         await expect(viewLcPage.getDownloadReportButton()).toBeVisible();
       });
     });
