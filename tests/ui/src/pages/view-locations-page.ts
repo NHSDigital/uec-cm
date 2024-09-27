@@ -4,7 +4,6 @@ export default class ViewLocationsPage {
     this.page = page;
   }
 
-  // login page
   static readonly myLocations_lbl = "My locations";
   static readonly reports_lbl = "Reports";
   static readonly downloadReport_btn = "Continue";
@@ -15,10 +14,10 @@ export default class ViewLocationsPage {
   }
 
   getReportsLabel(): Locator {
-    return this.page.getByRole('heading', { name: 'Reports' });
+    return this.page.getByRole("heading", { name: "Reports" });
   }
 
   getDownloadReportButton(): Locator {
-    return this.page.getByRole('button', { name: 'Download Report' });
+    return this.page.getByRole("button", { name: "Download Report" });
   }
 }
