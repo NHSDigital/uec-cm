@@ -33,6 +33,5 @@ test.describe("As a user I want to be able to view the locations", () => {
         await expect(viewLcPage.getReportsLabel()).toBeVisible();
         await expect(viewLcPage.getDownloadReportButton()).toBeVisible();
       });
-    }
-  );
+    });
 });
