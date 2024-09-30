@@ -6,9 +6,9 @@ let orgPage: OrgPage;
 
 test.describe('As a user I want to be able to work with organisations', async () => {
   test.beforeEach(async ({page}, testInfo) => {
-    await allure.parentSuite(testInfo.project.name);
-    await allure.suite("Tests for organisation journeys");
-    await allure.subSuite("Tests for organisation landing page");
+    allure.parentSuite(testInfo.project.name);
+    allure.suite("Tests for organisation journeys");
+    allure.subSuite("Tests for organisation landing page");
     await test.step('Navigate to landing page', async () => {
       await page.goto('/');
       orgPage = new OrgPage(page);
