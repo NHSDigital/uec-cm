@@ -35,7 +35,7 @@ jobs:
 
   cleardown-artefacts:
     name: "Cleardown Artefacts"
-    if: needs.metadata.outputs.environment == 'dev' && github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
+    if: needs.metadata.outputs.environment == '["dev"]' && github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
     needs:
       [
         metadata,
