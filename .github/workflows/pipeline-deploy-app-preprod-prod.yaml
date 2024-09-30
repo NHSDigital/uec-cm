@@ -19,7 +19,7 @@ on:
 jobs:
   metadata:
     name: "Get Metadata"
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-1122_Add_env_to_meta
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
 
   derive-artefact-address:
     name: "Get Artefact Location"
@@ -37,7 +37,7 @@ jobs:
     with:
       environment: ${{ needs.metadata.outputs.environment }}
       domain: ${{ needs.metadata.outputs.reponame }}
-      project: ${{ vars.ACCOUNT_PROJECT}}
+      project: ${{ vars.PROJECT }}
       workspace: default
       stacks: '["application"]'
       tag: ${{ inputs.tag }}

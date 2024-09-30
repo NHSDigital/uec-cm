@@ -12,21 +12,24 @@ jobs:
   metadata:
     name: "Get Metadata"
     if: github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-1122_Add_env_to_meta
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
 
   destroy:
     name: "Destroy Infrastructure on ${{ needs.metadata.outputs.environment }} Environment"
     if: github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
+    strategy:
+      matrix:
+        environment: ${{ fromJson(needs.metadata.outputs.environment) }}
     uses: NHSDigital/uec-dos-management/.github/workflows/infrastructure-cleardown.yaml@latest
     needs:
       [
         metadata,
       ]
     with:
-      environment: ${{ needs.metadata.outputs.environment }}
+      environment: ${{ matrix.environment }}
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: ${{ needs.metadata.outputs.reponame }}
-      project: ${{ vars.ACCOUNT_PROJECT}}
+      project: ${{ vars.PROJECT }}
       stacks: '["application", "ui-test"]'
     secrets: inherit
 

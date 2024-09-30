@@ -27,7 +27,7 @@ on:
 jobs:
   metadata:
     name: "Get Metadata"
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-1122_Add_env_to_meta
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
 
   generate-tag-name:
     name: "Generate Tag Name"
@@ -103,7 +103,7 @@ jobs:
       environment: ${{ needs.metadata.outputs.environment }}
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: ${{ needs.metadata.outputs.reponame }}
-      project: ${{ vars.ACCOUNT_PROJECT}}
+      project: ${{ vars.PROJECT }}
       stacks: '["application", "ui-test"]'
       tag: ${{ needs.generate-tag-name.outputs.tag_name != '' && needs.generate-tag-name.outputs.tag_name || inputs.tag }}
       action: apply

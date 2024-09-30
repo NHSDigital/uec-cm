@@ -18,7 +18,7 @@ jobs:
   metadata:
     name: "Get Metadata"
     needs:
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-1122_Add_env_to_meta
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
 
   build-and-push-react-artefacts:
     name: "Build React Application and Push Artefact to S3 Bucket"
@@ -47,7 +47,7 @@ jobs:
     with:
       environment: ${{ inputs.environment reponame }}
       domain: ${{ needs.metadata.outputs.domain }}
-      project: ${{ vars.ACCOUNT_PROJECT}}
+      project: ${{ vars.PROJECT }}
       workspace: ${{ inputs.workspace }}
       stacks: "['application']"
       action: apply
