@@ -12,7 +12,7 @@ jobs:
   metadata:
     name: "Get Metadata"
     if: github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-1119_Update_env_setting
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
 
   destroy:
     name: "Destroy Infrastructure on ${{ matrix.environment }} Environment"
