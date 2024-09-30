@@ -35,7 +35,7 @@ jobs:
 
   cleardown-artefacts:
     name: "Cleardown Artefacts"
-    if: ${{ matrix.environment }} == 'dev' && github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
+    if: ${{ needs.metadata.outputs.environment }} == 'dev' && github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
     needs:
       [
         metadata,
@@ -43,7 +43,7 @@ jobs:
       ]
     uses: NHSDigital/uec-dos-management/.github/workflows/artefacts-cleardown.yaml@latest
     with:
-      environment: ${{ matrix.environment }}
+      environment: ${{ needs.metadata.outputs.environment }}
       workspace: ${{ needs.metadata.outputs.workspace }}
       artefact_bucket_name: ${{needs.metadata.outputs.artefact_bucket_name}}
     secrets: inherit
@@ -64,7 +64,7 @@ jobs:
             echo "${{ github.actor }} deleted a task branch..."
           fi
 
-          echo "Triggering cleardown of infrastructure in ${{ matrix.environment }} environment relating to ${{ github.ref_type }}: ${{ github.head_ref }}"
+          echo "Triggering cleardown of infrastructure in ${{ needs.metadata.outputs.environment }} environment relating to ${{ github.ref_type }}: ${{ github.head_ref }}"
 
   slack-notifications:
     name: "Send Notification to Slack"
@@ -76,5 +76,5 @@ jobs:
     if: always()
     uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
     with:
-      env: ${{ matrix.environment }}
+      env: ${{ needs.metadata.outputs.environment }}
     secrets: inherit
