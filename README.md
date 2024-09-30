@@ -14,44 +14,11 @@ This repo contains the following:
 - `scripts/` Various scripts including githooks, functions etc.
 - `tests/` Contains tests related to the app
 
-## Table of Contents
-
-- [uec cm](#uec-cm)
-  - [Table of Contents](#table-of-contents)
-  - [Architecture](#architecture)
-    - [Diagrams](#diagrams)
-    - [Configuration](#configuration)
-  - [Contributing](#contributing)
-  - [Contacts](#contacts)
-  - [Licence](#licence)
-
-## Architecture
-
-### Diagrams
-
-TODO
-
-### Configuration
-
-Most of the projects are built with customisability and extendability in mind. At a minimum, this can be achieved by implementing service level configuration options and settings. The intention of this section is to show how this can be used. If the system processes data, you could mention here for example how the input is prepared for testing - anonymised, synthetic or live data.
-
 ## Contributing
 
 To ensure consistency and turn on the required githooks contributors must run the following script from the project root see below
 
 /bin/bash scripts/git/git-config-set-up.sh
-
-Describe or link templates on how to raise an issue, feature request or make a contribution to the codebase. Reference the other documentation files, like
-
-- Environment setup for contribution, i.e. `CONTRIBUTING.md`
-- Coding standards, branching, linting, practices for development and testing
-- Release process, versioning, changelog
-- Backlog, board, roadmap, ways of working
-- High-level requirements, guiding principles, decision records, etc.
-
-## Contacts
-
-Provide a way to contact the owners of this project. It can be a team, an individual or information on the means of getting in touch via active communication channels, e.g. opening a GitHub discussion, raising an issue, etc.
 
 ## Licence
 
