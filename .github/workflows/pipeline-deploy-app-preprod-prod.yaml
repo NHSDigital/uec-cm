@@ -17,21 +17,9 @@ on:
           - prod
 
 jobs:
-  set-environment-vars:
-    name: "Set Environment Variables"
-    uses: NHSDigital/uec-dos-management/.github/workflows/set-env-variables.yaml@task/DR-1119_Refactor_github_workflows
-    with:
-      environment: ${{ inputs.environment }}
-      domain: uec-cm
-      project: cm
-
   metadata:
     name: "Get Metadata"
-    needs:
-      [
-        set-environment-vars,
-      ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-1122_Add_env_to_meta
 
   derive-artefact-address:
     name: "Get Artefact Location"
@@ -40,17 +28,16 @@ jobs:
       tag: ${{ inputs.tag }}
 
   deploy-application-infrastructure:
-    name: "Deploy Application Infrastructure to ${{ needs.set-environment-vars.outputs.environment }} Environment"
+    name: "Deploy Application Infrastructure to ${{ needs.metadata.outputs.environment }} Environment"
     needs:
       [
-        set-environment-vars,
         metadata,
       ]
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
     with:
-      environment: ${{ needs.set-environment-vars.outputs.environment }}
-      domain: ${{ needs.set-environment-vars.outputs.domain }}
-      project: ${{ needs.set-environment-vars.outputs.project }}
+      environment: ${{ needs.metadata.outputs.environment }}
+      domain: ${{ needs.metadata.outputs.reponame }}
+      project: ${{ vars.ACCOUNT_PROJECT}}
       workspace: default
       stacks: '["application"]'
       tag: ${{ inputs.tag }}
@@ -59,17 +46,16 @@ jobs:
     secrets: inherit
 
   deploy-react-app:
-    name: "Deploy React Application to ${{ needs.set-environment-vars.outputs.environment }} Environment"
+    name: "Deploy React Application to ${{ needs.metadata.outputs.environment }} Environment"
     needs: [
-      set-environment-vars,
       metadata,
       deploy-application-infrastructure,
       derive-artefact-address,
     ]
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@latest
     with:
-      environment: ${{ needs.set-environment-vars.outputs.environment }}
-      domain: ${{ needs.set-environment-vars.outputs.domain }}
+      environment: ${{ needs.metadata.outputs.environment }}
+      domain: ${{ needs.metadata.outputs.reponame }}
       workspace: default
       artefact_sub_dir: ${{ needs.derive-artefact-address.outputs.artefact_sub_dir }}
       commit_hash: ${{ needs.derive-artefact-address.outputs.commit_hash }}
@@ -83,7 +69,6 @@ jobs:
   slack-notifications:
     name: "Send Notification to Slack"
     needs: [
-      set-environment-vars,
       metadata,
       deploy-application-infrastructure,
       deploy-react-app,
@@ -91,5 +76,5 @@ jobs:
     if: always()
     uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
     with:
-      env: ${{ needs.set-environment-vars.outputs.environment }}
+      env: ${{ needs.metadata.outputs.environment }}
     secrets: inherit

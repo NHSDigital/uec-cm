@@ -25,34 +25,21 @@ on:
           - int
 
 jobs:
-  set-environment-vars:
-    name: "Set Environment Variables"
-    uses: NHSDigital/uec-dos-management/.github/workflows/set-env-variables.yaml@task/DR-1119_Refactor_github_workflows
-    with:
-      environment: ${{ github.event.inputs.environment }}
-      domain: uec-cm
-      project: cm
-
   metadata:
     name: "Get Metadata"
-    needs:
-      [
-        set-environment-vars,
-      ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-1122_Add_env_to_meta
 
   generate-tag-name:
     name: "Generate Tag Name"
     needs:
       [
-        set-environment-vars,
         metadata,
       ]
-    if: ${{ (needs.set-environment-vars.outputs.environment == 'test' || needs.set-environment-vars.outputs.environment == 'int') && github.event.action == 'labeled' }}
+    if: ${{ (needs.metadata.outputs.environment == 'test' || needs.metadata.outputs.environment == 'int') && github.event.action == 'labeled' }}
     uses: NHSDigital/uec-dos-management/.github/workflows/generate-tag-name.yaml@latest
     with:
       workspace: ${{ needs.metadata.outputs.workspace }}
-      tag_type: ${{ needs.set-environment-vars.outputs.environment }}
+      tag_type: ${{ needs.metadata.outputs.environment }}
       use_commit_hash: "yes"
       commit_hash: ${{ needs.metadata.outputs.artefact_commit_hash }}
 
@@ -60,11 +47,10 @@ jobs:
     name: "Tag Repository"
     needs:
       [
-        set-environment-vars,
         metadata,
         generate-tag-name,
       ]
-    if: ${{ needs.set-environment-vars.outputs.environment == 'test' || needs.set-environment-vars.outputs.environment == 'int' }} && ${{ github.event.action == 'labeled' }}
+    if: ${{ needs.metadata.outputs.environment == 'test' || needs.metadata.outputs.environment == 'int' }} && ${{ github.event.action == 'labeled' }}
     uses: NHSDigital/uec-dos-management/.github/workflows/tag-repository.yaml@latest
     with:
       tag_to_push: ${{ needs.generate-tag-name.outputs.tag_name }}
@@ -74,13 +60,12 @@ jobs:
     name: "Quality Check"
     needs:
       [
-        set-environment-vars,
         metadata,
       ]
-    if: ${{ needs.set-environment-vars.outputs.environment == 'dev' }}
+    if: ${{ needs.metadata.outputs.environment == 'dev' }}
     uses: NHSDigital/uec-dos-management/.github/workflows/quality-checks.yaml@latest
     with:
-      environment: ${{ needs.set-environment-vars.outputs.environment }}
+      environment: ${{ needs.metadata.outputs.environment }}
       workspace: ${{ needs.metadata.outputs.workspace }}
       stacks: '["github-runner", "terraform_management", "application", "ui-test"]'
     secrets: inherit
@@ -88,16 +73,15 @@ jobs:
   build-and-push-react-artefacts:
     name: "Build React Application and Push Artefact to S3 Bucket"
     needs: [
-      set-environment-vars,
       metadata,
       quality-check,
     ]
-    if: ${{ needs.set-environment-vars.outputs.environment == 'dev' }}
+    if: ${{ needs.metadata.outputs.environment == 'dev' }}
     uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@latest
     with:
-      environment: ${{ needs.set-environment-vars.outputs.environment }}
+      environment: ${{ needs.metadata.outputs.environment }}
       workspace: ${{ needs.metadata.outputs.workspace }}
-      domain: ${{ needs.set-environment-vars.outputs.domain }}
+      domain: ${{ needs.metadata.outputs.reponame }}
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     permissions:
@@ -106,10 +90,9 @@ jobs:
     secrets: inherit
 
   deploy-application-infrastructure:
-    name: "Deploy Application Infrastructure to ${{ needs.set-environment-vars.outputs.environment }} Environment"
+    name: "Deploy Application Infrastructure to ${{ needs.metadata.outputs.environment }} Environment"
     needs:
       [
-        set-environment-vars,
         metadata,
         generate-tag-name,
         build-and-push-react-artefacts,
@@ -117,10 +100,10 @@ jobs:
     if: always() && !cancelled() && (needs.build-and-push-react-artefacts.result == 'success' || needs.build-and-push-react-artefacts.result == 'skipped')
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
     with:
-      environment: ${{ needs.set-environment-vars.outputs.environment }}
+      environment: ${{ needs.metadata.outputs.environment }}
       workspace: ${{ needs.metadata.outputs.workspace }}
-      domain: ${{ needs.set-environment-vars.outputs.domain }}
-      project: ${{ needs.set-environment-vars.outputs.project }}
+      domain: ${{ needs.metadata.outputs.reponame }}
+      project: ${{ vars.ACCOUNT_PROJECT}}
       stacks: '["application", "ui-test"]'
       tag: ${{ needs.generate-tag-name.outputs.tag_name != '' && needs.generate-tag-name.outputs.tag_name || inputs.tag }}
       action: apply
@@ -128,9 +111,8 @@ jobs:
     secrets: inherit
 
   deploy-react-app:
-    name: "Deploy React Application to ${{ needs.set-environment-vars.outputs.environment }} Environment"
+    name: "Deploy React Application to ${{ needs.metadata.outputs.environment }} Environment"
     needs: [
-      set-environment-vars,
       metadata,
       generate-tag-name,
       build-and-push-react-artefacts,
@@ -139,9 +121,9 @@ jobs:
     if: always() && !cancelled() && (needs.build-and-push-react-artefacts.result == 'success' || needs.build-and-push-react-artefacts.result == 'skipped')
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@latest
     with:
-      environment: ${{ needs.set-environment-vars.outputs.environment }}
+      environment: ${{ needs.metadata.outputs.environment }}
       workspace: ${{ needs.metadata.outputs.workspace }}
-      domain: ${{ needs.set-environment-vars.outputs.domain }}
+      domain: ${{ needs.metadata.outputs.reponame }}
       artefact_sub_dir: ${{ needs.metadata.outputs.workspace }}
       commit_hash: ${{ needs.metadata.outputs.artefact_commit_hash != '' && needs.metadata.outputs.artefact_commit_hash || needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
@@ -152,19 +134,18 @@ jobs:
     secrets: inherit
 
   ui-test:
-    name: "Run UI Tests on ${{ needs.set-environment-vars.outputs.environment }} Environment"
+    name: "Run UI Tests on ${{ needs.metadata.outputs.environment }} Environment"
     needs:
       [
         metadata,
-        set-environment-vars,
         generate-tag-name,
         deploy-application-infrastructure,
         deploy-react-app,
       ]
-    if: always() && !cancelled() && (needs.set-environment-vars.outputs.environment == 'test')
+    if: always() && !cancelled() && (needs.metadata.outputs.environment == 'test')
     uses: NHSDigital/uec-dos-management/.github/workflows/ui-test.yaml@latest
     with:
-      environment: ${{ needs.set-environment-vars.outputs.environment }}
+      environment: ${{ needs.metadata.outputs.environment }}
       workspace: ${{ needs.metadata.outputs.workspace != '' && needs.metadata.outputs.workspace || inputs.workspace }}
       tag: ${{ needs.generate-tag-name.outputs.tag_name != '' && needs.generate-tag-name.outputs.tag_name || inputs.tag }}
     secrets: inherit
@@ -172,7 +153,6 @@ jobs:
   slack-notifications:
     name: "Send Notification to Slack"
     needs: [
-      set-environment-vars,
       metadata,
       quality-check,
       generate-tag-name,
@@ -185,5 +165,5 @@ jobs:
     if: always()
     uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
     with:
-      env: ${{ needs.set-environment-vars.outputs.environment }}
+      env: ${{ needs.metadata.outputs.environment }}
     secrets: inherit

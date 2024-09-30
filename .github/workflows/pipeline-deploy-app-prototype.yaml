@@ -15,33 +15,21 @@ on:
         type: string
 
 jobs:
-  set-environment-vars:
-    name: "Set Environment Variables"
-    uses: NHSDigital/uec-dos-management/.github/workflows/set-env-variables.yaml@task/DR-1119_Refactor_github_workflows
-    with:
-      environment: ${{ inputs.environment }}
-      domain: uec-cm
-      project: cm
-
   metadata:
     name: "Get Metadata"
     needs:
-      [
-        set-environment-vars,
-      ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-1122_Add_env_to_meta
 
   build-and-push-react-artefacts:
     name: "Build React Application and Push Artefact to S3 Bucket"
     needs: [
-      set-environment-vars,
       metadata,
     ]
     uses: NHSDigital/uec-dos-management/.github/workflows/build-react-app.yaml@latest
     with:
       environment: ${{ inputs.environment }}
       workspace:  ${{ inputs.workspace }}
-      domain: ${{ needs.set-environment-vars.outputs.domain }}
+      domain: ${{ needs.metadata.outputs.reponame }}
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     permissions:
@@ -50,17 +38,16 @@ jobs:
     secrets: inherit
 
   deploy-application-infrastructure:
-    name: "Deploy Application Infrastructure to ${{ needs.set-environment-vars.outputs.environment }} Environment"
+    name: "Deploy Application Infrastructure to ${{ needs.metadata.outputs.environment }} Environment"
     needs: [
       metadata,
-      set-environment-vars,
       deploy-application-infrastructure,
     ]
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
     with:
-      environment: ${{ inputs.environment }}
-      domain: ${{ needs.set-environment-vars.outputs.domain }}
-      project: ${{ needs.set-environment-vars.outputs.project }}
+      environment: ${{ inputs.environment reponame }}
+      domain: ${{ needs.metadata.outputs.domain }}
+      project: ${{ vars.ACCOUNT_PROJECT}}
       workspace: ${{ inputs.workspace }}
       stacks: "['application']"
       action: apply
@@ -68,9 +55,8 @@ jobs:
     secrets: inherit
 
   deploy-react-app:
-    name: "Deploy React Application to ${{ needs.set-environment-vars.outputs.environment }} Environment"
+    name: "Deploy React Application to ${{ needs.metadata.outputs.environment }} Environment"
     needs: [
-      set-environment-vars,
       metadata,
       deploy-application-infrastructure,
       build-and-push-react-artefacts,
@@ -79,7 +65,7 @@ jobs:
     with:
       environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
-      domain: ${{ needs.set-environment-vars.outputs.domain }}
+      domain: ${{ needs.metadata.outputs.reponame }}
       artefact_sub_dir: ${{ inputs.workspace }}
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
