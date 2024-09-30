@@ -10,9 +10,10 @@ There is an expectation that each file of this repository template is concise an
 
 This repo contains the following:
 - `docs/adr` Contains the ADR 'decisions'
-- `infrastructure/` Contains infrastructure related Terraform templates for deploying the app.
+- `infrastructure/` Contains infrastructure related Terraform templates for deploying the app, including the installation steps.
 - `scripts/` Various scripts including githooks, functions etc.
 - `tests/` Contains tests related to the app
+- `src/frontend` Contains the React app and the prototype including installation steps.
 
 ## Contributing
 
