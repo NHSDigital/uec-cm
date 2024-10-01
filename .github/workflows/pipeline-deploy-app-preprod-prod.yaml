@@ -1,49 +1,52 @@
-name: Pipeline Deployment Application production & pre-production Environment
+name: Pipeline Deployment Application Pre-Production & Production Environment
 
 on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Select the Tag to deploy artefact from"
+        description: "Specify the tag to be used for deployment"
         required: true
         type: string
       environment:
-        description: "Select the deployment environment"
+        description: 'Deployment environment'
         required: true
-        type: string
+        default: 'preprod'
+        type: choice
         options:
           - preprod
           - prod
+
 jobs:
   metadata:
     name: "Get Metadata"
     uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
 
   derive-artefact-address:
-    name: "Get artefact location"
+    name: "Get Artefact Location"
     uses: NHSDigital/uec-dos-management/.github/workflows/derive-artefact-address.yaml@latest
     with:
       tag: ${{ inputs.tag }}
 
   deploy-application-infrastructure:
-      needs:
-        [
-          metadata,
-        ]
-      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
-      with:
-        environment: ${{ inputs.environment }}
-        domain: "uec-cm"
-        project: cm
-        workspace: default
-        stacks: '["application"]'
-        action: apply
-        workflow_timeout: 10
-        tag: ${{ inputs.tag }}
-      secrets: inherit
+    name: "Deploy Application Infrastructure to ${{ needs.metadata.outputs.environment }} Environment"
+    needs:
+      [
+        metadata,
+      ]
+    uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+    with:
+      environment: ${{ needs.metadata.outputs.environment }}
+      domain: ${{ needs.metadata.outputs.reponame }}
+      project: ${{ vars.PROJECT }}
+      workspace: default
+      stacks: '["application"]'
+      tag: ${{ inputs.tag }}
+      action: apply
+      workflow_timeout: 10
+    secrets: inherit
 
   deploy-react-app:
-    name: Retrieve built artefact and deploy to front end s3 bucket
+    name: "Deploy React Application to ${{ needs.metadata.outputs.environment }} Environment"
     needs: [
       metadata,
       deploy-application-infrastructure,
@@ -51,9 +54,9 @@ jobs:
     ]
     uses: NHSDigital/uec-dos-management/.github/workflows/deploy-react-app.yaml@latest
     with:
-      environment: ${{ inputs.environment }}
+      environment: ${{ needs.metadata.outputs.environment }}
+      domain: ${{ needs.metadata.outputs.reponame }}
       workspace: default
-      domain: uec-cm
       artefact_sub_dir: ${{ needs.derive-artefact-address.outputs.artefact_sub_dir }}
       commit_hash: ${{ needs.derive-artefact-address.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
@@ -64,7 +67,7 @@ jobs:
     secrets: inherit
 
   slack-notifications:
-    name: Send notification to slack
+    name: "Send Notification to Slack"
     needs: [
       metadata,
       deploy-application-infrastructure,
@@ -73,5 +76,5 @@ jobs:
     if: always()
     uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
     with:
-      env: ${{ inputs.environment }}
+      env: ${{ needs.metadata.outputs.environment }}
     secrets: inherit

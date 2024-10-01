@@ -22,7 +22,7 @@
     "test:debug": "npx cross-env test_env=dev npx playwright test --debug",
     "test:test_env": "npx cross-env test_env=dev playwright test",
     "test:tagged": "npx cross-env test_env=dev playwright test --grep @Test ",
-    "test_pipeline": "npx playwright test",
+    "test_pipeline": "npx playwright test --grep-invert @prototype",
     "allure": "allure generate --single-file -c -o  allure-reports",
     "filecount": "npx ts-node ./utilities/fileCount.ts",
     "axe_report": "cat ./accessibility-reports/artifacts/*.html >> ./accessibility-reports/artifacts/FinalAccessibilityReport.html"

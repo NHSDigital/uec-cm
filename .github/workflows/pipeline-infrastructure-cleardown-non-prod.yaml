@@ -1,0 +1,93 @@
+name: Pipeline Cleardown Application
+
+on:
+  delete:
+    branches:
+      - 'task/*'
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  metadata:
+    name: "Get Metadata"
+    if: >
+      (github.ref_type == 'branch' || github.event.ref_type == 'branch') &&
+      startswith(github.head_ref, 'task/') &&
+      github.actor != 'github-merge-queue[bot]'
+    uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
+
+  destroy:
+    name: "Destroy Infrastructure on ${{ matrix.environment }} Environment"
+    if: >
+      (github.ref_type == 'branch' || github.event.ref_type == 'branch') &&
+      startswith(github.head_ref, 'task/') &&
+      github.actor != 'github-merge-queue[bot]'
+    strategy:
+      matrix:
+        environment: ${{ fromJson(needs.metadata.outputs.environment) }}
+    uses: NHSDigital/uec-dos-management/.github/workflows/infrastructure-cleardown.yaml@latest
+    needs:
+      [
+        metadata,
+      ]
+    with:
+      environment: ${{ matrix.environment }}
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: ${{ needs.metadata.outputs.reponame }}
+      project: ${{ vars.PROJECT }}
+      stacks: '["application", "ui-test"]'
+    secrets: inherit
+
+  cleardown-artefacts:
+    name: "Cleardown Artefacts"
+    if: needs.metadata.outputs.environment == '["dev"]' && github.event.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
+    needs:
+      [
+        metadata,
+        destroy,
+      ]
+    strategy:
+      matrix:
+        environment: ${{ fromJson(needs.metadata.outputs.environment) }}
+    uses: NHSDigital/uec-dos-management/.github/workflows/artefacts-cleardown.yaml@latest
+    with:
+      environment: ${{ matrix.environment }}
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      artefact_bucket_name: ${{needs.metadata.outputs.artefact_bucket_name}}
+    secrets: inherit
+
+  summarise:
+    name: "Summarise Cleardown"
+    runs-on: ubuntu-latest
+    if: >
+      (github.ref_type == 'branch' || github.event.ref_type == 'branch') &&
+      startswith(github.head_ref, 'task/') &&
+      github.actor != 'github-merge-queue[bot]'
+    needs: [
+      metadata,
+    ]
+    steps:
+      - name: Summary
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.event.action }}" == "closed" ]]; then
+            echo "${{ github.actor }} closed a pull request..."
+          elif [[ "${{ github.event_name }}" == "delete" && "${{ github.ref_type }}" == "branch" ]]; then
+            echo "${{ github.actor }} deleted a task branch..."
+          fi
+
+          echo "Triggering cleardown of infrastructure in ${{ needs.metadata.outputs.environment }} environment relating to ${{ github.ref_type }}: ${{ github.head_ref }}"
+
+  slack-notifications:
+    name: "Send Notification to Slack"
+    needs: [
+      metadata,
+      destroy,
+      cleardown-artefacts,
+      summarise,
+    ]
+    if: always()
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
+    with:
+      env: ${{ needs.metadata.outputs.environment }}
+    secrets: inherit
