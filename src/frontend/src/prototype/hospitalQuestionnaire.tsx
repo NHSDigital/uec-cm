@@ -29,6 +29,8 @@ const HospitalQuestionnaire: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { userId } = location.state || {};
+
   const { id } = useParams<{ id: string }>();
   const hospitalUnitId = id ? parseInt(id, 10) : null;
 
@@ -90,9 +92,14 @@ const HospitalQuestionnaire: React.FC = () => {
   const queryParams = new URLSearchParams(location.search);
   const editKeyId: string | null = queryParams.get("editKeyId");
 
-
   const prevEditedFields = location.state?.editedFields || {};
+
   useEffect(() => {
+    // Initialize formData from location state if available
+    if (location.state?.formData) {
+      setFormData(location.state.formData);
+    }
+
     // Highlight and focus the field to edit
     if (editKeyId) {
       const fieldElement = document.getElementById(editKeyId);
@@ -109,7 +116,7 @@ const HospitalQuestionnaire: React.FC = () => {
         summaryElement.scrollIntoView({ behavior: "smooth" });
       }
     }
-  }, [editKeyId, errors]);
+  }, [location.state, editKeyId, errors]);
 
   if (!hospital || !data) {
     return <div>Hospital not found</div>;
@@ -234,13 +241,13 @@ const HospitalQuestionnaire: React.FC = () => {
         }
       });
       navigate(`/prototype/questionnaireSummary/${hospitalUnitId}`, {
-        state: { formData, editedFields: changes },
+        state: { formData, editedFields: changes, userId },
       });
     }
   };
 
   const handleCancel = () => {
-    navigate(`/prototype/hospitalList`);
+    navigate(`/prototype/hospitalList`, { state: { userId } });
   };
 
   return (
@@ -248,20 +255,43 @@ const HospitalQuestionnaire: React.FC = () => {
       <div className="nhsuk-width-container">
         <div className="nhsuk-grid-row">
           <div className="nhsuk-grid-column-full">
-            <h1 className="nhsuk-heading-l">{hospitalUnit?.name}</h1>
-            <p>
-              <strong>
-                {hospital.name} - {hospital.address}
-              </strong>
-            </p>
+            <div className="nhsuk-back-link mb-4">
+              <button
+                className="nhsuk-back-link__link"
+                onClick={() =>
+                  navigate("/prototype/hospitallist", { state: { userId } })
+                }
+              >
+                <svg
+                  className="nhsuk-icon nhsuk-icon__chevron-left"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  height="24"
+                  width="24"
+                >
+                  <path d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"></path>
+                </svg>
+                Go back
+              </button>
+            </div>
+            <h1 className="nhsuk-heading-l">Update questionnaire</h1>
+            <h2 className="nhsuk-heading-m">
+              {hospital.name} - {hospital.street}, {hospital.city},{" "}
+              {hospital.postcode}
+            </h2>
             <p>
               <strong>Service category:</strong> {hospitalUnit?.serviceCategory}
             </p>
             <p>
               <strong>Service type:</strong> {hospitalUnit?.serviceType}
             </p>
-            <p>Last updated: {data.lastUpdated}</p>
-            <p>Updated by: {data.updatedByUserId}</p>
+            <p>
+              <strong>Last updated:</strong> {data.lastUpdated} 08:59am
+            </p>
+            <p>
+              <strong>Updated by:</strong> {data.updatedByUserId}
+            </p>
 
             {Object.keys(errors).length > 0 && (
               <div
@@ -798,7 +828,7 @@ const HospitalQuestionnaire: React.FC = () => {
                   type="button"
                   onClick={handleCancel}
                 >
-                  Cancel
+                  Exit without saving
                 </button>
               </div>
             </form>
