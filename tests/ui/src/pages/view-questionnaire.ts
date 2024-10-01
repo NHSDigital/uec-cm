@@ -3,10 +3,6 @@ export default class ViewQuestionnaire {
     constructor(readonly page: Page) {
         this.page = page;
     }
-    // login page
-    static readonly userId_txt = 'User ID';
-    static readonly password_txt = 'Password';
-    static readonly continue_btn = 'Continue';
     // getters
     get getMyLocationsLabel(): Locator {
         return this.page.getByRole('heading', { name: 'My locations' });
@@ -114,10 +110,4 @@ export default class ViewQuestionnaire {
         return this.page.getByText('You have successfully saved');
     }
 
-    // methods
-    async login() {
-        await this.page.getByLabel(ViewQuestionnaire.userId_txt).fill("username");
-        await this.page.getByLabel(ViewQuestionnaire.password_txt).fill("password");
-        await this.page.getByRole('button', { name: 'Continue' }).click();
-    }
 }

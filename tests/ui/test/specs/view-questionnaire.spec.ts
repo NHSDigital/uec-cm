@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { allure } from 'allure-playwright';
-import ViewQuestionnaire from '/Users/chloe.simpson/Documents/NHS/uec-cm/tests/ui/src/pages/view-questionnaire.ts';
-//import BasePage from "../../src/pages/base-page";
+import ViewQuestionnaire from '../../src/pages/view-questionnaire.ts';
+import BasePage from "../../src/pages/base-page";
 let viewQuest: ViewQuestionnaire;
-//let basePage: BasePage;
+let basePage: BasePage;
 test.describe('Questionnaire Tests', () => {
 
   test.beforeEach(async ({ page }, testInfo) => {
@@ -11,10 +11,9 @@ test.describe('Questionnaire Tests', () => {
     allure.suite("Questionnaire Tests");
     allure.subSuite("Landing Page Tests");
     viewQuest = new ViewQuestionnaire(page);
-    //basepage = new BasePage(page);
+    basePage = new BasePage(page);
     await page.goto('/prototype');
-    //below will change to basepage.login
-    await viewQuest.login();
+    await basePage.login();
   });
 
   test('Questionnaire link is visible', { tag: '@prototype' }, async () => {
@@ -75,9 +74,9 @@ test.describe('Questionnaire Tests', () => {
       await viewQuest.getPatientsNotDiagnosed.fill('0');
       await viewQuest.getPatientsDiagnosed.fill('9');
       await test.step('The continue button is clicked', async () => {
-      });
       await expect(viewQuest.getContinueButton).toBeVisible();
       await viewQuest.getContinueButton.click();
+      });
     });
   });
 
