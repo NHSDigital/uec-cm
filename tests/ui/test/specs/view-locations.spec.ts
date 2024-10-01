@@ -24,7 +24,7 @@ test.describe("As a user I want to be able to view the locations", () => {
       });
     });
   });
-
+//test my location page
   test("My locations page is presented correctly", { tag: ["@prototype"] }, async () => {
       await test.step(" My locations label is visible", async () => {
         await expect.soft(viewLcPage.getMyLocationsLabel()).toHaveText("My locations");
