@@ -11,12 +11,18 @@ on:
 jobs:
   metadata:
     name: "Get Metadata"
-    if: github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
+    if: >
+      (github.ref_type == 'branch' || github.event.ref_type == 'branch') &&
+      startswith(github.head_ref, 'task/') &&
+      github.actor != 'github-merge-queue[bot]'
     uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
 
   destroy:
     name: "Destroy Infrastructure on ${{ matrix.environment }} Environment"
-    if: github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
+    if: >
+      (github.ref_type == 'branch' || github.event.ref_type == 'branch') &&
+      startswith(github.head_ref, 'task/') &&
+      github.actor != 'github-merge-queue[bot]'
     strategy:
       matrix:
         environment: ${{ fromJson(needs.metadata.outputs.environment) }}
@@ -35,7 +41,7 @@ jobs:
 
   cleardown-artefacts:
     name: "Cleardown Artefacts"
-    if: needs.metadata.outputs.environment == '["dev"]' && github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
+    if: needs.metadata.outputs.environment == '["dev"]' && github.event.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
     needs:
       [
         metadata,
@@ -53,8 +59,11 @@ jobs:
 
   summarise:
     name: "Summarise Cleardown"
-    if: github.ref_type == 'branch' && startswith(github.head_ref, 'task/') && github.actor != 'github-merge-queue[bot]'
     runs-on: ubuntu-latest
+    if: >
+      (github.ref_type == 'branch' || github.event.ref_type == 'branch') &&
+      startswith(github.head_ref, 'task/') &&
+      github.actor != 'github-merge-queue[bot]'
     needs: [
       metadata,
     ]
