@@ -74,6 +74,7 @@ jobs:
     needs: [
       metadata,
       destroy,
+      cleardown-artefacts,
       summarise,
     ]
     if: always()
