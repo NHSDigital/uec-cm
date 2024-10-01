@@ -13,8 +13,8 @@ async function globalSetup(config: FullConfig) {
     const workspace = process.env.WORKSPACE as string;
     const env = process.env.ENV as string;
     const region = process.env.REGION as string;
-    const distribution = getCloudFrontUrl(region, env, workspace);
-    const baseUrl = JSON.parse(distribution).DomainName;
+    const distribution = await getCloudFrontUrl(region, env, workspace);
+    const baseUrl = distribution?.DomainName;
     process.env.baseUrl = baseUrl;
   }
 

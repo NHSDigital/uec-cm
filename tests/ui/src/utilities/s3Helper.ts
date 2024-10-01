@@ -1,28 +1,64 @@
+import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import { readFile } from 'fs/promises';
+import { createWriteStream } from 'fs';
+import { pipeline, Readable } from 'stream';
+import { promisify } from 'util';
 
 const bucket = `nhse-uec-cm-ui-test-bucket-${process.env.ENV}${process.env.WORKSPACE}`;
 
-export function addObject(sourceFilePath: string, targetFile: string) {
-  return require('child_process').execSync(
-    `aws s3api put-object --bucket ${bucket} --key ${targetFile} --body ${sourceFilePath}`
-)};
+const pipelineAsync = promisify(pipeline);
 
-export function getObject(sourceFile: string, targetFile?: string) {
-  if (targetFile === undefined) targetFile = sourceFile;
+const client = new S3Client({ region: process.env.REGION });
+
+export async function addObject(sourceFilePath: string, targetFile: string) {
   try {
-    return require('child_process').execSync(
-      `aws s3api get-object --bucket ${bucket} --key ${sourceFile} downloads/${targetFile}`
-    )
+    const fileContent = await readFile(sourceFilePath);
+    const command = new PutObjectCommand({
+      Bucket: bucket,
+      Key: targetFile,
+      Body: fileContent,
+    });
+
+    const response = await client.send(command);
+    console.log('Success', response);
   } catch (error) {
-    console.log(error);
+    console.error('Error', error);
   }
 };
 
-export function deleteObject(targetFile: string) {
+export async function getObject(sourceFile: string, targetFile?: string) {
+  if (targetFile === undefined) targetFile = sourceFile;
+
   try {
-    return require('child_process').execSync(
-      `aws s3api delete-object --bucket ${bucket} --key ${targetFile}`
-    )
+    const command = new GetObjectCommand({
+      Bucket: bucket,
+      Key: sourceFile,
+    });
+
+    const response = await client.send(command);
+    if (response.Body) {
+      const bodyStream = Readable.fromWeb(response.Body as any); // Convert Blob to Readable stream
+      const writeStream = createWriteStream(`downloads/${targetFile}`);
+      await pipelineAsync(bodyStream, writeStream);
+      console.log('File downloaded successfully');
+    } else {
+      console.error('No data in response body');
+    }
   } catch (error) {
-    console.log(error);
+    console.log('Error', error);
+  }
+};
+
+export async function deleteObject(targetFile: string) {
+  try {
+    const command = new DeleteObjectCommand({
+      Bucket: bucket,
+      Key: targetFile,
+    });
+
+    const response = await client.send(command);
+    console.log('Success', response);
+  } catch (error) {
+    console.log('Error', error);
   }
 };
