@@ -15,7 +15,6 @@ export default class ViewQuestionnaire {
     get getQuestionnaireLink(): Locator {
         return this.page.locator("(//a[@class='nhsuk-action-link__link'])[1]");
     }
-    
     get getErrorHeading(): Locator {
         return this.page.getByRole('link', { name: 'Bed side staff is not valid' });
     }
