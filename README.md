@@ -6,15 +6,18 @@ Which then provides this positive change:
 
 Improving the way that the data can be viewed and analysed/disseminated, so that decisions can be made with the knowledge of the current and future status of the capacity of the business
 
-There is an expectation that each file of this repository template is concise and self-documented.
+This repo contains the following:
+
+- `docs/adr` Contains the ADR 'decisions'
+- `infrastructure/` Contains infrastructure related Terraform templates for deploying the app, including the installation steps.
+- `scripts/` Various scripts including githooks, functions etc.
+- `src/frontend` Contains the React app including installation steps.
+- `tests/` Contains tests related to the app
 
 ## Table of Contents
 
 - [uec cm](#uec-cm)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-    - [Prerequisites](#prerequisites)
-  - [Usage](#usage)
+  - [Installation && Prerequisites](#installation-and-prerequisites)
   - [Architecture](#architecture)
     - [Diagrams](#diagrams)
     - [Configuration](#configuration)
@@ -22,24 +25,18 @@ There is an expectation that each file of this repository template is concise an
   - [Contacts](#contacts)
   - [Licence](#licence)
 
-## Installation
+### Installation and Prerequisites
 
-By including preferably a one-liner or if necessary a set of clear CLI instructions we improve user experience. This should be a frictionless installation process that works on various operating systems (macOS, Linux, Windows WSL) and handles all the dependencies.
+- Setup git locally on your machine and configure the git user email and name.
+- Setup gpg commit signing, which is required for commits to be 'verified'. Guidance on confluence
+- Run the pre-commit hooks located in the 'scripts' folder
+- Install an appropriate IDE compatible with Typescript, Terraform and python.
+- Clone the repository
 
-```shell
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/org/repo/branch/install.sh)"
-```
+Specific installation for the separate sections are divided in the locations
 
-### Prerequisites
-
-The following software packages or their equivalents are expected to be installed
-
-- [GNU make](https://www.gnu.org/software/make/)
-- [Docker](https://www.docker.com/)
-
-## Usage
-
-After a successful installation, provide an informative example of how this project can be used. Additional code snippets, screenshots and demos work well in this space. You may also link to the other documentation resources, e.g. the [User Guide](./docs/user-guide.md) to demonstrate more use cases and to show more features.
+- `infrastructure/README.md`
+- `src/frontend/README.md`
 
 ## Architecture
 
