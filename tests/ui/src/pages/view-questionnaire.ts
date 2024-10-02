@@ -13,21 +13,12 @@ export default class ViewQuestionnaire {
     }
 
     get getQuestionnaireLink(): Locator {
-        return this.page.getByRole('link', { name: 'Bethlem Royal Hospital -' });
+        return this.page.locator("(//a[@class='nhsuk-action-link__link'])[1]");
     }
-
-    get getGoBackLink(): Locator {
-        return this.page.getByRole('button', { name: 'Go back' });
-    }
-
+    
     get getErrorHeading(): Locator {
         return this.page.getByRole('link', { name: 'Bed side staff is not valid' });
     }
-
-    get getErrorMessage(): Locator {
-        return this.page.getByText('Enter a valid numerical number');
-    }
-
     get getBedsideStaff(): Locator {
         return this.page.locator('//input[@id="bedsideStaff"]');
     }
@@ -87,10 +78,8 @@ export default class ViewQuestionnaire {
     get getPatientsDiagnosed(): Locator {
         return this.page.locator("//input[@id='patientsOfPimsTs']");
     }
-
-
-    get getSummaryHeading(): Locator {
-        return this.page.getByRole('heading', { name: 'Check your answers' })
+    get getErrorMessage(): Locator {
+        return this.page.getByText('Enter a valid numerical number');
     }
 
     get getContinueButton(): Locator {
@@ -101,7 +90,6 @@ export default class ViewQuestionnaire {
         return this.page.getByRole('button', { name: 'Exit without saving' });
     }
 
-
     get getSaveButton(): Locator {
         return this.page.getByRole('button', { name: 'Save and confirm' });
     }
@@ -111,3 +99,4 @@ export default class ViewQuestionnaire {
     }
 
 }
+

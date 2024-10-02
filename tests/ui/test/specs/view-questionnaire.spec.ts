@@ -1,9 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { allure } from 'allure-playwright';
 import ViewQuestionnaire from '../../src/pages/view-questionnaire.ts';
+import CheckAnswersPage from '../../src/pages/questionnaire-check-your-answers.ts'
 import BasePage from "../../src/pages/base-page";
 let viewQuest: ViewQuestionnaire;
 let basePage: BasePage;
+let pageTitle: string = "UEC Capacity Management";
+let checkAnswersPage: CheckAnswersPage;
 test.describe('Questionnaire Tests', () => {
 
   test.beforeEach(async ({ page }, testInfo) => {
@@ -12,22 +15,19 @@ test.describe('Questionnaire Tests', () => {
     allure.subSuite("Landing Page Tests");
     viewQuest = new ViewQuestionnaire(page);
     basePage = new BasePage(page);
+    checkAnswersPage = new CheckAnswersPage(page);
     await page.goto('/prototype');
     await basePage.login();
-  });
-
-  test('Questionnaire link is visible', { tag: '@prototype' }, async () => {
-    await test.step('The questionnaire link is displayed', async () => {
+    await test.step("Verify Title of the page", async () => {
+      await expect(page).toHaveTitle(pageTitle);
+    await test.step("Navigate to questionnaire page", async () => {
       await expect.soft(viewQuest.getQuestionnaireLink).toBeVisible();
       await viewQuest.getQuestionnaireLink.click();
+      });
     });
-  });
+  }); 
 
   test('Questionnaire link navigates to the correct page', { tag: '@prototype' }, async () => {
-    await test.step('The questionnaire link is available', async () => {
-      await expect.soft(viewQuest.getQuestionnaireLink).toBeVisible();
-      await viewQuest.getQuestionnaireLink.click();
-    });
     await test.step('The questionnaire is displayed', async () => {
       await expect.soft(viewQuest.getQuestHeading).toBeVisible();
       await test.step('The questionnaire heading is displayed', async () => {
@@ -38,9 +38,6 @@ test.describe('Questionnaire Tests', () => {
   });
 
   test('Make changes and navigate through the form', { tag: '@prototype' }, async ({ page }) => {
-    await test.step('The questionnaire link is available', async () => {
-      await viewQuest.getQuestionnaireLink.click();
-    });
     await test.step('The User can fill in the field', async () => {
       await expect(viewQuest.getBedsideStaff).toBeVisible();
       await viewQuest.getBedsideStaff.fill('18');
@@ -53,9 +50,6 @@ test.describe('Questionnaire Tests', () => {
   });
 
   test('Make changes to all the fields in the questionnaire', { tag: '@prototype' }, async ({ page }) => {
-    await test.step('The questionnaire link is available', async () => {
-      await viewQuest.getQuestionnaireLink.click();
-    });
     await test.step('All the questionnaire fields can be filled in', async () => {
       await expect(viewQuest.getBedsideStaff).toBeVisible();
       await viewQuest.getBedsideStaff.fill('18');
@@ -81,9 +75,6 @@ test.describe('Questionnaire Tests', () => {
   });
 
   test('As a user I want to ensure i get an error message if I type incorrect data', { tag: '@prototype' }, async ({ page }) => {
-    await test.step('The questionnaire link is available', async () => {
-      await viewQuest.getQuestionnaireLink.click();
-    });
     await test.step('The user enters invalid data to the field', async () => {
       await expect(viewQuest.getBedsideStaff).toBeVisible();
       await viewQuest.getBedsideStaff.fill(';');
@@ -98,9 +89,6 @@ test.describe('Questionnaire Tests', () => {
   });
 
 test('Cancel changes', { tag: '@prototype' }, async ({ page }) => {
-  await test.step('The questionnaire link is available', async () => {
-    await viewQuest.getQuestionnaireLink.click();
-  });
   await test.step('The user enters data into a field', async () => {
     await expect(viewQuest.getBedsideStaff).toBeVisible();
     await viewQuest.getBedsideStaff.fill('19');
@@ -112,14 +100,17 @@ test('Cancel changes', { tag: '@prototype' }, async ({ page }) => {
     });
   });
 
-test('Go back link works on summary page', { tag: '@prototype' }, async ({ page }) => {
-  await test.step('The questionnaire link is available', async () => {
-    await viewQuest.getQuestionnaireLink.click();
-    await expect(viewQuest.getContinueButton).toBeVisible();
-    await viewQuest.getContinueButton.click();
+  test('Heading is displayed on check answers page', { tag: '@prototype' }, async ({ page }) => {
+    await test.step('The check answers heading is displayed', async () => {
+      await viewQuest.getContinueButton.click();
+      await expect(checkAnswersPage.getCheckAnswersHeading).toBeVisible();
     });
-  await test.step('The go back link works', async () => {
-    await viewQuest.getGoBackLink.click();
+  });
+
+test('Go back link works on summary page', { tag: '@prototype' }, async ({ page }) => {
+ await test.step('The go back link works', async () => {
+  await viewQuest.getContinueButton.click();
+    await checkAnswersPage.getGoBackLink.click();
     });
   });
 });
