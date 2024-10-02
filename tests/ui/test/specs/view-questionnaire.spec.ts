@@ -20,12 +20,12 @@ test.describe('Questionnaire Tests', () => {
     await basePage.login();
     await test.step("Verify Title of the page", async () => {
       await expect(page).toHaveTitle(pageTitle);
-    await test.step("Navigate to questionnaire page", async () => {
-      await expect.soft(viewQuest.getQuestionnaireLink).toBeVisible();
-      await viewQuest.getQuestionnaireLink.click();
+      await test.step("Navigate to questionnaire page", async () => {
+        await expect.soft(viewQuest.getQuestionnaireLink).toBeVisible();
+        await viewQuest.getQuestionnaireLink.click();
       });
     });
-  }); 
+  });
 
   test('Questionnaire link navigates to the correct page', { tag: '@prototype' }, async () => {
     await test.step('The questionnaire is displayed', async () => {
@@ -68,8 +68,8 @@ test.describe('Questionnaire Tests', () => {
       await viewQuest.getPatientsNotDiagnosed.fill('0');
       await viewQuest.getPatientsDiagnosed.fill('9');
       await test.step('The continue button is clicked', async () => {
-      await expect(viewQuest.getContinueButton).toBeVisible();
-      await viewQuest.getContinueButton.click();
+        await expect(viewQuest.getContinueButton).toBeVisible();
+        await viewQuest.getContinueButton.click();
       });
     });
   });
@@ -88,15 +88,15 @@ test.describe('Questionnaire Tests', () => {
     });
   });
 
-test('Cancel changes', { tag: '@prototype' }, async ({ page }) => {
-  await test.step('The user enters data into a field', async () => {
-    await expect(viewQuest.getBedsideStaff).toBeVisible();
-    await viewQuest.getBedsideStaff.fill('19');
-  });
-  await test.step('The cancel button is clicked and returns user to Location page', async () => {
-    await expect(viewQuest.getCancelButton).toBeVisible();
-    await viewQuest.getCancelButton.click();
-    await expect(viewQuest.getMyLocationsLabel).toBeVisible();
+  test('Cancel changes', { tag: '@prototype' }, async ({ page }) => {
+    await test.step('The user enters data into a field', async () => {
+      await expect(viewQuest.getBedsideStaff).toBeVisible();
+      await viewQuest.getBedsideStaff.fill('19');
+    });
+    await test.step('The cancel button is clicked and returns user to Location page', async () => {
+      await expect(viewQuest.getCancelButton).toBeVisible();
+      await viewQuest.getCancelButton.click();
+      await expect(viewQuest.getMyLocationsLabel).toBeVisible();
     });
   });
 
@@ -107,10 +107,10 @@ test('Cancel changes', { tag: '@prototype' }, async ({ page }) => {
     });
   });
 
-test('Go back link works on summary page', { tag: '@prototype' }, async ({ page }) => {
- await test.step('The go back link works', async () => {
-  await viewQuest.getContinueButton.click();
-    await checkAnswersPage.getGoBackLink.click();
+  test('Go back link works on summary page', { tag: '@prototype' }, async ({ page }) => {
+    await test.step('The go back link works', async () => {
+      await viewQuest.getContinueButton.click();
+      await checkAnswersPage.getGoBackLink.click();
     });
   });
 });
