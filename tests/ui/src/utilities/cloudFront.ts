@@ -15,8 +15,7 @@ export async function getCloudFrontUrl(region: string, env: string, workspace: s
 
       if (filteredDistribution) {
         return {
-          DomainName: filteredDistribution.DomainName ?? '',
-          OriginDomainName: filteredDistribution.Origins?.Items?.[0].DomainName ?? '',
+          DomainName: filteredDistribution.DomainName,
         };
       } else {
         console.log('No matching distribution found');
