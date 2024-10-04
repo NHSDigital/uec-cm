@@ -15,8 +15,7 @@ export async function getCloudFrontUrl(region: string, env: string, workspace: s
 
       if (filteredDistribution) {
         return {
-          DomainName: filteredDistribution.DomainName ?? '',
-          OriginDomainName: filteredDistribution.Origins?.Items?.[0].DomainName ?? '',
+          DomainName: filteredDistribution.DomainName,
         };
       } else {
         console.log('No matching distribution found');
@@ -30,7 +29,4 @@ export async function getCloudFrontUrl(region: string, env: string, workspace: s
     console.error('Error', error);
     return null;
   }
-  // return require('child_process').execSync(
-  //   `aws cloudfront list-distributions --query "DistributionList.Items[].{DomainName: DomainName, OriginDomainName: Origins.Items[0].DomainName}[?OriginDomainName=='nhse-uec-cm-`+env+`-front-end`+workspace+`.s3.`+region+`.amazonaws.com'] | [0]"`
-  // ).toString();
 }
