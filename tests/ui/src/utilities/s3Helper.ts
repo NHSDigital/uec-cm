@@ -37,7 +37,7 @@ export async function getObject(sourceFile: string, targetFile?: string) {
 
     const response = await client.send(command);
     if (response.Body) {
-      const bodyStream = Readable.fromWeb(response.Body as any); // Convert Blob to Readable stream
+      const bodyStream = Readable.fromWeb(response.Body as any);
       const writeStream = createWriteStream(`downloads/${targetFile}`);
       await pipelineAsync(bodyStream, writeStream);
       console.log('File downloaded successfully');
