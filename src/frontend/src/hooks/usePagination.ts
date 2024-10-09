@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LocationOrganisation } from "../services/api/interface";
 
 const usePagination = (results: LocationOrganisation[], itemsPerPage: number) => {

@@ -81,24 +81,6 @@ describe('SearchOrganisationPage', () => {
     expect(navigateMock).toHaveBeenCalledWith('/organisations/add');
   });
 
-  it('should navigate to the organisation add page', async() => {
-    const navigateMock = useNavigate();
-
-    act(() => {
-      const input = screen.getByTestId('search-field-input');
-      userEvent.type(input, '000');
-      const searchButton = screen.getByTestId('search-button');
-      userEvent.click(searchButton);
-    });
-
-    await waitFor(() => {
-      const nextButton = screen.getByTestId('next-button');
-      userEvent.click(nextButton);
-    });
-
-    expect(navigateMock).toHaveBeenCalledWith('/organisations/add');
-  });
-
   it('should navigate to view organisation page when row is selected and organisation exists in organisationSearchResult', async () => {
     const navigateMock = useNavigate();
 
