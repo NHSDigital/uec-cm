@@ -19,7 +19,7 @@ export default class Accessibility {
 
   if (accessibilityScanResults.violations.length > 0)
   {
-    const reportHTML = createHtmlReport({
+    createHtmlReport({
       results: accessibilityScanResults,
       options: {
         projectKey: "uec-cm - "+ testId,
