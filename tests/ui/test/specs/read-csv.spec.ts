@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import path from 'path';
 import { allure } from "allure-playwright";
-import { getRowCount, getColumnHeaders, getCellValue, isFileExists, getColumnCount } from '../../src/utilities/csvHelper';
+import { getColumnHeaders, getCellValue, isFileExists } from '../../src/utilities/csvHelper';
 
 let filePath: string;
 
@@ -20,7 +20,7 @@ test.describe('As a user I want to be able to read downloaded csv files', {
   });
 
   test('The data.csv file exists',  () => {
-    expect(isFileExists(filePath)).toBeTruthy;
+    expect(isFileExists(filePath)).toBeTruthy();
   });
 
   test('The data.csv file has correct headers',  () => {
