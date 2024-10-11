@@ -20,4 +20,13 @@ export default class ViewLocationsPage {
   getDownloadReportButton(): Locator {
     return this.page.getByRole("button", { name: "Download Report" });
   }
+
+  get getCapacityHeading(): Locator {
+    return this.page.getByRole('heading', { name: "My Capacity Management" });
+
+  }
+
+  get getSuccessfulChanges(): Locator {
+    return this.page.locator("//div[@class='nhsuk-do-dont-list']");
+  }
 }
