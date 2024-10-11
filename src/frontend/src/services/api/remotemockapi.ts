@@ -9,14 +9,14 @@ const RemoteMockApi: ApiInterface = {
             fileName = "all";
         }
 
-        return getMockApiData(getTestFolder("getorganisations"), fileName);
+        return getMockApiData(getTestFolder("getorganisations"), fileName) as unknown as Organisation[];
     },
     getLocations: async (name: string, postcode: string, organisation: string): Promise<Location[]> => {
         const fileName = [name, postcode, organisation].filter(Boolean).join("+");
-        return getMockApiData(getTestFolder("getlocations"), fileName);
+        return getMockApiData(getTestFolder("getlocations"), fileName) as unknown as Location[];
     },
     getOrganisationTypes: function (): Promise<Type[]> {
-        return getMockApiData(getTestFolder("getorganisationtypes"), "default");
+        return getMockApiData(getTestFolder("getorganisationtypes"), "default") as unknown as Promise<Type[]>;
     }
 };
 
