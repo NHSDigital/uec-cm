@@ -6,8 +6,6 @@ import { promisify } from 'util';
 
 const bucket = `nhse-uec-cm-ui-test-bucket-${process.env.ENV}${process.env.WORKSPACE}`;
 
-const pipelineAsync = promisify(pipeline);
-
 const client = new S3Client({ region: process.env.REGION });
 
 export async function addObject(sourceFilePath: string, targetFile: string) {
@@ -19,8 +17,7 @@ export async function addObject(sourceFilePath: string, targetFile: string) {
       Body: fileContent,
     });
 
-    const response = await client.send(command);
-    console.log('Success', response);
+    await client.send(command);
   } catch (error) {
     console.error('Error', error);
   }
@@ -30,6 +27,7 @@ export async function getObject(sourceFile: string, targetFile?: string) {
   if (targetFile === undefined) targetFile = sourceFile;
 
   try {
+    const pipelineAsync = promisify(pipeline);
     const command = new GetObjectCommand({
       Bucket: bucket,
       Key: sourceFile,
@@ -40,7 +38,6 @@ export async function getObject(sourceFile: string, targetFile?: string) {
       const bodyStream = Readable.fromWeb(response.Body as any);
       const writeStream = createWriteStream(`downloads/${targetFile}`);
       await pipelineAsync(bodyStream, writeStream);
-      console.log('File downloaded successfully');
     } else {
       console.error('No data in response body');
     }
@@ -56,8 +53,7 @@ export async function deleteObject(targetFile: string) {
       Key: targetFile,
     });
 
-    const response = await client.send(command);
-    console.log('Success', response);
+    await client.send(command);
   } catch (error) {
     console.log('Error', error);
   }
