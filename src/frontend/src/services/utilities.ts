@@ -24,8 +24,7 @@ export const getTestFolder = (folder: string) : string => {
     return baseUrl + getBranchFromUrlParam() + mockDataFolder + folder + "/";
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getMockApiData = async (url: string, fileName: string): Promise<any> => {
+export const getMockApiData = async (url: string, fileName: string): Promise<unknown> => {
     const response = await fetch(url + fileName + ".json");
     if (!response.ok) {
         const defaultResponse = await fetch(url + "default.json");
