@@ -23,7 +23,6 @@ export default class ViewLocationsPage {
 
   get getCapacityHeading(): Locator {
     return this.page.getByRole('heading', { name: "My Capacity Management" });
-
   }
 
   get getSuccessfulChanges(): Locator {

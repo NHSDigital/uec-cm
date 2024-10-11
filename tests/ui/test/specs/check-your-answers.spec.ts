@@ -16,8 +16,8 @@ const bedsAvailable = '11';
 test.describe("As a user I want to be able to view the locations", () => {
   test.beforeEach(async ({ page }, testInfo) => {
     await allure.parentSuite(testInfo.project.name);
-    await allure.suite("Tests for view locations journeys");
-    await allure.subSuite("Tests for locations landing page");
+    await allure.suite("Tests for check your answers journeys");
+    await allure.subSuite("Tests for check-your answers landing page");
     viewLocPage = new ViewLocationsPage(page);
     basePage = new BasePage(page);
     viewQuestionnaire = new ViewQuestionnairePage(page);
@@ -35,6 +35,7 @@ test.describe("As a user I want to be able to view the locations", () => {
       await viewQuestionnaire.getQuestionnaireLink.click();
     });
   });
+
   test('The user confirms data entered is on the questionnaire page', { tag: '@prototype' }, async () => {
     await test.step("Enter data into the field", async () => {
       await viewQuestionnaire.getBedsideStaff.fill(bedsideStaff);
@@ -57,7 +58,7 @@ test.describe("As a user I want to be able to view the locations", () => {
     });
   });
 
-  test('The user can cancel changes', async () => {
+  test('The user can cancel changes', { tag: '@prototype' }, async () => {
     await viewQuestionnaire.getBedsideStaff.fill(bedsideStaff);
     await checkYourAnswerPage.getExitButton.click();
     await test.step('The Capacity management heading is displayed', async () => {
@@ -65,7 +66,7 @@ test.describe("As a user I want to be able to view the locations", () => {
     });
   })
 
-  test('The user can use the edit button on check your answers page to edit ', async () => {
+  test('The user can use the edit button on check your answers page to edit ', { tag: '@prototype' }, async () => {
     await test.step('The user fills in questionnaire', async () => {
       await viewQuestionnaire.getBedsAvailable.fill(bedsAvailable);
       await viewQuestionnaire.getContinueButton.click();
@@ -89,7 +90,7 @@ test.describe("As a user I want to be able to view the locations", () => {
     });
   });
 
-  test('All questions are in check answers ', async () => {
+  test('All questions are in check answers ', { tag: '@prototype' }, async () => {
     await test.step('The user fills in questionnaire', async () => {
       await viewQuestionnaire.getQuestHeading
       await viewQuestionnaire.getContinueButton.click();
