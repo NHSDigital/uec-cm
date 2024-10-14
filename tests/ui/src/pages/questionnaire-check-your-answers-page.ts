@@ -62,14 +62,12 @@ export default class CheckAnswersPage {
     get getRefusedUnplannedField(): Locator {
         return this.page.locator("//*[contains(@class, 'nhsuk-table__value')]").nth(12);
     }
-    
     get getPatientsNotDiagnosedField(): Locator {
         return this.page.locator("//*[contains(@class, 'nhsuk-table__value')]").nth(13);
     }
     get getPatientsDiagnosedField(): Locator {
         return this.page.locator("//*[contains(@class, 'nhsuk-table__value')]").nth(14);
     }
-    
     get getSaveConfirmButton(): Locator {
         return this.page.getByRole('button', { name: "Save and confirm" });
     }
