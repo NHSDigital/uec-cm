@@ -32,85 +32,85 @@ test.describe("As a user I want to be able to view the locations", () => {
       await expect(page).toHaveTitle(pageTitle);
     });
     await test.step("Navigate to questionnaire page", async () => {
-      await viewQuestionnaire.getQuestionnaireLink.click();
+      await viewQuestionnaire.getQuestionnaireLink().click();
     });
   });
 
   test('The user confirms data entered is on the questionnaire page', { tag: '@prototype' }, async () => {
     await test.step("Enter data into the field", async () => {
-      await viewQuestionnaire.getBedsideStaff.fill(bedsideStaff);
+      await viewQuestionnaire.getBedsideStaff().fill(bedsideStaff);
     });
     await test.step('The user can save changes', async () => {
-      await viewQuestionnaire.getContinueButton.click();
+      await viewQuestionnaire.getContinueButton().click();
     });
     await test.step('The check answers heading is displayed', async () => {
-      await expect(checkYourAnswerPage.getCheckAnswersHeading).toBeVisible();
+      await expect(checkYourAnswerPage.getCheckAnswersHeading()).toBeVisible();
     });
     await test.step('The saved changes are displayed', async () => {
-      await expect(checkYourAnswerPage.getBedsideNumberField).toHaveText(bedsideStaff);
+      await expect(checkYourAnswerPage.getBedsideNumberField()).toHaveText(bedsideStaff);
     });
     await test.step('The changes are saved', async () => {
-      await checkYourAnswerPage.getSaveConfirmButton.click();
-      await expect(viewLocPage.getCapacityHeading).toBeVisible();
+      await checkYourAnswerPage.getSaveConfirmButton().click();
+      await expect(viewLocPage.getCapacityHeading()).toBeVisible();
     });
     await test.step('You have successfully saved and confirmed your updates message is displayed', async () => {
-      await expect(viewLocPage.getSuccessfulChanges).toBeVisible();
+      await expect(viewLocPage.getSuccessfulChanges()).toBeVisible();
     });
   });
 
   test('The user can cancel changes', { tag: '@prototype' }, async () => {
-    await viewQuestionnaire.getBedsideStaff.fill(bedsideStaff);
-    await checkYourAnswerPage.getExitButton.click();
+    await viewQuestionnaire.getBedsideStaff().fill(bedsideStaff);
+    await checkYourAnswerPage.getExitButton().click();
     await test.step('The Capacity management heading is displayed', async () => {
-      await expect(viewLocPage.getCapacityHeading).toBeVisible();
+      await expect(viewLocPage.getCapacityHeading()).toBeVisible();
     });
   })
 
   test('The user can use the edit button on check your answers page to edit ', { tag: '@prototype' }, async () => {
     await test.step('The user fills in questionnaire', async () => {
-      await viewQuestionnaire.getBedsAvailable.fill(bedsAvailable);
-      await viewQuestionnaire.getContinueButton.click();
+      await viewQuestionnaire.getBedsAvailable().fill(bedsAvailable);
+      await viewQuestionnaire.getContinueButton().click();
     });
     await test.step('The user clicks the edit button', async () => {
-      await checkYourAnswerPage.getEditButton.click();
+      await checkYourAnswerPage.getEditButton().click();
     });
     await test.step('The correct field is highlighted', async () => {
-      await expect(viewQuestionnaire.getBedsAvailable).toBeFocused();
-      await expect(viewQuestionnaire.getQuestHeading).toBeVisible();
+      await expect(viewQuestionnaire.getBedsAvailable()).toBeFocused();
+      await expect(viewQuestionnaire.getQuestHeading()).toBeVisible();
     });
     await test.step('The user edits the field', async () => {
-      await viewQuestionnaire.getBedsideStaff.fill('12');
-      await viewQuestionnaire.getContinueButton.click();
+      await viewQuestionnaire.getBedsideStaff().fill('12');
+      await viewQuestionnaire.getContinueButton().click();
     });
     await test.step('The check your answers page matches the edited field', async () => {
-      await expect(checkYourAnswerPage.getBedsAvailableField).toHaveText(bedsAvailable);
+      await expect(checkYourAnswerPage.getBedsAvailableField()).toHaveText(bedsAvailable);
     });
     await test.step('The continues button takes user to correct page after editing', async () => {
-      await expect(checkYourAnswerPage.getCheckAnswersHeading).toBeVisible();
+      await expect(checkYourAnswerPage.getCheckAnswersHeading()).toBeVisible();
     });
   });
 
   test('All questions are in check answers ', { tag: '@prototype' }, async () => {
     await test.step('The user fills in questionnaire', async () => {
       await viewQuestionnaire.getQuestHeading
-      await viewQuestionnaire.getContinueButton.click();
+      await viewQuestionnaire.getContinueButton().click();
     });
     await test.step('Check all questions are available on check answers page ', async () => {
-      await expect(checkYourAnswerPage.getBedsideField).toBeVisible();
-      await expect(checkYourAnswerPage.getRequiredStaffField).toBeVisible();
-      await expect(checkYourAnswerPage.getBedsAvailableField).toBeVisible();
-      await expect(checkYourAnswerPage.getPlannedAdmissionField).toBeVisible();
-      await expect(checkYourAnswerPage.getEcmoField).toBeVisible();
-      await expect(checkYourAnswerPage.getInvasivelyVentilatedField).toBeVisible();
-      await expect(checkYourAnswerPage.getNonInvasivelyVentilatedField).toBeVisible();
-      await expect(checkYourAnswerPage.getBedsOccupiedUnderOneField).toBeVisible();
-      await expect(checkYourAnswerPage.getBedsOccupiedTwelveField).toBeVisible();
-      await expect(checkYourAnswerPage.getBedsOccupiedEighteenField).toBeVisible();
-      await expect(checkYourAnswerPage.getDischargeField).toBeVisible();
-      await expect(checkYourAnswerPage.getElectiveField).toBeVisible();
-      await expect(checkYourAnswerPage.getRefusedUnplannedField).toBeVisible();
-      await expect(checkYourAnswerPage.getPatientsNotDiagnosedField).toBeVisible();
-      await expect(checkYourAnswerPage.getPatientsDiagnosedField).toBeVisible();
+      await expect(checkYourAnswerPage.getBedsideField()).toBeVisible();
+      await expect(checkYourAnswerPage.getRequiredStaffField()).toBeVisible();
+      await expect(checkYourAnswerPage.getBedsAvailableField()).toBeVisible();
+      await expect(checkYourAnswerPage.getPlannedAdmissionField()).toBeVisible();
+      await expect(checkYourAnswerPage.getEcmoField()).toBeVisible();
+      await expect(checkYourAnswerPage.getInvasivelyVentilatedField()).toBeVisible();
+      await expect(checkYourAnswerPage.getNonInvasivelyVentilatedField()).toBeVisible();
+      await expect(checkYourAnswerPage.getBedsOccupiedUnderOneField()).toBeVisible();
+      await expect(checkYourAnswerPage.getBedsOccupiedTwelveField()).toBeVisible();
+      await expect(checkYourAnswerPage.getBedsOccupiedEighteenField()).toBeVisible();
+      await expect(checkYourAnswerPage.getDischargeField()).toBeVisible();
+      await expect(checkYourAnswerPage.getElectiveField()).toBeVisible();
+      await expect(checkYourAnswerPage.getRefusedUnplannedField()).toBeVisible();
+      await expect(checkYourAnswerPage.getPatientsNotDiagnosedField()).toBeVisible();
+      await expect(checkYourAnswerPage.getPatientsDiagnosedField()).toBeVisible();
     });
   });
 });
