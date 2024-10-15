@@ -20,7 +20,7 @@ describe('post code validation', () => {
   ];
 
   tests.forEach(test => {
-    it(test.description, () => {
+    it(`${test.description}`, () => {
       const isValid = isPostcodeValid(test.input);
       expect(isValid).toBe(test.expected);
     });
@@ -49,7 +49,7 @@ describe('name validation', () => {
   ];
 
   tests.forEach(test => {
-    it(test.description, () => {
+    it(`${test.description}`, () => {
       const isValid = isNameValid(test.input);
       expect(isValid).toBe(test.expected);
     });

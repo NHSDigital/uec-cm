@@ -3,11 +3,10 @@ import ReactDOM from 'react-dom/client';
 import {BrowserRouter as Router} from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import axe from '@axe-core/react'
 
 if (process.env.NODE_ENV !== 'production') {
   console.log('axe enbled');
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const axe = require('@axe-core/react');
   axe(React, ReactDOM, 1000);
 }
 

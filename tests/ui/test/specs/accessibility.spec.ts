@@ -3,12 +3,10 @@ import { allure } from "allure-playwright";
 import Accessibility from '../../src/utilities/accessibility';
 import OrgPage from '../../src/pages/organisations-page';
 import OrgSearchPage from '../../src/pages/organisation-search-page';
-import OrgAddPage from '../../src/pages/organisation-add-page';
 
 let accessibility: Accessibility;
 let orgPage: OrgPage;
 let orgSearchPage: OrgSearchPage;
-let orgAddPage: OrgAddPage;
 
 test.describe('As a user I want to be able to check the Test pages for accessibility issues', {
   tag: '@Accessibility',
@@ -50,7 +48,6 @@ test.describe('As a user I want to be able to check the Organisation pages for a
     await test.step('Set up page objects', async () => {
       accessibility = new Accessibility(page);
       orgPage = new OrgPage(page);
-      orgAddPage = new OrgAddPage(page);
       orgSearchPage = new OrgSearchPage(page);
     });
   });
