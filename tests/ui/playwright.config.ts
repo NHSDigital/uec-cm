@@ -1,7 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
 import { testPlanFilter } from "allure-playwright/dist/testplan";
-import globalSetup from './src/utilities/globalSetup';
-
 
 /**
  * Read environment variables from file.

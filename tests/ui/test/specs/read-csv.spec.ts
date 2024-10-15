@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import path from 'path';
 import { allure } from "allure-playwright";
-import { getRowCount, getColumnHeaders, getCellValue, isFileExists, getColumnCount } from '../../src/utilities/csvHelper';
+import { getColumnHeaders, getCellValue, isFileExists } from '../../src/utilities/csvHelper';
 
 let filePath: string;
 
