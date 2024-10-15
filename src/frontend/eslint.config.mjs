@@ -2,9 +2,9 @@ import tsParser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import eslintJsPlugin from "@eslint/js";
 import globals from "globals";
-import react from 'eslint-plugin-react';
-import jest from 'eslint-plugin-jest';
-import jsxA11y from 'eslint-plugin-jsx-a11y';
+import react from "eslint-plugin-react";
+import jest from "eslint-plugin-jest";
+import jsxA11y from "eslint-plugin-jsx-a11y";
 
 export default [
   eslintJsPlugin.configs.recommended,
@@ -40,8 +40,6 @@ export default [
     },
     plugins: {
       "@typescript-eslint": tsPlugin,
-      react,
-      "eslint-plugin-jsx-a11y": jsxA11y,
     },
   },
   {
@@ -68,8 +66,6 @@ export default [
     },
     plugins: {
       "@typescript-eslint": tsPlugin,
-      react,
-      "eslint-plugin-jest": jest,
     },
   },
   {
