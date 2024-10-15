@@ -9,7 +9,6 @@ export default [
   {
     rules: tsPlugin.configs.recommended.rules,
   },
-  // Standard config
   {
     files: ["src/**/*.{ts,tsx}", "test/**/*.spec.ts"],
     languageOptions: {
