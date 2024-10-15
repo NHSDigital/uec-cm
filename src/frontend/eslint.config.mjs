@@ -9,6 +9,7 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 export default [
   eslintJsPlugin.configs.recommended,
   react.configs.flat.recommended,
+  react.configs.flat['jsx-runtime'],
   jest.configs['flat/recommended'],
   jsxA11y.flatConfigs.recommended,
 
