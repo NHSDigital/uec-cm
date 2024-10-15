@@ -15,7 +15,6 @@ export default [
   {
     rules: tsPlugin.configs.recommended.rules,
   },
-  // Standard config
   {
     files: ["src/**/*.{ts,tsx}"],
     languageOptions: {
@@ -44,7 +43,6 @@ export default [
       "eslint-plugin-jsx-a11y": jsxA11y,
     },
   },
-  // Test config
   {
     files: ["src/**/*.test.{ts,tsx}"],
     languageOptions: {
