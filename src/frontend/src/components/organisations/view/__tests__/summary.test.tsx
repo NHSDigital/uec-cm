@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen } from "@testing-library/react";
 import { Organisation } from "../../../../services/api/interface";
 import OrganisationSummary from "../summary";
