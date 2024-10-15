@@ -9,18 +9,14 @@ const bucket = `nhse-uec-cm-ui-test-bucket-${process.env.ENV}${process.env.WORKS
 const client = new S3Client({ region: process.env.REGION });
 
 export async function addObject(sourceFilePath: string, targetFile: string) {
-  try {
-    const fileContent = await readFile(sourceFilePath);
-    const command = new PutObjectCommand({
-      Bucket: bucket,
-      Key: targetFile,
-      Body: fileContent,
-    });
+  const fileContent = await readFile(sourceFilePath);
+  const command = new PutObjectCommand({
+    Bucket: bucket,
+    Key: targetFile,
+    Body: fileContent,
+  });
 
-    await client.send(command);
-  } catch (error) {
-    console.error('Error', error);
-  }
+  await client.send(command);
 };
 
 export async function getObject(sourceFile: string, targetFile?: string) {
@@ -42,7 +38,7 @@ export async function getObject(sourceFile: string, targetFile?: string) {
       console.error('No data in response body');
     }
   } catch (error) {
-    console.log('Error', error);
+    console.log('Error retrieving object', error);
   }
 };
 
@@ -55,6 +51,6 @@ export async function deleteObject(targetFile: string) {
 
     await client.send(command);
   } catch (error) {
-    console.log('Error', error);
+    console.log('Error deleting object', error);
   }
 };

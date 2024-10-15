@@ -13,8 +13,8 @@ test.describe('As a user I want to be able to read csv files downloaded from s3 
 
   test.beforeAll('Add, then get object from s3 bucket', async () => {
     filePath = path.join(__dirname, `../../downloads/${fileName}`);
-    addObject(filePath, fileName);
-    getObject(fileName);
+    await addObject(filePath, fileName);
+    await getObject(fileName);
   });
 
   test.beforeEach(async ({ page }, testInfo) => {
@@ -48,8 +48,8 @@ test.describe('As a user I want to be able to read csv files downloaded from s3 
     expect(getColumnCount(filePath)).toEqual(3);
   });
 
-  test.afterAll('Delete object from s3 bucket',  () => {
-    deleteObject(fileName);
+  test.afterAll('Delete object from s3 bucket',  async () => {
+    await deleteObject(fileName);
   });
 });
 
