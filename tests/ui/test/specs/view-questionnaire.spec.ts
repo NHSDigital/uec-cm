@@ -53,7 +53,7 @@ test.describe('Questionnaire Tests', () => {
     });
   });
 
-  test('Make changes to all the fields in the questionnaire', { tag: '@prototype' }, async ({ page }) => {
+  test('Make changes to all the fields in the questionnaire', { tag: '@prototype' }, async () => {
     await test.step('All the questionnaire fields can be filled in', async () => {
       await expect(viewQuestionnaire.getBedsideStaff()).toBeVisible();
       await viewQuestionnaire.getBedsideStaff().fill('18');
@@ -78,7 +78,7 @@ test.describe('Questionnaire Tests', () => {
     });
   });
 
-  test('As a user I want to ensure i get an error message if I type incorrect data', { tag: '@prototype' }, async ({ page }) => {
+  test('As a user I want to ensure i get an error message if I type incorrect data', { tag: '@prototype' }, async () => {
     await test.step('The user enters invalid data to the field', async () => {
       await expect(viewQuestionnaire.getBedsideStaff()).toBeVisible();
       await viewQuestionnaire.getBedsideStaff().fill(';');
@@ -92,7 +92,7 @@ test.describe('Questionnaire Tests', () => {
     });
   });
 
-  test('Cancel changes', { tag: '@prototype' }, async ({ page }) => {
+  test('Cancel changes', { tag: '@prototype' }, async () => {
     await test.step('The user enters data into a field', async () => {
       await expect(viewQuestionnaire.getBedsideStaff()).toBeVisible();
       await viewQuestionnaire.getBedsideStaff().fill('19');
@@ -104,14 +104,14 @@ test.describe('Questionnaire Tests', () => {
     });
   });
 
-  test('Heading is displayed on check answers page', { tag: '@prototype' }, async ({ page }) => {
+  test('Heading is displayed on check answers page', { tag: '@prototype' }, async () => {
     await test.step('The check answers heading is displayed', async () => {
       await viewQuestionnaire.getContinueButton().click();
       await expect(checkAnswersPage.getCheckAnswersHeading()).toBeVisible();
     });
   });
 
-  test('Go back link works on summary page', { tag: '@prototype' }, async ({ page }) => {
+  test('Go back link works on summary page', { tag: '@prototype' }, async () => {
     await test.step('The go back link works', async () => {
       await viewQuestionnaire.getContinueButton().click();
       await checkAnswersPage.getGoBackLink().click();
