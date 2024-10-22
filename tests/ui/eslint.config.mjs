@@ -5,7 +5,6 @@ import globals from "globals";
 
 export default [
   eslintJsPlugin.configs.recommended,
-
   {
     rules: tsPlugin.configs.recommended.rules,
   },

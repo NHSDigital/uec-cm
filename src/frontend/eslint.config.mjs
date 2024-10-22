@@ -12,7 +12,6 @@ export default [
   react.configs.flat['jsx-runtime'],
   jest.configs['flat/recommended'],
   jsxA11y.flatConfigs.recommended,
-
   {
     rules: tsPlugin.configs.recommended.rules,
   },
