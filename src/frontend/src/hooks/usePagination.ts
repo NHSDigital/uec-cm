@@ -1,4 +1,4 @@
-import { useEffect, useState, MouseEvent } from "react";
+import React, { useEffect, useState } from "react";
 import { LocationOrganisation } from "../services/api/interface";
 
 const usePagination = (results: LocationOrganisation[], itemsPerPage: number) => {
@@ -9,13 +9,13 @@ const usePagination = (results: LocationOrganisation[], itemsPerPage: number) =>
     const isFirstPage = firstItemShown === 1;
     const isLastPage = lastItemShown === results.length;
 
-    const handlePreviousPage = (e: MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const handlePreviousPage = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
         setFirstItemShown(firstItemShown - itemsPerPage < 1 ? 1 : firstItemShown - itemsPerPage);
         setLastItemShown(firstItemShown - 1);
     };
 
-    const handleNextPage = (e: MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const handleNextPage = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
         if (lastItemShown + itemsPerPage <= results.length) {
             setFirstItemShown(lastItemShown + 1);
