@@ -1,8 +1,7 @@
-import { type FullConfig } from '@playwright/test';
-import { getCloudFrontUrl } from "./cloudFront"
+import { getCloudFrontUrl } from "./cloudFront";
 import { getEnv } from "../config/env";
 
-async function globalSetup(config: FullConfig) {
+async function globalSetup() {
   getEnv();
 
   if (process.env.WORKSPACE != "default")

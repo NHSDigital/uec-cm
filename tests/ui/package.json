@@ -11,10 +11,15 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.42.1",
+    "@types/fs-extra": "^11.0.4",
+    "@typescript-eslint/eslint-plugin": "^8.8.1",
+    "@typescript-eslint/parser": "^8.8.1",
     "allure-commandline": "^2.27.0",
     "allure-js-commons": "^2.12.0",
     "allure-playwright": "^2.14.1",
-    "csv-parse": "^5.5.5"
+    "csv-parse": "^5.5.5",
+    "eslint": "^9.12.0",
+    "globals": "^15.11.0"
   },
   "scripts": {
     "pretest": "npx ts-node src/utilities/init.ts",
@@ -25,6 +30,8 @@
     "test_pipeline": "npx playwright test --grep-invert @prototype",
     "allure": "allure generate --single-file -c -o  allure-reports",
     "filecount": "npx ts-node ./utilities/fileCount.ts",
-    "axe_report": "cat ./accessibility-reports/artifacts/*.html >> ./accessibility-reports/artifacts/FinalAccessibilityReport.html"
+    "axe_report": "cat ./accessibility-reports/artifacts/*.html >> ./accessibility-reports/artifacts/FinalAccessibilityReport.html",
+    "lint": "eslint src test",
+    "lint:fix": "eslint src test --fix"
   }
 }

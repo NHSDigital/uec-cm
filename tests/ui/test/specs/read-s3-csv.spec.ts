@@ -21,12 +21,11 @@ test.describe('As a user I want to be able to read csv files downloaded from s3 
     allure.parentSuite(testInfo.project.name);
     allure.suite('Tests downloaded files');
     allure.subSuite('Tests csv files');
-    await test.step('Navigate to landing page', async () => {
-    });
+    await test.step('Navigate to landing page', () => page.goto('/'));
   });
 
   test('The s3data.csv file exists',  () => {
-    expect(isFileExists(filePath)).toBeTruthy;
+    expect(isFileExists(filePath)).toBeTruthy();
   });
 
   test('The s3data.csv file has correct headers',  () => {

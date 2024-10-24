@@ -30,7 +30,7 @@ test.describe('As a user I want to be able to search for an organisation', {
 
   test('The organisation search page is presented correctly', async () => {
     await test.step('The Organisation search label is visible', async () => {
-      expect(orgSearchPage.getSearchLabel()).toBeVisible;
+      await expect(orgSearchPage.getSearchLabel()).toBeVisible;
     });
     await test.step('And the search instructions text is visible', async () => {
       await expect.soft(orgSearchPage.getSearchInstructions()).toBeVisible;
