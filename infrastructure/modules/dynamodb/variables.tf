@@ -24,3 +24,7 @@ variable "attributes" {
     type = "S"
   }]
 }
+
+variable "deletion_protection_enabled" {
+  default = false
+}

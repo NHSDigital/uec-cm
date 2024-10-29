@@ -10,4 +10,5 @@ module "dynamodb_table" {
   attributes          = var.attributes
 
   server_side_encryption_enabled = true
+  deletion_protection_enabled    = var.deletion_protection_enabled
 }

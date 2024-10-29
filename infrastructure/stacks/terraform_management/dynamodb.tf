@@ -7,4 +7,5 @@ module "terraform_lock_dynamodb" {
     name = "LockID"
     type = "S"
   }]
+  deletion_protection_enabled = true
 }
