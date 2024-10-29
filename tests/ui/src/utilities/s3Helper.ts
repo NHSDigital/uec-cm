@@ -31,6 +31,7 @@ export async function getObject(sourceFile: string, targetFile?: string) {
 
     const response = await client.send(command);
     if (response.Body) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const bodyStream = Readable.fromWeb(response.Body as any);
       const writeStream = createWriteStream(`${targetFile}`);
       await pipelineAsync(bodyStream, writeStream);
