@@ -32,7 +32,7 @@ export async function getObject(sourceFile: string, targetFile?: string) {
     const response = await client.send(command);
     if (response.Body) {
       const bodyStream = Readable.fromWeb(response.Body as any);
-      const writeStream = createWriteStream(`downloads/${targetFile}`);
+      const writeStream = createWriteStream(`${targetFile}`);
       await pipelineAsync(bodyStream, writeStream);
     } else {
       console.error('No data in response body');
