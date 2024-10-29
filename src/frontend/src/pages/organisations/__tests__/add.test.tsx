@@ -1,10 +1,11 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import { act } from 'react';
 import AddOrganisationPage from '../add';
 
 beforeEach(async () => {
   await act(async () => {
     render(<AddOrganisationPage />);
-  });
+});
 });
 
 describe('AddOrganisationPage', () => {

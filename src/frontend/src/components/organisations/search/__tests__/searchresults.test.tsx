@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import SearchResults from "../searchresults";
 import { LocationOrganisation } from '../../../../services/api/interface';
 import userEvent from '@testing-library/user-event';
@@ -119,28 +119,24 @@ describe('SearchResults', () => {
       expect(searchResultsList).toBeInTheDocument();
     });
 
-    it('should handle handleRowSelected being called', () => {
+    it('should handle handleRowSelected being called', async () => {
       render(<SearchResults results={mockResults} handleRowSelected={handleRowSelected} />);
 
       const link = screen.getByTestId('search-row-1-link');
       expect(link).toBeInTheDocument();
 
-      act(() => {
-        userEvent.click(link);
-      });
+      await userEvent.click(link);
 
       expect(handleRowSelected).toHaveBeenCalled();
     });
 
-    it('should handle handleRowSelected by keypress', () => {
+    it('should handle handleRowSelected by keypress', async () => {
       render(<SearchResults results={mockResults} handleRowSelected={handleRowSelected} />);
 
       const link = screen.getByTestId('search-row-1-link');
       expect(link).toBeInTheDocument();
 
-      act(() => {
-        userEvent.type(link, '{Enter}');
-      });
+      await userEvent.type(link, '{Enter}');
 
       expect(handleRowSelected).toHaveBeenCalled();
     });

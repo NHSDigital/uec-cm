@@ -1,4 +1,4 @@
-import { act, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
 import OrganisationsSearch from "..";
 import { MemoryRouter } from 'react-router-dom';
@@ -33,12 +33,10 @@ describe('OrganisationsSearch', () => {
     expect(searchBy.textContent).toContain('postcode');
   });
 
-  it('should accept and display characters in input field', () => {
+  it('should accept and display characters in input field', async () => {
     const input = getInputByDataTestId('search-field-input');
 
-    act(() => {
-      userEvent.type(input, 'royal');
-    });
+    await userEvent.type(input, 'royal');
 
     expect(input.value).toBe('royal');
   });
