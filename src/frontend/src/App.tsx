@@ -30,7 +30,7 @@ function App() {
           <Route path="*" element={<OrganisationsPage />} />
         </Routes>
       </div>
-      <div className="app-footer">
+      <div>
         <Footer buildDate={buildDate} commitHash={commitHash.substring(0, 7)} />
       </div>
     </>
