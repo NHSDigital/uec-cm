@@ -8,16 +8,6 @@ import ViewOrganisationPage from "./pages/organisations/view";
 import Footer from "./components/footer";
 import buildConfig from "./buildconfig.json";
 import "./styles/global.css";
-import PrototypePage from "./prototype";
-import HospitalList from "./prototype/hospitalList";
-import HospitalUnits from "./prototype/hospitalUnits";
-import HospitalDetail from "./prototype/hospitalDetail";
-import HospitalQuestionnaire from "./prototype/hospitalQuestionnaire";
-import QuestionnaireSummary from "./prototype/questionnaireSummary";
-import AdminLandingPage from "./prototype/admin";
-import ManageAccountSearch from "./prototype/admin/manageAccountSearch";
-import SearchResult from "./prototype/admin/searchResult";
-import AccountPermissions from "./prototype/admin/accountPermissions";
 
 function App() {
   const { buildDate, commitHash } = buildConfig;
@@ -27,38 +17,6 @@ function App() {
       <Header />
       <div role="main">
         <Routes>
-          <Route path="/prototype" element={<PrototypePage />} />
-          <Route path="/prototype/hospitalList" element={<HospitalList />} />
-          <Route
-            path="/prototype/hospitalUnits/:id"
-            element={<HospitalUnits />}
-          />
-          <Route
-            path="/prototype/hospitalDetail/:id"
-            element={<HospitalDetail />}
-          />
-          <Route
-            path="/prototype/questionnaireSummary/:id"
-            element={<QuestionnaireSummary />}
-          />
-          <Route
-            path="/prototype/hospitalQuestionnaire/:id"
-            element={<HospitalQuestionnaire />}
-          />
-          <Route path="/prototype/admin" element={<AdminLandingPage />} />
-          <Route
-            path="/prototype/admin/manageAccountSearch"
-            element={<ManageAccountSearch />}
-          />
-          <Route
-            path="/prototype/admin/searchResult"
-            element={<SearchResult />}
-          />
-          <Route
-            path="/prototype/admin/accountPermissions/:id"
-            element={<AccountPermissions />}
-          />
-
           <Route
             path="/organisations/search"
             element={<SearchOrganisationPage />}
