@@ -1,7 +1,7 @@
 import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { readFile } from 'fs/promises';
 import { createWriteStream } from 'fs';
-import { pipeline, Readable } from 'stream';
+import { pipeline } from 'stream';
 import { promisify } from 'util';
 
 const bucket = `nhse-uec-cm-ui-test-bucket-${process.env.ENV}${process.env.WORKSPACE}`;
@@ -30,9 +30,8 @@ export async function getObject(sourceFile: string, targetFile?: string) {
     });
 
     const response = await client.send(command);
-    if (response.Body) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const bodyStream = Readable.fromWeb(response.Body as any);
+    if (response.Body instanceof Blob) {
+      const bodyStream = response.Body.stream();
       const writeStream = createWriteStream(`${targetFile}`);
       await pipelineAsync(bodyStream, writeStream);
     } else {
