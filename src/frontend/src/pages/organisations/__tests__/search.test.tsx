@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, useNavigate } from 'react-router-dom';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { JSX } from 'react/jsx-runtime';
 import SearchOrganisationPage from '../search';
@@ -24,7 +24,7 @@ beforeEach(() => {
 });
 
 describe('SearchOrganisationPage', () => {
-    it('should render the search organisation page', () => {
+  it('should render the search organisation page', () => {
     const testid = screen.getByTestId('organisation-search-page');
     expect(testid).toBeInTheDocument();
   });
@@ -34,13 +34,11 @@ describe('SearchOrganisationPage', () => {
     expect(testid).toBeInTheDocument();
   });
 
-  it('should render the NoResults component', async() => {
-    act(() => {
-      const input = screen.getByTestId('search-field-input');
-      userEvent.type(input, '000');
-      const searchButton = screen.getByTestId('search-button');
-      userEvent.click(searchButton);
-    });
+  it('should render the NoResults component', async () => {
+    const input = screen.getByTestId('search-field-input');
+    await userEvent.type(input, '000');
+    const searchButton = screen.getByTestId('search-button');
+    await userEvent.click(searchButton);
 
     await waitFor(() => {
       const searchResults = screen.getByTestId('no-results-found');
@@ -48,13 +46,11 @@ describe('SearchOrganisationPage', () => {
     });
   });
 
-  it('should render the Results component', async() => {
-    act(() => {
-      const input = screen.getByTestId('search-field-input');
-      userEvent.type(input, 'adrian');
-      const searchButton = screen.getByTestId('search-button');
-      userEvent.click(searchButton);
-    });
+  it('should render the Results component', async () => {
+    const input = screen.getByTestId('search-field-input');
+    await userEvent.type(input, 'adrian');
+    const searchButton = screen.getByTestId('search-button');
+    await userEvent.click(searchButton);
 
     await waitFor(() => {
       const searchResults = screen.getByTestId('search-results');
@@ -62,19 +58,19 @@ describe('SearchOrganisationPage', () => {
     });
   });
 
-  it('should navigate to the organisation add page', async() => {
+  it('should navigate to the organisation add page', async () => {
     const navigateMock = useNavigate();
 
-    act(() => {
-      const input = screen.getByTestId('search-field-input');
-      userEvent.type(input, '000');
-      const searchButton = screen.getByTestId('search-button');
-      userEvent.click(searchButton);
-    });
+    const input = screen.getByTestId('search-field-input');
+    await userEvent.type(input, '000');
+    const searchButton = screen.getByTestId('search-button');
+    await userEvent.click(searchButton);
+
+    const nextButton = screen.getByTestId('next-button');
+    await userEvent.click(nextButton);
 
     await waitFor(() => {
-      const nextButton = screen.getByTestId('next-button');
-      userEvent.click(nextButton);
+      expect(navigateMock).toHaveBeenCalledWith('/organisations/add');
     });
 
     expect(navigateMock).toHaveBeenCalledWith('/organisations/add');
@@ -83,48 +79,47 @@ describe('SearchOrganisationPage', () => {
   it('should navigate to view organisation page when row is selected and organisation exists in organisationSearchResult', async () => {
     const navigateMock = useNavigate();
 
-    act(() => {
-      const input = screen.getByTestId('search-field-input');
-      userEvent.type(input, 'royal');
-      const searchButton = screen.getByTestId('search-button');
-      userEvent.click(searchButton);
-    });
+    const input = screen.getByTestId('search-field-input');
+    await userEvent.type(input, 'royal');
+    const searchButton = screen.getByTestId('search-button');
+    await userEvent.click(searchButton);
 
-    await waitFor(() => {
+
+    await waitFor(async () => {
       const rowLink = screen.getByTestId('search-row-1-link');
-      userEvent.click(rowLink);
-    });
+      await userEvent.click(rowLink);
 
-    expect(navigateMock).toHaveBeenCalledWith(
-      expect.stringContaining('/organisations/view/3182237100353408'),
-      expect.objectContaining({
-        state: {
-          organisation: expect.objectContaining({
-            Address: expect.arrayContaining([
-              expect.objectContaining({
-                city: "London",
-                country: "England",
-                line: expect.arrayContaining(["Part 2S", "Nottingham", "NHS Technology Park"]),
-                postalCode: "XX11 1XX"
-              })
-            ]),
-            active: "true",
-            createdBy: "Admin",
-            createdDateTime: "06-02-2024 11:23:32",
-            id: "3182237100353408",
-            identifier: expect.objectContaining({
-              type: "ODS",
-              use: "secondary",
-              value: "QT6"
-            }),
-            modifiedBy: "Admin",
-            modifiedDateTime: "06-02-2024 11:23:32",
-            name: "Mock Chesterfield Royal Hospital NHS Foundation Trust",
-            resourceType: "Organization",
-            type: "Strategic Partnership"
-          })
-        }
-      })
-    );
+      expect(navigateMock).toHaveBeenCalledWith(
+        expect.stringContaining('/organisations/view/3182237100353408'),
+        expect.objectContaining({
+          state: {
+            organisation: expect.objectContaining({
+              Address: expect.arrayContaining([
+                expect.objectContaining({
+                  city: "London",
+                  country: "England",
+                  line: expect.arrayContaining(["Part 2S", "Nottingham", "NHS Technology Park"]),
+                  postalCode: "XX11 1XX"
+                })
+              ]),
+              active: "true",
+              createdBy: "Admin",
+              createdDateTime: "06-02-2024 11:23:32",
+              id: "3182237100353408",
+              identifier: expect.objectContaining({
+                type: "ODS",
+                use: "secondary",
+                value: "QT6"
+              }),
+              modifiedBy: "Admin",
+              modifiedDateTime: "06-02-2024 11:23:32",
+              name: "Mock Chesterfield Royal Hospital NHS Foundation Trust",
+              resourceType: "Organization",
+              type: "Strategic Partnership"
+            })
+          }
+        })
+      );
+    });
   });
 });
