@@ -1,10 +1,10 @@
-import fetchMock from 'jest-fetch-mock';
 import {
   getBranchFromUrlParam,
   getMockApiData,
   getStringNumericValue,
   getTestFolder,
-  getUrlWithApiParams}
+  getUrlWithApiParams
+}
   from "../utilities";
 
 describe('getStringNumericValue', () => {
@@ -64,17 +64,6 @@ describe('getTestFolder', () => {
 });
 
 describe('getMockApiData', () => {
-
-  beforeEach(() => {
-    jest.resetAllMocks()
-    fetchMock.resetMocks();
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
-    fetchMock.resetMocks();
-  });
-
   it('should fetch data from the API and returns the response', async () => {
     const mockResponse = { data: 'mock data' };
     const url = getTestFolder('getorganisations');
@@ -123,12 +112,14 @@ describe('getMockApiData', () => {
   });
 
   it('should throw an error if both the specific file and default file fetches fail', async () => {
-    fetchMock.mockReject(new Error('Network response was not ok'));
+    const mockFetch = jest.spyOn(global, 'fetch').mockRejectedValueOnce(new Error('Network response was not ok'));
 
     const url = 'https://example.com/';
     const fileName = 'nonExistentFile';
 
     await expect(getMockApiData(url, fileName)).rejects.toThrow('Network response was not ok');
+
+    mockFetch.mockRestore();
   });
 
   it('should return the same path when no "api" parameter is present in the URL', () => {
