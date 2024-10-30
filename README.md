@@ -6,7 +6,7 @@ Which then provides this positive change:
 
 Improving the way that the data can be viewed and analysed/disseminated, so that decisions can be made with the knowledge of the current and future status of the capacity of the business
 
-This repository contains the following:
+This repo contains the following:
 
 - `docs/adr` Contains the ADR 'decisions'
 - `infrastructure/` Contains infrastructure related Terraform templates for deploying the app, including the installation steps.
