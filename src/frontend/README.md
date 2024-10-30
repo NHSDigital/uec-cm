@@ -5,7 +5,7 @@
 - Install Node and NPM
 - Install and setup Docker
 
-## Running the project
+## Running the project test
 
 ```bash
 npm install
