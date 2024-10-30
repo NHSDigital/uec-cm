@@ -1,0 +1,12 @@
+
+# Default owners required to review everything in the repo. Unless a later match takes precedence
+
+* @NHSDigital/uec-cm
+
+# the uec-cm-infra team in the NHSDigital organization owns all infrastructure files
+
+/infrastructure/ @NHSDigital/uec-cm-infra
+
+# the uec-cm-infra team in the NHSDigital organization owns all workflow files
+
+/.github/ @NHSDigital/uec-cm-infra
