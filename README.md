@@ -6,7 +6,7 @@ Which then provides this positive change:
 
 Improving the way that the data can be viewed and analysed/disseminated, so that decisions can be made with the knowledge of the current and future status of the capacity of the business
 
-This repo contains the following:
+This repository contains the following:
 
 - `docs/adr` Contains the ADR 'decisions'
 - `infrastructure/` Contains infrastructure related Terraform templates for deploying the app, including the installation steps.
@@ -17,7 +17,8 @@ This repo contains the following:
 ## Table of Contents
 
 - [uec cm](#uec-cm)
-  - [Installation && Prerequisites](#installation-and-prerequisites)
+  - [Table of Contents](#table-of-contents)
+    - [Installation and Prerequisites](#installation-and-prerequisites)
   - [Architecture](#architecture)
     - [Diagrams](#diagrams)
     - [Configuration](#configuration)
