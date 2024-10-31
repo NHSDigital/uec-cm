@@ -12,9 +12,12 @@ async function globalSetup() {
     const workspace = process.env.WORKSPACE as string;
     const env = process.env.ENV as string;
     const region = process.env.REGION as string;
-    const distribution = getCloudFrontUrl(region, env, workspace);
-    const baseUrl = JSON.parse(distribution).DomainName;
-    process.env.baseUrl = baseUrl;
+    const distribution = await getCloudFrontUrl(region, env, workspace);
+    if (distribution) {
+      process.env.baseUrl = distribution;
+    } else {
+      console.log('No domain name found');
+    }
   }
 
 export default globalSetup;
