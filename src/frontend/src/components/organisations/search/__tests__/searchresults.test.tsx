@@ -77,7 +77,7 @@ const mockResults: LocationOrganisation[] = [
 describe('SearchResults', () => {
 
     it('should render a Label with the text "Search Results"', () => {
-      render(<SearchResults results={[]} handleRowSelected={handleRowSelected} />);
+      render(<SearchResults results={[]} handleRowSelected={handleRowSelected} addOrganisationUrl={''} />);
 
       const searchResults = screen.getByTestId('search-results');
       expect(searchResults).toBeInTheDocument();
@@ -87,14 +87,14 @@ describe('SearchResults', () => {
     });
 
     it('should render a message orgs and locations matching your search', () => {
-      render(<SearchResults results={[]} handleRowSelected={handleRowSelected} />);
+      render(<SearchResults results={[]} handleRowSelected={handleRowSelected} addOrganisationUrl={''} />);
 
       const labelElement = screen.getByText('The following Organisations or Locations match your search.');
       expect(labelElement).toBeInTheDocument();
     });
 
     it('should handle cases where there is a search list', () => {
-      render(<SearchResults results={mockResults} handleRowSelected={handleRowSelected} />);
+      render(<SearchResults results={mockResults} handleRowSelected={handleRowSelected} addOrganisationUrl={''} />);
 
       const searchResultsList = screen.getByTestId('search-results-list');
       expect(searchResultsList).toBeInTheDocument();
@@ -105,7 +105,7 @@ describe('SearchResults', () => {
     });
 
     it('should handle pagination not being there for less than 11 rows', () => {
-      render(<SearchResults results={mockResults} handleRowSelected={handleRowSelected} />);
+      render(<SearchResults results={mockResults} handleRowSelected={handleRowSelected} addOrganisationUrl={''} />);
       const searchResultsList = screen.queryByTestId('pagination');
       expect(searchResultsList).not.toBeInTheDocument();
     });
@@ -113,14 +113,14 @@ describe('SearchResults', () => {
     it('should handle pagination being there for more than 10 rows', () => {
       const newMockResults = Array(5).fill([...mockResults]).flat();
 
-      render(<SearchResults results={newMockResults} handleRowSelected={handleRowSelected} />);
+      render(<SearchResults results={newMockResults} handleRowSelected={handleRowSelected} addOrganisationUrl={''} />);
 
       const searchResultsList = screen.getByTestId('pagination');
       expect(searchResultsList).toBeInTheDocument();
     });
 
     it('should handle handleRowSelected being called', async () => {
-      render(<SearchResults results={mockResults} handleRowSelected={handleRowSelected} />);
+      render(<SearchResults results={mockResults} handleRowSelected={handleRowSelected} addOrganisationUrl={''} />);
 
       const link = screen.getByTestId('search-row-1-link');
       expect(link).toBeInTheDocument();
@@ -131,7 +131,7 @@ describe('SearchResults', () => {
     });
 
     it('should handle handleRowSelected by keypress', async () => {
-      render(<SearchResults results={mockResults} handleRowSelected={handleRowSelected} />);
+      render(<SearchResults results={mockResults} handleRowSelected={handleRowSelected} addOrganisationUrl={''} />);
 
       const link = screen.getByTestId('search-row-1-link');
       expect(link).toBeInTheDocument();

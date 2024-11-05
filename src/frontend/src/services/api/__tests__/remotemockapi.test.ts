@@ -7,7 +7,7 @@ describe('getOrganisations', () => {
     const name = 'John';
     const postcode = '12345';
     const organisation = 'ABC';
-    const expectedOrganisations: Organisation[] = [
+    const expectedOrganisations = [
       { id: '1', name: 'Org1' },
       { id: '2', name: 'Org2' },
     ];
@@ -35,7 +35,7 @@ describe('getLocations', () => {
     const name = 'John';
     const postcode = '12345';
     const organisation = 'ABC';
-    const expectedLocations: Location[] = [
+    const expectedLocations = [
       { id: '1', name: 'Org1' },
       { id: '2', name: 'Org2' },
     ];
