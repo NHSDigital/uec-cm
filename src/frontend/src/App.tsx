@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Header from "./components/header";
 import AddOrganisationPage from "./pages/organisations/add";
 import OrganisationsPage from "./pages/organisations";
-import TestPage from "./pages/test";
+import TestPage from "./pages/uiTestPage";
 import SearchOrganisationPage from "./pages/organisations/search";
 import ViewOrganisationPage from "./pages/organisations/view";
 import Footer from "./components/footer";
