@@ -5,7 +5,7 @@ import AddOrganisationPage from '../add';
 beforeEach(async () => {
   await act(async () => {
     render(<AddOrganisationPage />);
-});
+  });
 });
 
 describe('AddOrganisationPage', () => {
