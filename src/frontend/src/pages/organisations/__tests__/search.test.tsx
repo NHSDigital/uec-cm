@@ -72,8 +72,6 @@ describe('SearchOrganisationPage', () => {
     await waitFor(() => {
       expect(navigateMock).toHaveBeenCalledWith('/organisations/add');
     });
-
-    expect(navigateMock).toHaveBeenCalledWith('/organisations/add');
   });
 
   it('should navigate to view organisation page when row is selected and organisation exists in organisationSearchResult', async () => {
