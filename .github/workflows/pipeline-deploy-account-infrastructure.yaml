@@ -24,21 +24,21 @@ jobs:
         stacks: '["terraform_management", "github-runner"]'
         action: apply
       secrets: inherit
-    deploy-account-infrastructure-apply-test:
-      name: "Deploy Account Level Infrastructure to test account"
-      needs:
-        [
-          metadata,
-        ]
-      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
-      with:
-        environment: test
-        domain: "uec-cm"
-        project: cm
-        workspace: ${{ needs.metadata.outputs.workspace }}
-        stacks: '["terraform_management", "github-runner"]'
-        action: apply
-      secrets: inherit
+    # deploy-account-infrastructure-apply-test:
+    #   name: "Deploy Account Level Infrastructure to test account"
+    #   needs:
+    #     [
+    #       metadata,
+    #     ]
+    #   uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+    #   with:
+    #     environment: test
+    #     domain: "uec-cm"
+    #     project: cm
+    #     workspace: ${{ needs.metadata.outputs.workspace }}
+    #     stacks: '["terraform_management", "github-runner"]'
+    #     action: apply
+    #   secrets: inherit
     deploy-account-infrastructure-apply-int:
       name: "Deploy Account Level Infrastructure to integration account"
       needs:
@@ -89,7 +89,7 @@ jobs:
       needs: [
         metadata,
         deploy-account-infrastructure-apply-dev,
-        deploy-account-infrastructure-apply-test,
+        # deploy-account-infrastructure-apply-test,
       ]
       if: always()
       uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
