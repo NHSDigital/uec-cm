@@ -9,7 +9,7 @@ describe('CardGroup', () => {
       { href: 'link1', text: 'text1', description: 'description1', dataTestId: "datatestid1" },
       { href: 'link2', text: 'text2', description: 'description2', dataTestId: "datatestid2" },
       { href: 'link3', text: 'text3', description: 'description3', dataTestId: "datatestid3" },
-    ] as unknown as [CardInfo];
+    ] as CardInfo[];
 
     render(<CardGroup cards={cards} />);
 
