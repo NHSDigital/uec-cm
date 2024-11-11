@@ -7,13 +7,6 @@ export default defineConfig({
         emptyOutDir: true,
     },
     plugins: [react()],
-    css: {
-        preprocessorOptions: {
-            scss: {
-                api: 'modern-compiler',
-            },
-        },
-    },
     server: {
         open: true,
         port: 3000,
