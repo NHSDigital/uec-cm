@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axe from '@axe-core/react'
 
-if (process.env.NODE_ENV !== 'production') {
+if (import.meta.env.MODE !== 'production') {
   console.log('axe enbled');
   axe(React, ReactDOM, 1000);
 }

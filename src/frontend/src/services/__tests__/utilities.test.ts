@@ -1,10 +1,10 @@
-import fetchMock from 'jest-fetch-mock';
 import {
   getBranchFromUrlParam,
   getMockApiData,
   getStringNumericValue,
   getTestFolder,
-  getUrlWithApiParams}
+  getUrlWithApiParams
+}
   from "../utilities";
 
 describe('getStringNumericValue', () => {
@@ -64,32 +64,25 @@ describe('getTestFolder', () => {
 });
 
 describe('getMockApiData', () => {
-
-  beforeEach(() => {
-    jest.resetAllMocks()
-    fetchMock.resetMocks();
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
-    fetchMock.resetMocks();
-  });
-
   it('should fetch data from the API and returns the response', async () => {
     const mockResponse = { data: 'mock data' };
     const url = getTestFolder('getorganisations');
     const fileName = 'london';
 
-    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
-      ok: true,
-      json: () => Promise.resolve(mockResponse),
-    }) as Promise<Response>);
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(mockResponse),
+      } as unknown as Promise<Response>)
+    ) as jest.Mock;
 
     const result = await getMockApiData(url, fileName);
 
     expect(result).toEqual(mockResponse);
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(`${url}${fileName}.json`);
+
+    jest.restoreAllMocks();
   });
 
   it('should fetch default data if the specific file is not found', async () => {
@@ -97,22 +90,14 @@ describe('getMockApiData', () => {
     const url = getTestFolder('getorganisations');
     const fileName = 'nonExistentFile';
 
-    let callCount = 0;
-
-    jest.spyOn(global, 'fetch').mockImplementation(() => {
-      callCount += 1;
-
-      if (callCount === 1) {
-        return Promise.resolve({
-          ok: false,
-        }) as Promise<Response>;
-      }
-
-      return Promise.resolve({
+    global.fetch = jest.fn()
+      .mockImplementationOnce((() => Promise.resolve({
+        ok: false,
+      }) as Promise<Response>))
+      .mockImplementationOnce((() => Promise.resolve({
         ok: true,
         json: () => Promise.resolve(mockDefaultResponse),
-      }) as Promise<Response>;
-    });
+      }) as Promise<Response>) as jest.Mock)
 
     const result = await getMockApiData(url, fileName);
 
@@ -120,15 +105,19 @@ describe('getMockApiData', () => {
     expect(fetch).toHaveBeenCalledTimes(2);
     expect(fetch).toHaveBeenCalledWith(`${url}nonExistentFile.json`);
     expect(fetch).toHaveBeenCalledWith(`${url}default.json`);
+
+    jest.restoreAllMocks();
   });
 
   it('should throw an error if both the specific file and default file fetches fail', async () => {
-    fetchMock.mockReject(new Error('Network response was not ok'));
+    global.fetch = jest.fn().mockRejectedValueOnce(new Error('Network response was not ok'));
 
     const url = 'https://example.com/';
     const fileName = 'nonExistentFile';
 
     await expect(getMockApiData(url, fileName)).rejects.toThrow('Network response was not ok');
+
+    jest.restoreAllMocks();
   });
 
   it('should return the same path when no "api" parameter is present in the URL', () => {

@@ -30,16 +30,23 @@ describe('getApi', () => {
     expect(api).toBe(RemoteMockApi);
   });
 
-  it('should return LocalMockApi when REACT_APP_API_MODE is "LOCALMOCK"', () => {
-    process.env.REACT_APP_API_MODE = 'LOCALMOCK';
+  it('should return LocalMockApi when VITE_APP_API_MODE is "LOCALMOCK"', () => {
     const result = getApi();
     expect(result).toEqual(LocalMockApi);
   });
 
-  it('should return RemoteMockApi when REACT_APP_API_MODE is "REMOTEMOCK"', () => {
-    process.env.REACT_APP_API_MODE = 'REMOTEMOCK';
+  it('should return RemoteMockApi when VITE_APP_API_MODE is "REMOTEMOCK"', () => {
+    jest.resetModules();
+    jest.mock('../../../config/config', () => ({
+      config: {
+        VITE_APP_API_MODE: 'REMOTEMOCK',
+      },
+    }));
+
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { getApi } = require('../controller');
     const result = getApi();
-    expect(result).toEqual(RemoteMockApi);
+    expect(JSON.stringify(result)).toBe(JSON.stringify(RemoteMockApi));
   });
 
   it('should return RealApi when URL parameter is "real"', () => {

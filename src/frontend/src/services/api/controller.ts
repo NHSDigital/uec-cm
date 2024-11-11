@@ -2,6 +2,7 @@ import LocalMockApi from './localmockapi';
 import RemoteMockApi from './remotemockapi';
 import RealApi from './realapi';
 import { ApiInterface } from './interface';
+import { config } from '../../config/config';
 
 export const getApi = (): ApiInterface => {
     const url = new URL(window.location.href);
@@ -20,11 +21,11 @@ export const getApi = (): ApiInterface => {
         }
     }
 
-    if (process.env.REACT_APP_API_MODE === "REMOTEMOCK") {
+    if (config.VITE_APP_API_MODE === "REMOTEMOCK") {
         return RemoteMockApi;
     }
 
-    if (process.env.REACT_APP_API_MODE === "LOCALMOCK") {
+    if (config.VITE_APP_API_MODE === "LOCALMOCK") {
         return LocalMockApi;
     }
 
