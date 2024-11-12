@@ -7,7 +7,6 @@ import SearchOrganisationPage from "./pages/organisations/search";
 import ViewOrganisationPage from "./pages/organisations/view";
 import Footer from "./components/footer";
 import buildConfig from "./buildconfig.json";
-import "./styles/global.css";
 
 function App() {
   const { buildDate, commitHash } = buildConfig;

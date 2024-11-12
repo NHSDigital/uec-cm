@@ -4,6 +4,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axe from '@axe-core/react'
+import './styles/main.scss';
 
 if (import.meta.env.MODE !== 'production') {
   console.log('axe enbled');
