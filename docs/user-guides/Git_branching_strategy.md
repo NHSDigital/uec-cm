@@ -25,20 +25,20 @@ The following branch naming rules apply to temporary development branches create
 
 - the whole branch name must be 60 characters or less in length
 - it must start with task/ followed by
-  - the JIRA ticket reference - separated by an underscore rather than a hyphen eg DR_99 followed by
+  - the JIRA ticket reference - separated by an underscore rather than a hyphen eg FDOS_99 followed by
   - a description of minimum three words where
     - the first letter of the first word is uppercase and
     - all words are separated by an underscore
 
 - Valid branch names would be
-  - `task/DR_1_Update_s3_terraform`
-  - `task/DR_9_Add_new_data_item`
+  - `task/FDOS_1_Update_s3_terraform`
+  - `task/FDOS_9_Add_new_data_item`
 
 - Invalid branch names might be
-  - `feature/DR_1_Update_s3_terraform` (doesn't start with task)
-  - `task/DR-1_Update_s3_terraform` (Jira ref doesn’t use underscore)
+  - `feature/FDOS_1_Update_s3_terraform` (doesn't start with task)
+  - `task/FDOS-1_Update_s3_terraform` (Jira ref doesn’t use underscore)
   - `task/Update_s3_terraform` (doesn't include Jira ref)
-  - `task/DR_1_update_s3_terraform` (first word after Jira ref not capitalised)
+  - `task/FDOS_1_update_s3_terraform` (first word after Jira ref not capitalised)
 
 ## Commit message rules
 
@@ -56,8 +56,8 @@ If a hyphenated version of the JIRA reference used in the branch name is not inc
 
 Examples of a valid commit message might be:
 
-- DR-1 Add new user role - left unchanged by the pre-commit hook
-- Add new user role - edited by the pre-commit hook to be DR-1 Add new user role
+- FDOS-1 Add new user role - left unchanged by the pre-commit hook
+- Add new user role - edited by the pre-commit hook to be FDOS-1 Add new user role
 
 Examples of an invalid commit message might be:
 
