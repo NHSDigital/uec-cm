@@ -17,7 +17,10 @@ This repo contains the following:
 ## Table of Contents
 
 - [uec cm](#uec-cm)
-  - [Installation && Prerequisites](#installation-and-prerequisites)
+  - [Table of Contents](#table-of-contents)
+  - [Branch naming and commit message rules](#branch-naming-and-commit-message-rules)
+  - [Setup](#setup)
+    - [Installation and Prerequisites](#installation-and-prerequisites)
   - [Architecture](#architecture)
     - [Diagrams](#diagrams)
     - [Configuration](#configuration)
@@ -25,13 +28,28 @@ This repo contains the following:
   - [Contacts](#contacts)
   - [Licence](#licence)
 
-### Installation and Prerequisites
+## Branch naming and commit message rules
 
-- Setup git locally on your machine and configure the git user email and name.
-- Setup gpg commit signing, which is required for commits to be 'verified'. Guidance on confluence
-- Run the pre-commit hooks located in the 'scripts' folder
-- Install an appropriate IDE compatible with Typescript, Terraform and python.
-- Clone the repository
+See [Branching strategy user guide](./docs/user-guides/Git_branching_strategy.md)
+
+## Setup
+
+Clone the repository
+
+```shell
+git clone https://github.com/NHSDigital/uec-cm.git
+```
+
+To enable githooks run
+
+```shell
+/bin/bash ./scripts/git/git-config-set-up.sh
+```
+
+Setup gpg commit signing, which is required for commits to be 'verified'. Guidance on confluence
+Setup git locally on your machine and configure the git user email and name.
+
+### Installation and Prerequisites
 
 Specific installation for the separate sections are divided in the locations
 
